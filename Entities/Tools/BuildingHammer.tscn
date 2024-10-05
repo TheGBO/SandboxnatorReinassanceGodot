@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://hggf7vvs7786"]
+
+[ext_resource type="PackedScene" uid="uid://cjbqme7phcnu" path="res://Models/hammer.blend" id="1_schmi"]
+
+[node name="BuildingHammer" type="Node3D"]
+
+[node name="hammer" parent="." instance=ExtResource("1_schmi")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)

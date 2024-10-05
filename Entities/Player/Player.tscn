@@ -1,0 +1,60 @@
+[gd_scene load_steps=8 format=3 uid="uid://1hsnhm80nlng"]
+
+[ext_resource type="Script" path="res://Entities/Player/PlayerMovement.cs" id="1_fmfn4"]
+[ext_resource type="Script" path="res://Entities/Player/Player.cs" id="1_kjmmx"]
+[ext_resource type="PackedScene" uid="uid://hggf7vvs7786" path="res://Entities/Tools/BuildingHammer.tscn" id="2_7aquq"]
+[ext_resource type="PackedScene" uid="uid://c8th5kb4g1h5d" path="res://Models/sandboxnatorCharacter.blend" id="2_w3rmg"]
+[ext_resource type="Script" path="res://Entities/Player/CameraMovement.cs" id="3_bvtsg"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_egcv6"]
+radius = 0.25
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_bglb2"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath("Neck:rotation")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("pmv", "cmv", "camera", "model", "componentList")]
+script = ExtResource("1_kjmmx")
+pmv = NodePath("Components/PlayerMovement")
+cmv = NodePath("Components/CameraMovement")
+camera = NodePath("Neck/Camera3D")
+model = NodePath("Neck/sandboxnatorCharacter")
+componentList = NodePath("Components")
+
+[node name="Neck" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.504665, 0)
+
+[node name="Camera3D" type="Camera3D" parent="Neck"]
+current = true
+
+[node name="sandboxnatorCharacter" parent="Neck" instance=ExtResource("2_w3rmg")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+
+[node name="Hand" type="Node3D" parent="Neck"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.535, -0.3, -0.548)
+
+[node name="BuildingHammer" parent="Neck/Hand" instance=ExtResource("2_7aquq")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_egcv6")
+
+[node name="Components" type="Node" parent="."]
+
+[node name="PlayerMovement" type="Node3D" parent="Components" node_paths=PackedStringArray("cb")]
+script = ExtResource("1_fmfn4")
+cb = NodePath("../..")
+
+[node name="CameraMovement" type="Node3D" parent="Components" node_paths=PackedStringArray("neck", "body")]
+script = ExtResource("3_bvtsg")
+neck = NodePath("../../Neck")
+body = NodePath("../..")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_bglb2")
