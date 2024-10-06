@@ -11,16 +11,16 @@ public partial class Player : CharacterBody3D
 
     public override void _EnterTree()
     {
+        SetMultiplayerAuthority(int.Parse(Name));
 		foreach (AbstractPlayerComponent component in componentList.GetChildren())
 		{
 			component.parent = this;
 		}
-        SetMultiplayerAuthority(int.Parse(Name));
 		if(IsMultiplayerAuthority()){
 			model.Visible = false;
 		}
 		else{
-			camera.QueueFree();
+			camera.Current = false;
 		}
     }
 }

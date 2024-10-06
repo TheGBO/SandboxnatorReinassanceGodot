@@ -1,6 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://c4budmkq1sg7n"]
+[gd_scene load_steps=16 format=3 uid="uid://c4budmkq1sg7n"]
 
 [ext_resource type="Material" uid="uid://c03vmihg6svrm" path="res://Materials/WhiteTile.tres" id="1_t2r8x"]
+[ext_resource type="PackedScene" uid="uid://dowhshkw35fbv" path="res://Scenes/MultiplayerMenu/MultiplayerMenu.tscn" id="3_tsfht"]
+[ext_resource type="PackedScene" uid="uid://t1rkfpsrocdb" path="res://Entities/NetworkManager/NetworkManager.tscn" id="4_kc546"]
+[ext_resource type="Material" uid="uid://ceifqgij5g6uv" path="res://Materials/BlueTile.tres" id="5_prlmc"]
+[ext_resource type="Texture2D" uid="uid://bglesdqd1oqd1" path="res://Textures/CrossHair.png" id="6_1lq6u"]
+[ext_resource type="PackedScene" uid="uid://bsin23prm8y74" path="res://Entities/Buildings/DebugNut.tscn" id="6_ivml5"]
 [ext_resource type="Material" uid="uid://biv6xu7eo1tlt" path="res://Materials/DarkGreenTile.tres" id="8_748tq"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_m1uul"]
@@ -25,7 +30,20 @@ glow_enabled = true
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_hq4ns"]
 material = ExtResource("1_t2r8x")
-size = Vector2(100, 100)
+size = Vector2(2048, 2048)
+
+[sub_resource type="BoxMesh" id="BoxMesh_vni7m"]
+material = ExtResource("5_prlmc")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_gssdl"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_4vesw"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
 
 [node name="World" type="Node3D"]
 
@@ -45,44 +63,49 @@ shape = SubResource("WorldBoundaryShape3D_umnpi")
 material_override = ExtResource("8_748tq")
 mesh = SubResource("PlaneMesh_hq4ns")
 
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="Ground"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 100)
-material_override = ExtResource("8_748tq")
-mesh = SubResource("PlaneMesh_hq4ns")
+[node name="HUD" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="MeshInstance3D3" type="MeshInstance3D" parent="Ground"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -100, 0, 0)
-material_override = ExtResource("8_748tq")
-mesh = SubResource("PlaneMesh_hq4ns")
+[node name="TextureRect" type="TextureRect" parent="HUD"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -21.0
+offset_top = -21.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(2, 2)
+texture = ExtResource("6_1lq6u")
 
-[node name="MeshInstance3D5" type="MeshInstance3D" parent="Ground"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -100)
-material_override = ExtResource("8_748tq")
-mesh = SubResource("PlaneMesh_hq4ns")
+[node name="MultiplayerMenu" parent="." instance=ExtResource("3_tsfht")]
+z_index = -1
 
-[node name="MeshInstance3D7" type="MeshInstance3D" parent="Ground"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 100, 0, 0)
-material_override = ExtResource("8_748tq")
-mesh = SubResource("PlaneMesh_hq4ns")
+[node name="NetworkManager" parent="." node_paths=PackedStringArray("buildings") instance=ExtResource("4_kc546")]
+nutScene = ExtResource("6_ivml5")
+buildings = NodePath("Buildings")
 
-[node name="MeshInstance3D8" type="MeshInstance3D" parent="Ground"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 100, 0, 100)
-material_override = ExtResource("8_748tq")
-mesh = SubResource("PlaneMesh_hq4ns")
+[node name="Buildings" type="Node3D" parent="NetworkManager"]
 
-[node name="MeshInstance3D9" type="MeshInstance3D" parent="Ground"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 100, 0, -100)
-material_override = ExtResource("8_748tq")
-mesh = SubResource("PlaneMesh_hq4ns")
+[node name="cube" type="RigidBody3D" parent="NetworkManager/Buildings"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 2000, 7.5)
 
-[node name="MeshInstance3D6" type="MeshInstance3D" parent="Ground"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -100, 0, -100)
-material_override = ExtResource("8_748tq")
-mesh = SubResource("PlaneMesh_hq4ns")
+[node name="MeshInstance3D" type="MeshInstance3D" parent="NetworkManager/Buildings/cube"]
+mesh = SubResource("BoxMesh_vni7m")
 
-[node name="MeshInstance3D4" type="MeshInstance3D" parent="Ground"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -100, 0, 100)
-material_override = ExtResource("8_748tq")
-mesh = SubResource("PlaneMesh_hq4ns")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NetworkManager/Buildings/cube"]
+shape = SubResource("BoxShape3D_gssdl")
 
-[node name="Buildings" type="Node3D" parent="."]
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="NetworkManager/Buildings/cube"]
+replication_config = SubResource("SceneReplicationConfig_4vesw")
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("res://Entities/Player/Player.tscn", "res://Entities/Buildings/DebugNut.tscn")
+spawn_path = NodePath("../NetworkManager")

@@ -4,6 +4,5 @@
 [ext_resource type="PackedScene" uid="uid://1hsnhm80nlng" path="res://Entities/Player/Player.tscn" id="2_qnklo"]
 
 [node name="NetworkManager" type="Node3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 script = ExtResource("1_e3mhj")
 playerScene = ExtResource("2_qnklo")
