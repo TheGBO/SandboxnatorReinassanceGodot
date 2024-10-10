@@ -7,20 +7,20 @@ public partial class PlayerToolUse : AbstractPlayerComponent
 	[Export] BaseTool tool;
 	[Export] RayCast3D rayCast;
 
-    public override void _Process(double delta)
-    {
-		if(!parent.IsMultiplayerAuthority()) return;
-        if(Input.IsActionJustPressed("use_primary"))
+	public override void _Process(double delta)
+	{
+		if (!parent.IsMultiplayerAuthority()) return;
+		if (Input.IsActionJustPressed("use_primary"))
 		{
 			Use();
 		}
-    }
+	}
 
-    public void Use()
+	public void Use()
 	{
 		//Call this on the server side
 		//
-		if(!rayCast.IsColliding()) return;
+		if (!rayCast.IsColliding()) return;
 
 		Vector3 collisionPoint = rayCast.GetCollisionPoint();
 		ServerUse(collisionPoint);

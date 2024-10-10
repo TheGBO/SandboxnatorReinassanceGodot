@@ -22,10 +22,11 @@ public partial class PlayerMovement : AbstractPlayerComponent
 	[Export] public float sprintFov = 100;
 	[Export] public float sprintEffectTime = 0.75f;
 
-	
-    public override void _PhysicsProcess(double delta)
+
+	public override void _PhysicsProcess(double delta)
 	{
-		if(!parent.IsMultiplayerAuthority()){
+		if (!parent.IsMultiplayerAuthority())
+		{
 			return;
 		}
 
@@ -56,13 +57,16 @@ public partial class PlayerMovement : AbstractPlayerComponent
 
 		//check for sprint
 		bool isSprinting = Input.IsActionPressed("mv_sprint");
-		if(isSprinting){
+		if (isSprinting)
+		{
 			Sprint(true);
 		}
-		else if(Input.IsActionJustReleased("mv_sprint")){
+		else if (Input.IsActionJustReleased("mv_sprint"))
+		{
 			Sprint(false);
 		}
-		if(isMoving && !isSprinting){
+		if (isMoving && !isSprinting)
+		{
 			neckAnimator.Play("walk");
 		}
 
@@ -83,13 +87,16 @@ public partial class PlayerMovement : AbstractPlayerComponent
 	}
 
 	//not my code, adapted version from https://www.youtube.com/watch?v=Uh9PSOORMmA
-	private void PushAwayRigidBodies() {
-		for (int i = 0; i < cb.GetSlideCollisionCount(); i++) {
+	private void PushAwayRigidBodies()
+	{
+		for (int i = 0; i < cb.GetSlideCollisionCount(); i++)
+		{
 			KinematicCollision3D CollisionData = cb.GetSlideCollision(i);
 
 			GodotObject UnkObj = CollisionData.GetCollider();
-			
-			if (UnkObj is RigidBody3D) {
+
+			if (UnkObj is RigidBody3D)
+			{
 				RigidBody3D Obj = UnkObj as RigidBody3D;
 				float MassRatio = Mathf.Min(1.0f, mass / Obj.Mass);
 				if (MassRatio < 0.25f) continue;
@@ -109,10 +116,13 @@ public partial class PlayerMovement : AbstractPlayerComponent
 	{
 		neckAnimator.Play("sprint");
 		Tween sprintTween = GetTree().CreateTween();
-		if(beginSprint){
+		if (beginSprint)
+		{
 			sprintTween.TweenProperty(camera, "fov", sprintFov, sprintEffectTime);
 			sprintTween.TweenProperty(this, nameof(currentSpeed), sprintSpeed, sprintEffectTime);
-		}else{
+		}
+		else
+		{
 			sprintTween.TweenProperty(camera, "fov", fov, sprintEffectTime);
 			sprintTween.TweenProperty(this, nameof(currentSpeed), walkSpeed, sprintEffectTime);
 		}

@@ -3,24 +3,31 @@ using System;
 
 public partial class Player : CharacterBody3D
 {
-	[Export] PlayerMovement pmv;
-	[Export] CameraMovement cmv;
-	[Export] Camera3D camera;
-	[Export] Node3D model;
-	[Export] Node componentList;
+	[Export] public PlayerMovement pmv;
+	[Export] public CameraMovement cmv;
+	[Export] public Camera3D camera;
+	[Export] public Node3D model;
+	[Export] public Node componentList;
+	public int playerId;
 
-    public override void _EnterTree()
-    {
-        SetMultiplayerAuthority(int.Parse(Name));
+	public override void _EnterTree()
+	{
+		playerId = int.Parse(Name);
+		SetMultiplayerAuthority(playerId);
+		//set components
 		foreach (AbstractPlayerComponent component in componentList.GetChildren())
 		{
 			component.parent = this;
 		}
-		if(IsMultiplayerAuthority()){
+
+		//hide the player head modelX
+		if (IsMultiplayerAuthority())
+		{
 			model.Visible = false;
 		}
-		else{
+		else
+		{
 			camera.Current = false;
 		}
-    }
+	}
 }
