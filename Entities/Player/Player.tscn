@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://1hsnhm80nlng"]
+[gd_scene load_steps=14 format=3 uid="uid://1hsnhm80nlng"]
 
 [ext_resource type="Script" path="res://Entities/Player/PlayerMovement.cs" id="1_fmfn4"]
 [ext_resource type="Script" path="res://Entities/Player/Player.cs" id="1_kjmmx"]
@@ -8,8 +8,51 @@
 [ext_resource type="Script" path="res://Entities/Tools/BuildingHammer.cs" id="4_2qhgd"]
 [ext_resource type="Script" path="res://Entities/Player/PlayerToolUse.cs" id="7_yovm0"]
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_egcv6"]
-radius = 0.452697
+[sub_resource type="Animation" id="Animation_txa1n"]
+length = 0.001
+
+[sub_resource type="Animation" id="Animation_tfuvk"]
+resource_name = "sprint"
+length = 0.5
+step = 0.01
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("..:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0.7, 0), Vector3(0, 0.45, 0), Vector3(0, 0.7, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_h83is"]
+resource_name = "walk"
+length = 0.5
+step = 0.01
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("..:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0.7, 0), Vector3(0, 0.6, 0), Vector3(0, 0.7, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_a7qbv"]
+_data = {
+"RESET": SubResource("Animation_txa1n"),
+"sprint": SubResource("Animation_tfuvk"),
+"walk": SubResource("Animation_h83is")
+}
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_am40t"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_bglb2"]
 properties/0/path = NodePath(".:position")
@@ -21,8 +64,12 @@ properties/1/replication_mode = 1
 properties/2/path = NodePath("Neck:rotation")
 properties/2/spawn = true
 properties/2/replication_mode = 1
+properties/3/path = NodePath("Neck:position")
+properties/3/spawn = true
+properties/3/replication_mode = 1
 
 [node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("pmv", "cmv", "camera", "model", "componentList")]
+platform_on_leave = 2
 script = ExtResource("1_kjmmx")
 pmv = NodePath("Components/PlayerMovement")
 cmv = NodePath("Components/CameraMovement")
@@ -31,10 +78,15 @@ model = NodePath("Neck/sandboxnatorCharacter")
 componentList = NodePath("Components")
 
 [node name="Neck" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.504665, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 0)
 
 [node name="Camera3D" type="Camera3D" parent="Neck"]
 current = true
+
+[node name="FovEffectsAnimator" type="AnimationPlayer" parent="Neck/Camera3D"]
+libraries = {
+"": SubResource("AnimationLibrary_a7qbv")
+}
 
 [node name="sandboxnatorCharacter" parent="Neck" instance=ExtResource("2_w3rmg")]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
@@ -50,13 +102,18 @@ target_position = Vector3(0, 0, -8)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00504112, -1.19209e-07, -0.00414085)
-shape = SubResource("CapsuleShape3D_egcv6")
+shape = SubResource("CapsuleShape3D_am40t")
 
 [node name="Components" type="Node" parent="."]
 
-[node name="PlayerMovement" type="Node3D" parent="Components" node_paths=PackedStringArray("cb")]
+[node name="PlayerMovement" type="Node3D" parent="Components" node_paths=PackedStringArray("cb", "camera", "neckAnimator")]
 script = ExtResource("1_fmfn4")
 cb = NodePath("../..")
+walkSpeed = 5.0
+sprintSpeed = 6.5
+camera = NodePath("../../Neck/Camera3D")
+neckAnimator = NodePath("../../Neck/Camera3D/FovEffectsAnimator")
+sprintEffectTime = 0.125
 
 [node name="CameraMovement" type="Node3D" parent="Components" node_paths=PackedStringArray("neck", "body")]
 script = ExtResource("3_bvtsg")

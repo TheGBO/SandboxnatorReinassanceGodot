@@ -17,6 +17,7 @@ public partial class NetworkManager : Node3D
     {
 		Instance = this;
         GD.Print("Sandboxnator protocol initialized");
+		Multiplayer.PeerDisconnected += LogOutPlayer;
     }
 
     public void HostGame(int port = 1077){
@@ -45,7 +46,7 @@ public partial class NetworkManager : Node3D
 		{
 			GD.Seed((ulong)Time.GetUnixTimeFromSystem());
 			Vector2 randPos = new Vector2(GD.Randi() % 40, GD.Randi() % 40);
-			Vector3 desiredPosition = new Vector3(randPos.X, 100, randPos.Y);
+			Vector3 desiredPosition = new Vector3(randPos.X, 20, randPos.Y);
 			if(Multiplayer.GetUniqueId() == id)
 			{
 				player.Position = desiredPosition;
@@ -59,6 +60,10 @@ public partial class NetworkManager : Node3D
 		}
 
 		
+	}
+
+	private void LogOutPlayer(long id){
+		GetNode(id.ToString()).QueueFree();
 	}
 
 
@@ -76,6 +81,8 @@ public partial class NetworkManager : Node3D
 		}
 	}
 
+
+	//todo: Server authoritative building system
 	public void AddNut(Vector3 position){
 		Node3D nut = (Node3D)nutScene.Instantiate();
 		CallDeferred("add_child", nut, true);

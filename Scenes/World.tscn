@@ -95,7 +95,8 @@ buildings = NodePath("Buildings")
 [node name="Buildings" type="Node3D" parent="NetworkManager"]
 
 [node name="cube" type="RigidBody3D" parent="NetworkManager/Buildings"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 2000, 7.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 1, 7.5)
+freeze = true
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="NetworkManager/Buildings/cube"]
 mesh = SubResource("BoxMesh_vni7m")
