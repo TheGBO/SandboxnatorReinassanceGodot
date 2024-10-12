@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Linq;
 
 
 //todo: make proper network manager
@@ -8,7 +9,6 @@ public partial class NetworkManager : Node3D
 	public static NetworkManager Instance { get; private set; }
 	public ENetMultiplayerPeer peer = new ENetMultiplayerPeer();
 	[Export] PackedScene playerScene;
-	[Export] PackedScene nutScene;
 	//TODO: make buildings a separate script with own data structure
 	[Export] Node3D buildings;
 
@@ -16,17 +16,27 @@ public partial class NetworkManager : Node3D
 	public override void _Ready()
 	{
 		Instance = this;
-		GD.Print("Sandboxnator protocol initialized");
 		Multiplayer.PeerDisconnected += LogOutPlayer;
+		GD.Print("Sandboxnator protocol initialized");
+		string[] args = OS.GetCmdlineArgs();
+		bool dedicatedServer = args.Contains("server") && !args.Contains("client");
+		GD.Print($"Dedicated server check-up: {dedicatedServer}");
+		if (dedicatedServer)
+		{
+			//Todo: make port configurable by arguments
+			HostGame(1077, true);
+		}
 	}
 
-	public void HostGame(int port = 1077)
+	public void HostGame(int port = 1077, bool dedicatedServer = false)
 	{
 		peer.CreateServer(port);
 		Multiplayer.MultiplayerPeer = peer;
 		Multiplayer.PeerConnected += AddPlayer;
-
-		AddPlayer(1);
+		if (!dedicatedServer)
+		{
+			AddPlayer(1);
+		}
 	}
 
 	public void JoinGame(int port = 1077, string ip = "localhost")
@@ -57,8 +67,8 @@ public partial class NetworkManager : Node3D
 			}
 			else
 			{
+				//send a RPC to the player who connected to set their position
 				RpcId(id, nameof(SetPlayerInitialPosition), desiredPosition, player.Name);
-				GD.Print($"Alter Player:{id} placed on XYZ {player.Position} via Remote Call");
 			}
 		}
 
@@ -72,29 +82,29 @@ public partial class NetworkManager : Node3D
 
 
 	[Rpc]
-	private void SetPlayerInitialPosition(Vector3 position, string playerName)
+	private void SetPlayerInitialPosition(Vector3 position, string playerId)
 	{
 		if (!Multiplayer.IsServer())
 		{
-			Node3D playerInstance = GetNodeOrNull<Node3D>(playerName);
+			Node3D playerInstance = GetNodeOrNull<Node3D>(playerId);
 			if (playerInstance == null)
 			{
 				GD.Print("Player instance is lagging behind, delaying position change");
-				CallDeferred(nameof(SetPlayerInitialPosition), position, playerName);
+				CallDeferred(nameof(SetPlayerInitialPosition), position, playerId);
 				return;
 			}
 			playerInstance.Position = position;
+			RpcId(1, nameof(PlayerPositionServerCheck), position, playerId);
 		}
 	}
 
+	//run on server to check if player position is synchronized
+	[Rpc(MultiplayerApi.RpcMode.AnyPeer)]
+	private void PlayerPositionServerCheck(Vector3 position, string playerId)
+	{
+		GD.Print($"Server placed the remote player of ID:{playerId} placed on XYZ {position} via RPC");
+	}
 
 	//todo: Server authoritative building system
-	public void AddNut(Vector3 position)
-	{
-		Node3D nut = (Node3D)nutScene.Instantiate();
-		CallDeferred("add_child", nut, true);
-		nut.Position = position;
-
-	}
 
 }

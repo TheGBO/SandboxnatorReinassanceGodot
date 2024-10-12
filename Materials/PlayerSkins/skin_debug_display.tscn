@@ -1,20 +1,18 @@
-[gd_scene load_steps=17 format=4 uid="uid://1hsnhm80nlng"]
+[gd_scene load_steps=9 format=4 uid="uid://tbx286a5rwvs"]
 
-[ext_resource type="Script" path="res://Entities/Player/PlayerMovement.cs" id="1_fmfn4"]
-[ext_resource type="Script" path="res://Entities/Player/Player.cs" id="1_kjmmx"]
-[ext_resource type="Texture2D" uid="uid://c08077ylywm20" path="res://Textures/Character_Happy.png" id="2_713dq"]
-[ext_resource type="Material" uid="uid://pfpxs77fq4wj" path="res://Materials/PlayerSkins/UwU.tres" id="2_icefu"]
-[ext_resource type="Script" path="res://Entities/Player/CameraMovement.cs" id="3_bvtsg"]
-[ext_resource type="Script" path="res://Entities/Player/PlayerToolUse.cs" id="7_yovm0"]
-[ext_resource type="PackedScene" uid="uid://52xwevqy64we" path="res://Entities/Buildings/Cube.tscn" id="9_j421t"]
+[ext_resource type="PackedScene" uid="uid://c8th5kb4g1h5d" path="res://Models/sandboxnatorCharacter.blend" id="1_g8j4m"]
+[ext_resource type="Material" uid="uid://1l0jjjut5d4k" path="res://Materials/PlayerSkins/Skeptical.tres" id="2_u3g44"]
+[ext_resource type="Material" uid="uid://pfpxs77fq4wj" path="res://Materials/PlayerSkins/UwU.tres" id="3_oocv3"]
+[ext_resource type="Material" uid="uid://b3yr2q8ra7h8i" path="res://Materials/PlayerSkins/Happy.tres" id="4_f783r"]
+[ext_resource type="Texture2D" uid="uid://c08077ylywm20" path="res://Textures/Character_Happy.png" id="4_qsvou"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ei20b"]
 resource_name = "Material"
 cull_mode = 2
-albedo_texture = ExtResource("2_713dq")
+albedo_texture = ExtResource("4_qsvou")
 texture_filter = 2
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_uetk3"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_ffotp"]
 _surfaces = [{
 "aabb": AABB(-1, -1, -1, 2, 2, 2),
 "format": 34359742465,
@@ -29,7 +27,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_4oa3r"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_fid71"]
 resource_name = "sandboxnatorCharacter_Sphere"
 _surfaces = [{
 "aabb": AABB(-1, -1, -1, 2, 2, 2),
@@ -46,130 +44,21 @@ _surfaces = [{
 "vertex_data": PackedByteArray("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8f//vvEENb8FAAC/z4uKvlyDbL/di4q+DfYVvlyDbD/4BLW+wYuKvvEENT91PSe/wYuKvvEENT91PSe/4AS1vhTvwz56glq/AO/DvgAAAABig2y/4AS1vhTvw756glq/wYuKvvEENb91PSe/wYuKvvEENb91PSe/DfYVvlyDbL/4BLW+AACANFyDbD8X78O+AAAANfEENT/yBDW/AAAANfEENT/yBDW/AAAANfEENb/yBDW/AAAANfEENb/yBDW/1ouKPvEENb91PSe/AAAAP/EENT/7//++9AQ1PwAAAADxBDW/9AQ1PwAAAADxBDW/9AQ1PwAAAADxBDW/AAAAP/EENb/7//++dD0nP/EENT/Oi4q+8gQ1P/EENb8AAEA09///PvEENT8AAAA/bz0nPxTvwz5zPSc/bz0nPxTvwz5zPSc/bz0nPxTvwz5zPSc/9///PvEENb8AAAA/9///PvEENb8AAAA/x4uKPvEENT9zPSc/AADgtPEENb/wBDU/BQAAv/EENT/x//8+dT0nvxTvwz5tPSc/dT0nvxTvwz5tPSc/BQAAv/EENb/x//8+BQAAv/EENb/x//8+dT0nv/EENT/Di4o+8gQ1v/EENb8AAAC18f//vvEENT8FAAC/8f//vvEENT8FAAC/bT0nvxTvw755PSe/bT0nvxTvw755PSe/8f//vvEENb8FAAC/AAAANfEENT/yBDW/AAAANfEENT/yBDW/AAAANBTvwz5fg2y/+AS1PhTvw756glq/1ouKPvEENb91PSe/9AQ1PwAAAADxBDW/AAAAP/EENb/7//++XYNsPxTvwz4AAIA0bz0nPxTvwz5zPSc/bz0nPxTvwz5zPSc/bz0nPxTvw75zPSc/AAAAtRTvwz5cg2w/AAAAtRTvw75cg2w/BQAAv/EENT/x//8+dT0nvxTvwz5tPSc/dT0nvxTvw75tPSc/BQAAv/EENb/x//8+XYNsvxTvwz4AABC18gQ1v/EENb8AAAC18wS1vlyDbL8q9hW+bT0nvxTvw755PSe/bT0nvxTvw755PSe/Ltv//////z//////////Py7bAAD///8/IqcAAD/3sDHArkzy6+kbrI3Jc+qB2v8/jclz6lXY96fH4Vrjgdr/P///gdqB2v8/x+GkHIHa/z+NyYsVgdr/P43JixVV2PgnwK6yDevpGywfsW/nmeGtqAPM/dk+QPckA8z92YrBNEQDzP3Z78mhoZHjNc46VUIXkeM1zre++kL///+//38AAP///7//v/8/kePJMYSuYhWR48kxt74EPQPMASaKwcs7A8wBJu/JoSEDzAEm78ngHx+xjxiZ4a4owK7w3prdCaeNyfzLjEFUIY3J/MsSxHedx+HbuhVZdxP//32l/38AAMfhI0XupnUTjckCNBLEdx2NyQI0qcI5H8CuDiGa3QknIqfb2JrdCacRwey+EkF2HxHB7L7hxRicLtvQpC5baBL///9//38AAC7bLlvQpGgSEcESQeHFGRwRwRJB7L52HyKnIyea3QknDqE90ZPht6gBtHG2VT05HwG0cbb5ze2dI8U2nhBZdROB2v9//38AACPFyGHppncTAbSNSfnN7h0BtI1Jcr5UIQ6hwS6T4bgoj5jfzuDpOKwBpvuzDzbgHwGm+7N0PjPEAab7s57bVqPIsWycelFiFcixbJxHQfrC/7//f/9/AAD/v/9//z//v8ixkmPEqkIXyLGSY0dBBL0BpgNMdD7KuwGmA0ye21cjAaYDTMC/9ySPmB8x4Ok5LLKNPdE898SxipVxtn0l/7+KlXG2nPCBraOcNp59Jf+/faX/f30l/7+jnMhhfSX/v4qVjUl9Jf+/ipWNSZzwgi2yjcEuPPfFMf9/29g/907O/3/svgAA/7//f+y+7+/Lz/9/0KQAAP+//3//fwAA/7//fy5bAAD/v/9/EkEAAP+//38SQe/vzE//fyMnP/dOTv9/AAD//2E1/3//////ncpMcj3R6+nj03RqcbYAAL7SdGpxtlXYBthbYzaeAAC+0oFa/38AAL7SW2PIYQAAvtJ0ao1JAAC+0nRqjUlV2AdYTHLBLuvp41NvZ9/OmeFQ1/1Z+7PvyR7g/Vn7s2gIxaD9Wfuz78ld3jZObJyErpzqNk5snPYFW5//P/9//3////8//38AAP/fNk6SYzpVvOg2TpJj9gWj4P1ZA0xoCDnf/VkDTO/JXV79WQNMPkAH229nHzGZ4VFX8F490Zrd9dj9S3G2qcLF4P1LcbYSxIfi2zo2nu6miex9Jf9//3///9s6yGEVWYfs/UuNSRLEh2L9S41JjEGq3vBewS6a3fVY3Fjb2Jrd9djtPuy+7L6I4O0+7L7hxeXj0CTQpNCklu0AAP9//3///9AkLlsuW5bt7T4SQeHF5mPtPhJBEkGI4NxYIyea3fVYPlHw3pPhRtdxNvzLcr6q3nE2/Mv5zRDiNx7buummh+wAAH2l/3///zceI0UQWYnscTYCNPnNEWJxNgI0VT3F4D5RDiGT4UdX305v5+DpxdP7M/3ZwL8H2/sz/dmW98Ug+zP92Z7bp9xtHDXOxKq86G0cNc4I+lsfAAD/v/9///8AAP+/////H20cyTF6UZzqbRzJMQj6o2D7MwEmlvc5X/szASae26hc+zMBJg82HuDfTo8Y4OnGUz5RTPI89znOcTZz6v//QC1xNnPqnPB80jceWuP//0AtAACB2v//QC03HqQc//9ALXE2ixX//0AtcTaLFZzwfVI+UbINPPc6TiKn//8/96+xEcH//////z8Rwf//7+8ysBHBAAD///8/EcEAAO/vMzCg1EoJgdr/P8GqAervyaGhse3Zsf9/AABp3L85/38AAKH5pC7/v/8/NLimHO/JoSFR0hi+jEFUIe3XMFLsvnYfHJ3NyZ7bVqPD04eTelFiFWKWbaBHQfrC/6wubEdB+sImqSpjdD7Ku7qVvSue21cj4odUtX0l/7/dfiFcAAD/vyJuRdjvyV3egEIeZYSunOp9aMeY9gVbnwpeKl1oCDnfmWWiN+/JXV5WLeeiqcLF4CYnnW0SQYjgKRzD15b3xSDqR6fintun3EgOwE56UZzqWRSeJAj6o2CTVo8TntuoXMLqy+////8/YCHr4P///z95G6H+////P0XqcxeB2v8/A89sDoHa/z8x/vxR/38AAH3VvDrvyeAfLN9Qni5baBJMwoSZelFiFeOln5lHQfrCIMGiY8SqQhdseJ+gAAD/v4CM4WAAAP+/I2sUsGgIxaDlOqeUhK6c6jBem2T2BaPgpGU2Ne/JXV6KHu6m0KSW7TQzAlMSQYjgJFlXFpPhR1d+GclDelGc6hIeLxwI+qNg")
 }]
 blend_shape_mode = 0
-shadow_mesh = SubResource("ArrayMesh_uetk3")
+shadow_mesh = SubResource("ArrayMesh_ffotp")
 
-[sub_resource type="Animation" id="Animation_txa1n"]
-length = 0.001
+[node name="sandboxnatorCharacter" instance=ExtResource("1_g8j4m")]
 
-[sub_resource type="Animation" id="Animation_tfuvk"]
-resource_name = "sprint"
-length = 0.5
-step = 0.01
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("..:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.25, 0.5),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Vector3(0, 0.7, 0), Vector3(0, 0.45, 0), Vector3(0, 0.7, 0)]
-}
+[node name="Sphere" parent="." index="0"]
+material_override = ExtResource("3_oocv3")
 
-[sub_resource type="Animation" id="Animation_h83is"]
-resource_name = "walk"
-length = 0.5
-step = 0.01
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("..:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.25, 0.5),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Vector3(0, 0.7, 0), Vector3(0, 0.6, 0), Vector3(0, 0.7, 0)]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_a7qbv"]
-_data = {
-"RESET": SubResource("Animation_txa1n"),
-"sprint": SubResource("Animation_tfuvk"),
-"walk": SubResource("Animation_h83is")
-}
-
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_am40t"]
-radius = 0.35
-
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_bglb2"]
-properties/0/path = NodePath(".:position")
-properties/0/spawn = true
-properties/0/replication_mode = 2
-properties/1/path = NodePath(".:rotation")
-properties/1/spawn = true
-properties/1/replication_mode = 2
-properties/2/path = NodePath("Neck:rotation")
-properties/2/spawn = true
-properties/2/replication_mode = 2
-properties/3/path = NodePath("Neck:position")
-properties/3/spawn = true
-properties/3/replication_mode = 2
-properties/4/path = NodePath("Components/PlayerToolUse:_toolResourcePath")
-properties/4/spawn = true
-properties/4/replication_mode = 1
-
-[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("pmv", "cmv", "camera", "model", "componentList")]
-platform_on_leave = 2
-script = ExtResource("1_kjmmx")
-pmv = NodePath("Components/PlayerMovement")
-cmv = NodePath("Components/CameraMovement")
-camera = NodePath("Neck/Camera3D")
-model = NodePath("Neck/sandboxnatorCharacter")
-componentList = NodePath("Components")
-
-[node name="Neck" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 0)
-
-[node name="sandboxnatorCharacter" type="MeshInstance3D" parent="Neck"]
-transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
-material_override = ExtResource("2_icefu")
-mesh = SubResource("ArrayMesh_4oa3r")
+[node name="Sphere2" type="MeshInstance3D" parent="." index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 0)
+material_override = ExtResource("4_f783r")
+mesh = SubResource("ArrayMesh_fid71")
 skeleton = NodePath("")
 
-[node name="Camera3D" type="Camera3D" parent="Neck"]
-current = true
-
-[node name="FovEffectsAnimator" type="AnimationPlayer" parent="Neck/Camera3D"]
-libraries = {
-"": SubResource("AnimationLibrary_a7qbv")
-}
-
-[node name="Hand" type="Node3D" parent="Neck"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.535, -0.3, -0.548)
-
-[node name="RayCast3D" type="RayCast3D" parent="Neck"]
-target_position = Vector3(0, 0, -8)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00504112, -1.19209e-07, -0.00414085)
-shape = SubResource("CapsuleShape3D_am40t")
-
-[node name="Components" type="Node" parent="."]
-
-[node name="PlayerMovement" type="Node3D" parent="Components" node_paths=PackedStringArray("cb", "camera", "neckAnimator")]
-script = ExtResource("1_fmfn4")
-cb = NodePath("../..")
-walkSpeed = 3.75
-sprintSpeed = 7.0
-camera = NodePath("../../Neck/Camera3D")
-neckAnimator = NodePath("../../Neck/Camera3D/FovEffectsAnimator")
-sprintEffectTime = 0.125
-
-[node name="CameraMovement" type="Node3D" parent="Components" node_paths=PackedStringArray("neck", "body")]
-script = ExtResource("3_bvtsg")
-neck = NodePath("../../Neck")
-body = NodePath("../..")
-
-[node name="PlayerToolUse" type="Node3D" parent="Components" node_paths=PackedStringArray("rayCast", "hand")]
-script = ExtResource("7_yovm0")
-rayCast = NodePath("../../Neck/RayCast3D")
-blockScene = ExtResource("9_j421t")
-hand = NodePath("../../Neck/Hand")
-_toolResourcePath = "res://GameContent/Tools/Hammer.tres"
-
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
-replication_config = SubResource("SceneReplicationConfig_bglb2")
+[node name="Sphere3" type="MeshInstance3D" parent="." index="2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, 0)
+material_override = ExtResource("2_u3g44")
+mesh = SubResource("ArrayMesh_fid71")
+skeleton = NodePath("")

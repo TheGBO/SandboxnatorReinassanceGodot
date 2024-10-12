@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=3 uid="uid://52xwevqy64we"]
+
+[ext_resource type="Material" uid="uid://ottmnve4bppt" path="res://Materials/PurpleTile.tres" id="1_8so72"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_c6pao"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_eorwi"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_mvr8o"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 2
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 2
+
+[node name="Cube" type="RigidBody3D"]
+freeze = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+material_override = ExtResource("1_8so72")
+mesh = SubResource("BoxMesh_c6pao")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_eorwi")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_mvr8o")
