@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="ToolResource" load_steps=3 format=3 uid="uid://ceqeoy6wmv2fe"]
+
+[ext_resource type="Script" path="res://Entities/Tools/ToolResource.cs" id="1_e88rv"]
+[ext_resource type="PackedScene" uid="uid://fhg3quattdqn" path="res://GameContent/Tools/Hammer/Hammer.tscn" id="2_ygpel"]
+
+[resource]
+script = ExtResource("1_e88rv")
+tool = ExtResource("2_ygpel")

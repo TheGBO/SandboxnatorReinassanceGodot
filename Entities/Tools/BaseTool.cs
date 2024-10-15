@@ -5,7 +5,7 @@ using System;
 public partial class BaseTool : Node3D
 {
 
-	public virtual void UseTool(Vector3 position, Vector3 normal)
+	public virtual void UseTool(ToolUsageArgs args)
 	{
 
 	}

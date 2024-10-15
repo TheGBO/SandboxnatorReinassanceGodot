@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=4 uid="uid://1hsnhm80nlng"]
+[gd_scene load_steps=18 format=4 uid="uid://1hsnhm80nlng"]
 
 [ext_resource type="Script" path="res://Entities/Player/PlayerMovement.cs" id="1_fmfn4"]
 [ext_resource type="Script" path="res://Entities/Player/Player.cs" id="1_kjmmx"]
@@ -6,6 +6,7 @@
 [ext_resource type="Material" uid="uid://pfpxs77fq4wj" path="res://Materials/PlayerSkins/UwU.tres" id="2_icefu"]
 [ext_resource type="Script" path="res://Entities/Player/CameraMovement.cs" id="3_bvtsg"]
 [ext_resource type="Script" path="res://Entities/Player/PlayerToolUse.cs" id="7_yovm0"]
+[ext_resource type="Texture2D" uid="uid://bglesdqd1oqd1" path="res://Textures/CrossHair.png" id="8_2c07k"]
 [ext_resource type="PackedScene" uid="uid://52xwevqy64we" path="res://Entities/Buildings/Cube.tscn" id="9_j421t"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ei20b"]
@@ -108,18 +109,41 @@ properties/2/replication_mode = 2
 properties/3/path = NodePath("Neck:position")
 properties/3/spawn = true
 properties/3/replication_mode = 2
-properties/4/path = NodePath("Components/PlayerToolUse:_toolResourcePath")
+properties/4/path = NodePath("Components/PlayerToolUse:toolResourcePath")
 properties/4/spawn = true
 properties/4/replication_mode = 1
 
-[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("pmv", "cmv", "camera", "model", "componentList")]
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("pmv", "cmv", "camera", "model", "hud", "componentList")]
 platform_on_leave = 2
 script = ExtResource("1_kjmmx")
 pmv = NodePath("Components/PlayerMovement")
 cmv = NodePath("Components/CameraMovement")
 camera = NodePath("Neck/Camera3D")
 model = NodePath("Neck/sandboxnatorCharacter")
+hud = NodePath("HUD")
 componentList = NodePath("Components")
+
+[node name="HUD" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="HUD"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -21.0
+offset_top = -21.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(2, 2)
+texture = ExtResource("8_2c07k")
 
 [node name="Neck" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 0)
@@ -169,7 +193,7 @@ script = ExtResource("7_yovm0")
 rayCast = NodePath("../../Neck/RayCast3D")
 blockScene = ExtResource("9_j421t")
 hand = NodePath("../../Neck/Hand")
-_toolResourcePath = "res://GameContent/Tools/Hammer.tres"
+toolResourcePath = "res://GameContent/Tools/Hammer/Hammer.tres"
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_bglb2")

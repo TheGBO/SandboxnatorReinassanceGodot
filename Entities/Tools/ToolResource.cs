@@ -6,5 +6,4 @@ public partial class ToolResource : Resource
 {
     //Contains the model and the logic
     [Export] public PackedScene tool;
-
 }

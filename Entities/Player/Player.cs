@@ -7,6 +7,7 @@ public partial class Player : CharacterBody3D
 	[Export] public CameraMovement cmv;
 	[Export] public Camera3D camera;
 	[Export] public Node3D model;
+	[Export] public Node hud;
 	[Export] public Node componentList;
 	public int playerId;
 
@@ -28,6 +29,7 @@ public partial class Player : CharacterBody3D
 		else
 		{
 			camera.Current = false;
+			hud.QueueFree();
 		}
 	}
 }

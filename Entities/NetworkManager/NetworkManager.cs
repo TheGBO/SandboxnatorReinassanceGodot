@@ -9,11 +9,8 @@ public partial class NetworkManager : Node3D
 	public static NetworkManager Instance { get; private set; }
 	public ENetMultiplayerPeer peer = new ENetMultiplayerPeer();
 	[Export] PackedScene playerScene;
-	//TODO: make buildings a separate script with own data structure
-	[Export] Node3D buildings;
 
-
-	public override void _Ready()
+    public override void _Ready()
 	{
 		Instance = this;
 		Multiplayer.PeerDisconnected += LogOutPlayer;
@@ -33,10 +30,7 @@ public partial class NetworkManager : Node3D
 		peer.CreateServer(port);
 		Multiplayer.MultiplayerPeer = peer;
 		Multiplayer.PeerConnected += AddPlayer;
-		if (!dedicatedServer)
-		{
-			AddPlayer(1);
-		}
+		AddPlayer(1);
 	}
 
 	public void JoinGame(int port = 1077, string ip = "localhost")
@@ -53,7 +47,7 @@ public partial class NetworkManager : Node3D
 		player.SetMultiplayerAuthority((int)id);
 		player.Name = id.ToString();
 		//set player position
-		CallDeferred("add_child", player);
+		World.Instance.neworkedEntities.CallDeferred("add_child", player);
 
 		if (Multiplayer.IsServer())
 		{
@@ -77,7 +71,7 @@ public partial class NetworkManager : Node3D
 
 	private void LogOutPlayer(long id)
 	{
-		GetNode(id.ToString()).QueueFree();
+		World.Instance.neworkedEntities.GetNode(id.ToString()).QueueFree();
 	}
 
 
@@ -86,7 +80,7 @@ public partial class NetworkManager : Node3D
 	{
 		if (!Multiplayer.IsServer())
 		{
-			Node3D playerInstance = GetNodeOrNull<Node3D>(playerId);
+			Node3D playerInstance = World.Instance.neworkedEntities.GetNodeOrNull<Node3D>(playerId);
 			if (playerInstance == null)
 			{
 				GD.Print("Player instance is lagging behind, delaying position change");
