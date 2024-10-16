@@ -59,9 +59,11 @@ public partial class UiSoundManager : Node
 		switch (_type)
 		{
 			case UiSoundType.Hover:
+				hoverSound.PitchScale = 1f + (float)GD.RandRange(-0.2, 0.2);
 				hoverSound.Play();
 				break;
 			case UiSoundType.Interact:
+				interactSound.PitchScale = 1f + (float)GD.RandRange(-0.2, 0.2);
 				interactSound.Play();
 				break;
 		}

@@ -1,0 +1,86 @@
+[gd_scene load_steps=5 format=3 uid="uid://ddpxqpot2m7a2"]
+
+[ext_resource type="Texture2D" uid="uid://7bm83u8ekalo" path="res://UI/SBlogo.png" id="1_m3wq5"]
+[ext_resource type="Script" path="res://UI/MainMenu/MainMenu.cs" id="1_n530s"]
+[ext_resource type="PackedScene" uid="uid://c4budmkq1sg7n" path="res://Scenes/World.tscn" id="2_h5340"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tltye"]
+bg_color = Color(0.137255, 0.137255, 0.137255, 1)
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_n530s")
+worldScene = ExtResource("2_h5340")
+
+[node name="RootPanel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_tltye")
+
+[node name="Panel" type="Panel" parent="RootPanel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -459.0
+offset_top = -290.0
+offset_right = 459.0
+offset_bottom = 290.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="RootPanel/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 55
+theme_override_constants/margin_top = 55
+theme_override_constants/margin_right = 55
+theme_override_constants/margin_bottom = 55
+
+[node name="VBoxContainer" type="VBoxContainer" parent="RootPanel/Panel/MarginContainer"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="RootPanel/Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+texture = ExtResource("1_m3wq5")
+expand_mode = 5
+
+[node name="PlayBtn" type="Button" parent="RootPanel/Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Play"
+
+[node name="CustomizationBtn" type="Button" parent="RootPanel/Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Profile"
+
+[node name="SettingsBtn" type="Button" parent="RootPanel/Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Settings
+"
+
+[node name="ExitBtn" type="Button" parent="RootPanel/Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Exit
+"
+
+[connection signal="pressed" from="RootPanel/Panel/MarginContainer/VBoxContainer/PlayBtn" to="." method="_on_play_btn_pressed"]

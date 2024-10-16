@@ -61,6 +61,16 @@ size_flags_stretch_ratio = 0.13
 layout_mode = 2
 size_flags_horizontal = 3
 
+[node name="LineEdit" type="LineEdit" parent="PanelContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+placeholder_text = "Port (blank = 1077)"
+
+[node name="Spacer3" type="Control" parent="PanelContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.25
+
 [node name="HostBtn" type="Button" parent="PanelContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3

@@ -13,9 +13,9 @@ config_version=5
 config/name="Sandboxnator"
 config/description="A LAN multiplayer sandbox game, have fun with your friends, hang out, build and destroy :3"
 config/version="0.0.1"
-run/main_scene="res://Scenes/World.tscn"
+run/main_scene="res://UI/MainMenu/MainMenu.tscn"
 config/features=PackedStringArray("4.3", "C#", "Forward Plus")
-boot_splash/image="res://Textures/Character_UwU.png"
+boot_splash/image="res://UI/SBlogo.png"
 boot_splash/use_filter=false
 config/icon="res://Textures/icon.png"
 
