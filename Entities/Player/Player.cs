@@ -25,6 +25,8 @@ public partial class Player : CharacterBody3D
 		if (IsMultiplayerAuthority())
 		{
 			model.Visible = false;
+			//install ui sound on player Hud
+			UiSoundManager.Instance.TryInstallSounds(hud);
 		}
 		else
 		{

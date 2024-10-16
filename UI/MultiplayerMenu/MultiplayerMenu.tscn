@@ -1,0 +1,94 @@
+[gd_scene load_steps=3 format=3 uid="uid://dowhshkw35fbv"]
+
+[ext_resource type="Script" path="res://UI/MultiplayerMenu/MultiplayerMenu.cs" id="1_t2st1"]
+[ext_resource type="Theme" uid="uid://dbnnr7gglht1m" path="res://UI/Theme/Theme.tres" id="2_tttxr"]
+
+[node name="MultiplayerMenu" type="Control"]
+z_index = 1
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_t2st1")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 50
+
+[node name="Panel" type="Panel" parent="PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer/MarginContainer/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_top = 25
+theme_override_constants/margin_right = 25
+theme_override_constants/margin_bottom = 25
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer/Panel/MarginContainer"]
+layout_mode = 2
+
+[node name="Panel" type="Panel" parent="PanelContainer/MarginContainer/Panel/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(600, 0)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Spacer" type="Control" parent="PanelContainer/MarginContainer/Panel/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.13
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/Panel/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HostBtn" type="Button" parent="PanelContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 32
+text = "Host Game"
+
+[node name="Spacer2" type="Control" parent="PanelContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.25
+
+[node name="JoinBtn" type="Button" parent="PanelContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme = ExtResource("2_tttxr")
+theme_override_font_sizes/font_size = 32
+text = "Join Game"
+
+[node name="Spacer" type="Control" parent="PanelContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.25
+
+[node name="MainMenuBtn" type="Button" parent="PanelContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 32
+text = "Return to main menu"
+
+[connection signal="pressed" from="PanelContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer/HostBtn" to="." method="_on_host_btn_pressed"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer/JoinBtn" to="." method="_on_join_btn_pressed"]

@@ -1,0 +1,27 @@
+[gd_resource type="Theme" load_steps=7 format=3 uid="uid://dbnnr7gglht1m"]
+
+[ext_resource type="StyleBox" uid="uid://cmc0i7gx40scn" path="res://UI/Theme/button_hover.tres" id="1_8e4vc"]
+[ext_resource type="StyleBox" uid="uid://bev12bp6itq0r" path="res://UI/Theme/button_normal.tres" id="1_ld20s"]
+[ext_resource type="FontFile" uid="uid://ce53w8spenftj" path="res://Font/lithos.ttf" id="2_df6do"]
+[ext_resource type="StyleBox" uid="uid://chl6ipbgexnbg" path="res://UI/Theme/button_pressed.tres" id="3_65krj"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_5bdha"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_887a6"]
+bg_color = Color(0, 0, 0, 0.188235)
+border_width_bottom = 3
+border_color = Color(0.263435, 0.505537, 1, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[resource]
+default_font = ExtResource("2_df6do")
+default_font_size = 24
+Button/styles/focus = SubResource("StyleBoxEmpty_5bdha")
+Button/styles/hover = ExtResource("1_8e4vc")
+Button/styles/normal = ExtResource("1_ld20s")
+Button/styles/pressed = ExtResource("3_65krj")
+Label/fonts/font = ExtResource("2_df6do")
+Panel/styles/panel = SubResource("StyleBoxFlat_887a6")

@@ -10,10 +10,23 @@ config_version=5
 
 [application]
 
-config/name="Sandboxnator Reinassance Godot"
+config/name="Sandboxnator"
+config/description="A LAN multiplayer sandbox game, have fun with your friends, hang out, build and destroy :3"
+config/version="0.0.1"
 run/main_scene="res://Scenes/World.tscn"
 config/features=PackedStringArray("4.3", "C#", "Forward Plus")
-config/icon="res://icon.svg"
+boot_splash/image="res://Textures/Character_UwU.png"
+boot_splash/use_filter=false
+config/icon="res://Textures/icon.png"
+
+[autoload]
+
+UiSoundManager="*res://UI/UiSoundManager.tscn"
+
+[display]
+
+window/stretch/mode="canvas_items"
+window/stretch/aspect="expand"
 
 [dotnet]
 
@@ -22,6 +35,10 @@ project/assembly_name="Sandboxnator Reinassance Godot"
 [editor]
 
 run/main_run_args="client"
+
+[gui]
+
+theme/custom="res://UI/Theme/Theme.tres"
 
 [input]
 
@@ -73,7 +90,7 @@ dbg_tool_refresh={
 
 [physics]
 
-3d/default_gravity=20.0
+3d/default_gravity=16.0
 
 [rendering]
 

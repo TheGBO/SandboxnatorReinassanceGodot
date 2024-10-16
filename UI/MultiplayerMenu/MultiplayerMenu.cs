@@ -4,6 +4,11 @@ using System;
 public partial class MultiplayerMenu : Control
 {
 
+	public override void _Ready()
+	{
+		UiSoundManager.Instance.TryInstallSounds();
+	}
+
 	public override void _Process(double delta)
 	{
 		Visible = NetworkManager.Instance.peer.GetConnectionStatus() != MultiplayerPeer.ConnectionStatus.Connected;

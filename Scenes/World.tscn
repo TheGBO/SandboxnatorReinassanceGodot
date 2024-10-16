@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://Scenes/World.cs" id="1_53ob6"]
 [ext_resource type="Material" uid="uid://dni3mk5x6hn4f" path="res://Materials/GreenTile.tres" id="2_2i86a"]
 [ext_resource type="PackedScene" uid="uid://t1rkfpsrocdb" path="res://Entities/NetworkManager/NetworkManager.tscn" id="4_kc546"]
-[ext_resource type="PackedScene" uid="uid://dowhshkw35fbv" path="res://Scenes/MultiplayerMenu/MultiplayerMenu.tscn" id="4_ssyfj"]
+[ext_resource type="PackedScene" uid="uid://dowhshkw35fbv" path="res://UI/MultiplayerMenu/MultiplayerMenu.tscn" id="4_ssyfj"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_m1uul"]
 sky_top_color = Color(0.1715, 0.277667, 0.49, 1)
