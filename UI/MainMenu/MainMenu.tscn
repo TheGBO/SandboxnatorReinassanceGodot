@@ -1,13 +1,14 @@
-[gd_scene load_steps=5 format=3 uid="uid://ddpxqpot2m7a2"]
+[gd_scene load_steps=6 format=3 uid="uid://ddpxqpot2m7a2"]
 
 [ext_resource type="Texture2D" uid="uid://7bm83u8ekalo" path="res://UI/SBlogo.png" id="1_m3wq5"]
 [ext_resource type="Script" path="res://UI/MainMenu/MainMenu.cs" id="1_n530s"]
 [ext_resource type="PackedScene" uid="uid://c4budmkq1sg7n" path="res://Scenes/World.tscn" id="2_h5340"]
+[ext_resource type="Theme" uid="uid://dbnnr7gglht1m" path="res://UI/Theme/Theme.tres" id="4_al8mg"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tltye"]
 bg_color = Color(0.137255, 0.137255, 0.137255, 1)
 
-[node name="MainMenu" type="Control"]
+[node name="MainMenu" type="Control" node_paths=PackedStringArray("notImplementedDialog", "exitDialog")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -16,6 +17,8 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_n530s")
 worldScene = ExtResource("2_h5340")
+notImplementedDialog = NodePath("NotImplementedDialog")
+exitDialog = NodePath("ExitDialog")
 
 [node name="RootPanel" type="Panel" parent="."]
 layout_mode = 1
@@ -83,4 +86,23 @@ size_flags_vertical = 3
 text = "Exit
 "
 
+[node name="NotImplementedDialog" type="AcceptDialog" parent="."]
+title = "warning"
+position = Vector2i(395, 135)
+size = Vector2i(403, 100)
+theme = ExtResource("4_al8mg")
+dialog_text = "Feature described on the pressed button is not implemented"
+
+[node name="ExitDialog" type="ConfirmationDialog" parent="."]
+title = "confirm."
+position = Vector2i(350, 170)
+size = Vector2i(437, 100)
+ok_button_text = "yes"
+dialog_text = "Do you want to quit the game?"
+cancel_button_text = "no"
+
 [connection signal="pressed" from="RootPanel/Panel/MarginContainer/VBoxContainer/PlayBtn" to="." method="_on_play_btn_pressed"]
+[connection signal="pressed" from="RootPanel/Panel/MarginContainer/VBoxContainer/CustomizationBtn" to="." method="_on_customization_btn_pressed"]
+[connection signal="pressed" from="RootPanel/Panel/MarginContainer/VBoxContainer/SettingsBtn" to="." method="_on_settings_btn_pressed"]
+[connection signal="pressed" from="RootPanel/Panel/MarginContainer/VBoxContainer/ExitBtn" to="." method="_on_exit_btn_pressed"]
+[connection signal="confirmed" from="ExitDialog" to="." method="_on_exit_dialog_confirmed"]

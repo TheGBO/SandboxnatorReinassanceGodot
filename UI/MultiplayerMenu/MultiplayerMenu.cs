@@ -26,4 +26,11 @@ public partial class MultiplayerMenu : Control
 		NetworkManager.Instance.JoinGame();
 	}
 
+	public void _on_main_menu_btn_pressed()
+	{
+		//hard coded because it didn't work by [Export] reference
+		PackedScene mainMenuScene = (PackedScene)ResourceLoader.Load("res://UI/MainMenu/MainMenu.tscn");
+		GetTree().ChangeSceneToPacked(mainMenuScene);
+	}
+
 }

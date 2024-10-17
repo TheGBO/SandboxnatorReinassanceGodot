@@ -6,6 +6,7 @@ public partial class UiSoundManager : Node
 {
 	[Export] private AudioStreamPlayer hoverSound;
 	[Export] private AudioStreamPlayer interactSound;
+	[Export] private AudioStreamPlayer popUpSound;
 	public static UiSoundManager Instance { get; private set; }
 
 	public override void _Ready()
@@ -54,7 +55,7 @@ public partial class UiSoundManager : Node
 		}
 	}
 
-	private void PlaySfxSound(UiSoundType _type)
+	public void PlaySfxSound(UiSoundType _type)
 	{
 		switch (_type)
 		{
@@ -63,9 +64,12 @@ public partial class UiSoundManager : Node
 				hoverSound.Play();
 				break;
 			case UiSoundType.Interact:
-				interactSound.PitchScale = 1f + (float)GD.RandRange(-0.2, 0.2);
 				interactSound.Play();
 				break;
+			case UiSoundType.PopUp:
+				popUpSound.Play();
+				break;
+
 		}
 	}
 
@@ -81,11 +85,5 @@ public partial class UiSoundManager : Node
 			}
 		}
 		return nodes;
-	}
-
-	private enum UiSoundType
-	{
-		Hover,
-		Interact
 	}
 }
