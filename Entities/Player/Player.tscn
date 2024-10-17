@@ -146,6 +146,7 @@ scale = Vector2(2, 2)
 texture = ExtResource("8_2c07k")
 
 [node name="TheChat" type="MarginContainer" parent="HUD"]
+visible = false
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0

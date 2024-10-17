@@ -74,7 +74,7 @@ public partial class PlayerToolUse : AbstractPlayerComponent
 		{
 			model.QueueFree();
 		}
-		ToolResource toolResource = ResourceLoader.Load<ToolResource>(toolResourcePath);
+		ToolData toolResource = ResourceLoader.Load<ToolData>(toolResourcePath);
 		Node loadedTool = toolResource.tool.Instantiate();
 		hand.AddChild(loadedTool);
 	}
