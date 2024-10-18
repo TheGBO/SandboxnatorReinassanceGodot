@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=4 uid="uid://1hsnhm80nlng"]
+[gd_scene load_steps=20 format=4 uid="uid://1hsnhm80nlng"]
 
 [ext_resource type="Script" path="res://Entities/Player/PlayerMovement.cs" id="1_fmfn4"]
 [ext_resource type="Script" path="res://Entities/Player/Player.cs" id="1_kjmmx"]
@@ -8,6 +8,8 @@
 [ext_resource type="Script" path="res://Entities/Player/PlayerToolUse.cs" id="7_yovm0"]
 [ext_resource type="Texture2D" uid="uid://bglesdqd1oqd1" path="res://Textures/CrossHair.png" id="8_2c07k"]
 [ext_resource type="PackedScene" uid="uid://52xwevqy64we" path="res://Entities/Buildings/Cube.tscn" id="9_j421t"]
+[ext_resource type="Script" path="res://Entities/Player/PlayerChatHud.cs" id="10_np6ov"]
+[ext_resource type="Script" path="res://Entities/Player/PlayerInput.cs" id="10_xk60u"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ei20b"]
 resource_name = "Material"
@@ -113,11 +115,12 @@ properties/4/path = NodePath("Components/PlayerToolUse:currentToolID")
 properties/4/spawn = true
 properties/4/replication_mode = 1
 
-[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("pmv", "cmv", "camera", "model", "hud", "componentList")]
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("playerMovement", "cameraMovement", "playerInput", "camera", "model", "hud", "componentList")]
 platform_on_leave = 2
 script = ExtResource("1_kjmmx")
-pmv = NodePath("Components/PlayerMovement")
-cmv = NodePath("Components/CameraMovement")
+playerMovement = NodePath("Components/PlayerMovement")
+cameraMovement = NodePath("Components/CameraMovement")
+playerInput = NodePath("Components/PlayerInput")
 camera = NodePath("Neck/Camera3D")
 model = NodePath("Neck/sandboxnatorCharacter")
 hud = NodePath("HUD")
@@ -222,8 +225,9 @@ shape = SubResource("CapsuleShape3D_am40t")
 [node name="PlayerMovement" type="Node3D" parent="Components" node_paths=PackedStringArray("cb", "camera", "neckAnimator")]
 script = ExtResource("1_fmfn4")
 cb = NodePath("../..")
-walkSpeed = 3.75
+walkSpeed = 4.0
 sprintSpeed = 7.0
+pushForceScalar = null
 camera = NodePath("../../Neck/Camera3D")
 neckAnimator = NodePath("../../Neck/Camera3D/FovEffectsAnimator")
 sprintEffectTime = 0.125
@@ -239,8 +243,14 @@ rayCast = NodePath("../../Neck/RayCast3D")
 blockScene = ExtResource("9_j421t")
 hand = NodePath("../../Neck/Hand")
 
+[node name="PlayerInput" type="Node3D" parent="Components"]
+script = ExtResource("10_xk60u")
+
+[node name="PlayerChatHUD" type="Node3D" parent="Components"]
+script = ExtResource("10_np6ov")
+
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
-replication_interval = 0.5
+replication_interval = 0.1
 replication_config = SubResource("SceneReplicationConfig_bglb2")
 
 [connection signal="synchronized" from="MultiplayerSynchronizer" to="Components/PlayerToolUse" method="_on_multiplayer_synchronizer_synchronized"]

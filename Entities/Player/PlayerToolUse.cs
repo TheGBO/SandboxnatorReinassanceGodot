@@ -55,7 +55,7 @@ public partial class PlayerToolUse : AbstractPlayerComponent
 
 		Vector3 collisionPoint = rayCast.GetCollisionPoint();
 		Vector3 normal = rayCast.GetCollisionNormal();
-		Dictionary toolUsageArgs = new ToolUsageArgs(collisionPoint, normal, 1).ToDictionary();
+		Dictionary toolUsageArgs = new ToolUsageArgs(collisionPoint, normal, parent.playerId).ToDictionary();
 		//Perform c2s RPC call if the player is a client
 		//Call this on the server side if the player using the tool is the one hosting
 		if (!Multiplayer.IsServer())

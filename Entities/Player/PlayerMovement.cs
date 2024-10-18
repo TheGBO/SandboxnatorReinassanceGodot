@@ -9,6 +9,7 @@ public partial class PlayerMovement : AbstractPlayerComponent
 	[Export] public float walkSpeed = 7.5f;
 	[Export] public float sprintSpeed = 7.5f;
 	[Export] public float jumpVelocity = 8f;
+	private Vector3 velocity;
 
 	//rigid body interaction
 	[Export] public float mass = 5f;
@@ -22,17 +23,26 @@ public partial class PlayerMovement : AbstractPlayerComponent
 	[Export] public float sprintFov = 100;
 	[Export] public float sprintEffectTime = 0.75f;
 
+
+
+	public override void _Ready()
+	{
+		if (!parent.IsMultiplayerAuthority())
+			return;
+
+		parent.playerInput.OnStopSprint += StopSprint;
+	}
+
+
+
 	//TODO: Separate input from movement
 	public override void _PhysicsProcess(double delta)
 	{
 		if (!parent.IsMultiplayerAuthority())
-		{
 			return;
-		}
 
 		camera.Fov = fov;
-
-		Vector3 velocity = cb.Velocity;
+		velocity = cb.Velocity;
 
 		// Add the gravity.
 		if (!cb.IsOnFloor())
@@ -40,32 +50,25 @@ public partial class PlayerMovement : AbstractPlayerComponent
 			velocity += cb.GetGravity() * (float)delta;
 		}
 
-		// Handle Jump.
-		if (Input.IsActionJustPressed("mv_jump") && cb.IsOnFloor())
+		if (cb.IsOnFloor() && parent.playerInput.IsJumping)
 		{
 			velocity.Y = jumpVelocity;
 		}
-
-
 
 		// Get the input direction and handle the movement/deceleration.
 		// As good practice, you should replace UI actions with custom gameplay actions.
 		Vector3 forward = cb.GlobalTransform.Basis.Z;
 		Vector3 right = cb.GlobalTransform.Basis.X;
 
-		Vector2 inputDir = Input.GetVector("mv_left", "mv_right", "mv_forward", "mv_backward");
+		Vector2 inputDir = parent.playerInput.MovementVector;
 		Vector3 direction = (forward * inputDir.Y + right * inputDir.X).Normalized();
 		bool isMoving = inputDir != Vector2.Zero;
 
 		//check for sprint
-		bool isSprinting = Input.IsActionPressed("mv_sprint");
+		bool isSprinting = parent.playerInput.IsSprinting;
 		if (isSprinting)
 		{
 			Sprint(true);
-		}
-		else if (Input.IsActionJustReleased("mv_sprint"))
-		{
-			Sprint(false);
 		}
 		if (isMoving && !isSprinting)
 		{
@@ -89,6 +92,7 @@ public partial class PlayerMovement : AbstractPlayerComponent
 	}
 
 	//not my code, adapted version from https://www.youtube.com/watch?v=Uh9PSOORMmA
+	//Disabled due to network issues.
 	private void PushAwayRigidBodies()
 	{
 		for (int i = 0; i < cb.GetSlideCollisionCount(); i++)
@@ -112,7 +116,11 @@ public partial class PlayerMovement : AbstractPlayerComponent
 		}
 	}
 
-
+	//input related.
+	private void StopSprint()
+	{
+		Sprint(false);
+	}
 
 	private void Sprint(bool beginSprint)
 	{
