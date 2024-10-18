@@ -1,10 +1,11 @@
 using Godot;
 using System;
 
+//The most basic and central class to a player.
 public partial class Player : CharacterBody3D
 {
-	[Export] public PlayerMovement pmv;
-	[Export] public CameraMovement cmv;
+	[Export] public PlayerMovement playerMovement;
+	[Export] public CameraMovement cameraMovement;
 	[Export] public Camera3D camera;
 	[Export] public Node3D model;
 	[Export] public Node hud;
