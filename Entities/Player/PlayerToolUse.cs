@@ -4,6 +4,10 @@ using System;
 
 
 //TODO: fix the sync n shite
+
+/// <summary>
+/// Class that represents the player's tools and inventory, functionality and data.
+/// </summary>
 public partial class PlayerToolUse : AbstractPlayerComponent
 {
 	//TODO: Make multiple tool selection and sync changes
@@ -12,7 +16,8 @@ public partial class PlayerToolUse : AbstractPlayerComponent
 	[Export] public PackedScene blockScene;
 	[Export] public Node3D hand;
 	//The resource for loading the tool
-	[Export(PropertyHint.File, "*.tres")] private string toolResourcePath;
+	//TODO: add inventory data structure and remove hard-coded tool ID
+	[Export] private string currentToolID = "tool_hammer";
 	//runtime tool reference
 	private BaseTool tool;
 
@@ -20,7 +25,7 @@ public partial class PlayerToolUse : AbstractPlayerComponent
 	{
 		if (!parent.IsMultiplayerAuthority()) return;
 		//send message to server requesting tool synchronization
-		RefreshTool();
+		UpdateToolModelAndData();
 	}
 
 	public override void _Process(double delta)
@@ -34,7 +39,12 @@ public partial class PlayerToolUse : AbstractPlayerComponent
 
 		if (Input.IsActionJustPressed("dbg_tool_refresh"))
 		{
-			RefreshTool();
+			if (currentToolID == "tool_hammer")
+				currentToolID = "tool_explosion_staff";
+			else
+				currentToolID = "tool_hammer";
+
+			UpdateToolModelAndData();
 		}
 	}
 
@@ -67,49 +77,23 @@ public partial class PlayerToolUse : AbstractPlayerComponent
 	}
 
 
-	private void UpdateToolModel()
+	private void UpdateToolModelAndData()
 	{
 		Node model = hand.GetChildOrNull<Node>(0);
 		if (model != null)
 		{
 			model.QueueFree();
 		}
-		ToolData toolResource = ResourceLoader.Load<ToolData>(toolResourcePath);
-		Node loadedTool = toolResource.tool.Instantiate();
+		ToolData toolResource = ToolManager.Instance.Tools[currentToolID];
+		BaseTool loadedTool = toolResource.toolScene.Instantiate<BaseTool>();
+		tool = loadedTool;
 		hand.AddChild(loadedTool);
 	}
 
-	//Call to the server to synchronize the tool of a player
-	//should only run on server
-	[Rpc(MultiplayerApi.RpcMode.AnyPeer)]
-	private void C2SToolSync(int id, string _toolResourcePath)
+	private void _on_multiplayer_synchronizer_synchronized()
 	{
-		GD.Print($"broadcasting tool change requested from player ({id}) of tool {_toolResourcePath}");
-		Rpc(nameof(S2CToolSync), id, _toolResourcePath);
-	}
-
-	//Broadcasted to all players, intended to run on client
-	[Rpc(MultiplayerApi.RpcMode.AnyPeer)]
-	private void S2CToolSync(int id, string _toolResourcePath)
-	{
-		toolResourcePath = _toolResourcePath;
-		UpdateToolModel();
-		GD.Print("tool sync incoming");
-	}
-
-	/// <summary>
-	/// method called to request and handle tool synchronization
-	/// </summary>
-	public void RefreshTool()
-	{
-		if (!Multiplayer.IsServer())
-		{
-			RpcId(1, nameof(C2SToolSync), GetPlayerId(), toolResourcePath);
-		}
-		else
-		{
-			C2SToolSync(GetPlayerId(), toolResourcePath);
-		}
+		//TODO: Optimize synchronization
+		UpdateToolModelAndData();
 	}
 
 }

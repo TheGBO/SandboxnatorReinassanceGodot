@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://UI/MultiplayerMenu/MultiplayerMenu.cs" id="1_t2st1"]
 [ext_resource type="Theme" uid="uid://dbnnr7gglht1m" path="res://UI/Theme/Theme.tres" id="2_tttxr"]
 
-[node name="MultiplayerMenu" type="Control"]
+[node name="MultiplayerMenu" type="Control" node_paths=PackedStringArray("portInput", "ipAddressInput")]
 z_index = 1
 layout_mode = 3
 anchors_preset = 15
@@ -12,6 +12,8 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_t2st1")
+portInput = NodePath("PanelContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/PortInput")
+ipAddressInput = NodePath("PanelContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/IpInput")
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
 layout_mode = 1
@@ -61,10 +63,40 @@ size_flags_stretch_ratio = 0.13
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="LineEdit" type="LineEdit" parent="PanelContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-placeholder_text = "Port (blank = 1077)"
+
+[node name="Label" type="Label" parent="PanelContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Network port: "
+
+[node name="PortInput" type="SpinBox" parent="PanelContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+min_value = 1024.0
+max_value = 65535.0
+value = 1077.0
+alignment = 1
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="PanelContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="PanelContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Network IP: "
+
+[node name="IpInput" type="LineEdit" parent="PanelContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "localhost"
+placeholder_text = "ip address"
+alignment = 1
 
 [node name="Spacer3" type="Control" parent="PanelContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2

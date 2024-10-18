@@ -3,6 +3,8 @@ using System;
 
 public partial class MultiplayerMenu : Control
 {
+	[Export] private SpinBox portInput;
+	[Export] private LineEdit ipAddressInput;
 
 	public override void _Ready()
 	{
@@ -17,13 +19,13 @@ public partial class MultiplayerMenu : Control
 
 	public void _on_host_btn_pressed()
 	{
-		NetworkManager.Instance.HostGame();
+		NetworkManager.Instance.HostGame((int)portInput.Value, false);
 
 	}
 
 	public void _on_join_btn_pressed()
 	{
-		NetworkManager.Instance.JoinGame();
+		NetworkManager.Instance.JoinGame((int)portInput.Value, ipAddressInput.Text);
 	}
 
 	public void _on_main_menu_btn_pressed()

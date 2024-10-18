@@ -10,7 +10,7 @@ public partial class NetworkManager : Node3D
 	public ENetMultiplayerPeer peer = new ENetMultiplayerPeer();
 	[Export] PackedScene playerScene;
 
-    public override void _Ready()
+	public override void _Ready()
 	{
 		Instance = this;
 		Multiplayer.PeerDisconnected += LogOutPlayer;

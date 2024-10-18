@@ -109,7 +109,7 @@ properties/2/replication_mode = 2
 properties/3/path = NodePath("Neck:position")
 properties/3/spawn = true
 properties/3/replication_mode = 2
-properties/4/path = NodePath("Components/PlayerToolUse:toolResourcePath")
+properties/4/path = NodePath("Components/PlayerToolUse:currentToolID")
 properties/4/spawn = true
 properties/4/replication_mode = 1
 
@@ -238,7 +238,9 @@ script = ExtResource("7_yovm0")
 rayCast = NodePath("../../Neck/RayCast3D")
 blockScene = ExtResource("9_j421t")
 hand = NodePath("../../Neck/Hand")
-toolResourcePath = "res://GameContent/Tools/Hammer/Hammer.tres"
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_interval = 0.5
 replication_config = SubResource("SceneReplicationConfig_bglb2")
+
+[connection signal="synchronized" from="MultiplayerSynchronizer" to="Components/PlayerToolUse" method="_on_multiplayer_synchronizer_synchronized"]

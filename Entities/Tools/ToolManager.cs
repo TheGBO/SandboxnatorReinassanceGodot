@@ -10,17 +10,33 @@ using System.Collections.Generic;
 public partial class ToolManager : Node
 {
 	public static ToolManager Instance { get; private set; }
-	private Dictionary<string, ToolData> tools = new Dictionary<string, ToolData>();
+	public Dictionary<string, ToolData> Tools { get; private set; } = new Dictionary<string, ToolData>();
 	[Export(PropertyHint.Dir)] string toolContentsPath;
+
+	public override void _EnterTree()
+	{
+		Instance = this;
+	}
 
 	public override void _Ready()
 	{
-		GD.Print("Initialize tool data loading...");
+		InitializeTools();
+	}
+
+	private void InitializeTools()
+	{
+		GD.PrintRich("[color=green]Loading vanilla tool data...[/color]");
 		List<Resource> resources = LoadResources(toolContentsPath);
 
 		foreach (var resource in resources)
 		{
-			GD.Print($"Found tool data {resource}");
+			if (resource is ToolData)
+			{
+				ToolData toolRes = (ToolData)resource;
+				Tools[toolRes.toolID] = toolRes;
+				GD.Print($"Found tool data {resource}");
+				GD.PrintRich($"[color=green]Adding to tool dictionary as[/color] [color=yellow]{toolRes.toolID}[/color]");
+			}
 		}
 	}
 

@@ -6,14 +6,15 @@
 [ext_resource type="PackedScene" uid="uid://dowhshkw35fbv" path="res://UI/MultiplayerMenu/MultiplayerMenu.tscn" id="4_ssyfj"]
 [ext_resource type="Script" path="res://Entities/Tools/ToolManager.cs" id="5_yc3o1"]
 
-[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_m1uul"]
-sky_top_color = Color(0.1715, 0.277667, 0.49, 1)
-sky_horizon_color = Color(0.57125, 0.633625, 0.805, 1)
-ground_bottom_color = Color(0.285, 0.3065, 0.5, 1)
-ground_horizon_color = Color(0.57125, 0.633625, 0.805, 1)
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_o4ted"]
+sky_top_color = Color(0.357712, 0.564669, 1, 1)
+sky_horizon_color = Color(0.639553, 0.796486, 1, 1)
+sky_cover_modulate = Color(0, 0.376471, 1, 1)
+ground_bottom_color = Color(0.466667, 0.701961, 1, 1)
+ground_horizon_color = Color(0.74902, 0.87451, 1, 1)
 
 [sub_resource type="Sky" id="Sky_815yj"]
-sky_material = SubResource("ProceduralSkyMaterial_m1uul")
+sky_material = SubResource("ProceduralSkyMaterial_o4ted")
 
 [sub_resource type="Environment" id="Environment_3neo8"]
 background_mode = 2

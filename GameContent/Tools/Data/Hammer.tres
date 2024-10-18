@@ -5,6 +5,7 @@
 
 [resource]
 script = ExtResource("1_e88rv")
-tool = ExtResource("2_ygpel")
+toolScene = ExtResource("2_ygpel")
+toolID = "tool_hammer"
 toolName = "Hammer"
 usageCooldown = 0.0
