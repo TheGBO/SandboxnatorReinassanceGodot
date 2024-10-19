@@ -1,6 +1,10 @@
 using Godot;
 using System;
 
+
+/// <summary>
+/// Holds the components to the player
+/// </summary>
 public partial class AbstractPlayerComponent : Node3D
 {
     [Export] public Player parent;

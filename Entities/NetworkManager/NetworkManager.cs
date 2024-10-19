@@ -64,6 +64,7 @@ public partial class NetworkManager : Node3D
 				//send a RPC to the player who connected to set their position
 				RpcId(id, nameof(SetPlayerInitialPosition), desiredPosition, player.Name);
 			}
+			ChatManager.Instance.BroadcastPlayerlessMessage($"Player {id} joined the game.");
 		}
 
 

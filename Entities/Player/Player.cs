@@ -7,6 +7,7 @@ public partial class Player : CharacterBody3D
 	[Export] public PlayerMovement playerMovement;
 	[Export] public CameraMovement cameraMovement;
 	[Export] public PlayerInput playerInput;
+	[Export] public PlayerChatHud chatHud;
 	[Export] public Camera3D camera;
 	[Export] public Node3D model;
 	[Export] public Node hud;
@@ -23,7 +24,7 @@ public partial class Player : CharacterBody3D
 			component.parent = this;
 		}
 
-		//hide the player head modelX
+		//hide the player head model
 		if (IsMultiplayerAuthority())
 		{
 			model.Visible = false;

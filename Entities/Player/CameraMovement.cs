@@ -8,22 +8,11 @@ public partial class CameraMovement : AbstractPlayerComponent
 	float sensitivity = 0.01f;
 	public override void _Ready()
 	{
-		if (parent.IsMultiplayerAuthority())
-		{
-			Input.MouseMode = Input.MouseModeEnum.Captured;
-		}
-	}
+		if (!parent.IsMultiplayerAuthority())
+			return;
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
-	{
-		if (parent.IsMultiplayerAuthority())
-		{
-			if (Input.IsActionJustPressed("toggle_capture"))
-			{
-				ToggleCursorCapture();
-			}
-		}
+		Input.MouseMode = Input.MouseModeEnum.Captured;
+		parent.playerInput.OnToggleCursorCapture += ToggleCursorCapture;
 	}
 
 	private void ToggleCursorCapture()
@@ -38,6 +27,7 @@ public partial class CameraMovement : AbstractPlayerComponent
 		}
 	}
 
+	//TODO: Move to PlayerInput
 	public override void _Input(InputEvent _event)
 	{
 		if (parent.IsMultiplayerAuthority())

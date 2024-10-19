@@ -1,10 +1,11 @@
-[gd_scene load_steps=20 format=4 uid="uid://1hsnhm80nlng"]
+[gd_scene load_steps=21 format=4 uid="uid://1hsnhm80nlng"]
 
 [ext_resource type="Script" path="res://Entities/Player/PlayerMovement.cs" id="1_fmfn4"]
 [ext_resource type="Script" path="res://Entities/Player/Player.cs" id="1_kjmmx"]
 [ext_resource type="Texture2D" uid="uid://c08077ylywm20" path="res://Textures/Character_Happy.png" id="2_713dq"]
 [ext_resource type="Material" uid="uid://pfpxs77fq4wj" path="res://Materials/PlayerSkins/UwU.tres" id="2_icefu"]
 [ext_resource type="Script" path="res://Entities/Player/CameraMovement.cs" id="3_bvtsg"]
+[ext_resource type="AudioStream" uid="uid://b8xbjq5ide70f" path="res://Sounds/ui_message_received.mp3" id="3_bxpi0"]
 [ext_resource type="Script" path="res://Entities/Player/PlayerToolUse.cs" id="7_yovm0"]
 [ext_resource type="Texture2D" uid="uid://bglesdqd1oqd1" path="res://Textures/CrossHair.png" id="8_2c07k"]
 [ext_resource type="PackedScene" uid="uid://52xwevqy64we" path="res://Entities/Buildings/Cube.tscn" id="9_j421t"]
@@ -115,12 +116,13 @@ properties/4/path = NodePath("Components/PlayerToolUse:currentToolID")
 properties/4/spawn = true
 properties/4/replication_mode = 1
 
-[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("playerMovement", "cameraMovement", "playerInput", "camera", "model", "hud", "componentList")]
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("playerMovement", "cameraMovement", "playerInput", "chatHud", "camera", "model", "hud", "componentList")]
 platform_on_leave = 2
 script = ExtResource("1_kjmmx")
 playerMovement = NodePath("Components/PlayerMovement")
 cameraMovement = NodePath("Components/CameraMovement")
 playerInput = NodePath("Components/PlayerInput")
+chatHud = NodePath("Components/PlayerChatHUD")
 camera = NodePath("Neck/Camera3D")
 model = NodePath("Neck/sandboxnatorCharacter")
 hud = NodePath("HUD")
@@ -134,7 +136,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="TextureRect" type="TextureRect" parent="HUD"]
+[node name="CrossHair" type="TextureRect" parent="HUD"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -148,23 +150,24 @@ grow_vertical = 2
 scale = Vector2(2, 2)
 texture = ExtResource("8_2c07k")
 
-[node name="TheChat" type="MarginContainer" parent="HUD"]
+[node name="ChatRoot" type="MarginContainer" parent="HUD"]
 visible = false
 layout_mode = 1
-anchors_preset = 12
-anchor_top = 1.0
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -398.0
-offset_right = -662.0
 grow_horizontal = 2
-grow_vertical = 0
+grow_vertical = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
 
-[node name="ChatBox" type="Panel" parent="HUD/TheChat"]
+[node name="ChatBox" type="Panel" parent="HUD/ChatRoot"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HUD/TheChat/ChatBox"]
+[node name="VBoxContainer" type="VBoxContainer" parent="HUD/ChatRoot/ChatBox"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -172,26 +175,42 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="MessagesContainer" type="VBoxContainer" parent="HUD/TheChat/ChatBox/VBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="HUD/ChatRoot/ChatBox/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
 
-[node name="Input" type="HBoxContainer" parent="HUD/TheChat/ChatBox/VBoxContainer"]
+[node name="MessagesContainer" type="RichTextLabel" parent="HUD/ChatRoot/ChatBox/VBoxContainer/MarginContainer"]
 layout_mode = 2
-size_flags_stretch_ratio = 0.3
+size_flags_vertical = 3
+bbcode_enabled = true
+text = "
+"
 
-[node name="TextEdit" type="TextEdit" parent="HUD/TheChat/ChatBox/VBoxContainer/Input"]
+[node name="Input" type="HBoxContainer" parent="HUD/ChatRoot/ChatBox/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.1
+
+[node name="MessageEdit" type="TextEdit" parent="HUD/ChatRoot/ChatBox/VBoxContainer/Input"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 22
-text = "Hello, world! Salvete, mundi! Olá mundo! ¡Hola mundo!"
+placeholder_text = "Press ESC to exit chat mode"
 scroll_fit_content_height = true
 
-[node name="Button" type="Button" parent="HUD/TheChat/ChatBox/VBoxContainer/Input"]
+[node name="SendBtn" type="Button" parent="HUD/ChatRoot/ChatBox/VBoxContainer/Input"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.25
 text = "Send"
+
+[node name="NotificationSound" type="AudioStreamPlayer" parent="HUD/ChatRoot"]
+stream = ExtResource("3_bxpi0")
+volume_db = -12.0
 
 [node name="Neck" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 0)
@@ -227,7 +246,6 @@ script = ExtResource("1_fmfn4")
 cb = NodePath("../..")
 walkSpeed = 4.0
 sprintSpeed = 7.0
-pushForceScalar = null
 camera = NodePath("../../Neck/Camera3D")
 neckAnimator = NodePath("../../Neck/Camera3D/FovEffectsAnimator")
 sprintEffectTime = 0.125
@@ -246,11 +264,16 @@ hand = NodePath("../../Neck/Hand")
 [node name="PlayerInput" type="Node3D" parent="Components"]
 script = ExtResource("10_xk60u")
 
-[node name="PlayerChatHUD" type="Node3D" parent="Components"]
+[node name="PlayerChatHUD" type="Node3D" parent="Components" node_paths=PackedStringArray("chatRoot", "messageEdit", "messageBox", "notificationSound")]
 script = ExtResource("10_np6ov")
+chatRoot = NodePath("../../HUD/ChatRoot")
+messageEdit = NodePath("../../HUD/ChatRoot/ChatBox/VBoxContainer/Input/MessageEdit")
+messageBox = NodePath("../../HUD/ChatRoot/ChatBox/VBoxContainer/MarginContainer/MessagesContainer")
+notificationSound = NodePath("../../HUD/ChatRoot/NotificationSound")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_interval = 0.1
 replication_config = SubResource("SceneReplicationConfig_bglb2")
 
+[connection signal="pressed" from="HUD/ChatRoot/ChatBox/VBoxContainer/Input/SendBtn" to="Components/PlayerChatHUD" method="_on_send_btn_pressed"]
 [connection signal="synchronized" from="MultiplayerSynchronizer" to="Components/PlayerToolUse" method="_on_multiplayer_synchronizer_synchronized"]
