@@ -34,20 +34,14 @@ shape = SubResource("BoxShape3D_3v22q")
 
 [node name="snappers" type="Node3D" parent="."]
 
-[node name="snapper_N" parent="snappers" instance=ExtResource("3_lph07")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
-
-[node name="snapper_S" parent="snappers" instance=ExtResource("3_lph07")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
-
 [node name="snapper_E" parent="snappers" instance=ExtResource("3_lph07")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 0)
 
 [node name="snapper_W" parent="snappers" instance=ExtResource("3_lph07")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 0)
 
 [node name="snapper_U" parent="snappers" instance=ExtResource("3_lph07")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0)
 
 [node name="snapper_D" parent="snappers" instance=ExtResource("3_lph07")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5, 0)

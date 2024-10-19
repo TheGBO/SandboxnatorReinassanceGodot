@@ -1,0 +1,38 @@
+[gd_scene load_steps=8 format=3 uid="uid://du8mh6y76u2j7"]
+
+[ext_resource type="Script" path="res://GameContent/Tools/Code/BuildingTool.cs" id="1_37th4"]
+[ext_resource type="PackedScene" uid="uid://jibftcq4t3ql" path="res://GameContent/Buildings/BuildingWall.tscn" id="2_lawi1"]
+[ext_resource type="Texture2D" uid="uid://ojo0i4sevmr2" path="res://Textures/Tile.png" id="3_ax2id"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wpu4c"]
+albedo_texture = ExtResource("3_ax2id")
+uv1_offset = Vector3(0.5, 0.5, 0.5)
+uv1_triplanar = true
+texture_filter = 0
+
+[sub_resource type="BoxMesh" id="BoxMesh_uxkh2"]
+material = SubResource("StandardMaterial3D_wpu4c")
+size = Vector3(1, 1, 0.25)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_n07gv"]
+transparency = 1
+shading_mode = 0
+albedo_color = Color(0, 1, 0, 0.411765)
+
+[sub_resource type="BoxMesh" id="BoxMesh_idudw"]
+material = SubResource("StandardMaterial3D_n07gv")
+size = Vector3(5, 5, 0.25)
+
+[node name="ToolBuildingCube" type="Node3D" node_paths=PackedStringArray("previewMesh")]
+script = ExtResource("1_37th4")
+buildingScene = ExtResource("2_lawi1")
+previewMesh = NodePath("PreviewMesh")
+snapRange = 8.0
+
+[node name="HandItem" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0, 0, 0)
+mesh = SubResource("BoxMesh_uxkh2")
+
+[node name="PreviewMesh" type="MeshInstance3D" parent="."]
+visible = false
+mesh = SubResource("BoxMesh_idudw")
