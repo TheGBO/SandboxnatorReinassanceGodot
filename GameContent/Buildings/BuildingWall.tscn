@@ -1,0 +1,53 @@
+[gd_scene load_steps=7 format=3 uid="uid://jibftcq4t3ql"]
+
+[ext_resource type="Script" path="res://Entities/Buildings/Building.cs" id="1_qt55y"]
+[ext_resource type="Material" uid="uid://cwqjolp2w3bto" path="res://Materials/cubeMaterial.tres" id="2_4xkub"]
+[ext_resource type="PackedScene" uid="uid://dt7f7iern17j1" path="res://Entities/Buildings/Snapper.tscn" id="3_lph07"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_0od6p"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 2
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 2
+
+[sub_resource type="BoxMesh" id="BoxMesh_613oe"]
+material = ExtResource("2_4xkub")
+size = Vector3(5, 5, 0.25)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_3v22q"]
+size = Vector3(5, 5, 0.25)
+
+[node name="BuildingWall" type="RigidBody3D"]
+freeze = true
+script = ExtResource("1_qt55y")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_0od6p")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_613oe")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_3v22q")
+
+[node name="snappers" type="Node3D" parent="."]
+
+[node name="snapper_N" parent="snappers" instance=ExtResource("3_lph07")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
+
+[node name="snapper_S" parent="snappers" instance=ExtResource("3_lph07")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
+
+[node name="snapper_E" parent="snappers" instance=ExtResource("3_lph07")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
+
+[node name="snapper_W" parent="snappers" instance=ExtResource("3_lph07")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 0)
+
+[node name="snapper_U" parent="snappers" instance=ExtResource("3_lph07")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="snapper_D" parent="snappers" instance=ExtResource("3_lph07")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)

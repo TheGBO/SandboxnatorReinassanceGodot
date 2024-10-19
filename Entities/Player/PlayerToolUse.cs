@@ -1,6 +1,7 @@
 using Godot;
 using Godot.Collections;
 using System;
+using System.Collections.Generic;
 
 
 //TODO: fix the sync n shite
@@ -17,6 +18,9 @@ public partial class PlayerToolUse : AbstractPlayerComponent
 	//The resource for loading the tool
 	//TODO: add inventory data structure and remove hard-coded tool ID
 	[Export] private string currentToolID = "tool_hammer";
+	[Export] private Array<string> inventory;
+	private int inventoryIndex;
+	[Export] private AnimationPlayer handAnimator;
 	//runtime tool reference
 	private BaseTool tool;
 
@@ -38,10 +42,15 @@ public partial class PlayerToolUse : AbstractPlayerComponent
 
 		if (Input.IsActionJustPressed("dbg_tool_refresh"))
 		{
-			if (currentToolID == "tool_hammer")
-				currentToolID = "tool_building_cube";
+			if (inventoryIndex < inventory.Count - 1)
+			{
+				inventoryIndex++;
+			}
 			else
-				currentToolID = "tool_hammer";
+			{
+				inventoryIndex = 0;
+			}
+			currentToolID = inventory[inventoryIndex];
 
 			UpdateToolModelAndData();
 		}
@@ -64,6 +73,10 @@ public partial class PlayerToolUse : AbstractPlayerComponent
 		else
 		{
 			ServerUse(toolUsageArgs);
+		}
+		if (tool.animateHand)
+		{
+			handAnimator.Play("hand_use");
 		}
 	}
 
