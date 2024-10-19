@@ -13,7 +13,6 @@ public partial class PlayerToolUse : AbstractPlayerComponent
 	//TODO: Make multiple tool selection and sync changes
 
 	[Export] public RayCast3D rayCast;
-	[Export] public PackedScene blockScene;
 	[Export] public Node3D hand;
 	//The resource for loading the tool
 	//TODO: add inventory data structure and remove hard-coded tool ID
@@ -40,7 +39,7 @@ public partial class PlayerToolUse : AbstractPlayerComponent
 		if (Input.IsActionJustPressed("dbg_tool_refresh"))
 		{
 			if (currentToolID == "tool_hammer")
-				currentToolID = "tool_explosion_staff";
+				currentToolID = "tool_building_cube";
 			else
 				currentToolID = "tool_hammer";
 
@@ -87,6 +86,7 @@ public partial class PlayerToolUse : AbstractPlayerComponent
 		ToolData toolResource = ToolManager.Instance.Tools[currentToolID];
 		BaseTool loadedTool = toolResource.toolScene.Instantiate<BaseTool>();
 		tool = loadedTool;
+		tool.Ptu = this;
 		hand.AddChild(loadedTool);
 	}
 

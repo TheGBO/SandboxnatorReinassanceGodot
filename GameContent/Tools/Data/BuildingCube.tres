@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="ToolData" load_steps=3 format=3 uid="uid://bjp4lg0per821"]
+
+[ext_resource type="Script" path="res://Entities/Tools/ToolData.cs" id="1_w4p4d"]
+[ext_resource type="PackedScene" uid="uid://djqekcjdmn1te" path="res://GameContent/Tools/Scenes/ToolBuildingCube.tscn" id="2_cck1s"]
+
+[resource]
+script = ExtResource("1_w4p4d")
+toolScene = ExtResource("2_cck1s")
+toolID = "tool_building_cube"
+toolName = "Building Cube"
+usageCooldown = 0.013
+raycastRange = 15.0

@@ -34,8 +34,16 @@ public partial class ChatManager : Node3D
     {
         ChatMessage message = ChatMessage.FromDictionary(msg);
         GD.Print($"message received: {message.Content} from {message.PlayerId}");
-        ClientReceiveMessage(msg);
-        Rpc(nameof(ClientReceiveMessage), message.ToDictionary());
+        if (message.Content.StartsWith("cmd:"))
+        {
+            //TODO:handle commands
+            
+        }
+        else
+        {
+            ClientReceiveMessage(msg);
+            Rpc(nameof(ClientReceiveMessage), message.ToDictionary());
+        }
     }
 
     [Rpc(MultiplayerApi.RpcMode.AnyPeer)]
@@ -59,5 +67,23 @@ public partial class ChatManager : Node3D
         ChatMessage message = new ChatMessage(msg, -1);
         ClientReceiveMessage(message.ToDictionary());
         Rpc(nameof(ClientReceiveMessage), message.ToDictionary());
+    }
+
+    /// <summary>
+    /// SERVER SIDE: Sends a private message to a single player without attached player
+    /// </summary>
+    /// <param name="msg">content</param>
+    /// <param name="playerId">player</param>
+    /// <exception cref="InvalidOperationException"></exception>
+    public void SendPlayerlessMessage(string msg, int playerId)
+    {
+        if (!Multiplayer.IsServer())
+        {
+            throw new InvalidOperationException("This operation can not be called on the client.");
+        }
+        //-1 playerless
+        ChatMessage message = new ChatMessage(msg, -1);
+        ClientReceiveMessage(message.ToDictionary());
+        RpcId(playerId, nameof(ClientReceiveMessage), message.ToDictionary());
     }
 }

@@ -44,7 +44,6 @@ transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 
 shadow_enabled = true
 
 [node name="Ground" type="StaticBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
 shape = SubResource("WorldBoundaryShape3D_umnpi")
@@ -54,7 +53,7 @@ mesh = SubResource("PlaneMesh_qu3fq")
 skeleton = NodePath("../..")
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("res://Entities/Player/Player.tscn", "res://Entities/Buildings/DebugNut.tscn", "res://Entities/Buildings/Cube.tscn")
+_spawnable_scenes = PackedStringArray("res://Entities/Player/Player.tscn", "res://GameContent/Buildings/BuildingCube.tscn")
 spawn_path = NodePath("../NetworkedEntities")
 
 [node name="NetworkedEntities" type="Node3D" parent="."]
