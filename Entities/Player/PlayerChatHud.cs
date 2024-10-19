@@ -47,7 +47,11 @@ public partial class PlayerChatHud : AbstractPlayerComponent
 
     public void _on_send_btn_pressed()
     {
-        ChatManager.Instance.SendMessage(messageEdit.Text);
-        messageEdit.Text = "";
+        string msg = messageEdit.Text;
+        if (!string.IsNullOrEmpty(msg) && !string.IsNullOrWhiteSpace(messageEdit.Text))
+        {
+            ChatManager.Instance.SendMessage(msg);
+            messageEdit.Text = "";
+        }
     }
 }
