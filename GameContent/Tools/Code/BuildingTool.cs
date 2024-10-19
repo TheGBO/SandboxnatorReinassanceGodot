@@ -9,7 +9,7 @@ public partial class BuildingTool : BaseTool
 
     public override void _Process(double delta)
     {
-        if (!IsMultiplayerAuthority()) return;
+        if (!Ptu.parent.IsMultiplayerAuthority()) return;
         GeneratePreviewMesh();
     }
 

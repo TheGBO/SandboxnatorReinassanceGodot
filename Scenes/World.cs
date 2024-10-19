@@ -26,7 +26,7 @@ public partial class World : Node3D
 	{
 		foreach (Snapper snapper in snappers)
 		{
-			if (referential.DistanceTo(snapper.GlobalPosition) <= maxRange)
+			if ((referential.DistanceTo(snapper.GlobalPosition) <= maxRange) && !snapper.InsideBody)
 			{
 				return snapper.GlobalPosition;
 			}
