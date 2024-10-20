@@ -12,7 +12,11 @@ public partial class PlayerInput : AbstractPlayerComponent
     public bool IsChatOpen { get; set; }
     public Action OnShowChat;
     public Action OnUiEscape;
+    //Camera
     public Action OnToggleCursorCapture;
+    //Building
+    public Action RotateCW;
+    public Action RotateCCW;
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(double delta)
@@ -21,6 +25,7 @@ public partial class PlayerInput : AbstractPlayerComponent
         if (!IsChatOpen)
         {
             HandleMovementInput();
+            HandleBuildingInput();
         }
         HandleUserInterfaceInput();
     }
@@ -64,5 +69,18 @@ public partial class PlayerInput : AbstractPlayerComponent
 
         MovementVector = Input.GetVector("mv_left", "mv_right", "mv_forward", "mv_backward");
         IsSprinting = Input.IsActionPressed("mv_sprint");
+    }
+
+    private void HandleBuildingInput()
+    {
+        if (Input.IsActionJustPressed("build_rotate_cw"))
+        {
+            RotateCW?.Invoke();
+        }
+
+        if (Input.IsActionJustPressed("build_rotate_ccw"))
+        {
+            RotateCCW?.Invoke();
+        }
     }
 }

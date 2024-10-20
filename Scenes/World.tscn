@@ -39,8 +39,8 @@ neworkedEntities = NodePath("NetworkedEntities")
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_3neo8")
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+[node name="Sun" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.258819, 0.965926, 0, -0.965926, 0.258819, 0, 500, 0)
 shadow_enabled = true
 
 [node name="Ground" type="StaticBody3D" parent="."]
@@ -52,8 +52,48 @@ shape = SubResource("WorldBoundaryShape3D_umnpi")
 mesh = SubResource("PlaneMesh_qu3fq")
 skeleton = NodePath("../..")
 
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="Ground"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2048, 0, 0)
+mesh = SubResource("PlaneMesh_qu3fq")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Ground"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2048, 0, 0)
+mesh = SubResource("PlaneMesh_qu3fq")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="Ground"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2048)
+mesh = SubResource("PlaneMesh_qu3fq")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="Ground"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2048, 0, 2048)
+mesh = SubResource("PlaneMesh_qu3fq")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D6" type="MeshInstance3D" parent="Ground"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2048, 0, 2048)
+mesh = SubResource("PlaneMesh_qu3fq")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D7" type="MeshInstance3D" parent="Ground"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2048)
+mesh = SubResource("PlaneMesh_qu3fq")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D8" type="MeshInstance3D" parent="Ground"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2048, 0, -2048)
+mesh = SubResource("PlaneMesh_qu3fq")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D9" type="MeshInstance3D" parent="Ground"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2048, 0, -2048)
+mesh = SubResource("PlaneMesh_qu3fq")
+skeleton = NodePath("../..")
+
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("res://Entities/Player/Player.tscn", "res://GameContent/Buildings/BuildingCube.tscn")
+_spawnable_scenes = PackedStringArray("res://Entities/Player/Player.tscn", "res://GameContent/Buildings/BuildingCube.tscn", "res://GameContent/Buildings/BuildingWall.tscn")
 spawn_path = NodePath("../NetworkedEntities")
 
 [node name="NetworkedEntities" type="Node3D" parent="."]

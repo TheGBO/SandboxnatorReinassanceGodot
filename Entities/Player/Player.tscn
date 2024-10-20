@@ -99,6 +99,33 @@ _data = {
 radius = 0.35
 height = 1.75
 
+[sub_resource type="Animation" id="Animation_6ei8r"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../../Neck/Hand:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../../Neck/Hand:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.535, -0.3, -0.548)]
+}
+
 [sub_resource type="Animation" id="Animation_qvcfc"]
 resource_name = "hand_use"
 length = 0.2
@@ -125,33 +152,6 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
 "values": [Vector3(0.535, -0.3, -0.548), Vector3(0.535, -0.422726, -0.73116), Vector3(0.535, -0.3, -0.548)]
-}
-
-[sub_resource type="Animation" id="Animation_6ei8r"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("../../Neck/Hand:rotation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(0, 0, 0)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("../../Neck/Hand:position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(0.535, -0.3, -0.548)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_0sei0"]
@@ -182,6 +182,9 @@ properties/5/replication_mode = 2
 properties/6/path = NodePath("Neck/Hand:rotation")
 properties/6/spawn = true
 properties/6/replication_mode = 2
+properties/7/path = NodePath("Components/PlayerToolUse:desiredRotationY")
+properties/7/spawn = true
+properties/7/replication_mode = 2
 
 [node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("playerMovement", "cameraMovement", "playerInput", "chatHud", "camera", "model", "hud", "componentList")]
 floor_stop_on_slope = false
@@ -327,8 +330,8 @@ body = NodePath("../..")
 script = ExtResource("7_yovm0")
 rayCast = NodePath("../../Neck/RayCast3D")
 hand = NodePath("../../Neck/Hand")
-inventory = Array[String](["tool_hammer", "tool_explosion_staff", "tool_building_cube", "tool_building_wall"])
 handAnimator = NodePath("HandAnimator")
+inventory = Array[String](["tool_hammer", "tool_explosion_staff", "tool_building_cube", "tool_building_wall"])
 
 [node name="HandAnimator" type="AnimationPlayer" parent="Components/PlayerToolUse"]
 libraries = {

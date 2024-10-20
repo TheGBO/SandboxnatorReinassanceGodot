@@ -14,10 +14,10 @@ properties/1/replication_mode = 2
 
 [sub_resource type="BoxMesh" id="BoxMesh_613oe"]
 material = ExtResource("2_4xkub")
-size = Vector3(5, 5, 0.25)
+size = Vector3(3, 3, 0.25)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_3v22q"]
-size = Vector3(5, 5, 0.25)
+size = Vector3(3, 3, 0.25)
 
 [node name="BuildingWall" type="RigidBody3D"]
 freeze = true
@@ -35,13 +35,19 @@ shape = SubResource("BoxShape3D_3v22q")
 [node name="snappers" type="Node3D" parent="."]
 
 [node name="snapper_E" parent="snappers" instance=ExtResource("3_lph07")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 0)
 
 [node name="snapper_W" parent="snappers" instance=ExtResource("3_lph07")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, 0)
 
 [node name="snapper_U" parent="snappers" instance=ExtResource("3_lph07")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
 
 [node name="snapper_D" parent="snappers" instance=ExtResource("3_lph07")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3, 0)
+
+[node name="snapper_N" parent="snappers" instance=ExtResource("3_lph07")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.625)
+
+[node name="snapper_S" parent="snappers" instance=ExtResource("3_lph07")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.625)

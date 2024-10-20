@@ -21,13 +21,14 @@ albedo_color = Color(0, 1, 0, 0.411765)
 
 [sub_resource type="BoxMesh" id="BoxMesh_idudw"]
 material = SubResource("StandardMaterial3D_n07gv")
-size = Vector3(5, 5, 0.25)
+size = Vector3(3, 3, 0.25)
 
 [node name="ToolBuildingCube" type="Node3D" node_paths=PackedStringArray("previewMesh")]
 script = ExtResource("1_37th4")
 buildingScene = ExtResource("2_lawi1")
 previewMesh = NodePath("PreviewMesh")
-snapRange = 8.0
+snapRange = 2.0
+normalOffset = 3.0
 
 [node name="HandItem" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0, 0, 0)

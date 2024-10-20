@@ -15,26 +15,37 @@ public partial class PlayerToolUse : AbstractPlayerComponent
 
 	[Export] public RayCast3D rayCast;
 	[Export] public Node3D hand;
+	[Export] private AnimationPlayer handAnimator;
 	//The resource for loading the tool
 	//TODO: add inventory data structure and remove hard-coded tool ID
 	[Export] private string currentToolID = "tool_hammer";
 	[Export] private Array<string> inventory;
 	private int inventoryIndex;
-	[Export] private AnimationPlayer handAnimator;
 	//runtime tool reference
 	private BaseTool tool;
+	//desired rotation
+	[Export] public float desiredRotationY = 0f;
+	private float rotationIncrement = 45f;
 
 	public override void _Ready()
 	{
 		if (!parent.IsMultiplayerAuthority()) return;
 		//send message to server requesting tool synchronization
 		UpdateToolModelAndData();
+		parent.playerInput.RotateCCW += () =>
+		{
+			desiredRotationY -= rotationIncrement * (Mathf.Pi / 180);
+		};
+		parent.playerInput.RotateCW += () =>
+		{
+			desiredRotationY += rotationIncrement * (Mathf.Pi / 180);
+		};
 	}
 
 	public override void _Process(double delta)
 	{
 		if (!parent.IsMultiplayerAuthority()) return;
-
+		//TODO: Incorporate these inputs on PlayerInput
 		if (Input.IsActionJustPressed("use_primary"))
 		{
 			Use();
