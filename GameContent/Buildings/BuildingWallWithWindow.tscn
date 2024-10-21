@@ -1,8 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://jibftcq4t3ql"]
+[gd_scene load_steps=6 format=3 uid="uid://dcq7w68nbr22"]
 
-[ext_resource type="Script" path="res://Entities/Buildings/Building.cs" id="1_qt55y"]
-[ext_resource type="Material" uid="uid://cwqjolp2w3bto" path="res://Materials/tileMaterial.tres" id="2_4xkub"]
-[ext_resource type="PackedScene" uid="uid://dt7f7iern17j1" path="res://Entities/Buildings/Snapper.tscn" id="3_lph07"]
+[ext_resource type="Script" path="res://Entities/Buildings/Building.cs" id="1_oevdp"]
+[ext_resource type="Material" uid="uid://cwqjolp2w3bto" path="res://Materials/tileMaterial.tres" id="2_lsvh1"]
+[ext_resource type="PackedScene" uid="uid://dt7f7iern17j1" path="res://Entities/Buildings/Snapper.tscn" id="3_xc33l"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_0od6p"]
 properties/0/path = NodePath(".:position")
@@ -12,54 +12,55 @@ properties/1/path = NodePath(".:rotation")
 properties/1/spawn = true
 properties/1/replication_mode = 2
 
-[sub_resource type="BoxMesh" id="BoxMesh_613oe"]
-material = ExtResource("2_4xkub")
-size = Vector3(3, 3, 0.25)
-
 [sub_resource type="BoxShape3D" id="BoxShape3D_3v22q"]
 size = Vector3(3, 3, 0.25)
 
 [node name="BuildingWall" type="RigidBody3D"]
 freeze = true
-script = ExtResource("1_qt55y")
+script = ExtResource("1_oevdp")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_0od6p")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-mesh = SubResource("BoxMesh_613oe")
+[node name="Mesh" type="CSGBox3D" parent="."]
+size = Vector3(3, 3, 0.25)
+material = ExtResource("2_lsvh1")
+
+[node name="hole" type="CSGBox3D" parent="Mesh"]
+operation = 2
+material = ExtResource("2_lsvh1")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("BoxShape3D_3v22q")
 
 [node name="snappers" type="Node3D" parent="."]
 
-[node name="snapper_E" parent="snappers" instance=ExtResource("3_lph07")]
+[node name="snapper_E" parent="snappers" instance=ExtResource("3_xc33l")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 0)
 
-[node name="snapper_E2" parent="snappers" instance=ExtResource("3_lph07")]
+[node name="snapper_E2" parent="snappers" instance=ExtResource("3_xc33l")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.625, 0, -1.625)
 
-[node name="snapper_E3" parent="snappers" instance=ExtResource("3_lph07")]
+[node name="snapper_E3" parent="snappers" instance=ExtResource("3_xc33l")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.625, 0, 1.625)
 
-[node name="snapper_E4" parent="snappers" instance=ExtResource("3_lph07")]
+[node name="snapper_E4" parent="snappers" instance=ExtResource("3_xc33l")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.625, 0, -1.625)
 
-[node name="snapper_E5" parent="snappers" instance=ExtResource("3_lph07")]
+[node name="snapper_E5" parent="snappers" instance=ExtResource("3_xc33l")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.625, 0, 1.625)
 
-[node name="snapper_W" parent="snappers" instance=ExtResource("3_lph07")]
+[node name="snapper_W" parent="snappers" instance=ExtResource("3_xc33l")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, 0)
 
-[node name="snapper_U" parent="snappers" instance=ExtResource("3_lph07")]
+[node name="snapper_U" parent="snappers" instance=ExtResource("3_xc33l")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
 
-[node name="snapper_D" parent="snappers" instance=ExtResource("3_lph07")]
+[node name="snapper_D" parent="snappers" instance=ExtResource("3_xc33l")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3, 0)
 
-[node name="snapper_N" parent="snappers" instance=ExtResource("3_lph07")]
+[node name="snapper_N" parent="snappers" instance=ExtResource("3_xc33l")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.625)
 
-[node name="snapper_S" parent="snappers" instance=ExtResource("3_lph07")]
+[node name="snapper_S" parent="snappers" instance=ExtResource("3_xc33l")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.625)

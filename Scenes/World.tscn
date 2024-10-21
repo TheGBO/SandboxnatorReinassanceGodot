@@ -93,7 +93,7 @@ mesh = SubResource("PlaneMesh_qu3fq")
 skeleton = NodePath("../..")
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("res://Entities/Player/Player.tscn", "res://GameContent/Buildings/BuildingCube.tscn", "res://GameContent/Buildings/BuildingWall.tscn")
+_spawnable_scenes = PackedStringArray("res://Entities/Player/Player.tscn", "res://GameContent/Buildings/BuildingCube.tscn", "res://GameContent/Buildings/BuildingWall.tscn", "res://GameContent/Buildings/BuildingWallWithWindow.tscn")
 spawn_path = NodePath("../NetworkedEntities")
 
 [node name="NetworkedEntities" type="Node3D" parent="."]

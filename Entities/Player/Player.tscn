@@ -331,7 +331,7 @@ script = ExtResource("7_yovm0")
 rayCast = NodePath("../../Neck/RayCast3D")
 hand = NodePath("../../Neck/Hand")
 handAnimator = NodePath("HandAnimator")
-inventory = Array[String](["tool_hammer", "tool_explosion_staff", "tool_building_cube", "tool_building_wall"])
+inventory = Array[String](["tool_hammer", "tool_explosion_staff", "tool_building_cube", "tool_building_wall", "tool_building_wall_with_window"])
 
 [node name="HandAnimator" type="AnimationPlayer" parent="Components/PlayerToolUse"]
 libraries = {
