@@ -40,31 +40,30 @@ public partial class PlayerToolUse : AbstractPlayerComponent
 		{
 			desiredRotationY += rotationIncrement * (Mathf.Pi / 180);
 		};
+		parent.playerInput.UsePrimary += Use;
+		parent.playerInput.UseIncrement += () =>
+		{
+			CycleTool(1);
+		};
+		parent.playerInput.UseDecrement += () =>
+		{
+			CycleTool(-1);
+		};
 	}
 
 	public override void _Process(double delta)
 	{
 		if (!parent.IsMultiplayerAuthority()) return;
 		//TODO: Incorporate these inputs on PlayerInput
-		if (Input.IsActionJustPressed("use_primary"))
-		{
-			Use();
-		}
+	}
 
-		if (Input.IsActionJustPressed("dbg_tool_refresh"))
-		{
-			if (inventoryIndex < inventory.Count - 1)
-			{
-				inventoryIndex++;
-			}
-			else
-			{
-				inventoryIndex = 0;
-			}
-			currentToolID = inventory[inventoryIndex];
+	private void CycleTool(int increment)
+	{
 
-			UpdateToolModelAndData();
-		}
+		inventoryIndex += increment;
+		currentToolID = inventory[Mathf.Abs(inventoryIndex % inventory.Count)];
+
+		UpdateToolModelAndData();
 	}
 
 	//Use tools

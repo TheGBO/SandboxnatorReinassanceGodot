@@ -17,6 +17,10 @@ public partial class PlayerInput : AbstractPlayerComponent
     //Building
     public Action RotateCW;
     public Action RotateCCW;
+    //usage
+    public Action UsePrimary;
+    public Action UseIncrement;
+    public Action UseDecrement;
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(double delta)
@@ -26,6 +30,7 @@ public partial class PlayerInput : AbstractPlayerComponent
         {
             HandleMovementInput();
             HandleBuildingInput();
+            HandleUsageInput();
         }
         HandleUserInterfaceInput();
     }
@@ -81,6 +86,24 @@ public partial class PlayerInput : AbstractPlayerComponent
         if (Input.IsActionJustPressed("build_rotate_ccw"))
         {
             RotateCCW?.Invoke();
+        }
+    }
+
+    private void HandleUsageInput()
+    {
+        if (Input.IsActionJustPressed("use_primary"))
+        {
+            UsePrimary?.Invoke();
+        }
+
+        if (Input.IsActionJustPressed("use_increment"))
+        {
+            UseIncrement?.Invoke();
+        }
+
+        if (Input.IsActionJustPressed("use_decrement"))
+        {
+            UseDecrement?.Invoke();
         }
     }
 }
