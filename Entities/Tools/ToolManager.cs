@@ -20,6 +20,7 @@ public partial class ToolManager : Node
 
 	public override void _Ready()
 	{
+		GD.Print("[color=yellow]Tool content path:[/color]" + toolContentsPath);
 		InitializeTools();
 	}
 
@@ -52,6 +53,10 @@ public partial class ToolManager : Node
 
 		foreach (string fileName in files)
 		{
+			if (fileName.Contains(".tres.remap"))
+			{
+				GD.Print($"REMAP FOUND {fileName}");
+			}
 			string resPath = path + "/" + fileName;
 			GD.Print(resPath);
 			Resource loadedRes = GD.Load<Resource>(resPath);
