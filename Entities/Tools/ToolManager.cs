@@ -1,3 +1,4 @@
+using GBOUtils;
 using Godot;
 using System;
 using System.Collections.Generic;
@@ -51,13 +52,16 @@ public partial class ToolManager : Node
 		string[] files = dirAccess.GetFiles();
 		if (files == null) { return null; }
 
+		string remapSuffix = ".remap";
 		foreach (string fileName in files)
 		{
-			if (fileName.Contains(".tres.remap"))
+			string loadFileName = fileName;
+			if (fileName.Contains(remapSuffix))
 			{
 				GD.Print($"REMAP FOUND {fileName}");
+				loadFileName = StringUtils.TrimSuffix(fileName, remapSuffix);
 			}
-			string resPath = path + "/" + fileName;
+			string resPath = path + "/" + loadFileName;
 			GD.Print(resPath);
 			Resource loadedRes = GD.Load<Resource>(resPath);
 			resources.Add(loadedRes);
