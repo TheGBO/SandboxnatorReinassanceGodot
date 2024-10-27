@@ -32,5 +32,6 @@ transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0, 0, 0)
 mesh = SubResource("BoxMesh_uxkh2")
 
 [node name="PreviewMesh" type="MeshInstance3D" parent="."]
+top_level = true
 visible = false
 mesh = SubResource("BoxMesh_idudw")

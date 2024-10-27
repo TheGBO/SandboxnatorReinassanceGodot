@@ -14,6 +14,8 @@ public partial class PlayerInput : AbstractPlayerComponent
     public Action OnUiEscape;
     //Camera
     public Action OnToggleCursorCapture;
+    public Vector2 LookVector { get; private set; }
+    public Action OnMouseMovement;
     //Building
     public Action RotateCW;
     public Action RotateCCW;
@@ -104,6 +106,22 @@ public partial class PlayerInput : AbstractPlayerComponent
         if (Input.IsActionJustPressed("use_decrement"))
         {
             UseDecrement?.Invoke();
+        }
+    }
+
+    public override void _Input(InputEvent _event)
+    {
+        if (parent.IsMultiplayerAuthority())
+        {
+            if (parent == null)
+            {
+                GD.Print("NULL PARENT WARNING");
+            }
+            if (_event is InputEventMouseMotion mouseMotion && Input.MouseMode == Input.MouseModeEnum.Captured)
+            {
+                LookVector = new Vector2(mouseMotion.Relative.X, mouseMotion.Relative.Y);
+                OnMouseMovement?.Invoke();
+            }
         }
     }
 }

@@ -13,6 +13,17 @@ public partial class CameraMovement : AbstractPlayerComponent
 
 		Input.MouseMode = Input.MouseModeEnum.Captured;
 		parent.playerInput.OnToggleCursorCapture += ToggleCursorCapture;
+		parent.playerInput.OnMouseMovement += LookAction;
+	}
+
+
+	//TODO: (?) consider moving sensitivity to control settings
+	private void LookAction()
+	{
+		body.RotateY(-parent.playerInput.LookVector.X * sensitivity);
+		neck.RotateX(-parent.playerInput.LookVector.Y * sensitivity);
+		neck.Rotation = new Vector3(Mathf.Clamp(neck.Rotation.X, -90 * (Mathf.Pi / 180), 90 * (Mathf.Pi / 180)), neck.Rotation.Y, neck.Rotation.Z);
+
 	}
 
 	private void ToggleCursorCapture()
@@ -27,22 +38,5 @@ public partial class CameraMovement : AbstractPlayerComponent
 		}
 	}
 
-	//TODO: Move to PlayerInput
-	public override void _Input(InputEvent _event)
-	{
-		if (parent.IsMultiplayerAuthority())
-		{
-			if (parent == null)
-			{
-				GD.Print("NULL PARENT WARNING");
-			}
-			if (_event is InputEventMouseMotion mouseMotion && Input.MouseMode == Input.MouseModeEnum.Captured)
-			{
-				body.RotateY(-mouseMotion.Relative.X * sensitivity);
-				neck.RotateX(-mouseMotion.Relative.Y * sensitivity);
-				neck.Rotation = new Vector3(Mathf.Clamp(neck.Rotation.X, -90 * (Mathf.Pi / 180), 90 * (Mathf.Pi / 180)), neck.Rotation.Y, neck.Rotation.Z);
 
-			}
-		}
-	}
 }

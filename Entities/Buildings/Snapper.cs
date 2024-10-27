@@ -20,7 +20,7 @@ public partial class Snapper : Node3D
         if (body is Building)
         {
             InsideBody = true;
-            GD.Print("I am inside a building, therefore I shall deactivate");
+            //GD.Print("I am inside a building, therefore I shall deactivate");
         }
     }
 
@@ -29,7 +29,7 @@ public partial class Snapper : Node3D
         if (body is Building)
         {
             InsideBody = false;
-            GD.Print("I am outside a building, therefore I shall activate");
+            //GD.Print("I am outside a building, therefore I shall activate");
         }
     }
 }
