@@ -23,8 +23,13 @@ sky = SubResource("Sky_815yj")
 ambient_light_source = 2
 ambient_light_color = Color(1, 1, 1, 1)
 ambient_light_energy = 0.5
-tonemap_mode = 2
-glow_enabled = true
+tonemap_mode = 3
+ssr_enabled = true
+ssao_enabled = true
+ssao_radius = 1.25
+ssao_intensity = 3.0
+fog_density = 0.0
+volumetric_fog_density = 0.0155
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_umnpi"]
 
@@ -40,8 +45,9 @@ neworkedEntities = NodePath("NetworkedEntities")
 environment = SubResource("Environment_3neo8")
 
 [node name="Sun" type="DirectionalLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.258819, 0.965926, 0, -0.965926, 0.258819, 0, 500, 0)
-shadow_enabled = true
+transform = Transform3D(1, 0, 0, 0, 0.5, 0.866026, 0, -0.866026, 0.5, 0, 500, 0)
+light_energy = 0.9
+light_indirect_energy = 0.7
 
 [node name="Ground" type="StaticBody3D" parent="."]
 

@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://c8th5kb4g1h5d"
-path="res://.godot/imported/sandboxnatorCharacter.blend-a6750ab6e1855a5e48d36ec5c8a5040b.scn"
+uid="uid://upal13n6dpt1"
+path="res://.godot/imported/tutorialcow.blend-55b757ffa5f6d4012aadf38af18d3646.scn"
 
 [deps]
 
-source_file="res://Models/sandboxnatorCharacter.blend"
-dest_files=["res://.godot/imported/sandboxnatorCharacter.blend-a6750ab6e1855a5e48d36ec5c8a5040b.scn"]
+source_file="res://Models/tutorialcow.blend"
+dest_files=["res://.godot/imported/tutorialcow.blend-55b757ffa5f6d4012aadf38af18d3646.scn"]
 
 [params]
 
@@ -31,19 +31,7 @@ animation/trimming=false
 animation/remove_immutable_tracks=true
 animation/import_rest_as_RESET=false
 import_script/path=""
-_subresources={
-"meshes": {
-"sandboxnatorCharacter_Cube": {
-"generate/lightmap_uv": 0,
-"generate/lods": 0,
-"generate/shadow_meshes": 0,
-"lods/normal_merge_angle": 60.0,
-"lods/normal_split_angle": 25.0,
-"save_to_file/enabled": true,
-"save_to_file/path": "res://Models/neoHead.tres"
-}
-}
-}
+_subresources={}
 blender/nodes/visible=0
 blender/nodes/active_collection_only=false
 blender/nodes/punctual_lights=true
