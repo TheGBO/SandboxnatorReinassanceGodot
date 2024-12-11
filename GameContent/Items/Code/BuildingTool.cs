@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class BuildingTool : BaseTool
+public partial class BuildingTool : BaseItem
 {
     [Export] private PackedScene buildingScene;
     [Export] private MeshInstance3D previewMesh;
@@ -23,7 +23,7 @@ public partial class BuildingTool : BaseTool
 
     //run on server
     //TODO: Reformulate method of passing tool usage data to P.T.U
-    public override void UseTool(ToolUsageArgs args)
+    public override void UseItem(ItemUsageArgs args)
     {
         GD.Print($"block placed by {args.PlayerId}");
         Node3D building = (Node3D)buildingScene.Instantiate();

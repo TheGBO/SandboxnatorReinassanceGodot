@@ -6,9 +6,9 @@
 [ext_resource type="Script" path="res://Entities/Player/CameraMovement.cs" id="3_bvtsg"]
 [ext_resource type="AudioStream" uid="uid://b8xbjq5ide70f" path="res://Sounds/ui_message_received.mp3" id="3_bxpi0"]
 [ext_resource type="ArrayMesh" uid="uid://ddihvbuyh5ki0" path="res://Models/neoHead.tres" id="5_v8hmc"]
-[ext_resource type="PackedScene" uid="uid://fhg3quattdqn" path="res://GameContent/Tools/Scenes/Hammer.tscn" id="6_pqaou"]
-[ext_resource type="Script" path="res://Entities/Player/PlayerToolUse.cs" id="7_yovm0"]
+[ext_resource type="PackedScene" uid="uid://fhg3quattdqn" path="res://GameContent/Items/Scenes/Hammer.tscn" id="6_pqaou"]
 [ext_resource type="Texture2D" uid="uid://bglesdqd1oqd1" path="res://Textures/CrossHair.png" id="8_2c07k"]
+[ext_resource type="Script" path="res://Entities/Player/PlayerItemUse.cs" id="9_rtpsh"]
 [ext_resource type="Script" path="res://Entities/Player/PlayerChatHud.cs" id="10_np6ov"]
 [ext_resource type="Script" path="res://Entities/Player/PlayerInput.cs" id="10_xk60u"]
 [ext_resource type="Script" path="res://Entities/Player/HandSway.cs" id="11_v2xwv"]
@@ -290,14 +290,14 @@ script = ExtResource("3_bvtsg")
 neck = NodePath("../../Neck")
 body = NodePath("../..")
 
-[node name="PlayerToolUse" type="Node3D" parent="Components" node_paths=PackedStringArray("rayCast", "hand", "handAnimator")]
-script = ExtResource("7_yovm0")
+[node name="PlayerItemUse" type="Node3D" parent="Components" node_paths=PackedStringArray("rayCast", "hand", "handAnimator")]
+script = ExtResource("9_rtpsh")
 rayCast = NodePath("../../Neck/RayCast3D")
 hand = NodePath("../../Neck/Hand")
 handAnimator = NodePath("HandAnimator")
-inventory = Array[String](["tool_hammer", "tool_explosion_staff", "tool_building_cube", "tool_building_wall", "tool_building_wall_with_window"])
+inventory = Array[String](["res://GameContent/Items/Scenes/Hammer.tscn", "res://GameContent/Items/Scenes/ExplosionStaff.tscn", "res://GameContent/Items/Scenes/BuildingCube.tscn"])
 
-[node name="HandAnimator" type="AnimationPlayer" parent="Components/PlayerToolUse"]
+[node name="HandAnimator" type="AnimationPlayer" parent="Components/PlayerItemUse"]
 libraries = {
 "": SubResource("AnimationLibrary_0sei0")
 }
@@ -325,4 +325,4 @@ replication_interval = 0.1
 replication_config = SubResource("SceneReplicationConfig_bglb2")
 
 [connection signal="pressed" from="HUD/ChatRoot/ChatBox/VBoxContainer/Input/SendBtn" to="Components/PlayerChatHUD" method="_on_send_btn_pressed"]
-[connection signal="synchronized" from="MultiplayerSynchronizer" to="Components/PlayerToolUse" method="_on_multiplayer_synchronizer_synchronized"]
+[connection signal="synchronized" from="MultiplayerSynchronizer" to="Components/PlayerItemUse" method="_on_multiplayer_synchronizer_synchronized"]

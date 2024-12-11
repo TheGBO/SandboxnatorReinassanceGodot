@@ -8,11 +8,11 @@ using System.Collections.Generic;
 /// As a manager, this is supposed to be a singleton, however, instead of being a global autoload
 /// it is only relevant in the World scene.
 /// </summary>
-public partial class ToolManager : Node
+public partial class ItemManager : Node
 {
-	public static ToolManager Instance { get; private set; }
-	public Dictionary<string, ToolData> Tools { get; private set; } = new Dictionary<string, ToolData>();
-	[Export(PropertyHint.Dir)] string toolContentsPath;
+	public static ItemManager Instance { get; private set; }
+	public Dictionary<string, ItemData> Items { get; private set; } = new Dictionary<string, ItemData>();
+	[Export(PropertyHint.Dir)] string itemContentsPath;
 
 	public override void _EnterTree()
 	{
@@ -21,23 +21,23 @@ public partial class ToolManager : Node
 
 	public override void _Ready()
 	{
-		GD.Print("[color=yellow]Tool content path:[/color]" + toolContentsPath);
-		InitializeTools();
+		GD.Print("[color=yellow]Item content path:[/color]" + itemContentsPath);
+		InitializeItems();
 	}
 
-	private void InitializeTools()
+	private void InitializeItems()
 	{
-		GD.PrintRich("[color=green]Loading vanilla tool data...[/color]");
-		List<Resource> resources = LoadResources(toolContentsPath);
+		GD.PrintRich("[color=green]Loading vanilla item data...[/color]");
+		List<Resource> resources = LoadResources(itemContentsPath);
 
 		foreach (var resource in resources)
 		{
-			if (resource is ToolData)
+			if (resource is ItemData)
 			{
-				ToolData toolRes = (ToolData)resource;
-				Tools[toolRes.toolID] = toolRes;
+				ItemData toolRes = (ItemData)resource;
+				Items[toolRes.itemID] = toolRes;
 				GD.Print($"Found tool data {resource}");
-				GD.PrintRich($"[color=green]Adding to tool dictionary as[/color] [color=yellow]{toolRes.toolID}[/color]");
+				GD.PrintRich($"[color=green]Adding to tool dictionary as[/color] [color=yellow]{toolRes.itemID}[/color]");
 			}
 		}
 	}

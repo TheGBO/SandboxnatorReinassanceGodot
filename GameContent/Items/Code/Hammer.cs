@@ -1,9 +1,9 @@
 using Godot;
 using System;
 
-public partial class Hammer : BaseTool
+public partial class Hammer : BaseItem
 {
-    public override void UseTool(ToolUsageArgs args)
+    public override void UseItem(ItemUsageArgs args)
     {
         GD.Print($"STOP! Hammer time, Hammer usage received from player {args.PlayerId}");
         var hitObject = Ptu.rayCast.GetCollider();

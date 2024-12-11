@@ -9,7 +9,7 @@ using System.Collections.Generic;
 /// <summary>
 /// Class that represents the player's tools and inventory, functionality and data.
 /// </summary>
-public partial class PlayerToolUse : AbstractPlayerComponent
+public partial class PlayerItemUse : AbstractPlayerComponent
 {
 	//TODO: Make multiple tool selection and sync changes
 
@@ -18,11 +18,11 @@ public partial class PlayerToolUse : AbstractPlayerComponent
 	[Export] private AnimationPlayer handAnimator;
 	//The resource for loading the tool
 	//TODO: add inventory data structure and remove hard-coded tool ID
-	[Export] private string currentToolID = "tool_hammer";
+	[Export] private string currentItemID = "tool_hammer";
 	[Export] private Array<string> inventory;
 	private int inventoryIndex;
 	//runtime tool reference
-	private BaseTool tool;
+	private BaseItem item;
 	//desired rotation
 	[Export] public float desiredRotationY = 0f;
 	private float rotationIncrement = 45f;
@@ -31,7 +31,7 @@ public partial class PlayerToolUse : AbstractPlayerComponent
 	{
 		if (!parent.IsMultiplayerAuthority()) return;
 		//send message to server requesting tool synchronization
-		UpdateToolModelAndData();
+		UpdateItemModelAndData();
 		parent.playerInput.RotateCCW += () =>
 		{
 			desiredRotationY -= rotationIncrement * (Mathf.Pi / 180);
@@ -43,11 +43,11 @@ public partial class PlayerToolUse : AbstractPlayerComponent
 		parent.playerInput.UsePrimary += Use;
 		parent.playerInput.UseIncrement += () =>
 		{
-			CycleTool(1);
+			CycleItem(1);
 		};
 		parent.playerInput.UseDecrement += () =>
 		{
-			CycleTool(-1);
+			CycleItem(-1);
 		};
 	}
 
@@ -57,13 +57,13 @@ public partial class PlayerToolUse : AbstractPlayerComponent
 		//TODO: Incorporate these inputs on PlayerInput
 	}
 
-	private void CycleTool(int increment)
+	private void CycleItem(int increment)
 	{
 
 		inventoryIndex += increment;
-		currentToolID = inventory[Mathf.Abs(inventoryIndex % inventory.Count)];
+		currentItemID = inventory[Mathf.Abs(inventoryIndex % inventory.Count)];
 
-		UpdateToolModelAndData();
+		UpdateItemModelAndData();
 	}
 
 	//Use tools
@@ -73,18 +73,18 @@ public partial class PlayerToolUse : AbstractPlayerComponent
 
 		Vector3 collisionPoint = rayCast.GetCollisionPoint();
 		Vector3 normal = rayCast.GetCollisionNormal();
-		Dictionary toolUsageArgs = new ToolUsageArgs(collisionPoint, normal, parent.playerId).ToDictionary();
+		Dictionary itemUsageArgs = new ItemUsageArgs(collisionPoint, normal, parent.playerId).ToDictionary();
 		//Perform c2s RPC call if the player is a client
 		//Call this on the server side if the player using the tool is the one hosting
 		if (!Multiplayer.IsServer())
 		{
-			RpcId(1, nameof(ServerUse), toolUsageArgs);
+			RpcId(1, nameof(ServerUse), itemUsageArgs);
 		}
 		else
 		{
-			ServerUse(toolUsageArgs);
+			ServerUse(itemUsageArgs);
 		}
-		if (tool.animateHand)
+		if (item.animateHand)
 		{
 			handAnimator.Play("hand_use");
 		}
@@ -94,29 +94,29 @@ public partial class PlayerToolUse : AbstractPlayerComponent
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer)]
 	private void ServerUse(Dictionary args)
 	{
-		GD.Print(tool);
-		tool.UseTool(ToolUsageArgs.FromDictionary(args));
+		GD.Print(item);
+		item.UseItem(ItemUsageArgs.FromDictionary(args));
 	}
 
 
-	private void UpdateToolModelAndData()
+	private void UpdateItemModelAndData()
 	{
 		Node model = hand.GetChildOrNull<Node>(0);
 		if (model != null)
 		{
 			model.QueueFree();
 		}
-		ToolData toolResource = ToolManager.Instance.Tools[currentToolID];
-		BaseTool loadedTool = toolResource.toolScene.Instantiate<BaseTool>();
-		tool = loadedTool;
-		tool.Ptu = this;
-		hand.AddChild(loadedTool);
+		ItemData itemResource = ItemManager.Instance.Items[currentItemID];
+		BaseItem loadedItem = itemResource.itemScene.Instantiate<BaseItem>();
+		item = loadedItem;
+		item.Ptu = this;
+		hand.AddChild(loadedItem);
 	}
 
 	private void _on_multiplayer_synchronizer_synchronized()
 	{
 		//TODO: Optimize synchronization
-		UpdateToolModelAndData();
+		UpdateItemModelAndData();
 	}
 
 }

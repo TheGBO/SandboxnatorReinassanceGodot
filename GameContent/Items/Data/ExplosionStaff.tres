@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="ToolData" load_steps=3 format=3 uid="uid://dtvcacicqelip"]
 
-[ext_resource type="Script" path="res://Entities/Tools/ToolData.cs" id="1_4y12i"]
-[ext_resource type="PackedScene" uid="uid://borov5mcvw2lj" path="res://GameContent/Tools/Scenes/ExplosionStaff.tscn" id="2_1lgxm"]
+[ext_resource type="Script" path="res://Entities/Items/ItemData.cs" id="1_4y12i"]
+[ext_resource type="PackedScene" uid="uid://borov5mcvw2lj" path="res://GameContent/Items/Scenes/ExplosionStaff.tscn" id="2_1lgxm"]
 
 [resource]
 script = ExtResource("1_4y12i")
