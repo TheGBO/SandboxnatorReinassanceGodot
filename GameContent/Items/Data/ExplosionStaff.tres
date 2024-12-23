@@ -1,12 +1,13 @@
-[gd_resource type="Resource" script_class="ToolData" load_steps=3 format=3 uid="uid://dtvcacicqelip"]
+[gd_resource type="Resource" script_class="ItemData" load_steps=3 format=3 uid="uid://dtvcacicqelip"]
 
 [ext_resource type="Script" path="res://Entities/Items/ItemData.cs" id="1_4y12i"]
-[ext_resource type="PackedScene" uid="uid://borov5mcvw2lj" path="res://GameContent/Items/Scenes/ExplosionStaff.tscn" id="2_1lgxm"]
+[ext_resource type="PackedScene" uid="uid://borov5mcvw2lj" path="res://GameContent/Items/Scenes/ItemExplosionStaff.tscn" id="2_1lgxm"]
 
 [resource]
+resource_name = "tool_explosion_staff"
 script = ExtResource("1_4y12i")
-toolScene = ExtResource("2_1lgxm")
-toolID = "tool_explosion_staff"
-toolName = "Explosion staff"
+itemScene = ExtResource("2_1lgxm")
+itemID = "explosion_staff"
+itemName = "Explosion staff"
 usageCooldown = 2.0
 raycastRange = 0.0

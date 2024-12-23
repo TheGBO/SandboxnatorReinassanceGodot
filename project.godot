@@ -17,7 +17,7 @@ run/main_scene="res://UI/MainMenu/MainMenu.tscn"
 config/features=PackedStringArray("4.3", "C#", "Forward Plus")
 boot_splash/image="res://UI/SBlogo.png"
 boot_splash/use_filter=false
-config/icon="res://Assets/Textures/abstract_icon.png"
+config/icon="res://Assets/Textures/SANDBOXNATOR_ICON.png"
 
 [autoload]
 
@@ -43,7 +43,8 @@ folder_colors={
 "res://Entities/": "teal",
 "res://GameContent/": "purple",
 "res://GameContent/Buildings/": "yellow",
-"res://GameContent/Items/": "blue"
+"res://GameContent/Items/": "blue",
+"res://Scenes/": "orange"
 }
 
 [gui]

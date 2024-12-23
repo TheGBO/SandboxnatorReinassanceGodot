@@ -112,7 +112,7 @@ spawn_path = NodePath("../NetworkedEntities")
 
 [node name="ItemManager" type="Node" parent="."]
 script = ExtResource("5_aavq4")
-itemContentsPath = "res://GameContent/Items"
+itemContentsPath = "res://GameContent/Items/Data/"
 
 [node name="ChatManager" type="Node3D" parent="."]
 script = ExtResource("6_sbbat")

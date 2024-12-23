@@ -18,8 +18,8 @@ public partial class PlayerItemUse : AbstractPlayerComponent
 	[Export] private AnimationPlayer handAnimator;
 	//The resource for loading the tool
 	//TODO: add inventory data structure and remove hard-coded tool ID
-	[Export] private string currentItemID = "tool_hammer";
-	[Export] private Array<string> inventory;
+	[Export] private Array<string> inventory = new Array<string>();
+	[Export] private string currentItemID;
 	private int inventoryIndex;
 	//runtime tool reference
 	private BaseItem item;
@@ -29,6 +29,7 @@ public partial class PlayerItemUse : AbstractPlayerComponent
 
 	public override void _Ready()
 	{
+		currentItemID = inventory[0];
 		if (!parent.IsMultiplayerAuthority()) return;
 		//send message to server requesting tool synchronization
 		UpdateItemModelAndData();

@@ -6,7 +6,7 @@
 [ext_resource type="Script" path="res://Entities/Player/CameraMovement.cs" id="3_bvtsg"]
 [ext_resource type="AudioStream" uid="uid://b8xbjq5ide70f" path="res://Assets/Sounds/ui_message_received.mp3" id="3_bxpi0"]
 [ext_resource type="ArrayMesh" uid="uid://ddihvbuyh5ki0" path="res://Assets/Models/neoHead.tres" id="5_v8hmc"]
-[ext_resource type="PackedScene" uid="uid://fhg3quattdqn" path="res://GameContent/Items/Scenes/Hammer.tscn" id="6_pqaou"]
+[ext_resource type="PackedScene" uid="uid://fhg3quattdqn" path="res://GameContent/Items/Scenes/ItemHammer.tscn" id="6_pqaou"]
 [ext_resource type="Texture2D" uid="uid://bglesdqd1oqd1" path="res://Assets/Textures/CrossHair.png" id="8_2c07k"]
 [ext_resource type="Script" path="res://Entities/Player/PlayerItemUse.cs" id="9_rtpsh"]
 [ext_resource type="Script" path="res://Entities/Player/PlayerChatHud.cs" id="10_np6ov"]
@@ -295,7 +295,7 @@ script = ExtResource("9_rtpsh")
 rayCast = NodePath("../../Neck/RayCast3D")
 hand = NodePath("../../Neck/Hand")
 handAnimator = NodePath("HandAnimator")
-inventory = Array[String](["tool_hammer"])
+inventory = ["hammer", "cube"]
 
 [node name="HandAnimator" type="AnimationPlayer" parent="Components/PlayerItemUse"]
 libraries = {
