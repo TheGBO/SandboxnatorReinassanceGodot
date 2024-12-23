@@ -1,0 +1,10 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://dni3mk5x6hn4f"]
+
+[ext_resource type="Texture2D" uid="uid://boo5ad36he1ul" path="res://Assets/Textures/BorderlessTile.png" id="1_0itlb"]
+
+[resource]
+albedo_color = Color(0.282353, 0.498039, 0.282353, 1)
+albedo_texture = ExtResource("1_0itlb")
+uv1_offset = Vector3(0.5, 0.5, 0.5)
+uv1_triplanar = true
+texture_filter = 0

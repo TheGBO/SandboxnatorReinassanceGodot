@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://GameContent/Items/Code/BuildingTool.cs" id="1_x0y0u"]
 [ext_resource type="PackedScene" uid="uid://wemqi51d1620" path="res://GameContent/Buildings/BuildingCube.tscn" id="2_rm75e"]
-[ext_resource type="Texture2D" uid="uid://ojo0i4sevmr2" path="res://Textures/Tile.png" id="3_wmo6k"]
+[ext_resource type="Texture2D" uid="uid://ojo0i4sevmr2" path="res://Assets/Textures/Tile.png" id="3_wmo6k"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wpu4c"]
 albedo_texture = ExtResource("3_wmo6k")

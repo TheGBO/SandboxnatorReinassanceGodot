@@ -1,9 +1,9 @@
 [gd_scene load_steps=5 format=3 uid="uid://byi88k64cbfn5"]
 
 [ext_resource type="Script" path="res://UI/UiSoundManager.cs" id="1_hy3wb"]
-[ext_resource type="AudioStream" uid="uid://1vedqce0twbq" path="res://Sounds/ui_hover.mp3" id="2_usaph"]
-[ext_resource type="AudioStream" uid="uid://doqubtbqe7oos" path="res://Sounds/ui_popup.mp3" id="3_7fqf7"]
-[ext_resource type="AudioStream" uid="uid://dnhsj6s1cuadi" path="res://Sounds/ui_interact.mp3" id="3_usx8j"]
+[ext_resource type="AudioStream" uid="uid://1vedqce0twbq" path="res://Assets/Sounds/ui_hover.mp3" id="2_usaph"]
+[ext_resource type="AudioStream" uid="uid://doqubtbqe7oos" path="res://Assets/Sounds/ui_popup.mp3" id="3_7fqf7"]
+[ext_resource type="AudioStream" uid="uid://dnhsj6s1cuadi" path="res://Assets/Sounds/ui_interact.mp3" id="3_usx8j"]
 
 [node name="UiSoundManager" type="Node" node_paths=PackedStringArray("hoverSound", "interactSound", "popUpSound")]
 script = ExtResource("1_hy3wb")

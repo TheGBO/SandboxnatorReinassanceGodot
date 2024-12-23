@@ -38,6 +38,7 @@ public partial class ItemManager : Node
 				Items[toolRes.itemID] = toolRes;
 				GD.Print($"Found tool data {resource}");
 				GD.PrintRich($"[color=green]Adding to tool dictionary as[/color] [color=yellow]{toolRes.itemID}[/color]");
+				GD.Print(Items);
 			}
 		}
 	}

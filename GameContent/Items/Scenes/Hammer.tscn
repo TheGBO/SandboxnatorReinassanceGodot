@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://fhg3quattdqn"]
 
 [ext_resource type="Script" path="res://GameContent/Items/Code/Hammer.cs" id="1_gy555"]
-[ext_resource type="PackedScene" uid="uid://cjbqme7phcnu" path="res://Models/hammer.blend" id="1_schmi"]
+[ext_resource type="PackedScene" uid="uid://cjbqme7phcnu" path="res://Assets/Models/hammer.blend" id="1_schmi"]
 
 [node name="BuildingHammer" type="Node3D"]
 script = ExtResource("1_gy555")

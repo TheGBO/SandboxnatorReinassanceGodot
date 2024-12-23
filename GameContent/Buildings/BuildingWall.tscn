@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://jibftcq4t3ql"]
 
 [ext_resource type="Script" path="res://Entities/Buildings/Building.cs" id="1_qt55y"]
-[ext_resource type="Material" uid="uid://cwqjolp2w3bto" path="res://Materials/tileMaterial.tres" id="2_4xkub"]
+[ext_resource type="Material" uid="uid://cwqjolp2w3bto" path="res://Assets/Materials/tileMaterial.tres" id="2_4xkub"]
 [ext_resource type="PackedScene" uid="uid://dt7f7iern17j1" path="res://Entities/Buildings/Snapper.tscn" id="3_lph07"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_0od6p"]

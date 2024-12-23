@@ -17,7 +17,7 @@ run/main_scene="res://UI/MainMenu/MainMenu.tscn"
 config/features=PackedStringArray("4.3", "C#", "Forward Plus")
 boot_splash/image="res://UI/SBlogo.png"
 boot_splash/use_filter=false
-config/icon="res://Textures/icon.png"
+config/icon="res://Assets/Textures/abstract_icon.png"
 
 [autoload]
 
@@ -35,6 +35,16 @@ project/assembly_name="Sandboxnator Reinassance Godot"
 [editor]
 
 run/main_run_args="client"
+
+[file_customization]
+
+folder_colors={
+"res://Assets/": "red",
+"res://Entities/": "teal",
+"res://GameContent/": "purple",
+"res://GameContent/Buildings/": "yellow",
+"res://GameContent/Items/": "blue"
+}
 
 [gui]
 

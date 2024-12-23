@@ -1,0 +1,9 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://pfpxs77fq4wj"]
+
+[ext_resource type="Texture2D" uid="uid://dnt56ejjxcc16" path="res://Assets/Textures/Character_UwU.png" id="1_dn762"]
+
+[resource]
+resource_name = "Material"
+cull_mode = 2
+albedo_texture = ExtResource("1_dn762")
+texture_filter = 2

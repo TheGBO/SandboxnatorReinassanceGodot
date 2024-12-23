@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://borov5mcvw2lj"]
 
 [ext_resource type="Script" path="res://Entities/Items/BaseItem.cs" id="1_07tma"]
-[ext_resource type="PackedScene" uid="uid://byunugrungav7" path="res://Models/explosionStaff.blend" id="1_h5urw"]
+[ext_resource type="PackedScene" uid="uid://byunugrungav7" path="res://Assets/Models/explosionStaff.blend" id="1_h5urw"]
 
 [node name="ExplosionStaff" type="Node3D"]
 script = ExtResource("1_07tma")

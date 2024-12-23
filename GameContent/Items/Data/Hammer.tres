@@ -1,11 +1,11 @@
-[gd_resource type="Resource" script_class="ToolData" load_steps=3 format=3 uid="uid://ceqeoy6wmv2fe"]
+[gd_resource type="Resource" script_class="ItemData" load_steps=2 format=3 uid="uid://ceqeoy6wmv2fe"]
 
 [ext_resource type="Script" path="res://Entities/Items/ItemData.cs" id="1_e88rv"]
-[ext_resource type="PackedScene" uid="uid://fhg3quattdqn" path="res://GameContent/Items/Scenes/Hammer.tscn" id="2_ygpel"]
 
 [resource]
+resource_name = "tool_hammer"
 script = ExtResource("1_e88rv")
-toolScene = ExtResource("2_ygpel")
-toolID = "tool_hammer"
-toolName = "Hammer"
+itemID = ""
+itemName = ""
 usageCooldown = 0.0
+raycastRange = 0.0
