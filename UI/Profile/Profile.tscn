@@ -1,0 +1,95 @@
+[gd_scene load_steps=4 format=3 uid="uid://cu2vloh7mq55n"]
+
+[ext_resource type="Texture2D" uid="uid://dnt56ejjxcc16" path="res://Assets/Textures/Character_UwU.png" id="1_maogb"]
+[ext_resource type="Texture2D" uid="uid://c08077ylywm20" path="res://Assets/Textures/Character_Happy.png" id="2_p7jlr"]
+[ext_resource type="Texture2D" uid="uid://dltvykko3kc2o" path="res://Assets/Textures/Character_Skeptical.png" id="3_fi15g"]
+
+[node name="Profile" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="RootPanel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="RootPanel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -526.0
+offset_top = -283.5
+offset_right = 526.0
+offset_bottom = 283.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="RootPanel/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 55
+theme_override_constants/margin_top = 55
+theme_override_constants/margin_right = 55
+theme_override_constants/margin_bottom = 55
+
+[node name="VBoxContainer" type="VBoxContainer" parent="RootPanel/Panel/MarginContainer"]
+layout_mode = 2
+
+[node name="NameContaner" type="HBoxContainer" parent="RootPanel/Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="RootPanel/Panel/MarginContainer/VBoxContainer/NameContaner"]
+layout_mode = 2
+text = "Name:"
+
+[node name="LineEdit" type="LineEdit" parent="RootPanel/Panel/MarginContainer/VBoxContainer/NameContaner"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ColorContainer" type="HBoxContainer" parent="RootPanel/Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Color" type="Label" parent="RootPanel/Panel/MarginContainer/VBoxContainer/ColorContainer"]
+layout_mode = 2
+text = "Color:"
+
+[node name="ColorPicker" type="ColorPicker" parent="RootPanel/Panel/MarginContainer/VBoxContainer/ColorContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+sampler_visible = false
+color_modes_visible = false
+sliders_visible = false
+presets_visible = false
+
+[node name="SkinListContainer" type="HBoxContainer" parent="RootPanel/Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ItemList" type="ItemList" parent="RootPanel/Panel/MarginContainer/VBoxContainer/SkinListContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+item_count = 3
+item_0/text = "uwu"
+item_0/icon = ExtResource("1_maogb")
+item_1/text = ":D"
+item_1/icon = ExtResource("2_p7jlr")
+item_2/text = ":/"
+item_2/icon = ExtResource("3_fi15g")
+
+[node name="Button" type="Button" parent="RootPanel/Panel/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Save and return to main menu"

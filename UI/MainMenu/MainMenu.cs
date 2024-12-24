@@ -4,6 +4,7 @@ using System;
 public partial class MainMenu : Control
 {
 	[Export] private PackedScene worldScene;
+	[Export] private PackedScene profileScene;
 	[Export] private AcceptDialog notImplementedDialog;
 	[Export] private ConfirmationDialog exitDialog;
 
@@ -24,7 +25,7 @@ public partial class MainMenu : Control
 
 	public void _on_customization_btn_pressed()
 	{
-		ShowNotImplentedPopup();
+		GetTree().ChangeSceneToPacked(profileScene);
 	}
 
 	public void _on_settings_btn_pressed()
