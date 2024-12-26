@@ -3,10 +3,8 @@ using System;
 
 public partial class MainMenu : Control
 {
-	[Export] private PackedScene worldScene;
-	[Export] private PackedScene profileScene;
-	[Export] private AcceptDialog notImplementedDialog;
-	[Export] private ConfirmationDialog exitDialog;
+	[Export] public AcceptDialog notImplementedDialog;
+	[Export] public ConfirmationDialog exitDialog;
 
 	public override void _Ready()
 	{
@@ -20,12 +18,12 @@ public partial class MainMenu : Control
 
 	public void _on_play_btn_pressed()
 	{
-		GetTree().ChangeSceneToPacked(worldScene);
+		GetTree().ChangeSceneToPacked(ScenesBank.Instance.worldScene);
 	}
 
 	public void _on_customization_btn_pressed()
 	{
-		GetTree().ChangeSceneToPacked(profileScene);
+		GetTree().ChangeSceneToPacked(ScenesBank.Instance.profileScene);
 	}
 
 	public void _on_settings_btn_pressed()

@@ -30,9 +30,8 @@ public partial class MultiplayerMenu : Control
 
 	public void _on_main_menu_btn_pressed()
 	{
-		//hard coded because it didn't work by [Export] reference
-		PackedScene mainMenuScene = (PackedScene)ResourceLoader.Load("res://UI/MainMenu/MainMenu.tscn");
-		GetTree().ChangeSceneToPacked(mainMenuScene);
+
+		GetTree().ChangeSceneToPacked(ScenesBank.Instance.mainMenuScene);
 	}
 
 }

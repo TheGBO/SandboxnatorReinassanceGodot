@@ -1,0 +1,12 @@
+[gd_scene load_steps=5 format=3 uid="uid://bdcffalifyl7c"]
+
+[ext_resource type="Script" path="res://Globals/ScenesBank/ScenesBank.cs" id="1_5ayyo"]
+[ext_resource type="PackedScene" uid="uid://c4budmkq1sg7n" path="res://Scenes/World.tscn" id="2_5xc64"]
+[ext_resource type="PackedScene" uid="uid://cu2vloh7mq55n" path="res://UI/Profile/Profile.tscn" id="3_oarrt"]
+[ext_resource type="PackedScene" uid="uid://ddpxqpot2m7a2" path="res://UI/MainMenu/MainMenu.tscn" id="4_1wtj8"]
+
+[node name="ScenesBank" type="Node"]
+script = ExtResource("1_5ayyo")
+worldScene = ExtResource("2_5xc64")
+profileScene = ExtResource("3_oarrt")
+mainMenuScene = ExtResource("4_1wtj8")

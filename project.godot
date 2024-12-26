@@ -22,6 +22,7 @@ config/icon="res://Assets/Textures/SANDBOXNATOR_ICON.png"
 [autoload]
 
 UiSoundManager="*res://UI/UiSoundManager.tscn"
+ScenesBank="*res://Globals/ScenesBank/ScenesBank.tscn"
 
 [display]
 
@@ -44,6 +45,7 @@ folder_colors={
 "res://GameContent/": "purple",
 "res://GameContent/Buildings/": "yellow",
 "res://GameContent/Items/": "blue",
+"res://Globals/": "yellow",
 "res://Scenes/": "orange"
 }
 
