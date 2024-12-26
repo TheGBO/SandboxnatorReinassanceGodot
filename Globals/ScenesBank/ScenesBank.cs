@@ -11,6 +11,7 @@ public partial class ScenesBank : Node
 
     public override void _Ready()
     {
+        UiSoundManager.Instance.TryInstallSounds();
         if (Instance == null)
         {
             Instance = this;
