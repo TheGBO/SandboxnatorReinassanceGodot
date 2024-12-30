@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://cjbqme7phcnu"
-path="res://.godot/imported/hammer.blend-076877864ec03dcc61abdb1cb5512ce8.scn"
+uid="uid://bjk2rx0hm0r5j"
+path="res://.godot/imported/nut.blend-154a4ae55ae0228580d173c75cc442b1.scn"
 
 [deps]
 
-source_file="res://Assets/Models/hammer.blend"
-dest_files=["res://.godot/imported/hammer.blend-076877864ec03dcc61abdb1cb5512ce8.scn"]
+source_file="res://GameContent/Items/Models/nut.blend"
+dest_files=["res://.godot/imported/nut.blend-154a4ae55ae0228580d173c75cc442b1.scn"]
 
 [params]
 

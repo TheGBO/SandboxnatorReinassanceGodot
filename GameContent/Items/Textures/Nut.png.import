@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bvyen3ghqdtv2"
-path.s3tc="res://.godot/imported/Hammer.png-866d4fb667a0508b3975dd4c215c39d8.s3tc.ctex"
+uid="uid://cfro8yg1sldkk"
+path.s3tc="res://.godot/imported/Nut.png-0023537950351b0065caa63fe09e2fde.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://Assets/Textures/Hammer.png"
-dest_files=["res://.godot/imported/Hammer.png-866d4fb667a0508b3975dd4c215c39d8.s3tc.ctex"]
+source_file="res://GameContent/Items/Textures/Nut.png"
+dest_files=["res://.godot/imported/Nut.png-0023537950351b0065caa63fe09e2fde.s3tc.ctex"]
 
 [params]
 

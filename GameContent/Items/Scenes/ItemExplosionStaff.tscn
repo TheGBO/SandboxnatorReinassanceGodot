@@ -1,10 +1,9 @@
 [gd_scene load_steps=3 format=3 uid="uid://borov5mcvw2lj"]
 
 [ext_resource type="Script" path="res://Entities/Items/BaseItem.cs" id="1_07tma"]
-[ext_resource type="PackedScene" uid="uid://byunugrungav7" path="res://Assets/Models/explosionStaff.blend" id="1_h5urw"]
+[ext_resource type="PackedScene" uid="uid://byunugrungav7" path="res://GameContent/Items/Models/explosionStaff.blend" id="1_h5urw"]
 
-[node name="ExplosionStaff" type="Node3D"]
+[node name="ItemExplosionStaff" type="Node3D"]
 script = ExtResource("1_07tma")
 
 [node name="explosionStaff" parent="." instance=ExtResource("1_h5urw")]
-transform = Transform3D(0.35, 0, 0, 0, 0.35, 0, 0, 0, 0.35, 0, 0.1, 0)
