@@ -16,6 +16,7 @@ public partial class PlayerInput : AbstractPlayerComponent
     public Action OnToggleCursorCapture;
     public Vector2 LookVector { get; private set; }
     public Action OnMouseMovement;
+    public Action OnJoypadRStickMovement;
     //Building
     public Action RotateCW;
     public Action RotateCCW;
@@ -33,6 +34,7 @@ public partial class PlayerInput : AbstractPlayerComponent
             HandleMovementInput();
             HandleBuildingInput();
             HandleUsageInput();
+            HandleJoypadRstickInput();
         }
         HandleUserInterfaceInput();
     }
@@ -109,6 +111,19 @@ public partial class PlayerInput : AbstractPlayerComponent
         }
     }
 
+    private void HandleJoypadRstickInput()
+    {
+        Vector2 joypadLookVector = new Vector2(Input.GetAxis("look_left", "look_right"), Input.GetAxis("look_up", "look_down"));
+        if(joypadLookVector.Length() > 0.1f)
+        {
+            GD.Print($"joypad motion {joypadLookVector}");
+            //TODO: replace provisory 5 with a setting called "Joypad sensitivity multiplier."
+            LookVector = joypadLookVector * 5;
+            //OnJoypadRStickMovement?.Invoke();
+            OnMouseMovement?.Invoke();
+        }
+    }
+
     public override void _Input(InputEvent _event)
     {
         if (parent.IsMultiplayerAuthority())
@@ -119,9 +134,13 @@ public partial class PlayerInput : AbstractPlayerComponent
             }
             if (_event is InputEventMouseMotion mouseMotion && Input.MouseMode == Input.MouseModeEnum.Captured)
             {
-                LookVector = new Vector2(mouseMotion.Relative.X, mouseMotion.Relative.Y);
+                Vector2 mouseLookVector = new Vector2(mouseMotion.Relative.X, mouseMotion.Relative.Y);
+                LookVector = mouseLookVector;
+                GD.Print($"mouse motion {mouseLookVector}");
                 OnMouseMovement?.Invoke();
             }
+
+            
         }
     }
 }

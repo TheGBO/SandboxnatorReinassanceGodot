@@ -5,6 +5,7 @@ public partial class CameraMovement : AbstractPlayerComponent
 {
 	[Export] public Node3D neck;
 	[Export] public Node3D body;
+	//TODO: move sensitivity to control settings
 	float sensitivity = 0.01f;
 	public override void _Ready()
 	{
