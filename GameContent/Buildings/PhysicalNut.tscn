@@ -1,5 +1,6 @@
-[gd_scene load_steps=7 format=4 uid="uid://bsin23prm8y74"]
+[gd_scene load_steps=8 format=4 uid="uid://bsin23prm8y74"]
 
+[ext_resource type="Script" path="res://Entities/Buildings/Placeable.cs" id="1_k6qku"]
 [ext_resource type="Texture2D" uid="uid://cfro8yg1sldkk" path="res://GameContent/Items/Nut/Assets/Nut.png" id="1_xfmir"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_ipju5"]
@@ -54,6 +55,8 @@ blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_e2va6")
 
 [node name="DebugNut" type="RigidBody3D"]
+can_sleep = false
+script = ExtResource("1_k6qku")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.000518799, -0.122345, 0.00327301)

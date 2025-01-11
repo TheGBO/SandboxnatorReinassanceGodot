@@ -45,7 +45,7 @@ buildingScene = ExtResource("2_kud4d")
 previewMesh = NodePath("preview")
 
 [node name="nut" parent="." instance=ExtResource("2_rjjh3")]
-transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0, 0, 0)
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0)
 
 [node name="preview" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0)

@@ -7,11 +7,11 @@ public partial class Hammer : BaseItem
     {
         GD.Print($"STOP! Hammer time, Hammer usage received from player {args.PlayerId}");
         var hitObject = Ptu.rayCast.GetCollider();
-        if (hitObject is Building)
+        if (hitObject is Placeable)
         {
-            Building hitBuilding = (Building)hitObject;
+            Placeable hitPlaceable = (Placeable)hitObject;
             //TODO: destroy animation
-            hitBuilding.QueueFree();
+            hitPlaceable.Destroy();
         }
     }
 }
