@@ -3,6 +3,7 @@
 [ext_resource type="Script" path="res://GameContent/Items/_Abstract/PlacingItem.cs" id="1_6jgdb"]
 [ext_resource type="PackedScene" uid="uid://wemqi51d1620" path="res://GameContent/Buildings/BuildingCube.tscn" id="2_nxowp"]
 [ext_resource type="Texture2D" uid="uid://ojo0i4sevmr2" path="res://Assets/Textures/Tile.png" id="3_8b83h"]
+[ext_resource type="Material" uid="uid://b8qe5ox5smlkp" path="res://Assets/Materials/Preview.tres" id="4_pwdcq"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wpu4c"]
 albedo_texture = ExtResource("3_8b83h")
@@ -13,13 +14,8 @@ texture_filter = 0
 [sub_resource type="BoxMesh" id="BoxMesh_uxkh2"]
 material = SubResource("StandardMaterial3D_wpu4c")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_n07gv"]
-transparency = 1
-shading_mode = 0
-albedo_color = Color(0, 1, 0, 0.411765)
-
 [sub_resource type="BoxMesh" id="BoxMesh_idudw"]
-material = SubResource("StandardMaterial3D_n07gv")
+material = ExtResource("4_pwdcq")
 
 [node name="ToolBuildingCube" type="Node3D" node_paths=PackedStringArray("previewMesh")]
 script = ExtResource("1_6jgdb")

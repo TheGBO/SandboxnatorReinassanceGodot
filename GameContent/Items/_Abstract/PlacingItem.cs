@@ -23,7 +23,7 @@ public partial class PlacingItem : BaseItem
     }
 
     //run on server
-    //TODO: Reformulate method of passing tool usage data to P.T.U
+    //TODO: Reformulate method of passing tool usage data to P.T.U, probably just by getting them directly from the player
     public override void UseItem(ItemUsageArgs args)
     {
         GD.Print($"block placed by {args.PlayerId}");
