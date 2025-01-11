@@ -2,7 +2,7 @@ using Godot;
 using System;
 
 [GlobalClass]
-public partial class BuildingTool : BaseItem
+public partial class PlacingItem : BaseItem
 {
     [Export] private PackedScene buildingScene;
     [Export] private MeshInstance3D previewMesh;
