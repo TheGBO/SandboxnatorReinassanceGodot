@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-[Tool]
+[GlobalClass]
 public partial class BaseItem : Node3D
 {
 	/// <summary>

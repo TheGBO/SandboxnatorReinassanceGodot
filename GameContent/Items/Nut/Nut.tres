@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="ItemData" load_steps=3 format=3 uid="uid://c23lld4l63jin"]
+
+[ext_resource type="PackedScene" uid="uid://cphw8vimjylw" path="res://GameContent/Items/Nut/Nut.tscn" id="1_5krwk"]
+[ext_resource type="Script" path="res://Entities/Items/ItemData.cs" id="1_8qusx"]
+
+[resource]
+script = ExtResource("1_8qusx")
+itemScene = ExtResource("1_5krwk")
+itemID = "nut"
+itemName = "Nut"
+usageCooldown = 0.0
+raycastRange = 0.0

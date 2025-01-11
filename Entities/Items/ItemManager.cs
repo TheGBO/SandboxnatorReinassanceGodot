@@ -7,10 +7,16 @@ using System.Collections.Generic;
 /// A class that holds the data for the tools, useful for adding and synchronizing tools.
 /// As a manager, this is supposed to be a singleton, however, instead of being a global autoload
 /// it is only relevant in the World scene.
+/// 
+/// TODO: Maybe consider initializing this class when the game opens instead of the world/lobby.
 /// </summary>
 public partial class ItemManager : Node
 {
 	public static ItemManager Instance { get; private set; }
+	/// <summary>
+	/// A dictionary responsible for storing every single item that can be available and registered in the whole game. Identified
+	/// by itemID.
+	/// </summary>
 	public Dictionary<string, ItemData> Items { get; private set; } = new Dictionary<string, ItemData>();
 	[Export(PropertyHint.Dir)] string itemContentsPath;
 
@@ -22,33 +28,42 @@ public partial class ItemManager : Node
 	public override void _Ready()
 	{
 		GD.Print("[color=yellow]Item content path:[/color]" + itemContentsPath);
-		InitializeItems();
+		InitializeItems(itemContentsPath);
 	}
 
-	private void InitializeItems()
+	/// <summary>
+	/// This function is responsible for loading the item data and registering them in-game.
+	/// </summary>
+	private void InitializeItems(string path)
 	{
 		GD.PrintRich("[color=green]Loading vanilla item data...[/color]");
-		List<Resource> resources = LoadResources(itemContentsPath);
-
-		foreach (var resource in resources)
+		using var dir = DirAccess.Open(path);
+		if (dir != null)
 		{
-			if (resource is ItemData)
+			string[] directories = dir.GetDirectories();
+			foreach (string itemDir in directories)
 			{
-				ItemData toolRes = (ItemData)resource;
-				Items[toolRes.itemID] = toolRes;
-				GD.Print($"Found tool data {resource}");
-				GD.PrintRich($"[color=green]Adding to tool dictionary as[/color] [color=yellow]{toolRes.itemID}[/color]");
+				//underscore filters out abstract items
+				if (!itemDir.StartsWith("_"))
+				{
+					string absoluteItemDir = path + "/" + itemDir;
+					List<Resource> resources = LoadItemDataResources(absoluteItemDir);
+					GD.Print($"Found item resource(s) at {absoluteItemDir}:");
+					foreach (ItemData res in resources)
+					{
+						GD.Print($"Valid item resource is {res.itemID}, registering...");
+						Items.Add(res.itemID, res);
+					}
+				}
 			}
 		}
-		GD.PrintRich($"[color=blue]Item dictionary size is:[/color] {Items.Count}");
-
-		foreach (KeyValuePair<string, ItemData> datum in Items)
+		else
 		{
-			GD.Print(datum.Value.itemID);
+			GD.PrintErr($"The path: \"{path}\" returned null on file access attempt!");
 		}
 	}
 
-	private List<Resource> LoadResources(string path)
+	private List<Resource> LoadItemDataResources(string path)
 	{
 		List<Resource> resources = new List<Resource>();
 
@@ -59,6 +74,8 @@ public partial class ItemManager : Node
 		if (files == null) { return null; }
 
 		string remapSuffix = ".remap";
+		string importSuffix = ".import";
+
 		foreach (string fileName in files)
 		{
 			string loadFileName = fileName;
@@ -67,10 +84,16 @@ public partial class ItemManager : Node
 				GD.Print($"REMAP FOUND {fileName}");
 				loadFileName = StringUtils.TrimSuffix(fileName, remapSuffix);
 			}
-			string resPath = path + "/" + loadFileName;
-			GD.Print(resPath);
-			Resource loadedRes = GD.Load<Resource>(resPath);
-			resources.Add(loadedRes);
+
+			if (!fileName.Contains(importSuffix))
+			{
+				string resPath = path + "/" + loadFileName;
+				Resource loadedRes = GD.Load<Resource>(resPath);
+				if (loadedRes.GetType() == typeof(ItemData))
+				{
+					resources.Add(loadedRes);
+				}
+			}
 		}
 
 		return resources;

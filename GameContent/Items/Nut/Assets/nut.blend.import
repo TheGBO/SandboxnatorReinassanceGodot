@@ -4,12 +4,12 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://bjk2rx0hm0r5j"
-path="res://.godot/imported/nut.blend-8f5c7761ad555e3cf92182388438689f.scn"
+path="res://.godot/imported/nut.blend-783183200d92b90d8448c9439290790b.scn"
 
 [deps]
 
-source_file="res://GameContent/Items/Nut/nut.blend"
-dest_files=["res://.godot/imported/nut.blend-8f5c7761ad555e3cf92182388438689f.scn"]
+source_file="res://GameContent/Items/Nut/Assets/nut.blend"
+dest_files=["res://.godot/imported/nut.blend-783183200d92b90d8448c9439290790b.scn"]
 
 [params]
 

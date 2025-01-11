@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cfro8yg1sldkk"
-path.s3tc="res://.godot/imported/Nut.png-f8bfa10c6c449bfbc2e336ffb755cc2b.s3tc.ctex"
+uid="uid://bcw6cuspc6udu"
+path.s3tc="res://.godot/imported/ExplosionStaff.png-8e8232f4327e8d7a4a0ee6577c3b9443.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://GameContent/Items/Nut/Nut.png"
-dest_files=["res://.godot/imported/Nut.png-f8bfa10c6c449bfbc2e336ffb755cc2b.s3tc.ctex"]
+source_file="res://GameContent/Items/ExplosionStaff/Assets/ExplosionStaff.png"
+dest_files=["res://.godot/imported/ExplosionStaff.png-8e8232f4327e8d7a4a0ee6577c3b9443.s3tc.ctex"]
 
 [params]
 

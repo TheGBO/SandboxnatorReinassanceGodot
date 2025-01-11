@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://cphw8vimjylw"]
+
+[ext_resource type="Script" path="res://GameContent/Items/_Abstract/BuildingTool.cs" id="1_kx1kr"]
+[ext_resource type="PackedScene" uid="uid://bjk2rx0hm0r5j" path="res://GameContent/Items/Nut/Assets/nut.blend" id="2_rjjh3"]
+
+[node name="Nut" type="Node3D"]
+script = ExtResource("1_kx1kr")
+
+[node name="nut" parent="." instance=ExtResource("2_rjjh3")]
