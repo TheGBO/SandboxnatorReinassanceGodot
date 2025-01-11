@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cfro8yg1sldkk"
-path.s3tc="res://.godot/imported/Nut.png-0023537950351b0065caa63fe09e2fde.s3tc.ctex"
+path.s3tc="res://.godot/imported/Nut.png-f8bfa10c6c449bfbc2e336ffb755cc2b.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://GameContent/Items/Textures/Nut.png"
-dest_files=["res://.godot/imported/Nut.png-0023537950351b0065caa63fe09e2fde.s3tc.ctex"]
+source_file="res://GameContent/Items/Nut/Nut.png"
+dest_files=["res://.godot/imported/Nut.png-f8bfa10c6c449bfbc2e336ffb755cc2b.s3tc.ctex"]
 
 [params]
 

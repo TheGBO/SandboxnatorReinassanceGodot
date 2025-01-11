@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bcw6cuspc6udu"
-path.s3tc="res://.godot/imported/ExplosionStaff.png-c5eedf2f06ed3926a1db29f8ad92a943.s3tc.ctex"
+uid="uid://bvyen3ghqdtv2"
+path.s3tc="res://.godot/imported/hammer.png-7a47c8ff317b6bad3a6e2348d2eebd2b.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://GameContent/Items/Textures/ExplosionStaff.png"
-dest_files=["res://.godot/imported/ExplosionStaff.png-c5eedf2f06ed3926a1db29f8ad92a943.s3tc.ctex"]
+source_file="res://GameContent/Items/Hammer/Assets/hammer.png"
+dest_files=["res://.godot/imported/hammer.png-7a47c8ff317b6bad3a6e2348d2eebd2b.s3tc.ctex"]
 
 [params]
 

@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://byunugrungav7"
-path="res://.godot/imported/explosionStaff.blend-4a6b58f720f2980862dd3c03b18532dc.scn"
+uid="uid://bjk2rx0hm0r5j"
+path="res://.godot/imported/nut.blend-8f5c7761ad555e3cf92182388438689f.scn"
 
 [deps]
 
-source_file="res://GameContent/Items/Models/explosionStaff.blend"
-dest_files=["res://.godot/imported/explosionStaff.blend-4a6b58f720f2980862dd3c03b18532dc.scn"]
+source_file="res://GameContent/Items/Nut/nut.blend"
+dest_files=["res://.godot/imported/nut.blend-8f5c7761ad555e3cf92182388438689f.scn"]
 
 [params]
 

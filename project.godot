@@ -45,6 +45,7 @@ folder_colors={
 "res://GameContent/": "purple",
 "res://GameContent/Buildings/": "yellow",
 "res://GameContent/Items/": "blue",
+"res://GameContent/Items/_Abstract/": "red",
 "res://Globals/": "yellow",
 "res://Scenes/": "orange"
 }

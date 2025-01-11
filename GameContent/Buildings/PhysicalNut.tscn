@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=4 uid="uid://bsin23prm8y74"]
 
-[ext_resource type="Texture2D" uid="uid://cfro8yg1sldkk" path="res://GameContent/Items/Textures/Nut.png" id="1_xfmir"]
+[ext_resource type="Texture2D" uid="uid://cfro8yg1sldkk" path="res://GameContent/Items/Nut/Nut.png" id="1_xfmir"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_ipju5"]
 radius = 0.222289

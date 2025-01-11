@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="ItemData" load_steps=3 format=3 uid="uid://dtvcacicqelip"]
 
 [ext_resource type="Script" path="res://Entities/Items/ItemData.cs" id="1_4y12i"]
-[ext_resource type="PackedScene" uid="uid://borov5mcvw2lj" path="res://GameContent/Items/Scenes/ItemExplosionStaff.tscn" id="2_1lgxm"]
+[ext_resource type="PackedScene" uid="uid://borov5mcvw2lj" path="res://GameContent/Items/ExplosionStaff/ItemExplosionStaff.tscn" id="2_1lgxm"]
 
 [resource]
 resource_name = "tool_explosion_staff"
