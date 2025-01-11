@@ -116,7 +116,7 @@ public partial class PlayerInput : AbstractPlayerComponent
         Vector2 joypadLookVector = new Vector2(Input.GetAxis("look_left", "look_right"), Input.GetAxis("look_up", "look_down"));
         if(joypadLookVector.Length() > 0.1f)
         {
-            GD.Print($"joypad motion {joypadLookVector}");
+            //GD.Print($"joypad motion {joypadLookVector}");
             //TODO: replace provisory 5 with a setting called "Joypad sensitivity multiplier."
             LookVector = joypadLookVector * 5;
             //OnJoypadRStickMovement?.Invoke();
@@ -136,7 +136,7 @@ public partial class PlayerInput : AbstractPlayerComponent
             {
                 Vector2 mouseLookVector = new Vector2(mouseMotion.Relative.X, mouseMotion.Relative.Y);
                 LookVector = mouseLookVector;
-                GD.Print($"mouse motion {mouseLookVector}");
+                //GD.Print($"mouse motion {mouseLookVector}");
                 OnMouseMovement?.Invoke();
             }
 
