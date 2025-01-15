@@ -5,7 +5,7 @@ using System;
 public partial class PlacingItem : BaseItem
 {
     [Export] private PackedScene buildingScene;
-    [Export] private MeshInstance3D previewMesh;
+    [Export] private Node3D previewMesh;
     [Export] private float snapRange;
     [Export] private float normalOffset = 1;
 

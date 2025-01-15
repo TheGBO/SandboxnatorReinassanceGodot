@@ -17,7 +17,7 @@ material = ExtResource("1_x4601")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_3v22q"]
 
-[node name="BuildingCube" type="RigidBody3D"]
+[node name="PlacedCube" type="RigidBody3D"]
 freeze = true
 script = ExtResource("1_7x6li")
 
