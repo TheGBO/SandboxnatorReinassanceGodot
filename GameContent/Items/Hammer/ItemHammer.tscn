@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://fhg3quattdqn"]
 
-[ext_resource type="Script" path="res://GameContent/Items/Hammer/Hammer.cs" id="1_gy555"]
+[ext_resource type="Script" uid="uid://chnse6wt4p2c8" path="res://GameContent/Items/Hammer/Hammer.cs" id="1_gy555"]
 [ext_resource type="PackedScene" uid="uid://cjbqme7phcnu" path="res://GameContent/Items/Hammer/Assets/hammer.blend" id="1_schmi"]
 
 [node name="ItemHammer" type="Node3D"]

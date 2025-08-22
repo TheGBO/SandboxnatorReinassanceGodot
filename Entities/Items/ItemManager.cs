@@ -75,6 +75,7 @@ public partial class ItemManager : Node
 
 		string remapSuffix = ".remap";
 		string importSuffix = ".import";
+		string uidSuffix = ".uid";
 
 		foreach (string fileName in files)
 		{
@@ -85,7 +86,7 @@ public partial class ItemManager : Node
 				loadFileName = StringUtils.TrimSuffix(fileName, remapSuffix);
 			}
 
-			if (!fileName.Contains(importSuffix))
+			if (!fileName.Contains(importSuffix) && !fileName.Contains(uidSuffix))
 			{
 				string resPath = path + "/" + loadFileName;
 				Resource loadedRes = GD.Load<Resource>(resPath);

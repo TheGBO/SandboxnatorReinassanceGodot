@@ -1,6 +1,6 @@
 [gd_scene load_steps=11 format=4 uid="uid://d3bbvacocfmsd"]
 
-[ext_resource type="Script" path="res://GameContent/Items/_Abstract/PlacingItem.cs" id="1_gunp0"]
+[ext_resource type="Script" uid="uid://dlgpemynsx233" path="res://GameContent/Items/_Abstract/PlacingItem.cs" id="1_gunp0"]
 [ext_resource type="PackedScene" uid="uid://cr4ldfu1yskgy" path="res://GameContent/Buildings/Bulb/PlacedBulb.tscn" id="2_tgb7j"]
 [ext_resource type="PackedScene" uid="uid://y33cindvcjpp" path="res://GameContent/Buildings/Bulb/Assets/bulb.blend" id="3_k6viu"]
 [ext_resource type="Material" uid="uid://b8qe5ox5smlkp" path="res://Assets/Materials/Preview.tres" id="4_vecmq"]

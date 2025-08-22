@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://wemqi51d1620"]
 
-[ext_resource type="Script" path="res://Entities/Buildings/Placeable.cs" id="1_7x6li"]
+[ext_resource type="Script" uid="uid://bv0c7lrf15lmu" path="res://Entities/Buildings/Placeable.cs" id="1_7x6li"]
 [ext_resource type="Material" uid="uid://cwqjolp2w3bto" path="res://Assets/Materials/tileMaterial.tres" id="1_x4601"]
 [ext_resource type="PackedScene" uid="uid://dt7f7iern17j1" path="res://Entities/Buildings/Snapper.tscn" id="3_a5pp6"]
 

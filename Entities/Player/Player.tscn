@@ -1,16 +1,16 @@
 [gd_scene load_steps=21 format=3 uid="uid://1hsnhm80nlng"]
 
-[ext_resource type="Script" path="res://Entities/Player/PlayerMovement.cs" id="1_fmfn4"]
-[ext_resource type="Script" path="res://Entities/Player/Player.cs" id="1_kjmmx"]
+[ext_resource type="Script" uid="uid://mr7xahsxhr7w" path="res://Entities/Player/PlayerMovement.cs" id="1_fmfn4"]
+[ext_resource type="Script" uid="uid://dt013s8d7ysto" path="res://Entities/Player/Player.cs" id="1_kjmmx"]
 [ext_resource type="Material" uid="uid://pfpxs77fq4wj" path="res://Entities/Player/Assets/PlayerSkins/UwU.tres" id="2_icefu"]
-[ext_resource type="Script" path="res://Entities/Player/CameraMovement.cs" id="3_bvtsg"]
+[ext_resource type="Script" uid="uid://b0sc20fvjjujb" path="res://Entities/Player/CameraMovement.cs" id="3_bvtsg"]
 [ext_resource type="AudioStream" uid="uid://b8xbjq5ide70f" path="res://Assets/Sounds/ui_message_received.mp3" id="3_bxpi0"]
 [ext_resource type="ArrayMesh" uid="uid://ddihvbuyh5ki0" path="res://Entities/Player/Assets/headModel.tres" id="5_v8hmc"]
 [ext_resource type="Texture2D" uid="uid://bglesdqd1oqd1" path="res://Assets/Textures/CrossHair.png" id="8_2c07k"]
-[ext_resource type="Script" path="res://Entities/Player/PlayerItemUse.cs" id="9_rtpsh"]
-[ext_resource type="Script" path="res://Entities/Player/PlayerChatHud.cs" id="10_np6ov"]
-[ext_resource type="Script" path="res://Entities/Player/PlayerInput.cs" id="10_xk60u"]
-[ext_resource type="Script" path="res://Entities/Player/HandSway.cs" id="11_v2xwv"]
+[ext_resource type="Script" uid="uid://b48urjcts4ei0" path="res://Entities/Player/PlayerItemUse.cs" id="9_rtpsh"]
+[ext_resource type="Script" uid="uid://g2wgr24sb1q6" path="res://Entities/Player/PlayerChatHud.cs" id="10_np6ov"]
+[ext_resource type="Script" uid="uid://blwddxb23k2it" path="res://Entities/Player/PlayerInput.cs" id="10_xk60u"]
+[ext_resource type="Script" uid="uid://b03asse870ciy" path="res://Entities/Player/HandSway.cs" id="11_v2xwv"]
 
 [sub_resource type="Animation" id="Animation_txa1n"]
 length = 0.001
@@ -51,9 +51,9 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_a7qbv"]
 _data = {
-"RESET": SubResource("Animation_txa1n"),
-"sprint": SubResource("Animation_tfuvk"),
-"walk": SubResource("Animation_h83is")
+&"RESET": SubResource("Animation_txa1n"),
+&"sprint": SubResource("Animation_tfuvk"),
+&"walk": SubResource("Animation_h83is")
 }
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_am40t"]
@@ -117,8 +117,8 @@ tracks/1/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_0sei0"]
 _data = {
-"RESET": SubResource("Animation_6ei8r"),
-"hand_use": SubResource("Animation_qvcfc")
+&"RESET": SubResource("Animation_6ei8r"),
+&"hand_use": SubResource("Animation_qvcfc")
 }
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_bglb2"]

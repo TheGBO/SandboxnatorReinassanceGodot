@@ -1,7 +1,7 @@
-[gd_resource type="Resource" script_class="ItemData" load_steps=3 format=3 uid="uid://bjp4lg0per821"]
+[gd_resource type="Resource" load_steps=3 format=3 uid="uid://bjp4lg0per821"]
 
 [ext_resource type="PackedScene" uid="uid://djqekcjdmn1te" path="res://GameContent/Items/Cube/ItemCube.tscn" id="1_q23lb"]
-[ext_resource type="Script" path="res://Entities/Items/ItemData.cs" id="1_w4p4d"]
+[ext_resource type="Script" uid="uid://dcb81xxw3xywm" path="res://Entities/Items/ItemData.cs" id="1_w4p4d"]
 
 [resource]
 script = ExtResource("1_w4p4d")
