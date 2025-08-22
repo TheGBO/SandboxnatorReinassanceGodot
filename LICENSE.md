@@ -36,3 +36,4 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 3. Don't make money from it if you are not formally allowed by the developer;
 4. Emphasys on "modding culture" in the case of games. Also includes plugins in case of regular traditional software;
 5. Authoritarian choice.
+6. Thankers :3
