@@ -90,6 +90,7 @@ shadow_mesh = SubResource("ArrayMesh_x14qh")
 script = ExtResource("1_gunp0")
 buildingScene = ExtResource("2_tgb7j")
 previewMesh = NodePath("PreviewMesh")
+snapRange = 0.5
 
 [node name="HandItem" parent="." instance=ExtResource("3_k6viu")]
 transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0, 0, 0)
@@ -98,11 +99,13 @@ transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0, 0, 0)
 visible = false
 
 [node name="Base" type="MeshInstance3D" parent="PreviewMesh"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
 material_override = ExtResource("4_vecmq")
 mesh = SubResource("ArrayMesh_fu5l0")
 skeleton = NodePath("")
 
 [node name="Bulb" type="MeshInstance3D" parent="PreviewMesh"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
 material_override = ExtResource("4_vecmq")
 mesh = SubResource("ArrayMesh_4krtv")
 skeleton = NodePath("")

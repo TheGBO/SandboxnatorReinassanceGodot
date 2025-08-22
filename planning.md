@@ -1,76 +1,83 @@
-## Game Development To-Do List
+# Lista de Tarefas para Desenvolvimento do Jogo
 
-### ✅ Player Movement
-- ✅ Body movement
-- ✅ Camera movement
-- ✅ Mouse capture
-- ✅ Joypad Support
----
-
-### 🗣 Multiplayer
-- ✅ Connection
-- ✅ Player synchronization
-- ✅ Delete player instances when a player exits
-- ✅ Basic UI
-- Server list
+## ✅ Movimento do Jogador
+- ✅ Movimento do corpo
+- ✅ Movimento da câmera
+- ✅ Captura do cursor do mouse
+- ✅ Suporte a Joypad/Gamepad
 
 ---
 
-### 🏹 Item System
-- Remake item folder structure
-- ✅ Rename "tool" to "item"
-- Inventory
-- ✅ Item synchronization
-
-#### Items (Content):
-- Destruction Hammer
-- Paintbrush
-- Throwable Bomb
-- Magic Explosion Staff
-- Items corresponding to specific blocks
-- Physical Repulsion Gun
-- Ping Pong Paddle (same as the repulsion gun but melee)
+## 🗣 Multijogador (Multiplayer)
+- ✅ Conexão
+- ✅ Sincronização de jogadores
+- ✅ Excluir instâncias do jogador quando ele sair
+- ✅ Interface básica (UI)
+- Interface do chat
+- Lista de servidores
 
 ---
 
-### 🔣 UX & UI Improvements
-- Profile customization:
-  - Name
-  - Color
-  - Skin
-  - Accessories (?)
-- Translation and localization
+## 🏹 Sistema de Itens
+- Refazer a estrutura de pastas dos itens
+- ✅ Renomear "ferramenta" para "item"
+- Inventário
+- ✅ Sincronização de itens
+
+### Itens (Conteúdo):
+- ✅ Martelo de Destruição
+- Pincel
+- Bomba Arremessável
+- Cajado de Explosão Mágica
+- Itens correspondentes a blocos específicos
+- Arma de Repulsão Física
+- Raquete de Pingue-Pongue (mesmo que a arma de repulsão, mas corpo a corpo)
 
 ---
 
-### 🎱 Physical Entities (Movable Props)
-- Animals (?)
-  - Horse
-- Soccer Ball
-- Basketball
-- Ping Pong Ball
+## 🔣 Melhorias de UX & UI (Experiência e Interface do Utilizador)
+- Personalização de perfil:
+  - Nome
+  - Cor
+  - Aparência (Skin/Aspecto)
+  - Acessórios (?)
+- Tradução e localização
 
 ---
 
-### 🧱 Blocks
-#### Geometric Shapes:
-- Cube
-- Half-Cube
+## 🎱 Entidades Físicas (Adereços Móveis)
+- Animais (?)
+  - Cavalo
+- Bola de Futebol
+- Bola de Basquete
+- Bola de Pingue-Pong
+
+---
+
+## 🧱 Blocos
+### Formas Geométricas:
+- Cubo
+- Meio-Cubo
 - Cone
-- Pyramid
-- Cylinder
-- Sphere
-- Ramp
-- Wall
-- Floor
-- Ceiling
+- Pirâmide
+- Cilindro
+- Esfera
+- Rampa
+- Parede
+- Chão/Piso
+- Teto
 
-#### Props/Furniture/Decoration:
-- Door
-- Basketball Hoop
-- Ping Pong Table
+### Adereços/Mobília/Decoração:
+- Porta
+- Cesta de Basquete
+- Mesa de Pingue-Pong
 
 ---
 
-### 🚧 Construction System
-- Implement snapping that works correctly.
+## 🚧 Sistema de Construção
+- ✅ Implementar sistema de encaixe (snapping) que funcione corretamente.
+
+## Sistema dia-noite
+- ( 90,-90,0) - sol meia noite
+- (-45,-90,0) - sol 6h da manhã
+- (-90,-90,0) - sol meio dia

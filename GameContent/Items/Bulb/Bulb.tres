@@ -1,4 +1,4 @@
-[gd_resource type="Resource" load_steps=3 format=3 uid="uid://dnyagbdte5uuc"]
+[gd_resource type="Resource" script_class="ItemData" load_steps=3 format=3 uid="uid://dnyagbdte5uuc"]
 
 [ext_resource type="PackedScene" uid="uid://d3bbvacocfmsd" path="res://GameContent/Items/Bulb/ItemBulb.tscn" id="1_5p2yt"]
 [ext_resource type="Script" uid="uid://dcb81xxw3xywm" path="res://Entities/Items/ItemData.cs" id="1_7i41d"]

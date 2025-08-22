@@ -1,6 +1,7 @@
-[gd_scene load_steps=10 format=4 uid="uid://cr4ldfu1yskgy"]
+[gd_scene load_steps=11 format=4 uid="uid://cr4ldfu1yskgy"]
 
 [ext_resource type="Script" uid="uid://cxqsixqi4x6k2" path="res://GameContent/Buildings/Bulb/Bulb.cs" id="1_mqh4i"]
+[ext_resource type="PackedScene" uid="uid://dt7f7iern17j1" path="res://Entities/Buildings/Snapper.tscn" id="2_g6hyp"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jd8sy"]
 resource_name = "Base"
@@ -84,7 +85,7 @@ blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_x14qh")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_col7d"]
-size = Vector3(0.728088, 1.30176, 0.728516)
+size = Vector3(0.728088, 1.16309, 0.728516)
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_0g4ia"]
 properties/0/path = NodePath(".:position")
@@ -99,6 +100,7 @@ freeze = true
 script = ExtResource("1_mqh4i")
 
 [node name="model" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
 
 [node name="Base" type="MeshInstance3D" parent="model"]
 mesh = SubResource("ArrayMesh_fu5l0")
@@ -109,11 +111,21 @@ mesh = SubResource("ArrayMesh_4krtv")
 skeleton = NodePath("")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0693365, 0)
 shape = SubResource("BoxShape3D_col7d")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_0g4ia")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.07579, 0)
 light_color = Color(1, 0.694118, 0, 1)
-omni_range = 8.0
+light_energy = 5.0
+light_size = 16.0
+light_specular = 0.0
+omni_range = 16.3436
+
+[node name="snappers" type="Node3D" parent="."]
+
+[node name="Snapper" parent="snappers" instance=ExtResource("2_g6hyp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.373713, 0)
