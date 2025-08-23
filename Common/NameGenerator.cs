@@ -18,18 +18,18 @@ public class NameGenerator
         
         // Western name elements
         commonNameBeginnings = new Array<string>() {
-            "Christ", "Joh", "Will", "Ed", "Rich", "Rob", "Thom", "Jam", "Mich", "Dav",
-            "Alex", "Ben", "Charl", "Fran", "Georg", "Hen", "Jac", "Louis", "Matt", "Nathan",
-            "Pat", "Sam", "Steph", "Tim", "Vict", "Zach", "Luc", "Max", "Osc", "Pete",
-            "Ann", "Beth", "Carol", "Dian", "Ell", "Em", "Gabri", "Hann", "Isab", "Jess",
-            "Kath", "Laur", "Liz", "Mari", "Nic", "Oliv", "Rachel", "Sarah", "Soph", "Victor"
+            "Christ", "Joh", "Will", "Ed", "Rich", "Rob", "Thom", "Jam", "Mich", "Dav", "Paddy", "Jos", "Tom",
+            "Alex", "Ben", "Charl", "Fran", "Georg", "Hen", "Jac", "Louis", "Matt", "Nathan", "Mat", "Bell",
+            "Pat", "Sam", "Steph", "Tim", "Vict", "Zach", "Luc", "Max", "Osc", "Pete", "Edw", "Ew", "Mac", "Jon",
+            "Ann", "Beth", "Carol", "Dian", "Ell", "Em", "Gabri", "Hann", "Isab", "Jess", "Giov", "Mig", "Bern",
+            "Kath", "Laur", "Liz", "Mari", "Nic", "Oliv", "Rachel", "Sarah", "Soph", "Victor", "Bruces", "Hamilt"
         };
 
         commonNameEndings = new Array<string>() {
-            "opher", "nathan", "iel", "iam", "ias", "uel", "ard", "ert", "ew", "in",
-            "ob", "on", "ory", "uel", "vin", "y", "ty", "dy", "ny", "my",
-            "ley", "ton", "son", "man", "las", "mas", "rus", "vin", "don", "bell", 
-            "a", "ia", "ie", "y", "elle", "ette", "ine", "ana", "ella", "ora",
+            "opher", "nathan", "iel", "iam", "ias", "uel", "ard", "ert", "ew", "in", "eph", "el", "lad", "lass",
+            "ob", "on", "ory", "uel", "vin", "y", "ty", "dy", "ny", "my", "an", "ord", "bert", "id", "i",
+            "ley", "ton", "son", "man", "las", "mas", "rus", "vin", "don", "bell", "loyd", "anni", "rich",
+            "a", "ia", "ie", "y", "elle", "ette", "ine", "ana", "ella", "ora", "bush", "field", "land", "borough",
             "issa", "ica", "ena", "ara", "ina", "elle", "anne", "lyn", "rose", "mary", "ace", "ray", "taylor", "essa"
         };
 
@@ -83,7 +83,7 @@ public class NameGenerator
 
     private string GenerateWesternName()
     {
-        if (random.Next(5) > 0) // 80% chance: Beginning + Ending
+        if (random.Next(5) > 0)
         {
             string beginning = commonNameBeginnings[random.Next(commonNameBeginnings.Count)];
             string ending = commonNameEndings[random.Next(commonNameEndings.Count)];
@@ -96,7 +96,7 @@ public class NameGenerator
             
             return beginning + ending;
         }
-        else // 20% chance: Simple 2-syllable
+        else
         {
             string firstSyllable = GenerateSyllable("CV");
             string secondSyllable = GenerateSyllable("CVC");
@@ -106,8 +106,7 @@ public class NameGenerator
 
     private string GenerateSimpleName()
     {
-        // Original simple pattern - produces more "ethnic" sounding names
-        int syllables = random.Next(2, 5);
+        int syllables = random.Next(2, 6);
         string name = "";
         for (int i = 0; i < syllables; i++)
         {
