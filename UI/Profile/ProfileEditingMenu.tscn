@@ -1,18 +1,19 @@
 [gd_scene load_steps=5 format=3 uid="uid://cu2vloh7mq55n"]
 
-[ext_resource type="Script" uid="uid://dfcphkg5bitd8" path="res://UI/Profile/Profile.cs" id="1_18vtb"]
-[ext_resource type="Texture2D" uid="uid://dnt56ejjxcc16" path="res://Assets/Textures/Character_UwU.png" id="1_maogb"]
-[ext_resource type="Texture2D" uid="uid://c08077ylywm20" path="res://Assets/Textures/Character_Happy.png" id="2_p7jlr"]
-[ext_resource type="Texture2D" uid="uid://dltvykko3kc2o" path="res://Assets/Textures/Character_Skeptical.png" id="3_fi15g"]
+[ext_resource type="Script" uid="uid://dfcphkg5bitd8" path="res://UI/Profile/ProfileEditingMenu.cs" id="1_4fqg0"]
+[ext_resource type="Texture2D" uid="uid://dnt56ejjxcc16" path="res://Assets/Textures/Character_UwU.png" id="2_tnmhm"]
+[ext_resource type="Texture2D" uid="uid://c08077ylywm20" path="res://Assets/Textures/Character_Happy.png" id="3_k8yag"]
+[ext_resource type="Texture2D" uid="uid://dltvykko3kc2o" path="res://Assets/Textures/Character_Skeptical.png" id="4_luaw6"]
 
-[node name="Profile" type="Control"]
+[node name="ProfileEditingMenu" type="Control" node_paths=PackedStringArray("nameEdit")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_18vtb")
+script = ExtResource("1_4fqg0")
+nameEdit = NodePath("RootPanel/Panel/MarginContainer/VBoxContainer/NameContaner/NameEdit")
 
 [node name="RootPanel" type="Panel" parent="."]
 layout_mode = 1
@@ -58,7 +59,7 @@ layout_mode = 2
 layout_mode = 2
 text = "Name:"
 
-[node name="LineEdit" type="LineEdit" parent="RootPanel/Panel/MarginContainer/VBoxContainer/NameContaner"]
+[node name="NameEdit" type="LineEdit" parent="RootPanel/Panel/MarginContainer/VBoxContainer/NameContaner"]
 layout_mode = 2
 size_flags_horizontal = 3
 
@@ -86,11 +87,11 @@ layout_mode = 2
 size_flags_horizontal = 3
 item_count = 3
 item_0/text = "uwu"
-item_0/icon = ExtResource("1_maogb")
+item_0/icon = ExtResource("2_tnmhm")
 item_1/text = ":D"
-item_1/icon = ExtResource("2_p7jlr")
+item_1/icon = ExtResource("3_k8yag")
 item_2/text = ":/"
-item_2/icon = ExtResource("3_fi15g")
+item_2/icon = ExtResource("4_luaw6")
 
 [node name="SaveAndReturnBtn" type="Button" parent="RootPanel/Panel/MarginContainer/VBoxContainer"]
 layout_mode = 2
