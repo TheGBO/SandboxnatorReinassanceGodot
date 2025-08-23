@@ -39,7 +39,7 @@ public partial class UiSoundManager : Node
 	/// </summary>
 	private void InstallSounds(Node node)
 	{
-		GD.Print("Installing sounds");
+		//GD.Print("Installing sounds");
 		foreach (Node child in GetAllChildrenInNode(node))
 		{
 			if (child is Button btn)

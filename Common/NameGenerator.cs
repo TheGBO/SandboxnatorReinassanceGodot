@@ -17,16 +17,20 @@ public class NameGenerator
         useWesternPatterns = false;
         
         // Western name elements
-        commonNameBeginnings = new Array<string>() { 
+        commonNameBeginnings = new Array<string>() {
             "Christ", "Joh", "Will", "Ed", "Rich", "Rob", "Thom", "Jam", "Mich", "Dav",
             "Alex", "Ben", "Charl", "Fran", "Georg", "Hen", "Jac", "Louis", "Matt", "Nathan",
-            "Pat", "Sam", "Steph", "Tim", "Vict", "Zach", "Luc", "Max", "Osc", "Pete"
+            "Pat", "Sam", "Steph", "Tim", "Vict", "Zach", "Luc", "Max", "Osc", "Pete",
+            "Ann", "Beth", "Carol", "Dian", "Ell", "Em", "Gabri", "Hann", "Isab", "Jess",
+            "Kath", "Laur", "Liz", "Mari", "Nic", "Oliv", "Rachel", "Sarah", "Soph", "Victor"
         };
 
         commonNameEndings = new Array<string>() {
             "opher", "nathan", "iel", "iam", "ias", "uel", "ard", "ert", "ew", "in",
             "ob", "on", "ory", "uel", "vin", "y", "ty", "dy", "ny", "my",
-            "ley", "ton", "son", "man", "las", "mas", "rus", "vin", "don", "bell"
+            "ley", "ton", "son", "man", "las", "mas", "rus", "vin", "don", "bell", 
+            "a", "ia", "ie", "y", "elle", "ette", "ine", "ana", "ella", "ora",
+            "issa", "ica", "ena", "ara", "ina", "elle", "anne", "lyn", "rose", "mary", "ace", "ray", "taylor", "essa"
         };
 
         vowels = new Array<string>() { "a", "e", "i", "o", "u" };

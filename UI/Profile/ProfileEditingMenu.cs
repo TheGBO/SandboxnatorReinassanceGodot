@@ -14,6 +14,7 @@ public partial class ProfileEditingMenu : Control
 
     public override void _Ready()
     {
+        TestNameGenerator();
         FillNameField();
     }
 
@@ -35,5 +36,24 @@ public partial class ProfileEditingMenu : Control
         string nameCorrected = char.ToUpper(name[0]) + name.Substring(1);
         nameEdit.Text = nameCorrected;
         GD.Print(nameCorrected);
+    }
+
+    private void TestNameGenerator()
+    {
+        for (int i = 0; i < 50; i++)
+        {
+            NameGenerator nameGen = NameGenerator.Create();
+            GD.Randomize();
+            if (GD.Randf() >= 0.5)
+            {
+                nameGen.UseWesternPatterns();
+            }
+            else
+            {
+                nameGen.UseSimplePatterns();
+            }
+            string name = nameGen.GenerateName();
+            GD.Print(name);
+        }
     }
 }
