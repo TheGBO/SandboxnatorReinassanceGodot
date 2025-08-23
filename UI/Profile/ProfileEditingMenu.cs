@@ -17,10 +17,12 @@ public partial class ProfileEditingMenu : Control
         FillNameField();
     }
 
+
+    //Placeholder to test name generation, this random name generation should only happen when there is no existing player profile.
     private void FillNameField()
     {
-        NameGenerator nameGen = new NameGenerator(new Array<string>() { "p", "t", "k", "f", "s", "h", "m", "n", "r", "sh", "l", "y", "w", "b", "d", "g", "v", "z", "gh" }, "aeiou");
-        string name = nameGen.GenerateName(3);
+        NameGenerator nameGen = NameGenerator.Create().WithRandomSyllableCount(2,5);
+        string name = nameGen.GenerateName();
         string nameCorrected = char.ToUpper(name[0]) + name.Substring(1);
         nameEdit.Text = nameCorrected;
         GD.Print(nameCorrected);
