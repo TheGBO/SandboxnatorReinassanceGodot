@@ -2,24 +2,36 @@ using System;
 using Godot;
 using Godot.Collections;
 
-/// <summary>
-/// Generates goofy random names that can be pronounced
-/// </summary>
 public class NameGenerator
 {
-    private Array<string> consonants;
+    private Array<string> commonNameBeginnings;
+    private Array<string> commonNameEndings;
     private Array<string> vowels;
-    private bool randomizeSyllableCount;
-    private int syllableCount;
+    private Array<string> simpleConsonants;
     private Random random;
+    private bool useWesternPatterns;
 
     private NameGenerator()
     {
-        // Default values
-        consonants = new Array<string>() { "p", "t", "k", "f", "s", "h", "m", "n", "r", "sh", "l", "y", "w", "b", "d", "g", "v", "z", "ch" };
+        // Default to simple patterns
+        useWesternPatterns = false;
+        
+        // Western name elements
+        commonNameBeginnings = new Array<string>() { 
+            "Christ", "Joh", "Will", "Ed", "Rich", "Rob", "Thom", "Jam", "Mich", "Dav",
+            "Alex", "Ben", "Charl", "Fran", "Georg", "Hen", "Jac", "Louis", "Matt", "Nathan",
+            "Pat", "Sam", "Steph", "Tim", "Vict", "Zach", "Luc", "Max", "Osc", "Pete"
+        };
+
+        commonNameEndings = new Array<string>() {
+            "opher", "nathan", "iel", "iam", "ias", "uel", "ard", "ert", "ew", "in",
+            "ob", "on", "ory", "uel", "vin", "y", "ty", "dy", "ny", "my",
+            "ley", "ton", "son", "man", "las", "mas", "rus", "vin", "don", "bell"
+        };
+
         vowels = new Array<string>() { "a", "e", "i", "o", "u" };
-        randomizeSyllableCount = false;
-        syllableCount = 3;
+        simpleConsonants = new Array<string>() { "b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "r", "s", "t", "v", "w", "z" };
+        
         random = new Random();
     }
 
@@ -28,9 +40,28 @@ public class NameGenerator
         return new NameGenerator();
     }
 
-    public NameGenerator WithConsonants(Array<string> consonants)
+    // Fluent builder methods
+    public NameGenerator UseWesternPatterns()
     {
-        this.consonants = consonants;
+        this.useWesternPatterns = true;
+        return this;
+    }
+
+    public NameGenerator UseSimplePatterns()
+    {
+        this.useWesternPatterns = false;
+        return this;
+    }
+
+    public NameGenerator WithNameBeginnings(Array<string> beginnings)
+    {
+        this.commonNameBeginnings = beginnings;
+        return this;
+    }
+
+    public NameGenerator WithNameEndings(Array<string> endings)
+    {
+        this.commonNameEndings = endings;
         return this;
     }
 
@@ -40,36 +71,72 @@ public class NameGenerator
         return this;
     }
 
-    public NameGenerator WithSyllableCount(int syllableCount)
+    public NameGenerator WithConsonants(Array<string> consonants)
     {
-        this.syllableCount = syllableCount;
-        this.randomizeSyllableCount = false;
+        this.simpleConsonants = consonants;
         return this;
     }
 
-    public NameGenerator WithRandomSyllableCount(int minSyllables, int maxSyllables)
+    private string GenerateWesternName()
     {
-        this.randomizeSyllableCount = true;
-        this.syllableCount = random.Next(minSyllables, maxSyllables);
-        return this;
+        if (random.Next(5) > 0) // 80% chance: Beginning + Ending
+        {
+            string beginning = commonNameBeginnings[random.Next(commonNameBeginnings.Count)];
+            string ending = commonNameEndings[random.Next(commonNameEndings.Count)];
+            
+            if (IsConsonant(beginning[beginning.Length - 1]) && IsConsonant(ending[0]))
+            {
+                string vowelBridge = vowels[random.Next(vowels.Count)];
+                return beginning + vowelBridge + ending;
+            }
+            
+            return beginning + ending;
+        }
+        else // 20% chance: Simple 2-syllable
+        {
+            string firstSyllable = GenerateSyllable("CV");
+            string secondSyllable = GenerateSyllable("CVC");
+            return firstSyllable + secondSyllable;
+        }
     }
 
-
-    public string GenerateSyllable()
+    private string GenerateSimpleName()
     {
-        //name simplification.
-        Random r = random;
-        string syllable = $"{consonants[r.Next(consonants.Count)]}{vowels[r.Next(vowels.Count)]}";
+        // Original simple pattern - produces more "ethnic" sounding names
+        int syllables = random.Next(2, 5);
+        string name = "";
+        for (int i = 0; i < syllables; i++)
+        {
+            name += GenerateSyllable("CV");
+        }
+        return name;
+    }
+
+    private string GenerateSyllable(string pattern)
+    {
+        string syllable = "";
+        foreach (char c in pattern)
+        {
+            if (c == 'C')
+            {
+                syllable += simpleConsonants[random.Next(simpleConsonants.Count)];
+            }
+            else if (c == 'V')
+            {
+                syllable += vowels[random.Next(vowels.Count)];
+            }
+        }
         return syllable;
+    }
+
+    private bool IsConsonant(char c)
+    {
+        return !"aeiouAEIOU".Contains(c.ToString());
     }
 
     public string GenerateName()
     {
-        string name = "";
-        for (int i = 0; i < syllableCount; i++)
-        {
-            name += GenerateSyllable();
-        }
-        return name;
+        string name = useWesternPatterns ? GenerateWesternName() : GenerateSimpleName();
+        return char.ToUpper(name[0]) + name.Substring(1);
     }
 }
