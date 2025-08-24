@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using Godot.Collections;
+using GBOUtils;
 
 //The most basic and central class to a player.
 public partial class Player : CharacterBody3D
@@ -92,6 +93,7 @@ public partial class Player : CharacterBody3D
 	{
 		nameTag.Text = profileData.PlayerName;
 		nameTag.Modulate = profileData.PlayerColor;
+		nameTag.OutlineModulate = ColorUtils.InvertColor(profileData.PlayerColor);
 		var currentMaterial = model.GetActiveMaterial(0);
 		if (currentMaterial is StandardMaterial3D stdMat)
 		{
