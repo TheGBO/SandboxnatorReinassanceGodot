@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://1hsnhm80nlng"]
+[gd_scene load_steps=23 format=3 uid="uid://1hsnhm80nlng"]
 
 [ext_resource type="Script" uid="uid://mr7xahsxhr7w" path="res://Entities/Player/PlayerMovement.cs" id="1_fmfn4"]
 [ext_resource type="Script" uid="uid://dt013s8d7ysto" path="res://Entities/Player/Player.cs" id="1_kjmmx"]
@@ -11,6 +11,12 @@
 [ext_resource type="Script" uid="uid://g2wgr24sb1q6" path="res://Entities/Player/PlayerChatHud.cs" id="10_np6ov"]
 [ext_resource type="Script" uid="uid://blwddxb23k2it" path="res://Entities/Player/PlayerInput.cs" id="10_xk60u"]
 [ext_resource type="Script" uid="uid://b03asse870ciy" path="res://Entities/Player/HandSway.cs" id="11_v2xwv"]
+
+[sub_resource type="InputEventAction" id="InputEventAction_jynvv"]
+action = &"ui_enter"
+
+[sub_resource type="Shortcut" id="Shortcut_lmeus"]
+events = [SubResource("InputEventAction_jynvv")]
 
 [sub_resource type="Animation" id="Animation_txa1n"]
 length = 0.001
@@ -147,7 +153,7 @@ properties/7/path = NodePath("Components/PlayerItemUse:desiredRotationY")
 properties/7/spawn = true
 properties/7/replication_mode = 1
 
-[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("playerMovement", "cameraMovement", "playerInput", "chatHud", "camera", "model", "hud", "componentList")]
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("playerMovement", "cameraMovement", "playerInput", "chatHud", "camera", "model", "hud", "componentList", "nameTag")]
 floor_stop_on_slope = false
 platform_on_leave = 2
 script = ExtResource("1_kjmmx")
@@ -159,6 +165,7 @@ camera = NodePath("Neck/Camera3D")
 model = NodePath("Neck/sandboxnatorCharacter")
 hud = NodePath("HUD")
 componentList = NodePath("Components")
+nameTag = NodePath("NameTagHolder/NameTag")
 
 [node name="HUD" type="Control" parent="."]
 layout_mode = 3
@@ -231,13 +238,14 @@ size_flags_stretch_ratio = 0.1
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 22
-placeholder_text = "Press ESC to exit chat mode"
+placeholder_text = "Press ESC to exit chat mode, enter to send message/command."
 scroll_fit_content_height = true
 
 [node name="SendBtn" type="Button" parent="HUD/ChatRoot/ChatBox/VBoxContainer/Input"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.25
+shortcut = SubResource("Shortcut_lmeus")
 text = "Send"
 
 [node name="NotificationSound" type="AudioStreamPlayer" parent="HUD/ChatRoot"]
@@ -245,10 +253,10 @@ stream = ExtResource("3_bxpi0")
 volume_db = -12.0
 
 [node name="Neck" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 
 [node name="sandboxnatorCharacter" type="MeshInstance3D" parent="Neck"]
-transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0, 0, 0)
 material_override = ExtResource("2_icefu")
 mesh = ExtResource("5_v8hmc")
 skeleton = NodePath("")
@@ -320,6 +328,13 @@ swayThreshold = 5.0
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_interval = 0.1
 replication_config = SubResource("SceneReplicationConfig_bglb2")
+
+[node name="NameTagHolder" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)
+
+[node name="NameTag" type="Label3D" parent="NameTagHolder"]
+billboard = 1
+text = "Player."
 
 [connection signal="pressed" from="HUD/ChatRoot/ChatBox/VBoxContainer/Input/SendBtn" to="Components/PlayerChatHUD" method="_on_send_btn_pressed"]
 [connection signal="synchronized" from="MultiplayerSynchronizer" to="Components/PlayerItemUse" method="_on_multiplayer_synchronizer_synchronized"]

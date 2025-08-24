@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://c08077ylywm20" path="res://Assets/Textures/Character_Happy.png" id="3_k8yag"]
 [ext_resource type="Texture2D" uid="uid://dltvykko3kc2o" path="res://Assets/Textures/Character_Skeptical.png" id="4_luaw6"]
 
-[node name="ProfileEditingMenu" type="Control" node_paths=PackedStringArray("nameEdit")]
+[node name="ProfileEditingMenu" type="Control" node_paths=PackedStringArray("nameEdit", "skinPreview", "colorEdit")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -13,7 +13,9 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_4fqg0")
-nameEdit = NodePath("RootPanel/Panel/MarginContainer/VBoxContainer/NameContaner/NameEdit")
+nameEdit = NodePath("RootPanel/Panel/ContainerContainer/VBoxContainer/NameContaner/NameEdit")
+skinPreview = NodePath("RootPanel/Panel/ContainerContainer/MarginContainer/SkinPreview")
+colorEdit = NodePath("RootPanel/Panel/ContainerContainer/VBoxContainer/ColorContainer/ColorPicker")
 
 [node name="RootPanel" type="Panel" parent="."]
 layout_mode = 1
@@ -37,40 +39,36 @@ offset_bottom = 283.5
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="RootPanel/Panel"]
+[node name="ContainerContainer" type="HBoxContainer" parent="RootPanel/Panel"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 55
-theme_override_constants/margin_top = 55
-theme_override_constants/margin_right = 55
-theme_override_constants/margin_bottom = 55
 
-[node name="VBoxContainer" type="VBoxContainer" parent="RootPanel/Panel/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="RootPanel/Panel/ContainerContainer"]
 layout_mode = 2
 
-[node name="NameContaner" type="HBoxContainer" parent="RootPanel/Panel/MarginContainer/VBoxContainer"]
+[node name="NameContaner" type="HBoxContainer" parent="RootPanel/Panel/ContainerContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="RootPanel/Panel/MarginContainer/VBoxContainer/NameContaner"]
+[node name="Label" type="Label" parent="RootPanel/Panel/ContainerContainer/VBoxContainer/NameContaner"]
 layout_mode = 2
 text = "Name:"
 
-[node name="NameEdit" type="LineEdit" parent="RootPanel/Panel/MarginContainer/VBoxContainer/NameContaner"]
+[node name="NameEdit" type="LineEdit" parent="RootPanel/Panel/ContainerContainer/VBoxContainer/NameContaner"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="ColorContainer" type="HBoxContainer" parent="RootPanel/Panel/MarginContainer/VBoxContainer"]
+[node name="ColorContainer" type="HBoxContainer" parent="RootPanel/Panel/ContainerContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="Color" type="Label" parent="RootPanel/Panel/MarginContainer/VBoxContainer/ColorContainer"]
+[node name="Color" type="Label" parent="RootPanel/Panel/ContainerContainer/VBoxContainer/ColorContainer"]
 layout_mode = 2
 text = "Color:"
 
-[node name="ColorPicker" type="ColorPicker" parent="RootPanel/Panel/MarginContainer/VBoxContainer/ColorContainer"]
+[node name="ColorPicker" type="ColorPicker" parent="RootPanel/Panel/ContainerContainer/VBoxContainer/ColorContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 sampler_visible = false
@@ -78,11 +76,11 @@ color_modes_visible = false
 sliders_visible = false
 presets_visible = false
 
-[node name="SkinListContainer" type="HBoxContainer" parent="RootPanel/Panel/MarginContainer/VBoxContainer"]
+[node name="SkinListContainer" type="HBoxContainer" parent="RootPanel/Panel/ContainerContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="ItemList" type="ItemList" parent="RootPanel/Panel/MarginContainer/VBoxContainer/SkinListContainer"]
+[node name="ItemList" type="ItemList" parent="RootPanel/Panel/ContainerContainer/VBoxContainer/SkinListContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 item_count = 3
@@ -93,8 +91,24 @@ item_1/icon = ExtResource("3_k8yag")
 item_2/text = ":/"
 item_2/icon = ExtResource("4_luaw6")
 
-[node name="SaveAndReturnBtn" type="Button" parent="RootPanel/Panel/MarginContainer/VBoxContainer"]
+[node name="SaveAndReturnBtn" type="Button" parent="RootPanel/Panel/ContainerContainer/VBoxContainer"]
 layout_mode = 2
 text = "Save and return to main menu"
 
-[connection signal="pressed" from="RootPanel/Panel/MarginContainer/VBoxContainer/SaveAndReturnBtn" to="." method="_on_save_and_return_btn_pressed"]
+[node name="MarginContainer" type="MarginContainer" parent="RootPanel/Panel/ContainerContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 130
+theme_override_constants/margin_top = 96
+theme_override_constants/margin_right = 166
+theme_override_constants/margin_bottom = 96
+
+[node name="SkinPreview" type="TextureRect" parent="RootPanel/Panel/ContainerContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+texture = ExtResource("3_k8yag")
+stretch_mode = 6
+
+[connection signal="color_changed" from="RootPanel/Panel/ContainerContainer/VBoxContainer/ColorContainer/ColorPicker" to="." method="_on_color_picker_color_changed"]
+[connection signal="item_selected" from="RootPanel/Panel/ContainerContainer/VBoxContainer/SkinListContainer/ItemList" to="." method="_on_item_list_item_selected"]
+[connection signal="pressed" from="RootPanel/Panel/ContainerContainer/VBoxContainer/SaveAndReturnBtn" to="." method="_on_save_and_return_btn_pressed"]

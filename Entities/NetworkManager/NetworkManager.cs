@@ -48,6 +48,7 @@ public partial class NetworkManager : Node3D
 		player.Name = id.ToString();
 		//set player position
 		World.Instance.neworkedEntities.CallDeferred("add_child", player);
+		World.Instance.OnPlayerJoin?.Invoke(id);
 
 		if (Multiplayer.IsServer())
 		{

@@ -8,7 +8,39 @@ using System;
 //Other players should be able to see the profiles of other players.
 public partial class PlayerProfileManager : Node
 {
-    public PlayerProfileData CurrentProfile { get; set; }
+	[Export]
+	public PlayerProfileData CurrentProfile { get; private set; }
+	public static PlayerProfileManager Instance { get; private set; }
+
+
+	public override void _EnterTree()
+	{
+		Instance = this;
+		if (CurrentProfile == null)
+		{
+			PlayerProfileData randomizedProfile = new PlayerProfileData();
+			randomizedProfile.PlayerName = FillNameField();
+			randomizedProfile.PlayerColor = new Color(GD.Randf(), GD.Randf(), GD.Randf());
+			CurrentProfile = randomizedProfile;
+		}
+	}
+
+	private string FillNameField()
+	{
+		NameGenerator nameGen = NameGenerator.Create();
+		GD.Randomize();
+		if (GD.Randf() >= 0.5)
+		{
+			nameGen.UseWesternPatterns();
+		}
+		else
+		{
+			nameGen.UseSimplePatterns();
+		}
+		string name = nameGen.GenerateName();
+		string nameCorrected = char.ToUpper(name[0]) + name.Substring(1);
+		GD.Print(nameCorrected);
+		return nameCorrected;
+	}
 
 }
-

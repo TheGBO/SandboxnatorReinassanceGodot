@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dkixyxxmpebao"]
+
+[ext_resource type="Script" uid="uid://t22h347k3ado" path="res://Entities/Player/PlayerProfileManager.cs" id="1_pipuk"]
+
+[node name="PlayerProfileManager" type="Node"]
+script = ExtResource("1_pipuk")

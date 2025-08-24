@@ -32,7 +32,12 @@ public partial class PlayerItemUse : AbstractPlayerComponent
 		currentItemID = inventory[0];
 		if (!parent.IsMultiplayerAuthority()) return;
 		//send message to server requesting tool synchronization
+		SetupInput();
 		UpdateItemModelAndData();
+	}
+
+	private void SetupInput()
+	{
 		parent.playerInput.RotateCCW += () =>
 		{
 			desiredRotationY -= rotationIncrement * (Mathf.Pi / 180);
@@ -41,7 +46,7 @@ public partial class PlayerItemUse : AbstractPlayerComponent
 		{
 			desiredRotationY += rotationIncrement * (Mathf.Pi / 180);
 		};
-		parent.playerInput.UsePrimary += Use;
+		parent.playerInput.UsePrimary += ClientUse;
 		parent.playerInput.UseIncrement += () =>
 		{
 			CycleItem(1);
@@ -55,7 +60,6 @@ public partial class PlayerItemUse : AbstractPlayerComponent
 	public override void _Process(double delta)
 	{
 		if (!parent.IsMultiplayerAuthority()) return;
-		//TODO: Incorporate these inputs on PlayerInput
 	}
 
 	private void CycleItem(int increment)
@@ -68,7 +72,7 @@ public partial class PlayerItemUse : AbstractPlayerComponent
 	}
 
 	//Use tools
-	public void Use()
+	public void ClientUse()
 	{
 		if (!rayCast.IsColliding()) return;
 

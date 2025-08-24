@@ -7,6 +7,7 @@ using System.Collections.Generic;
 /// </summary>
 public partial class World : Node3D
 {
+	public Action<long> OnPlayerJoin;
 	public static World Instance { get; private set; }
 	public List<Snapper> snappers = new List<Snapper>();
 
