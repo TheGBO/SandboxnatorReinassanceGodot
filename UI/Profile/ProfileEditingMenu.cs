@@ -47,6 +47,7 @@ public partial class ProfileEditingMenu : Control
 
 	private void UpdateProfileFromUI()
 	{
+		//TODO: Detect if name is null or empty and replace the profile name with a randomly generated one
 		PlayerProfileManager.Instance.CurrentProfile.PlayerName = nameEdit.Text;
 		PlayerProfileManager.Instance.CurrentProfile.PlayerColor = colorEdit.Color;
 	}

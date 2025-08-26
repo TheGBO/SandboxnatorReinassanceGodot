@@ -41,7 +41,7 @@
   - Cor
   - Aparência (Skin/Aspecto)
   - Acessórios (?)
-- Tradução e localização
+  - Tradução e localização
 
 ---
 
@@ -56,7 +56,7 @@
 
 ## 🧱 Blocos
 ### Formas Geométricas:
-- Cubo
+- ✅ Cubo
 - Meio-Cubo
 - Cone
 - Pirâmide
@@ -71,6 +71,7 @@
 - Porta
 - Cesta de Basquete
 - Mesa de Pingue-Pong
+- ✅ Lâmpada
 
 ---
 
