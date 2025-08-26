@@ -5,10 +5,10 @@ public partial class PlayerMovement : AbstractPlayerComponent
 {
 	//movement
 	[Export] public CharacterBody3D cb;
-	private float currentSpeed = 5f;
-	[Export] public float walkSpeed = 7.5f;
-	[Export] public float sprintSpeed = 7.5f;
-	[Export] public float jumpVelocity = 8f;
+	private float currentSpeed;
+	[Export] public float walkSpeed;
+	[Export] public float sprintSpeed;
+	[Export] public float jumpVelocity;
 	private Vector3 velocity;
 
 	//rigid body interaction
@@ -30,6 +30,7 @@ public partial class PlayerMovement : AbstractPlayerComponent
 		if (!parent.IsMultiplayerAuthority())
 			return;
 
+		currentSpeed = walkSpeed;
 		parent.playerInput.OnStopSprint += StopSprint;
 	}
 

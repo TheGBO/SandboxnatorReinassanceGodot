@@ -34,6 +34,7 @@ public partial class PlayerChatHud : AbstractPlayerComponent
 
     private void ReceiveMessage(ChatMessage message)
     {
+        //-1: System notifications
         if (message.PlayerId != -1)
         {
             messageBox.Text += $"[color=green][{message.PlayerId}][/color]:{message.Content}\n";
