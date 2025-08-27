@@ -31,7 +31,7 @@ public partial class PlacingItem : BaseItem
 		building.Name = Guid.NewGuid().GetHashCode().ToString();
 		building.Position = GetSnappedPosition(args.Position, args.Normal);
 		building.Rotation = new Vector3(0, Ptu.desiredRotationY, 0);
-		World.Instance.neworkedEntities.CallDeferred("add_child", building);
+		World.Instance.networkedEntities.CallDeferred("add_child", building);
 
 	}
 

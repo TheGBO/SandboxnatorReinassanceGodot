@@ -49,7 +49,7 @@ public partial class Player : CharacterBody3D
 		{
 			World.Instance.OnPlayerJoin += (id) =>
 			{
-				ServerSyncProfile(profileData.ToDictionary());
+				C2S_SyncProfile(profileData.ToDictionary());
 			};
 			
 		}
@@ -63,27 +63,25 @@ public partial class Player : CharacterBody3D
 		}
 		UpdateVisual();
 
-		if (!Multiplayer.IsServer())
-			RpcId(1, nameof(ServerSyncProfile), newProfile.ToDictionary());
-		else
-			ServerSyncProfile(newProfile.ToDictionary());
+		C2S_SyncProfile(newProfile.ToDictionary());
 		
 	}
 
-	[Rpc(MultiplayerApi.RpcMode.AnyPeer)]
-	private void ServerSyncProfile(Dictionary<string, Variant> profileDict)
+	//Client requests server to synchronize its profile.
+	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
+	private void C2S_SyncProfile(Dictionary<string, Variant> profileDict)
 	{
 		PlayerProfileData receivedProfileData = PlayerProfileData.FromDictionary(profileDict);
 		GD.PrintRich("[color=green](SYNC)[/color] Synchronization of player profile data");
 		string hexColor = receivedProfileData.PlayerColor.ToHtml();
 		GD.PrintRich($"{receivedProfileData.PlayerName}:[color={hexColor}]{hexColor}[/color]");
-		Rpc(nameof(ClientSyncProfile), profileDict);
+		Rpc(nameof(S2C_SyncProfile), profileDict);
 		profileData = receivedProfileData;
 		UpdateVisual();
 	}
 
-	[Rpc(MultiplayerApi.RpcMode.AnyPeer)]
-	private void ClientSyncProfile(Dictionary<string, Variant> profileDict)
+	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
+	private void S2C_SyncProfile(Dictionary<string, Variant> profileDict)
 	{
 		profileData = PlayerProfileData.FromDictionary(profileDict);
 		UpdateVisual();

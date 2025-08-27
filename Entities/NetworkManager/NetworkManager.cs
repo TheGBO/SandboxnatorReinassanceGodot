@@ -47,7 +47,7 @@ public partial class NetworkManager : Node3D
 		player.SetMultiplayerAuthority((int)id);
 		player.Name = id.ToString();
 		//set player position
-		World.Instance.neworkedEntities.CallDeferred("add_child", player);
+		World.Instance.networkedEntities.CallDeferred("add_child", player);
 		World.Instance.OnPlayerJoin?.Invoke(id);
 
 		if (Multiplayer.IsServer())
@@ -63,7 +63,7 @@ public partial class NetworkManager : Node3D
 			else
 			{
 				//send a RPC to the player who connected to set their position
-				RpcId(id, nameof(SetPlayerInitialPosition), desiredPosition, player.Name);
+				RpcId(id, nameof(S2C_SetInitialPosition), desiredPosition, player.Name);
 			}
 			ChatManager.Instance.BroadcastPlayerlessMessage($"Player {id} joined the game.");
 		}
@@ -73,30 +73,30 @@ public partial class NetworkManager : Node3D
 
 	private void LogOutPlayer(long id)
 	{
-		World.Instance.neworkedEntities.GetNode(id.ToString()).QueueFree();
+		World.Instance.networkedEntities.GetNode(id.ToString()).QueueFree();
 	}
 
 
 	[Rpc]
-	private void SetPlayerInitialPosition(Vector3 position, string playerId)
+	private void S2C_SetInitialPosition(Vector3 position, string playerId)
 	{
 		if (!Multiplayer.IsServer())
 		{
-			Node3D playerInstance = World.Instance.neworkedEntities.GetNodeOrNull<Node3D>(playerId);
+			Node3D playerInstance = World.Instance.networkedEntities.GetNodeOrNull<Node3D>(playerId);
 			if (playerInstance == null)
 			{
 				GD.Print("Player instance is lagging behind, delaying position change");
-				CallDeferred(nameof(SetPlayerInitialPosition), position, playerId);
+				CallDeferred(nameof(S2C_SetInitialPosition), position, playerId);
 				return;
 			}
 			playerInstance.Position = position;
-			RpcId(1, nameof(PlayerPositionServerCheck), position, playerId);
+			RpcId(1, nameof(C2S_PositionCheck), position, playerId);
 		}
 	}
 
 	//run on server to check if player position is synchronized
-	[Rpc(MultiplayerApi.RpcMode.AnyPeer)]
-	private void PlayerPositionServerCheck(Vector3 position, string playerId)
+	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
+	private void C2S_PositionCheck(Vector3 position, string playerId)
 	{
 		GD.Print($"Server placed the remote player of ID:{playerId} placed on XYZ {position} via RPC");
 	}

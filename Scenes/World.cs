@@ -1,4 +1,5 @@
 using Godot;
+using Godot.Collections;
 using System;
 using System.Collections.Generic;
 
@@ -11,7 +12,7 @@ public partial class World : Node3D
 	public static World Instance { get; private set; }
 	public List<Snapper> snappers = new List<Snapper>();
 
-	[Export] public Node3D neworkedEntities;
+	[Export] public Node3D networkedEntities;
 
 	public override void _EnterTree()
 	{
@@ -33,5 +34,19 @@ public partial class World : Node3D
 			}
 		}
 		return referential;
+	}
+
+	public Array<Player> GetPlayers()
+	{
+		Array<Player> players = new Array<Player>();
+		foreach (Node e in networkedEntities.GetChildren())
+		{
+			if (e is Player)
+			{
+				players.Add((Player)e);
+			}
+			GD.Print();
+		}
+		return players;
 	}
 }

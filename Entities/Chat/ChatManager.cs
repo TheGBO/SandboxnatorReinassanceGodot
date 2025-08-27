@@ -19,35 +19,27 @@ public partial class ChatManager : Node3D
     public void SendMessage(string msg)
     {
         ChatMessage message = new ChatMessage(msg, NetworkManager.Instance.peer.GetUniqueId());
-        if (!Multiplayer.IsServer())
-        {
-            RpcId(1, nameof(ServerHandleMessage), message.ToDictionary());
-        }
-        else
-        {
-            ServerHandleMessage(message.ToDictionary());
-        }
+        RpcId(1, nameof(C2S_HandleMessage), message.ToDictionary());
     }
 
-    [Rpc(MultiplayerApi.RpcMode.AnyPeer)]
-    private void ServerHandleMessage(Dictionary msg)
+    [Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
+    private void C2S_HandleMessage(Dictionary msg)
     {
         ChatMessage message = ChatMessage.FromDictionary(msg);
         GD.Print($"message received: {message.Content} from {message.PlayerId}");
-        if (message.Content.StartsWith("cmd:"))
+        if (message.Content.StartsWith("!PlayerList"))
         {
-            //TODO:handle commands
-            
+            GD.Print(World.Instance.GetPlayers());
         }
         else
         {
-            ClientReceiveMessage(msg);
-            Rpc(nameof(ClientReceiveMessage), message.ToDictionary());
+            S2C_ReceiveMessage(msg);
+            Rpc(nameof(S2C_ReceiveMessage), message.ToDictionary());
         }
     }
 
-    [Rpc(MultiplayerApi.RpcMode.AnyPeer)]
-    private void ClientReceiveMessage(Dictionary msg)
+    [Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
+    private void S2C_ReceiveMessage(Dictionary msg)
     {
         ChatMessage message = ChatMessage.FromDictionary(msg);
         GD.Print(message.Content);
@@ -65,8 +57,8 @@ public partial class ChatManager : Node3D
         }
         //-1 playerless
         ChatMessage message = new ChatMessage(msg, -1);
-        ClientReceiveMessage(message.ToDictionary());
-        Rpc(nameof(ClientReceiveMessage), message.ToDictionary());
+        S2C_ReceiveMessage(message.ToDictionary());
+        Rpc(nameof(S2C_ReceiveMessage), message.ToDictionary());
     }
 
     /// <summary>
@@ -83,7 +75,7 @@ public partial class ChatManager : Node3D
         }
         //-1 playerless
         ChatMessage message = new ChatMessage(msg, -1);
-        ClientReceiveMessage(message.ToDictionary());
-        RpcId(playerId, nameof(ClientReceiveMessage), message.ToDictionary());
+        S2C_ReceiveMessage(message.ToDictionary());
+        RpcId(playerId, nameof(S2C_ReceiveMessage), message.ToDictionary());
     }
 }

@@ -40,9 +40,9 @@ plane = Plane(0, 0, 1, 0)
 material = ExtResource("2_2i86a")
 size = Vector2(4096, 4096)
 
-[node name="World" type="Node3D" node_paths=PackedStringArray("neworkedEntities")]
+[node name="World" type="Node3D" node_paths=PackedStringArray("networkedEntities")]
 script = ExtResource("1_53ob6")
-neworkedEntities = NodePath("NetworkedEntities")
+networkedEntities = NodePath("NetworkedEntities")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_3neo8")

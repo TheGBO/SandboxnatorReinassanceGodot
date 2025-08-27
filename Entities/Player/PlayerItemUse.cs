@@ -11,8 +11,6 @@ using System.Collections.Generic;
 /// </summary>
 public partial class PlayerItemUse : AbstractPlayerComponent
 {
-	//TODO: Make multiple tool selection and sync changes
-
 	[Export] public RayCast3D rayCast;
 	[Export] public Node3D hand;
 	[Export] private AnimationPlayer handAnimator;
@@ -81,14 +79,9 @@ public partial class PlayerItemUse : AbstractPlayerComponent
 		Dictionary itemUsageArgs = new ItemUsageArgs(collisionPoint, normal, parent.playerId).ToDictionary();
 		//Perform c2s RPC call if the player is a client
 		//Call this on the server side if the player using the tool is the one hosting
-		if (!Multiplayer.IsServer())
-		{
-			RpcId(1, nameof(ServerUse), itemUsageArgs);
-		}
-		else
-		{
-			ServerUse(itemUsageArgs);
-		}
+
+		RpcId(1, nameof(C2S_Use), itemUsageArgs);
+		
 		if (item.animateHand)
 		{
 			handAnimator.Play("hand_use");
@@ -96,8 +89,8 @@ public partial class PlayerItemUse : AbstractPlayerComponent
 	}
 
 	//Dictionary conversion is needed for it is a networked function
-	[Rpc(MultiplayerApi.RpcMode.AnyPeer)]
-	private void ServerUse(Dictionary args)
+	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
+	private void C2S_Use(Dictionary args)
 	{
 		GD.Print(item);
 		item.UseItem(ItemUsageArgs.FromDictionary(args));
