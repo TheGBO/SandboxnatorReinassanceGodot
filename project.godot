@@ -12,7 +12,7 @@ config_version=5
 
 config/name="Sandboxnator"
 config/description="A LAN multiplayer sandbox game, have fun with your friends, hang out, build and destroy :3"
-config/version="0.0.2"
+config/version="0.3.0"
 run/main_scene="res://UI/MainMenu/MainMenu.tscn"
 config/features=PackedStringArray("4.4", "C#", "Forward Plus")
 boot_splash/use_filter=false
