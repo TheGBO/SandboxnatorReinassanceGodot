@@ -4,7 +4,7 @@ using System;
 public partial class PlayerChatHud : AbstractPlayerComponent
 {
     [Export] public Control chatRoot;
-    [Export] public TextEdit messageEdit;
+    [Export] public LineEdit messageEdit;
     [Export] public RichTextLabel messageBox;
     [Export] public AudioStreamPlayer notificationSound;
 
@@ -41,7 +41,7 @@ public partial class PlayerChatHud : AbstractPlayerComponent
         }
         else
         {
-            messageBox.Text += $"[color=yellow][{message.Content}][/color]\n";
+            messageBox.Text += $"[color=yellow][System]:[/color]{message.Content}\n";
         }
         notificationSound.Play();
     }
@@ -53,6 +53,7 @@ public partial class PlayerChatHud : AbstractPlayerComponent
         {
             ChatManager.Instance.SendMessage(msg);
             messageEdit.Text = "";
+            messageEdit.GrabFocus();
         }
     }
 }

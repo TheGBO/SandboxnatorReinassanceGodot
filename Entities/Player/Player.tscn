@@ -234,12 +234,11 @@ layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.1
 
-[node name="MessageEdit" type="TextEdit" parent="HUD/ChatRoot/ChatBox/VBoxContainer/Input"]
+[node name="MessageEdit" type="LineEdit" parent="HUD/ChatRoot/ChatBox/VBoxContainer/Input"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 22
 placeholder_text = "Press ESC to exit chat mode, enter to send message/command."
-scroll_fit_content_height = true
 
 [node name="SendBtn" type="Button" parent="HUD/ChatRoot/ChatBox/VBoxContainer/Input"]
 layout_mode = 2

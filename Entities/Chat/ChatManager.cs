@@ -27,13 +27,19 @@ public partial class ChatManager : Node3D
     {
         ChatMessage message = ChatMessage.FromDictionary(msg);
         GD.Print($"message received: {message.Content} from {message.PlayerId}");
-        if (message.Content.StartsWith("!PlayerList"))
+        if (message.Content.StartsWith("!players"))
         {
-            GD.Print(World.Instance.GetPlayers());
+
+            string playerListMsg = "Received command \'players\'";
+            foreach (Player p in World.Instance.GetPlayers())
+            {
+                playerListMsg += $"\n[{p.playerId}] : [color={p.profileData.PlayerColor.ToHtml()}]{p.profileData.PlayerName}[/color]";
+            }
+            GD.Print("PlayerList CMD");
+            SendPlayerlessMessage(playerListMsg, message.PlayerId);
         }
         else
         {
-            S2C_ReceiveMessage(msg);
             Rpc(nameof(S2C_ReceiveMessage), message.ToDictionary());
         }
     }
@@ -57,7 +63,6 @@ public partial class ChatManager : Node3D
         }
         //-1 playerless
         ChatMessage message = new ChatMessage(msg, -1);
-        S2C_ReceiveMessage(message.ToDictionary());
         Rpc(nameof(S2C_ReceiveMessage), message.ToDictionary());
     }
 
@@ -75,7 +80,6 @@ public partial class ChatManager : Node3D
         }
         //-1 playerless
         ChatMessage message = new ChatMessage(msg, -1);
-        S2C_ReceiveMessage(message.ToDictionary());
         RpcId(playerId, nameof(S2C_ReceiveMessage), message.ToDictionary());
     }
 }

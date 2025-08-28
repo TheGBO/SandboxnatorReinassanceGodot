@@ -17,6 +17,7 @@ public partial class ItemManager : Node
 	/// A dictionary responsible for storing every single item that can be available and registered in the whole game. Identified
 	/// by itemID.
 	/// </summary>
+	/// TODO: Add a general purpose registry class for commands, items, player skins and buildings.
 	public Dictionary<string, ItemData> Items { get; private set; } = new Dictionary<string, ItemData>();
 	[Export(PropertyHint.Dir)] string itemContentsPath;
 

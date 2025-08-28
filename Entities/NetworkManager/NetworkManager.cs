@@ -65,7 +65,8 @@ public partial class NetworkManager : Node3D
 				//send a RPC to the player who connected to set their position
 				RpcId(id, nameof(S2C_SetInitialPosition), desiredPosition, player.Name);
 			}
-			ChatManager.Instance.BroadcastPlayerlessMessage($"Player {id} joined the game.");
+
+			ChatManager.Instance.BroadcastPlayerlessMessage($"[color=(1,1,0)]{id}[/color] joined the game :3");
 		}
 
 
@@ -73,6 +74,8 @@ public partial class NetworkManager : Node3D
 
 	private void LogOutPlayer(long id)
 	{
+		PlayerProfileData pData = World.Instance.GetPlayerProfileDataByID(id);
+		ChatManager.Instance.BroadcastPlayerlessMessage($"[color={pData.PlayerColor.ToHtml()}]{pData.PlayerName}[/color] left the game :C");
 		World.Instance.networkedEntities.GetNode(id.ToString()).QueueFree();
 	}
 

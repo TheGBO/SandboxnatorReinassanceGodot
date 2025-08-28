@@ -36,6 +36,11 @@ public partial class World : Node3D
 		return referential;
 	}
 
+
+	/// <summary>
+	/// Expected and designed to run on the server for now
+	/// </summary>
+	/// <returns>An array of the current players.</returns>
 	public Array<Player> GetPlayers()
 	{
 		Array<Player> players = new Array<Player>();
@@ -48,5 +53,18 @@ public partial class World : Node3D
 			GD.Print();
 		}
 		return players;
+	}
+
+	public PlayerProfileData GetPlayerProfileDataByID(long id)
+	{
+		foreach (Player player in GetPlayers())
+		{
+			GD.Print("data: " + player.profileData);
+			if (player.playerId == id)
+			{
+				return player.profileData;
+			}
+		}
+		return null;
 	}
 }
