@@ -6,18 +6,18 @@ using System;
 //This class will also be a singleton, this means that there will only be one instance of this class in the game.
 //It will be a client side node, there should be a way to share this via the network somehow and make the player profiles accessible to all clients.
 //Other players should be able to see the profiles of other players.
-public partial class PlayerProfileManager : Node
+
+public partial class PlayerProfileManager : Singleton<PlayerProfileManager>
 {
 	[Export]
 	public PlayerProfileData CurrentProfile { get; private set; }
-	public static PlayerProfileManager Instance { get; private set; }
 
 
-	public override void _EnterTree()
+	public override void _Ready()
 	{
-		Instance = this;
 		if (CurrentProfile == null)
 		{
+			//Generate and set randomized profile
 			PlayerProfileData randomizedProfile = new PlayerProfileData();
 			randomizedProfile.PlayerName = FillNameField();
 			randomizedProfile.PlayerColor = new Color(GD.Randf(), GD.Randf(), GD.Randf());

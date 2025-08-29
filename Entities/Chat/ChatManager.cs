@@ -4,16 +4,10 @@ using Godot.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-public partial class ChatManager : Node3D
+public partial class ChatManager : Singleton<ChatManager>
 {
-    public static ChatManager Instance { get; private set; }
     public List<ChatMessage> messages;
     public Action<ChatMessage> OnMessageReceived;
-
-    public override void _EnterTree()
-    {
-        Instance = this;
-    }
 
     //called on client
     public void SendMessage(string msg)

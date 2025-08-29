@@ -2,16 +2,14 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
-public partial class UiSoundManager : Node
+public partial class UiSoundManager : Singleton<UiSoundManager>
 {
 	[Export] private AudioStreamPlayer hoverSound;
 	[Export] private AudioStreamPlayer interactSound;
 	[Export] private AudioStreamPlayer popUpSound;
-	public static UiSoundManager Instance { get; private set; }
 
 	public override void _Ready()
 	{
-		Instance = this;
 		TryInstallSounds();
 	}
 
@@ -73,6 +71,7 @@ public partial class UiSoundManager : Node
 		}
 	}
 
+	//TODO: This function is so useful that it should be added to utils later in order to avoid code duplications.
 	private List<Node> GetAllChildrenInNode(Node node, List<Node> nodes = null)
 	{
 		nodes ??= new List<Node>();

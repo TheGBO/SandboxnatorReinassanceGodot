@@ -3,24 +3,21 @@ using System;
 using System.Linq;
 
 
-//todo: make proper network manager
-public partial class NetworkManager : Node3D
+public partial class NetworkManager : Singleton<NetworkManager>
 {
-	public static NetworkManager Instance { get; private set; }
 	public ENetMultiplayerPeer peer = new ENetMultiplayerPeer();
 	[Export] PackedScene playerScene;
 
 	public override void _Ready()
 	{
-		Instance = this;
 		Multiplayer.PeerDisconnected += LogOutPlayer;
-		GD.Print("Sandboxnator protocol initialized");
+		GD.Print("Sandboxnator multiplayer protocol initialized");
 		string[] args = OS.GetCmdlineArgs();
 		bool dedicatedServer = args.Contains("server") && !args.Contains("client");
 		GD.Print($"Dedicated server check-up: {dedicatedServer}");
 		if (dedicatedServer)
 		{
-			//Todo: make port configurable by arguments
+			//TODO: make port configurable by arguments
 			HostGame(1077, true);
 		}
 	}
