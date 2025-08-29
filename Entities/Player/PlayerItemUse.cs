@@ -55,14 +55,9 @@ public partial class PlayerItemUse : AbstractPlayerComponent
 		};
 	}
 
-	public override void _Process(double delta)
-	{
-		if (!parent.IsMultiplayerAuthority()) return;
-	}
 
 	private void CycleItem(int increment)
 	{
-
 		inventoryIndex += increment;
 		currentItemID = inventory[Mathf.Abs(inventoryIndex % inventory.Count)];
 

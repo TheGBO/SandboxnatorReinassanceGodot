@@ -11,10 +11,6 @@ public partial class MainMenu : Control
 		UiSoundManager.Instance.TryInstallSounds();
 	}
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
-	{
-	}
 
 	public void _on_play_btn_pressed()
 	{
