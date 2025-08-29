@@ -1,10 +1,11 @@
-[gd_scene load_steps=23 format=3 uid="uid://1hsnhm80nlng"]
+[gd_scene load_steps=24 format=3 uid="uid://1hsnhm80nlng"]
 
 [ext_resource type="Script" uid="uid://mr7xahsxhr7w" path="res://Entities/Player/PlayerMovement.cs" id="1_fmfn4"]
 [ext_resource type="Script" uid="uid://dt013s8d7ysto" path="res://Entities/Player/Player.cs" id="1_kjmmx"]
 [ext_resource type="Material" uid="uid://pfpxs77fq4wj" path="res://Entities/Player/Assets/PlayerSkins/UwU.tres" id="2_icefu"]
 [ext_resource type="Script" uid="uid://b0sc20fvjjujb" path="res://Entities/Player/CameraMovement.cs" id="3_bvtsg"]
 [ext_resource type="AudioStream" uid="uid://b8xbjq5ide70f" path="res://Assets/Sounds/ui_message_received.mp3" id="3_bxpi0"]
+[ext_resource type="Texture2D" uid="uid://bvrby5xk2pk1j" path="res://GameContent/Items/Hammer/HammerIcon.png" id="4_lmeus"]
 [ext_resource type="ArrayMesh" uid="uid://ddihvbuyh5ki0" path="res://Entities/Player/Assets/headModel.tres" id="5_v8hmc"]
 [ext_resource type="Texture2D" uid="uid://bglesdqd1oqd1" path="res://Assets/Textures/CrossHair.png" id="8_2c07k"]
 [ext_resource type="Script" uid="uid://b48urjcts4ei0" path="res://Entities/Player/PlayerItemUse.cs" id="9_rtpsh"]
@@ -188,6 +189,57 @@ grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(2, 2)
 texture = ExtResource("8_2c07k")
+
+[node name="HotBar" type="Control" parent="HUD"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_top = 280.0
+offset_bottom = 280.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="HUD/HotBar"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -32.0
+offset_bottom = 32.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="Items" type="HBoxContainer" parent="HUD/HotBar/MarginContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="ItemContainer" type="Panel" parent="HUD/HotBar/MarginContainer/Items"]
+custom_minimum_size = Vector2(56, 56)
+layout_mode = 2
+
+[node name="ItemIconContainer" type="MarginContainer" parent="HUD/HotBar/MarginContainer/Items/ItemContainer"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="ItemIconTexture" type="TextureRect" parent="HUD/HotBar/MarginContainer/Items/ItemContainer/ItemIconContainer"]
+layout_mode = 2
+texture = ExtResource("4_lmeus")
 
 [node name="ChatRoot" type="MarginContainer" parent="HUD"]
 visible = false

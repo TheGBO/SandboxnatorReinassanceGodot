@@ -1,5 +1,6 @@
-[gd_resource type="Resource" load_steps=3 format=3 uid="uid://bjp4lg0per821"]
+[gd_resource type="Resource" script_class="ItemData" load_steps=4 format=3 uid="uid://bjp4lg0per821"]
 
+[ext_resource type="Texture2D" uid="uid://jm1mq53ol7ei" path="res://GameContent/Items/Cube/CubeIcon.png" id="1_7un7m"]
 [ext_resource type="PackedScene" uid="uid://djqekcjdmn1te" path="res://GameContent/Items/Cube/ItemCube.tscn" id="1_q23lb"]
 [ext_resource type="Script" uid="uid://dcb81xxw3xywm" path="res://Entities/Items/ItemData.cs" id="1_w4p4d"]
 
@@ -7,6 +8,7 @@
 script = ExtResource("1_w4p4d")
 itemScene = ExtResource("1_q23lb")
 itemID = "cube"
+itemIcon = ExtResource("1_7un7m")
 itemName = "Cube"
 usageCooldown = 0.013
 raycastRange = 15.0

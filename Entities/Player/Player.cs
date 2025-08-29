@@ -38,7 +38,9 @@ public partial class Player : CharacterBody3D
 		}
 		else
 		{
+			//disable camera and HUD from other players
 			camera.Current = false;
+			//make sure HUD is client side only
 			hud.QueueFree();
 		}
 

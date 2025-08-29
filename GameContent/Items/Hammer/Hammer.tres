@@ -1,5 +1,6 @@
-[gd_resource type="Resource" load_steps=3 format=3 uid="uid://ceqeoy6wmv2fe"]
+[gd_resource type="Resource" script_class="ItemData" load_steps=4 format=3 uid="uid://ceqeoy6wmv2fe"]
 
+[ext_resource type="Texture2D" uid="uid://bvrby5xk2pk1j" path="res://GameContent/Items/Hammer/HammerIcon.png" id="1_5y844"]
 [ext_resource type="Script" uid="uid://dcb81xxw3xywm" path="res://Entities/Items/ItemData.cs" id="1_e88rv"]
 [ext_resource type="PackedScene" uid="uid://fhg3quattdqn" path="res://GameContent/Items/Hammer/ItemHammer.tscn" id="1_f6c81"]
 
@@ -8,6 +9,7 @@ resource_name = "tool_hammer"
 script = ExtResource("1_e88rv")
 itemScene = ExtResource("1_f6c81")
 itemID = "hammer"
+itemIcon = ExtResource("1_5y844")
 itemName = "Hammer"
-usageCooldown = 0.0
+usageCooldown = 1.25
 raycastRange = 0.0

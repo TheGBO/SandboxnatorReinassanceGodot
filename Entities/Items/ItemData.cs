@@ -11,8 +11,9 @@ public partial class ItemData : Resource
     //The language-agnostic item id, use_snake_case_please
     [Export] public string itemID;
     //The item name, can be changed according to Locales.
+    [ExportGroup("Visual information")]
+    [Export] public Texture2D itemIcon;
     [Export] public string itemName;
     [ExportGroup("Practical use")]
     [Export] public float usageCooldown;
-    [Export] public float raycastRange;
 }
