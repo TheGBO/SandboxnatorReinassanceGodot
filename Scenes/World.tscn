@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://c4budmkq1sg7n"]
+[gd_scene load_steps=14 format=3 uid="uid://c4budmkq1sg7n"]
 
 [ext_resource type="Script" uid="uid://dqcj2eps8s47d" path="res://Scenes/World.cs" id="1_53ob6"]
 [ext_resource type="Material" uid="uid://dni3mk5x6hn4f" path="res://Assets/Materials/GreenTile.tres" id="2_2i86a"]
@@ -36,6 +36,9 @@ volumetric_fog_density = 0.0155
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_45d1s"]
 plane = Plane(0, 0, 1, 0)
 
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_y7y61"]
+plane = Plane(0, 0, -1, 0)
+
 [sub_resource type="PlaneMesh" id="PlaneMesh_qu3fq"]
 material = ExtResource("2_2i86a")
 size = Vector2(4096, 4096)
@@ -59,6 +62,10 @@ shape = SubResource("WorldBoundaryShape3D_umnpi")
 [node name="NorthCollider" type="CollisionShape3D" parent="Ground"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2048)
 shape = SubResource("WorldBoundaryShape3D_45d1s")
+
+[node name="SouthCollider" type="CollisionShape3D" parent="Ground"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2048)
+shape = SubResource("WorldBoundaryShape3D_y7y61")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
 mesh = SubResource("PlaneMesh_qu3fq")
