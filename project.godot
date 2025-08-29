@@ -48,7 +48,9 @@ folder_colors={
 "res://GameContent/Items/": "blue",
 "res://GameContent/Items/_Abstract/": "red",
 "res://Globals/": "yellow",
-"res://Scenes/": "orange"
+"res://Network/": "teal",
+"res://Scenes/": "orange",
+"res://export/": "green"
 }
 
 [gui]

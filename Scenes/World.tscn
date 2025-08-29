@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dqcj2eps8s47d" path="res://Scenes/World.cs" id="1_53ob6"]
 [ext_resource type="Material" uid="uid://dni3mk5x6hn4f" path="res://Assets/Materials/GreenTile.tres" id="2_2i86a"]
-[ext_resource type="PackedScene" uid="uid://t1rkfpsrocdb" path="res://Entities/NetworkManager/NetworkManager.tscn" id="4_kc546"]
+[ext_resource type="PackedScene" uid="uid://t1rkfpsrocdb" path="res://Network/NetworkManager/NetworkManager.tscn" id="4_kc546"]
 [ext_resource type="PackedScene" uid="uid://dowhshkw35fbv" path="res://UI/MultiplayerMenu/MultiplayerMenu.tscn" id="4_ssyfj"]
 [ext_resource type="Script" uid="uid://b3s088fqb3h2r" path="res://Entities/Items/ItemManager.cs" id="5_aavq4"]
 [ext_resource type="Script" uid="uid://jw73htruigdm" path="res://Entities/Chat/ChatManager.cs" id="6_sbbat"]
