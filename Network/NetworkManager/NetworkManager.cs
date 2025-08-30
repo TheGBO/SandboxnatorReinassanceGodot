@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Linq;
+using LiteNetLib;
 
 
 public partial class NetworkManager : Singleton<NetworkManager>
