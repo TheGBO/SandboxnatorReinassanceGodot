@@ -17,8 +17,7 @@ public partial class ItemManager : Singleton<ItemManager>
 	/// A dictionary responsible for storing every single item that can be available and registered in the whole game. Identified
 	/// by itemID.
 	/// </summary>
-	/// TODO: Add a general purpose registry class for commands, items, player skins and buildings.
-	public Dictionary<string, ItemData> Items { get; private set; } = new Dictionary<string, ItemData>();
+	/// TODO: Make these functionalities for loading and auto registering game assets generic and type agnostic
 	[Export(PropertyHint.Dir)] string itemContentsPath;
 
 	public override void _Ready()
@@ -48,7 +47,9 @@ public partial class ItemManager : Singleton<ItemManager>
 					foreach (ItemData res in resources)
 					{
 						GD.Print($"Valid item resource is {res.itemID}, registering...");
-						Items.Add(res.itemID, res);
+
+						//Register the item via resource
+						Registry<ItemData>.Register(res.itemID, res);
 					}
 				}
 			}
@@ -59,6 +60,12 @@ public partial class ItemManager : Singleton<ItemManager>
 		}
 	}
 
+
+	/// <summary>
+	/// Loads the item data from game content folder in order to register them.
+	/// </summary>
+	/// <param name="path"></param>
+	/// <returns></returns>
 	private List<Resource> LoadItemDataResources(string path)
 	{
 		List<Resource> resources = new List<Resource>();
