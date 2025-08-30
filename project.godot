@@ -42,13 +42,14 @@ run/main_run_args="client"
 
 folder_colors={
 "res://Assets/": "red",
-"res://Entities/": "teal",
-"res://GameContent/": "purple",
+"res://Common/": "orange",
+"res://Entities/": "yellow",
+"res://GameContent/": "blue",
 "res://GameContent/Buildings/": "yellow",
 "res://GameContent/Items/": "blue",
 "res://GameContent/Items/_Abstract/": "red",
-"res://Globals/": "yellow",
-"res://Network/": "teal",
+"res://Globals/": "purple",
+"res://Network/": "pink",
 "res://Scenes/": "orange",
 "res://export/": "green"
 }
