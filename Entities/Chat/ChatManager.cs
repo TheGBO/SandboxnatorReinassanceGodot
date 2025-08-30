@@ -12,11 +12,11 @@ public partial class ChatManager : Singleton<ChatManager>
     //called on client
     public void SendMessage(string msg)
     {
-        ChatMessage message = new ChatMessage(msg, NetworkManager.Instance.peer.GetUniqueId());
-        RpcId(1, nameof(C2S_HandleMessage), message.ToDictionary());
+        ChatMessage message = new ChatMessage(msg, NetworkManager.Instance.LocalId);
+        //RpcId(1, nameof(C2S_HandleMessage), message.ToDictionary());
     }
 
-    [Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
+    //[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
     private void C2S_HandleMessage(Dictionary msg)
     {
         ChatMessage message = ChatMessage.FromDictionary(msg);
@@ -34,11 +34,11 @@ public partial class ChatManager : Singleton<ChatManager>
         }
         else
         {
-            Rpc(nameof(S2C_ReceiveMessage), message.ToDictionary());
+            //Rpc(nameof(S2C_ReceiveMessage), message.ToDictionary());
         }
     }
 
-    [Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
+    //[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
     private void S2C_ReceiveMessage(Dictionary msg)
     {
         ChatMessage message = ChatMessage.FromDictionary(msg);
@@ -57,7 +57,7 @@ public partial class ChatManager : Singleton<ChatManager>
         }
         //-1 playerless
         ChatMessage message = new ChatMessage(msg, -1);
-        Rpc(nameof(S2C_ReceiveMessage), message.ToDictionary());
+        //Rpc(nameof(S2C_ReceiveMessage), message.ToDictionary());
     }
 
     /// <summary>
@@ -74,6 +74,6 @@ public partial class ChatManager : Singleton<ChatManager>
         }
         //-1 playerless
         ChatMessage message = new ChatMessage(msg, -1);
-        RpcId(playerId, nameof(S2C_ReceiveMessage), message.ToDictionary());
+        //RpcId(playerId, nameof(S2C_ReceiveMessage), message.ToDictionary());
     }
 }

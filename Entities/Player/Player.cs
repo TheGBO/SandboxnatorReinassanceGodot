@@ -21,6 +21,7 @@ public partial class Player : CharacterBody3D
 	public override void _EnterTree()
 	{
 		playerId = int.Parse(Name);
+		GD.Print($"Your player ID is:{playerId}");
 		SetMultiplayerAuthority(playerId);
 		//set components
 		foreach (AbstractPlayerComponent component in componentList.GetChildren())
@@ -73,23 +74,23 @@ public partial class Player : CharacterBody3D
 		UpdateVisual();
 
 		//requests server for updating
-		RpcId(1, nameof(C2S_SyncProfile), newProfile.ToDictionary());
+		//RpcId(1, nameof(C2S_SyncProfile), newProfile.ToDictionary());
 	}
 
 	//Client requests server to synchronize its profile.
-	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
+	//[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
 	private void C2S_SyncProfile(Dictionary<string, Variant> profileDict)
 	{
 		PlayerProfileData receivedProfileData = PlayerProfileData.FromDictionary(profileDict);
 		GD.PrintRich("[color=green](SYNC)[/color] Synchronization of player profile data");
 		string hexColor = receivedProfileData.PlayerColor.ToHtml();
 		GD.PrintRich($"{receivedProfileData.PlayerName}:[color={hexColor}]{hexColor}[/color]");
-		Rpc(nameof(S2C_SyncProfile), profileDict);
+		//Rpc(nameof(S2C_SyncProfile), profileDict);
 		profileData = receivedProfileData;
 		UpdateVisual();
 	}
 
-	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
+	//[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
 	private void S2C_SyncProfile(Dictionary<string, Variant> profileDict)
 	{
 		profileData = PlayerProfileData.FromDictionary(profileDict);

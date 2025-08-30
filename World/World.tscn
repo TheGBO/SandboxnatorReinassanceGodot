@@ -1,11 +1,12 @@
-[gd_scene load_steps=14 format=3 uid="uid://c4budmkq1sg7n"]
+[gd_scene load_steps=15 format=3 uid="uid://c4budmkq1sg7n"]
 
-[ext_resource type="Script" uid="uid://dqcj2eps8s47d" path="res://Scenes/World.cs" id="1_53ob6"]
+[ext_resource type="Script" uid="uid://dqcj2eps8s47d" path="res://World/World.cs" id="1_53ob6"]
 [ext_resource type="Material" uid="uid://dni3mk5x6hn4f" path="res://Assets/Materials/GreenTile.tres" id="2_2i86a"]
 [ext_resource type="PackedScene" uid="uid://t1rkfpsrocdb" path="res://Network/NetworkManager/NetworkManager.tscn" id="4_kc546"]
 [ext_resource type="PackedScene" uid="uid://dowhshkw35fbv" path="res://UI/MultiplayerMenu/MultiplayerMenu.tscn" id="4_ssyfj"]
 [ext_resource type="Script" uid="uid://b3s088fqb3h2r" path="res://Entities/Items/ItemManager.cs" id="5_aavq4"]
 [ext_resource type="Script" uid="uid://jw73htruigdm" path="res://Entities/Chat/ChatManager.cs" id="6_sbbat"]
+[ext_resource type="Script" uid="uid://barxv4sixqp7e" path="res://World/Systems/PlayerManager.cs" id="7_eue43"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_o4ted"]
 sky_top_color = Color(0.357712, 0.564669, 1, 1)
@@ -71,10 +72,6 @@ shape = SubResource("WorldBoundaryShape3D_y7y61")
 mesh = SubResource("PlaneMesh_qu3fq")
 skeleton = NodePath("../..")
 
-[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("uid://1hsnhm80nlng", "uid://cr4ldfu1yskgy", "uid://wemqi51d1620", "uid://bsin23prm8y74")
-spawn_path = NodePath("../NetworkedEntities")
-
 [node name="NetworkedEntities" type="Node3D" parent="."]
 
 [node name="NetworkManager" parent="." instance=ExtResource("4_kc546")]
@@ -89,3 +86,7 @@ itemContentsPath = "res://GameContent/Items"
 
 [node name="ChatManager" type="Node3D" parent="."]
 script = ExtResource("6_sbbat")
+
+[node name="PlayerManager" type="Node3D" parent="." node_paths=PackedStringArray("spawnPath")]
+script = ExtResource("7_eue43")
+spawnPath = NodePath("../NetworkedEntities")

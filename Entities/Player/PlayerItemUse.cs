@@ -28,6 +28,7 @@ public partial class PlayerItemUse : AbstractPlayerComponent
 	public override void _Ready()
 	{
 		currentItemID = inventory[0];
+		GD.Print($"Parent component of player {NetworkManager.Instance.LocalId} is null? {parent == null}");
 		if (!parent.IsMultiplayerAuthority()) return;
 		//send message to server requesting tool synchronization
 		SetupInput();
@@ -75,7 +76,7 @@ public partial class PlayerItemUse : AbstractPlayerComponent
 		//Perform c2s RPC call if the player is a client
 		//Call this on the server side if the player using the tool is the one hosting
 
-		RpcId(1, nameof(C2S_Use), itemUsageArgs);
+		//RpcId(1, nameof(C2S_Use), itemUsageArgs);
 		
 		if (item.animateHand)
 		{
@@ -84,7 +85,7 @@ public partial class PlayerItemUse : AbstractPlayerComponent
 	}
 
 	//Dictionary conversion is needed for it is a networked function
-	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
+	//[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
 	private void C2S_Use(Dictionary args)
 	{
 		GD.Print(item);
