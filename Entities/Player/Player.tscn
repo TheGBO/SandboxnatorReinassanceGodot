@@ -387,6 +387,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)
 [node name="NameTag" type="Label3D" parent="NameTagHolder"]
 billboard = 1
 text = "Player."
+outline_size = 7
 
 [connection signal="pressed" from="HUD/ChatRoot/ChatBox/VBoxContainer/Input/SendBtn" to="Components/PlayerChatHUD" method="_on_send_btn_pressed"]
 [connection signal="synchronized" from="MultiplayerSynchronizer" to="Components/PlayerItemUse" method="_on_multiplayer_synchronizer_synchronized"]
