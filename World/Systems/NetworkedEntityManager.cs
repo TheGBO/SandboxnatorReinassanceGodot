@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Godot;
 
-public abstract partial class NetworkedEntityManager<T> : Node where T : Node
+public abstract partial class NetworkedEntityManager<T> : Singleton<NetworkedEntityManager<T>> where T : Node
 {
     [Export] protected Node3D spawnPath;
 
