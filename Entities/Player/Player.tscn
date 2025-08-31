@@ -332,7 +332,7 @@ shape = SubResource("CapsuleShape3D_am40t")
 
 [node name="Components" type="Node" parent="."]
 
-[node name="PlayerMovement" type="Node3D" parent="Components" node_paths=PackedStringArray("cb", "camera", "neckAnimator")]
+[node name="PlayerMovement" type="Node3D" parent="Components" node_paths=PackedStringArray("cb", "camera", "neckAnimator", "parent")]
 script = ExtResource("1_fmfn4")
 cb = NodePath("../..")
 walkSpeed = 4.0
@@ -341,41 +341,47 @@ jumpVelocity = 8.0
 camera = NodePath("../../Neck/Camera3D")
 neckAnimator = NodePath("../../Neck/Camera3D/FovEffectsAnimator")
 sprintEffectTime = 0.125
+parent = NodePath("../..")
 
-[node name="CameraMovement" type="Node3D" parent="Components" node_paths=PackedStringArray("neck", "body")]
+[node name="CameraMovement" type="Node3D" parent="Components" node_paths=PackedStringArray("neck", "body", "parent")]
 script = ExtResource("3_bvtsg")
 neck = NodePath("../../Neck")
 body = NodePath("../..")
+parent = NodePath("../..")
 
-[node name="PlayerItemUse" type="Node3D" parent="Components" node_paths=PackedStringArray("rayCast", "hand", "handAnimator")]
+[node name="PlayerItemUse" type="Node3D" parent="Components" node_paths=PackedStringArray("rayCast", "hand", "handAnimator", "parent")]
 script = ExtResource("9_rtpsh")
 rayCast = NodePath("../../Neck/RayCast3D")
 hand = NodePath("../../Neck/Hand")
 handAnimator = NodePath("HandAnimator")
 inventory = Array[String](["hammer", "cube", "nut", "bulb"])
+parent = NodePath("../..")
 
 [node name="HandAnimator" type="AnimationPlayer" parent="Components/PlayerItemUse"]
 libraries = {
 &"": SubResource("AnimationLibrary_0sei0")
 }
 
-[node name="PlayerInput" type="Node3D" parent="Components"]
+[node name="PlayerInput" type="Node3D" parent="Components" node_paths=PackedStringArray("parent")]
 script = ExtResource("10_xk60u")
+parent = NodePath("../..")
 
-[node name="PlayerChatHUD" type="Node3D" parent="Components" node_paths=PackedStringArray("chatRoot", "messageEdit", "messageBox", "notificationSound")]
+[node name="PlayerChatHUD" type="Node3D" parent="Components" node_paths=PackedStringArray("chatRoot", "messageEdit", "messageBox", "notificationSound", "parent")]
 script = ExtResource("10_np6ov")
 chatRoot = NodePath("../../HUD/ChatRoot")
 messageEdit = NodePath("../../HUD/ChatRoot/ChatBox/VBoxContainer/Input/MessageEdit")
 messageBox = NodePath("../../HUD/ChatRoot/ChatBox/VBoxContainer/MarginContainer/MessagesContainer")
 notificationSound = NodePath("../../HUD/ChatRoot/NotificationSound")
+parent = NodePath("../..")
 
-[node name="HandSway" type="Node3D" parent="Components" node_paths=PackedStringArray("hand")]
+[node name="HandSway" type="Node3D" parent="Components" node_paths=PackedStringArray("hand", "parent")]
 script = ExtResource("11_v2xwv")
 swaySpeed = 3.0
 hand = NodePath("../../Neck/Hand")
 rightSway = Vector3(0, 0.56, 0)
 leftSway = Vector3(0, -0.56, 0)
 swayThreshold = 5.0
+parent = NodePath("../..")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_interval = 0.1
@@ -387,6 +393,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)
 [node name="NameTag" type="Label3D" parent="NameTagHolder"]
 billboard = 1
 text = "Player."
+outline_size = 7
 
 [connection signal="pressed" from="HUD/ChatRoot/ChatBox/VBoxContainer/Input/SendBtn" to="Components/PlayerChatHUD" method="_on_send_btn_pressed"]
 [connection signal="synchronized" from="MultiplayerSynchronizer" to="Components/PlayerItemUse" method="_on_multiplayer_synchronizer_synchronized"]
