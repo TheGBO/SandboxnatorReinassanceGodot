@@ -92,7 +92,6 @@ public partial class LiteNetLibTransport : Singleton<LiteNetLibTransport>, ITran
         using (BinaryWriter w = new BinaryWriter(ms))
         {
             w.Write(PacketFactory.GetPacketId<WelcomePacket>());
-            // ✅ Then write the packet payload
             welcomePacket.Serialize(w);
 
             // Send to local client
@@ -254,6 +253,11 @@ public partial class LiteNetLibTransport : Singleton<LiteNetLibTransport>, ITran
     public void OnNetworkError(IPEndPoint endPoint, SocketError socketError)
     {
         throw new NotImplementedException();
+    }
+
+    public void PollTransportEvents()
+    {
+        netManager.PollEvents();
     }
 
     #endregion

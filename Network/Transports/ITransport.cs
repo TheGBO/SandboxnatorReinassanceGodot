@@ -11,6 +11,7 @@ public interface ITransport
     void SendToLocalHost(byte[] data);
     void StartClient(string host, int port);
     void Stop();
+    void PollTransportEvents();
 
     public void SendPacket<T>(int peerId, T packet, bool reliable) where T : Packet;
     public void BroadCastPacket<T>(T packet, bool reliable) where T : Packet;

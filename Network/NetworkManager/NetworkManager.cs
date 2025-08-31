@@ -40,6 +40,21 @@ public partial class NetworkManager : Singleton<NetworkManager>
 		}
 	}
 
+	public override void _PhysicsProcess(double delta)
+	{
+		if (!transport.IsNetConnected)
+			return;
+
+		try
+		{
+			transport.PollTransportEvents();
+		}
+		catch (Exception ex)
+		{
+			GD.PrintErr($"[LiteNetLibTransport] PollEvents failed: {ex}");
+		}
+    }
+
 #region CONFIGURATION
 	private void SetUpTransport()
 	{
