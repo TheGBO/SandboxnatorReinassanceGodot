@@ -68,16 +68,16 @@ public partial class NetworkManager : Singleton<NetworkManager>
 
 		transport.DataReceivedEvent += (peerId, data) =>
 		{
-			using (MemoryStream ms = new MemoryStream())
+			using (MemoryStream ms = new MemoryStream(data))
 			using (BinaryReader r = new BinaryReader(ms))
 			{
-				GD.Print(ms.ToArray().Length);
 				ushort packetId = r.ReadUInt16();
 
 				try
 				{
 					IPacket packet = PacketFactory.CreatePacket(packetId);
 					packet.Deserialize(r);
+					GD.Print($"Packet received is of type: [{packet}]");
 					handlerRegistry.Handle(peerId, packet);
 				}
 				catch (Exception ex)
