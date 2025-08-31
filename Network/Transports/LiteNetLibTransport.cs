@@ -51,7 +51,6 @@ public partial class LiteNetLibTransport : Singleton<LiteNetLibTransport>, ITran
         netManager = new NetManager(this);
         isServer = false;
         isClient = true;
-        LocalPeerId = 1; // temporary client ID, will use serverPeer.Id after connection
         netManager.Start();
         netManager.Connect(host, port, "Sandboxnator");
         GD.Print($"LiteNetLib client connecting to {host}:{port}");
@@ -116,7 +115,7 @@ public partial class LiteNetLibTransport : Singleton<LiteNetLibTransport>, ITran
         LocalPeerId = -1;
     }
 
-    public void SendPacket<T>(int peerId, T packet, bool reliable) where T : Packet
+    public void SendPacket<T>(int gameId, T packet, bool reliable) where T : Packet
     {
         using (MemoryStream ms = new MemoryStream())
         using (BinaryWriter writer = new BinaryWriter(ms))
@@ -127,7 +126,7 @@ public partial class LiteNetLibTransport : Singleton<LiteNetLibTransport>, ITran
             // 2. Serialize the packet data
             packet.Serialize(writer);
 
-            Send(peerId, ms.ToArray(), reliable);
+            Send(gameId, ms.ToArray(), reliable);
         }
     }
 
@@ -146,23 +145,22 @@ public partial class LiteNetLibTransport : Singleton<LiteNetLibTransport>, ITran
         }
     }
 
-    private void Send(long peerId, byte[] data, bool reliable = true)
+    private void Send(long gameId, byte[] data, bool reliable = true)
     {
-        if (isServer)
+        if (!connectedClients.TryGetValue(gameId, out var peer))
         {
-            if (peerId == 0)
-            {
-                SendToLocalHost(data);
-            }
-            else if (connectedClients.TryGetValue(peerId, out var client))
-            {
-                client.Send(data, reliable ? DeliveryMethod.ReliableOrdered : DeliveryMethod.Unreliable);
-            }
+            GD.PrintErr($"Send failed: no peer with GameID {gameId}");
+            return;
         }
-        else if (isClient)
+
+        if (peer == null)
         {
-            serverPeer?.Send(data, reliable ? DeliveryMethod.ReliableOrdered : DeliveryMethod.Unreliable);
+            // host pseudo-client
+            SendToLocalHost(data);
+            return;
         }
+
+        peer.Send(data, reliable ? DeliveryMethod.ReliableOrdered : DeliveryMethod.Unreliable);
     }
 
     public void SendToLocalHost(byte[] data)
@@ -212,23 +210,34 @@ public partial class LiteNetLibTransport : Singleton<LiteNetLibTransport>, ITran
 
     public void OnPeerDisconnected(NetPeer peer, DisconnectInfo disconnectInfo)
     {
-        if (isServer)
+        if (peerIdToGameId.TryGetValue(peer.Id, out var gameId))
         {
-            connectedClients.Remove(peer.Id);
-        }
-        else if (isClient)
-        {
-            serverPeer = null;
-        }
+            if (isServer)
+            {
+                connectedClients.Remove(gameId);
+                PeerDisconnectedEvent?.Invoke(gameId);
+            }
+            else if (isClient)
+            {
+                serverPeer = null;
+                PeerDisconnectedEvent?.Invoke(gameId);
+            }
 
-        PeerDisconnectedEvent?.Invoke(peer.Id);
-        GD.Print($"Peer disconnected: {peer.Id} ({disconnectInfo.Reason})");
+            GD.Print($"Peer disconnected: {peer.Id}:{gameId} ({disconnectInfo.Reason})");
+        }
     }
 
     public void OnNetworkReceive(NetPeer peer, NetPacketReader reader, byte channel, DeliveryMethod deliveryMethod)
     {
         byte[] data = reader.GetRemainingBytes();
-        DataReceivedEvent?.Invoke(peer.Id, data);
+        if (peerIdToGameId.TryGetValue(peer.Id, out var gameId))
+        {
+            DataReceivedEvent?.Invoke(gameId, data);
+        }
+        else
+        {
+            GD.PrintErr($"Received data from unknown peer {peer.Id}");
+        }
         reader.Recycle();
     }
 
@@ -257,7 +266,7 @@ public partial class LiteNetLibTransport : Singleton<LiteNetLibTransport>, ITran
 
     public void PollTransportEvents()
     {
-        netManager.PollEvents();
+        netManager?.PollEvents();
     }
 
     #endregion
