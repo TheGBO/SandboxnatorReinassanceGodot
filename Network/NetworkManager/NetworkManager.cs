@@ -3,6 +3,7 @@ using System;
 using System.Linq;
 using LiteNetLib;
 using System.IO;
+using System.Security.Cryptography.X509Certificates;
 
 //TODO: Make network manager class modular and game agnostic
 public partial class NetworkManager : Singleton<NetworkManager>
@@ -11,11 +12,12 @@ public partial class NetworkManager : Singleton<NetworkManager>
 	private ITransport transport;
 	private PacketHandlerRegistry handlerRegistry;
 
-	public int LocalId => transport.LocalPeerId;
+	public int LocalId { get; set; } 
 	public bool IsServer => transport.IsServer;
 	public bool IsNetConnected => transport.IsNetConnected;
-	
 	public string GameVersion { get; private set; }
+
+
 
 	public override void _Ready()
 	{
@@ -42,22 +44,15 @@ public partial class NetworkManager : Singleton<NetworkManager>
 	private void SetUpTransport()
 	{
 		transport = LiteNetLibTransport.Instance;
+		LocalId = transport.LocalPeerId;
 		//transport.OnPeerDisconnected += LogOutPlayer;
 		//transport.OnPeerConnected += AddPlayer;
 
 		transport.PeerConnectedEvent += (id) =>
 		{
-			GD.Print($"{id} Connected");
 			if (transport.IsClient && !transport.IsServer)
 			{
-				GD.Print("Connected client to server");
-				using (MemoryStream ms = new MemoryStream())
-				using (BinaryWriter w = new BinaryWriter(ms))
-				{
-					//Make request to the server
-					LoginRequestPacket loginRequest = new LoginRequestPacket(GameVersion);
-					transport.SendPacket(0, loginRequest, true);
-				}
+				GD.Print("Connected as a client to server");
 			}
 		};
 
@@ -95,9 +90,9 @@ public partial class NetworkManager : Singleton<NetworkManager>
 		handlerRegistry = new();
 
 		//register packets
-		PacketFactory.Register<LoginRequestPacket>(1);
+		PacketFactory.Register<WelcomePacket>(1);
 		//register handlers
-		handlerRegistry.RegisterPacketHandler(new LoginRequestHandler());
+		handlerRegistry.RegisterPacketHandler(new WelcomeHandler());
 	}
 
 #endregion
@@ -193,7 +188,5 @@ public partial class NetworkManager : Singleton<NetworkManager>
 	{
 		GD.Print($"Server placed the remote player of ID:{playerId} placed on XYZ {position} via RPC");
 	}
-
-	//todo: Server authoritative building system
 #endregion
 }

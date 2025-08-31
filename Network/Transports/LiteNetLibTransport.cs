@@ -7,11 +7,11 @@ using System.IO;
 using System.Net;
 using System.Net.Sockets;
 
+//Mostly AI generated class because i was too lazy to rework every single line of the networking layer which is already complicated enough.
 public partial class LiteNetLibTransport : Singleton<LiteNetLibTransport>, ITransport, INetEventListener
 {
     private NetManager netManager;
     private NetPeer serverPeer;
-    private Dictionary<long, NetPeer> connectedClients = new Dictionary<long, NetPeer>();
     private bool isServer = false;
     private bool isClient = false;
 
@@ -25,6 +25,11 @@ public partial class LiteNetLibTransport : Singleton<LiteNetLibTransport>, ITran
     public event Action<long> PeerConnectedEvent;
     public event Action<long> PeerDisconnectedEvent;
     public event Action ClientConnectedToServer;
+
+
+    private Dictionary<long, NetPeer> connectedClients = new Dictionary<long, NetPeer>();
+    private Dictionary<int, long> peerIdToGameId = new();
+    private int nextGameId = 1;
 
     public override void _Process(double delta)
     {
@@ -62,11 +67,43 @@ public partial class LiteNetLibTransport : Singleton<LiteNetLibTransport>, ITran
         netManager = new NetManager(this);
         netManager.Start(port);
 
-        // Host also acts as a client internally
-        serverPeer = null; // we treat the host as its own peer if needed
+        SimulateHostConnection();
 
         GD.Print($"Host started on port {port}");
     }
+
+    private void SimulateHostConnection()
+    {
+        int hostGameId = 1;
+        nextGameId = 2;
+
+        // Register host pseudo-client
+        connectedClients[hostGameId] = null;
+        peerIdToGameId[-1] = hostGameId;
+
+        // Trigger connection event manually
+        PeerConnectedEvent?.Invoke(hostGameId);
+
+        // Build the welcome packet
+        var welcomePacket = new WelcomePacket { AssignedPlayerId = hostGameId };
+
+        // Properly serialize the packet with ID first
+        using (MemoryStream ms = new MemoryStream())
+        using (BinaryWriter w = new BinaryWriter(ms))
+        {
+            w.Write(PacketFactory.GetPacketId<WelcomePacket>());
+            // ✅ Then write the packet payload
+            welcomePacket.Serialize(w);
+
+            // Send to local client
+            SendToLocalHost(ms.ToArray());
+        }
+
+        GD.Print($"Host client connected with ID: {hostGameId}");
+    }
+
+
+
 
 
     public void Stop()
@@ -97,7 +134,17 @@ public partial class LiteNetLibTransport : Singleton<LiteNetLibTransport>, ITran
 
     public void BroadCastPacket<T>(T packet, bool reliable) where T : Packet
     {
-        throw new NotImplementedException();
+        using (MemoryStream ms = new MemoryStream())
+        using (BinaryWriter writer = new BinaryWriter(ms))
+        {
+            // 1. Write the packet ID first
+            writer.Write(PacketFactory.GetPacketId<T>());
+
+            // 2. Serialize the packet data
+            packet.Serialize(writer);
+
+            Broadcast(ms.ToArray(), reliable);
+        }
     }
 
     private void Send(long peerId, byte[] data, bool reliable = true)
@@ -121,24 +168,24 @@ public partial class LiteNetLibTransport : Singleton<LiteNetLibTransport>, ITran
 
     public void SendToLocalHost(byte[] data)
     {
-        // Directly invoke DataReceivedEvent
         DataReceivedEvent?.Invoke(LocalPeerId, data);
     }
 
 
     private void Broadcast(byte[] data, bool reliable = true)
     {
-        if (!isServer)
-        {
-            GD.PrintErr("[LiteNetLibTransport] Broadcast can only be called from server.");
-            return;
-        }
+        if (!isServer) return;
 
-        foreach (var client in connectedClients.Values)
+        SendToLocalHost(data); // host pseudo-client
+
+        foreach (var kv in connectedClients)
         {
-            client.Send(data, reliable ? DeliveryMethod.ReliableOrdered : DeliveryMethod.Unreliable);
+            var peer = kv.Value;
+            if (peer == null) continue; // skip host pseudo-client
+            peer.Send(data, reliable ? DeliveryMethod.ReliableOrdered : DeliveryMethod.Unreliable);
         }
     }
+
 
     #region INetEventListener Implementation
 
@@ -146,18 +193,23 @@ public partial class LiteNetLibTransport : Singleton<LiteNetLibTransport>, ITran
     {
         if (isServer)
         {
-            connectedClients[peer.Id] = peer;
+            int gameId = nextGameId++;
+            connectedClients[gameId] = peer;
+            peerIdToGameId[peer.Id] = gameId;
+
+            var welcomePacket = new WelcomePacket { AssignedPlayerId = gameId };
+            SendPacket(gameId, welcomePacket, true);
+
+            PeerConnectedEvent?.Invoke(gameId);
+            GD.Print($"[SERVER] Assigned GameID {gameId} to PeerID {peer.Id}");
         }
         else if (isClient)
         {
             serverPeer = peer;
-            LocalPeerId = peer.Id;
-            ClientConnectedToServer?.Invoke();
+            GD.Print($"[CLIENT] Connected to server: PeerID={peer.Id}");
         }
-
-        PeerConnectedEvent?.Invoke(peer.Id);
-        GD.Print($"Peer connected: {peer.Id}");
     }
+
 
     public void OnPeerDisconnected(NetPeer peer, DisconnectInfo disconnectInfo)
     {
