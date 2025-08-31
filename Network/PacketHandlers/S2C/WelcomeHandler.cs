@@ -8,6 +8,7 @@ class WelcomeHandler : IPacketHandler<WelcomePacket>
         int id = packet.AssignedPlayerId;
         WelcomeReceived = true;
         NetworkManager.Instance.LocalId = id;
+        LiteNetLibTransport.Instance.RegisterServerPeer(0);
         GD.Print($"Welcome received from server, assigned ID: {id}");
     }
 }

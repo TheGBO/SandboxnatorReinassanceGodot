@@ -8,7 +8,7 @@ using System.Security.Cryptography.X509Certificates;
 //TODO: Make network manager class modular and game agnostic
 public partial class NetworkManager : Singleton<NetworkManager>
 {
-	[Export] PackedScene playerScene;
+
 	private ITransport transport;
 	private PacketHandlerRegistry handlerRegistry;
 
@@ -106,8 +106,10 @@ public partial class NetworkManager : Singleton<NetworkManager>
 
 		//register packets
 		PacketFactory.Register<WelcomePacket>(1);
+		PacketFactory.Register<SpawnPlayerPacket>(2);
 		//register handlers
 		handlerRegistry.RegisterPacketHandler(new WelcomeHandler());
+		handlerRegistry.RegisterPacketHandler(new SpawnPlayerHandler());
 	}
 
 #endregion
@@ -126,6 +128,12 @@ public partial class NetworkManager : Singleton<NetworkManager>
 		transport.PeerConnectedEvent += id =>
 		{
 			GD.Print($"Peer of ID: {id} connected remotely");
+			SpawnPlayerPacket spawnPlayerPacket = new SpawnPlayerPacket{
+				PlayerId = (int)id,
+				PlayerPosition = new Vector3(0, 10, 0),
+				PlayerRotation = new Quaternion(0, 0, 0, 0)
+			};
+			transport.BroadCastPacket(spawnPlayerPacket, true);
 		};
 		//AddPlayer(1);
 	}
@@ -141,7 +149,7 @@ public partial class NetworkManager : Singleton<NetworkManager>
 
 	private void AddPlayer(long id = 1)
 	{
-
+		/*
 		Node3D player = (Node3D)playerScene.Instantiate();
 		player.SetMultiplayerAuthority((int)id);
 		player.Name = id.ToString();
@@ -167,6 +175,7 @@ public partial class NetworkManager : Singleton<NetworkManager>
 
 			ChatManager.Instance.BroadcastPlayerlessMessage($"[color=(1,1,0)]{id}[/color] joined the game :3");
 		}
+		*/
 
 
 	}

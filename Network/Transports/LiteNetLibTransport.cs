@@ -28,7 +28,7 @@ public partial class LiteNetLibTransport : Singleton<LiteNetLibTransport>, ITran
 
 
     private Dictionary<long, NetPeer> connectedClients = new Dictionary<long, NetPeer>();
-    private Dictionary<int, long> peerIdToGameId = new();
+    public Dictionary<int, long> peerIdToGameId = new();
     private int nextGameId = 1;
 
     public override void _Process(double delta)
@@ -203,7 +203,11 @@ public partial class LiteNetLibTransport : Singleton<LiteNetLibTransport>, ITran
         else if (isClient)
         {
             serverPeer = peer;
-            GD.Print($"[CLIENT] Connected to server: PeerID={peer.Id}");
+
+            if (!peerIdToGameId.ContainsKey(peer.Id))
+                peerIdToGameId[peer.Id] = -1; // temporary placeholder
+
+            GD.Print($"[AS CLIENT] Connected to server: PeerID={peer.Id}");
         }
     }
 
@@ -225,6 +229,12 @@ public partial class LiteNetLibTransport : Singleton<LiteNetLibTransport>, ITran
 
             GD.Print($"Peer disconnected: {peer.Id}:{gameId} ({disconnectInfo.Reason})");
         }
+    }
+
+    public void RegisterServerPeer(int gameId)
+    {
+        if (serverPeer != null)
+            peerIdToGameId[serverPeer.Id] = gameId;
     }
 
     public void OnNetworkReceive(NetPeer peer, NetPacketReader reader, byte channel, DeliveryMethod deliveryMethod)

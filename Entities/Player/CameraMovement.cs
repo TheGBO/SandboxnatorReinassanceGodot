@@ -12,7 +12,7 @@ public partial class CameraMovement : AbstractPlayerComponent
 		if (!parent.IsMultiplayerAuthority())
 			return;
 
-		Input.MouseMode = Input.MouseModeEnum.Captured;
+		//Input.MouseMode = Input.MouseModeEnum.Captured;
 		parent.playerInput.OnToggleCursorCapture += ToggleCursorCapture;
 		parent.playerInput.OnMouseMovement += LookAction;
 	}
