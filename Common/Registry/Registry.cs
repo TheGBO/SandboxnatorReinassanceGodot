@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 
-//AI Generated code for prototyping, I don't trust language models so if I modidfy it I will remove this comment
 public static class Registry<T>
 {
     private static readonly Dictionary<string, T> _entries = new();

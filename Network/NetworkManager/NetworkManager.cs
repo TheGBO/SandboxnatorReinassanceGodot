@@ -4,52 +4,29 @@ using System.Linq;
 using LiteNetLib;
 using System.IO;
 
-
+//TODO: Make network manager class modular and game agnostic
 public partial class NetworkManager : Singleton<NetworkManager>
 {
 	[Export] PackedScene playerScene;
 	private ITransport transport;
+	private PacketHandlerRegistry handlerRegistry;
+
 	public int LocalId => transport.LocalPeerId;
 	public bool IsServer => transport.IsServer;
 	public bool IsNetConnected => transport.IsNetConnected;
-
-	private void SetUpTransport()
-	{
-		transport = ENetTransport.Instance;
-		//transport.OnPeerDisconnected += LogOutPlayer;
-		//transport.OnPeerConnected += AddPlayer;
-
-		transport.OnPeerConnected += (id) =>
-		{
-			GD.Print($"{id} Connected");
-			using(MemoryStream ms = new MemoryStream())
-			using (BinaryWriter w = new BinaryWriter(ms))
-			{
-				w.Write("haiii :3");
-				//transport.Send(id, ms.ToArray(), true);
-			}
-		};
-
-		transport.OnPeerDisconnected += (id) =>
-		{
-			GD.Print($"{id} Disconnected");
-		};
-
-		transport.OnDataReceived += (peerId, data) =>
-		{
-			//TODO: Actual packet handler
-			GD.Print($"[{peerId}] sent data: {data}");
-		};
-	}
+	
+	public string GameVersion { get; private set; }
 
 	public override void _Ready()
 	{
 		//Initialize back-end
+		GameVersion = ProjectSettings.GetSetting("application/config/version").AsString();
+		RegisterPackets();
 		SetUpTransport();
 
 		string transportNameInfo = nameof(transport);
-		var gameVersion = ProjectSettings.GetSetting("application/config/version");
-		GD.Print($"Sandboxnator multiplayer protocol v{gameVersion} initialized using transport: {transportNameInfo}");
+
+		GD.Print($"Sandboxnator multiplayer protocol v{GameVersion} initialized using transport: {transportNameInfo}");
 		string[] args = OS.GetCmdlineArgs();
 		bool isDedicatedServer = args.Contains("server") && !args.Contains("client");
 		GD.Print($"Dedicated server check-up: {isDedicatedServer}");
@@ -61,6 +38,69 @@ public partial class NetworkManager : Singleton<NetworkManager>
 		}
 	}
 
+#region CONFIGURATION
+	private void SetUpTransport()
+	{
+		transport = LiteNetLibTransport.Instance;
+		//transport.OnPeerDisconnected += LogOutPlayer;
+		//transport.OnPeerConnected += AddPlayer;
+
+		transport.PeerConnectedEvent += (id) =>
+		{
+			GD.Print($"{id} Connected");
+			if (transport.IsClient && !transport.IsServer)
+			{
+				GD.Print("Connected client to server");
+				using (MemoryStream ms = new MemoryStream())
+				using (BinaryWriter w = new BinaryWriter(ms))
+				{
+					//Make request to the server
+					LoginRequestPacket loginRequest = new LoginRequestPacket(GameVersion);
+					transport.SendPacket(0, loginRequest, true);
+				}
+			}
+		};
+
+		transport.PeerDisconnectedEvent += (id) =>
+		{
+			GD.Print($"{id} Disconnected");
+		};
+
+		transport.DataReceivedEvent += (peerId, data) =>
+		{
+			using (MemoryStream ms = new MemoryStream())
+			using (BinaryReader r = new BinaryReader(ms))
+			{
+				GD.Print(ms.ToArray().Length);
+				ushort packetId = r.ReadUInt16();
+
+				try
+				{
+					IPacket packet = PacketFactory.CreatePacket(packetId);
+					packet.Deserialize(r);
+					handlerRegistry.Handle(peerId, packet);
+				}
+				catch (Exception ex)
+				{
+					GD.PushError($"Failed to process packet: {ex.Message}");
+				}
+			}
+			//TODO: Actual packet handler
+			GD.Print($"[{peerId}] sent data: {data}");
+		};
+	}
+
+	private void RegisterPackets()
+	{
+		handlerRegistry = new();
+
+		//register packets
+		PacketFactory.Register<LoginRequestPacket>(1);
+		//register handlers
+		handlerRegistry.RegisterPacketHandler(new LoginRequestHandler());
+	}
+
+#endregion
 
 
 	public void HostGame(int port = 1077, bool dedicatedServer = false)
@@ -71,16 +111,16 @@ public partial class NetworkManager : Singleton<NetworkManager>
 		Multiplayer.PeerConnected += AddPlayer;
 		AddPlayer(1);
 		*/
-		transport.StartServer(port);
+		transport.StartHost(port);
 		//transport.OnPeerConnected += AddPlayer;
-		transport.OnPeerConnected += id =>
+		transport.PeerConnectedEvent += id =>
 		{
 			GD.Print($"Peer of ID: {id} connected remotely");
 		};
 		//AddPlayer(1);
 	}
 
-	public void JoinGame(int port = 1077, string ip = "localhost")
+	public void JoinGame(int port = 1077, string ip = "127.0.0.1")
 	{
 		/*
 		peer.CreateClient(ip, port);
@@ -129,6 +169,7 @@ public partial class NetworkManager : Singleton<NetworkManager>
 	}
 
 
+#region DEPR.RPC CALLS
 	//[Rpc]
 	private void S2C_SetInitialPosition(Vector3 position, string playerId)
 	{
@@ -154,5 +195,5 @@ public partial class NetworkManager : Singleton<NetworkManager>
 	}
 
 	//todo: Server authoritative building system
-
+#endregion
 }

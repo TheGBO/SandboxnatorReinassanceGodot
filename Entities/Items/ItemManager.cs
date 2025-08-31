@@ -46,10 +46,13 @@ public partial class ItemManager : Singleton<ItemManager>
 					GD.Print($"Found item resource(s) at {absoluteItemDir}:");
 					foreach (ItemData res in resources)
 					{
-						GD.Print($"Valid item resource is {res.itemID}, registering...");
 
 						//Register the item via resource
-						Registry<ItemData>.Register(res.itemID, res);
+						if (Registry<ItemData>.Contains(res.itemID))
+						{
+							GD.Print($"Valid item resource is {res.itemID}, registering...");
+							Registry<ItemData>.Register(res.itemID, res);
+						}
 					}
 				}
 			}

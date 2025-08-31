@@ -8,13 +8,7 @@ public abstract class Packet : IPacket
     }
 
 
-    public void Deserialize(BinaryReader r)
-    {
-        throw new System.NotImplementedException();
-    }
+    public abstract void Deserialize(BinaryReader r);
 
-    public void Serialize(BinaryWriter w)
-    {
-        throw new System.NotImplementedException();
-    }
+    public abstract void Serialize(BinaryWriter w);
 }

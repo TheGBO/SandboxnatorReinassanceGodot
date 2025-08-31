@@ -25,6 +25,7 @@ UiSoundManager="*res://UI/UiSoundManager.tscn"
 ScenesBank="*res://Globals/ScenesBank/ScenesBank.tscn"
 PlayerProfileManager="*res://Entities/Player/PlayerProfileManager.cs"
 ENetTransport="*res://Network/Transports/ENetTransport.cs"
+LiteNetLibTransport="*res://Network/Transports/LiteNetLibTransport.cs"
 
 [display]
 
