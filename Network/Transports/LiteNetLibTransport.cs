@@ -104,7 +104,11 @@ public partial class LiteNetLibTransport : Singleton<LiteNetLibTransport>, ITran
     {
         if (isServer)
         {
-            if (connectedClients.TryGetValue(peerId, out var client))
+            if (peerId == 0)
+            {
+                SendToLocalHost(data);
+            }
+            else if (connectedClients.TryGetValue(peerId, out var client))
             {
                 client.Send(data, reliable ? DeliveryMethod.ReliableOrdered : DeliveryMethod.Unreliable);
             }
