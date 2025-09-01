@@ -24,6 +24,7 @@ config/icon="res://Assets/Textures/SANDBOXNATOR_ICON.png"
 UiSoundManager="*res://UI/UiSoundManager.tscn"
 ScenesBank="*res://Globals/ScenesBank/ScenesBank.tscn"
 PlayerProfileManager="*res://Entities/Player/PlayerProfileManager.cs"
+GameRegistries="*res://GameContent/GameRegistries.cs"
 
 [display]
 
@@ -50,6 +51,7 @@ folder_colors={
 "res://GameContent/Items/_Abstract/": "red",
 "res://Globals/": "purple",
 "res://Network/": "pink",
+"res://UI/": "blue",
 "res://World/": "orange",
 "res://export/": "green"
 }

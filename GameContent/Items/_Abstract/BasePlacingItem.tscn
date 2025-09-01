@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=3 uid="uid://brra32kqxyt3m"]
+
+[ext_resource type="Script" uid="uid://dlgpemynsx233" path="res://GameContent/Items/_Abstract/PlacingItem.cs" id="1_wv8dl"]
+[ext_resource type="Material" uid="uid://b8qe5ox5smlkp" path="res://Assets/Materials/Preview.tres" id="2_a2mfg"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_caru3"]
+material = ExtResource("2_a2mfg")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_pcbtr"]
+
+[node name="BasePlacingItem" type="Node3D" node_paths=PackedStringArray("previewMesh", "previewCollider")]
+script = ExtResource("1_wv8dl")
+previewMesh = NodePath("PreviewMesh")
+previewCollider = NodePath("PreviewCollider")
+snapRange = 1.0
+
+[node name="HandItem" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0, 0, 0)
+
+[node name="PreviewMesh" type="MeshInstance3D" parent="."]
+top_level = true
+visible = false
+mesh = SubResource("BoxMesh_caru3")
+
+[node name="PreviewCollider" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PreviewCollider"]
+shape = SubResource("BoxShape3D_pcbtr")

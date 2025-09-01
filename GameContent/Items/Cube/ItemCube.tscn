@@ -1,33 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://djqekcjdmn1te"]
+[gd_scene load_steps=4 format=3 uid="uid://djqekcjdmn1te"]
 
-[ext_resource type="Script" uid="uid://dlgpemynsx233" path="res://GameContent/Items/_Abstract/PlacingItem.cs" id="1_6jgdb"]
+[ext_resource type="PackedScene" uid="uid://brra32kqxyt3m" path="res://GameContent/Items/_Abstract/BasePlacingItem.tscn" id="1_jtm4k"]
 [ext_resource type="PackedScene" uid="uid://wemqi51d1620" path="res://GameContent/Buildings/Cube/PlacedCube.tscn" id="2_nxowp"]
-[ext_resource type="Texture2D" uid="uid://ojo0i4sevmr2" path="res://GameContent/Buildings/Cube/Tile.png" id="3_8b83h"]
-[ext_resource type="Material" uid="uid://b8qe5ox5smlkp" path="res://Assets/Materials/Preview.tres" id="4_pwdcq"]
+[ext_resource type="BoxMesh" uid="uid://catxv1ai3nedn" path="res://GameContent/Items/Cube/mesh.tres" id="3_ghdtp"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wpu4c"]
-albedo_texture = ExtResource("3_8b83h")
-uv1_offset = Vector3(0.5, 0.5, 0.5)
-uv1_triplanar = true
-texture_filter = 0
-
-[sub_resource type="BoxMesh" id="BoxMesh_uxkh2"]
-material = SubResource("StandardMaterial3D_wpu4c")
-
-[sub_resource type="BoxMesh" id="BoxMesh_idudw"]
-material = ExtResource("4_pwdcq")
-
-[node name="ItemCube" type="Node3D" node_paths=PackedStringArray("previewMesh")]
-script = ExtResource("1_6jgdb")
+[node name="ItemCube" instance=ExtResource("1_jtm4k")]
 buildingScene = ExtResource("2_nxowp")
-previewMesh = NodePath("PreviewMesh")
-snapRange = 0.5
 
-[node name="HandItem" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0, 0, 0)
-mesh = SubResource("BoxMesh_uxkh2")
-
-[node name="PreviewMesh" type="MeshInstance3D" parent="."]
-top_level = true
-visible = false
-mesh = SubResource("BoxMesh_idudw")
+[node name="HandItem" parent="." index="0"]
+mesh = ExtResource("3_ghdtp")

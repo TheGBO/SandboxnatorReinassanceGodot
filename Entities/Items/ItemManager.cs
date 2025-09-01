@@ -49,7 +49,7 @@ public partial class ItemManager : Singleton<ItemManager>
 						GD.Print($"Valid item resource is {res.itemID}, registering...");
 
 						//Register the item via resource
-						Registry<ItemData>.Register(res.itemID, res);
+						GameRegistries.Instance.ItemRegistry.Register(res.itemID, res);
 					}
 				}
 			}

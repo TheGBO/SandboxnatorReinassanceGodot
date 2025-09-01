@@ -99,7 +99,7 @@ public partial class PlayerItemUse : AbstractPlayerComponent
 		{
 			model.QueueFree();
 		}
-		ItemData itemResource = Registry<ItemData>.Get(currentItemID);
+		ItemData itemResource = GameRegistries.Instance.ItemRegistry.Get(currentItemID);
 		BaseItem loadedItem = itemResource.itemScene.Instantiate<BaseItem>();
 		item = loadedItem;
 		item.Ptu = this;

@@ -2,14 +2,16 @@ using Godot;
 using System;
 
 [GlobalClass]
+[GodotClassName("PlacingItem")]
 public partial class PlacingItem : BaseItem
 {
 	[Export] private PackedScene buildingScene;
 	[Export] private Node3D previewMesh;
+	[Export] private Area3D previewCollider;
 	[Export] private float snapRange;
 	[Export] private float normalOffset = 1;
 
-	public override void _Process(double delta)
+	public override void _PhysicsProcess(double delta)
 	{
 		if (!Ptu.parent.IsMultiplayerAuthority()) return;
 		GeneratePreviewMesh();
@@ -20,6 +22,8 @@ public partial class PlacingItem : BaseItem
 		previewMesh.Visible = Ptu.rayCast.IsColliding();
 		previewMesh.GlobalPosition = GetSnappedPosition(Ptu.rayCast.GetCollisionPoint(), Ptu.rayCast.GetCollisionNormal());
 		previewMesh.GlobalRotation = new Vector3(0, Ptu.desiredRotationY, 0);
+		previewCollider.Position = previewMesh.Position;
+		previewCollider.Rotation = previewMesh.Rotation;
 	}
 
 	//run on server
