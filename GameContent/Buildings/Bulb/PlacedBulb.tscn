@@ -85,7 +85,7 @@ blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_x14qh")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_col7d"]
-size = Vector3(0.728088, 1.16309, 0.728516)
+size = Vector3(0.5, 0.9, 0.5)
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_0g4ia"]
 properties/0/path = NodePath(".:position")
@@ -100,7 +100,7 @@ freeze = true
 script = ExtResource("1_mqh4i")
 
 [node name="model" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+transform = Transform3D(0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, 0, -0.5, 0)
 
 [node name="Base" type="MeshInstance3D" parent="model"]
 mesh = SubResource("ArrayMesh_fu5l0")
@@ -111,16 +111,16 @@ mesh = SubResource("ArrayMesh_4krtv")
 skeleton = NodePath("")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0693365, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.014044, -0.0622085, -0.014258)
 shape = SubResource("BoxShape3D_col7d")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_0g4ia")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.07579, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.57579, 0)
 light_color = Color(1, 0.694118, 0, 1)
-light_energy = 5.0
+light_energy = 4.0
 light_size = 16.0
 light_specular = 0.0
 omni_range = 16.3436

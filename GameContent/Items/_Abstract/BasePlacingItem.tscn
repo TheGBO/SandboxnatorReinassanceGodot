@@ -1,12 +1,14 @@
-[gd_scene load_steps=5 format=3 uid="uid://brra32kqxyt3m"]
+[gd_scene load_steps=6 format=3 uid="uid://brra32kqxyt3m"]
 
 [ext_resource type="Script" uid="uid://dlgpemynsx233" path="res://GameContent/Items/_Abstract/PlacingItem.cs" id="1_wv8dl"]
 [ext_resource type="Material" uid="uid://b8qe5ox5smlkp" path="res://Assets/Materials/Preview.tres" id="2_a2mfg"]
+[ext_resource type="Script" uid="uid://rr01jacsxsuk" path="res://GameContent/Items/_Abstract/PreviewCollider.cs" id="3_a2mfg"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_caru3"]
 material = ExtResource("2_a2mfg")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_pcbtr"]
+size = Vector3(0.9, 0.9, 0.9)
 
 [node name="BasePlacingItem" type="Node3D" node_paths=PackedStringArray("previewMesh", "previewCollider")]
 script = ExtResource("1_wv8dl")
@@ -23,6 +25,7 @@ visible = false
 mesh = SubResource("BoxMesh_caru3")
 
 [node name="PreviewCollider" type="Area3D" parent="."]
+script = ExtResource("3_a2mfg")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PreviewCollider"]
 shape = SubResource("BoxShape3D_pcbtr")

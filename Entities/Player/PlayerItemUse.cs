@@ -23,6 +23,7 @@ public partial class PlayerItemUse : AbstractPlayerComponent
 	private BaseItem item;
 	//desired rotation
 	[Export] public float desiredRotationY = 0f;
+	[Export] public bool isUseValid = false;
 	private float rotationIncrement = 45f;
 
 	public override void _Ready()
@@ -87,7 +88,6 @@ public partial class PlayerItemUse : AbstractPlayerComponent
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
 	private void C2S_Use(Dictionary args)
 	{
-		GD.Print(item);
 		item.UseItem(ItemUsageArgs.FromDictionary(args));
 	}
 

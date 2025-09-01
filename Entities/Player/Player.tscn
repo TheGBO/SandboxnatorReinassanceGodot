@@ -153,6 +153,9 @@ properties/6/replication_mode = 1
 properties/7/path = NodePath("Components/PlayerItemUse:desiredRotationY")
 properties/7/spawn = true
 properties/7/replication_mode = 1
+properties/8/path = NodePath("Components/PlayerItemUse:isUseValid")
+properties/8/spawn = true
+properties/8/replication_mode = 1
 
 [node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("playerMovement", "cameraMovement", "playerInput", "chatHud", "camera", "model", "hud", "componentList", "nameTag")]
 floor_stop_on_slope = false
@@ -354,7 +357,7 @@ script = ExtResource("9_rtpsh")
 rayCast = NodePath("../../Neck/RayCast3D")
 hand = NodePath("../../Neck/Hand")
 handAnimator = NodePath("HandAnimator")
-inventory = Array[String](["hammer", "cube", "nut", "bulb"])
+inventory = Array[String](["hammer", "cube", "bulb"])
 parent = NodePath("../..")
 
 [node name="HandAnimator" type="AnimationPlayer" parent="Components/PlayerItemUse"]

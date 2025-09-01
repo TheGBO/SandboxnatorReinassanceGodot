@@ -10,5 +10,4 @@ itemScene = ExtResource("1_q23lb")
 itemID = "cube"
 itemIcon = ExtResource("1_7un7m")
 itemName = "Cube"
-usageCooldown = 0.013
-raycastRange = 15.0
+usageCooldown = 0.1

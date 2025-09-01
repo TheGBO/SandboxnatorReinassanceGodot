@@ -6,10 +6,12 @@ using System;
 public partial class PlacingItem : BaseItem
 {
 	[Export] private PackedScene buildingScene;
-	[Export] private Node3D previewMesh;
-	[Export] private Area3D previewCollider;
+	[Export] private MeshInstance3D previewMesh;
+	[Export] private PreviewCollider previewCollider;
 	[Export] private float snapRange;
 	[Export] private float normalOffset = 1;
+	//Sync C2S
+	
 
 	public override void _PhysicsProcess(double delta)
 	{
@@ -17,19 +19,29 @@ public partial class PlacingItem : BaseItem
 		GeneratePreviewMesh();
 	}
 
+	//Client Side
 	private void GeneratePreviewMesh()
 	{
+
 		previewMesh.Visible = Ptu.rayCast.IsColliding();
 		previewMesh.GlobalPosition = GetSnappedPosition(Ptu.rayCast.GetCollisionPoint(), Ptu.rayCast.GetCollisionNormal());
 		previewMesh.GlobalRotation = new Vector3(0, Ptu.desiredRotationY, 0);
-		previewCollider.Position = previewMesh.Position;
-		previewCollider.Rotation = previewMesh.Rotation;
+		previewCollider.GlobalPosition = previewMesh.GlobalPosition;
+		previewCollider.GlobalRotation = previewMesh.GlobalRotation;
+
+		Ptu.isUseValid = !previewCollider.IsColliding;
+		ShaderMaterial shaderMat = (ShaderMaterial)previewMesh.GetActiveMaterial(0);
+		if (shaderMat != null)
+		{
+			shaderMat.SetShaderParameter("isValid", Ptu.isUseValid);
+		}
 	}
 
 	//run on server
 	//TODO: Reformulate method of passing tool usage data to P.T.U, probably just by getting them directly from the player
 	public override void UseItem(ItemUsageArgs args)
 	{
+		if (!Ptu.isUseValid) return;
 		GD.Print($"block placed by {args.PlayerId}");
 		Node3D building = (Node3D)buildingScene.Instantiate();
 		building.Name = Guid.NewGuid().GetHashCode().ToString();

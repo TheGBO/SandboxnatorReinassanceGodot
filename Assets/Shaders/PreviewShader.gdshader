@@ -1,6 +1,8 @@
 shader_type spatial;
 
-uniform vec3 renderColor = vec3(0.0, 1.0, 1.0);
+uniform vec3 validRenderColor = vec3(0.0, 1.0, 0.0);
+uniform vec3 invalidRenderColor = vec3(1.0, 0.0, 0.0);
+uniform bool isValid = true;
 uniform float transparencyAmplitude = 0.25;
 uniform float transparencyOffset = 0.125;
 render_mode unshaded;
@@ -21,7 +23,14 @@ void fragment() {
 	
 	ROUGHNESS = 1.0;
 	ALPHA = (abs(sin(TIME)) + transparencyOffset) * transparencyAmplitude;
-	ALBEDO = renderColor - bgColor;
+	vec3 currentColor;
+	if(isValid){
+		currentColor = validRenderColor;
+	}
+	else{
+		currentColor = invalidRenderColor;
+	}
+	ALBEDO = currentColor - bgColor;
 }
 
 //void light() {
