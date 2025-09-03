@@ -43,22 +43,22 @@ run/main_run_args="client"
 
 folder_colors={
 "res://Assets/": "red",
-"res://GameContent/": "blue",
+"res://GameContent/": "yellow",
 "res://GameContent/Buildings/": "yellow",
-"res://GameContent/Items/": "blue",
+"res://GameContent/Items/": "yellow",
 "res://GameContent/Items/ExplosionStaff/": "red",
 "res://GameContent/Items/Nut/": "red",
 "res://GameContent/Items/RGBall/": "red",
 "res://GameContent/Items/_Abstract/": "red",
-"res://Globals/": "purple",
-"res://Source/": "green",
-"res://Source/Chat/": "blue",
-"res://Source/Common/": "orange",
-"res://Source/Entities/": "yellow",
-"res://Source/Network/": "pink",
-"res://UI/": "blue",
+"res://Globals/": "green",
+"res://Source/": "red",
+"res://Source/Chat/": "orange",
+"res://Source/Common/": "yellow",
+"res://Source/Entities/": "green",
+"res://Source/Items/": "blue",
+"res://UI/": "purple",
 "res://World/": "orange",
-"res://export/": "green"
+"res://export/": "orange"
 }
 
 [gui]

@@ -1,9 +1,9 @@
 [gd_scene load_steps=5 format=3 uid="uid://cu2vloh7mq55n"]
 
 [ext_resource type="Script" uid="uid://dfcphkg5bitd8" path="res://UI/Profile/ProfileEditingMenu.cs" id="1_4fqg0"]
-[ext_resource type="Texture2D" uid="uid://dnt56ejjxcc16" path="res://Assets/Textures/Character_UwU.png" id="2_tnmhm"]
-[ext_resource type="Texture2D" uid="uid://c08077ylywm20" path="res://Assets/Textures/Character_Happy.png" id="3_k8yag"]
-[ext_resource type="Texture2D" uid="uid://dltvykko3kc2o" path="res://Assets/Textures/Character_Skeptical.png" id="4_luaw6"]
+[ext_resource type="Texture2D" uid="uid://dnt56ejjxcc16" path="res://GameContent/Skins/Character_UwU.png" id="2_tnmhm"]
+[ext_resource type="Texture2D" uid="uid://c08077ylywm20" path="res://GameContent/Skins/Character_Happy.png" id="3_k8yag"]
+[ext_resource type="Texture2D" uid="uid://dltvykko3kc2o" path="res://GameContent/Skins/Character_Skeptical.png" id="4_luaw6"]
 
 [node name="ProfileEditingMenu" type="Control" node_paths=PackedStringArray("nameEdit", "skinPreview", "colorEdit")]
 layout_mode = 3

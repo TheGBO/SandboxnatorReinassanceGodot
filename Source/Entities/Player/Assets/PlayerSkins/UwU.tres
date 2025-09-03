@@ -1,6 +1,6 @@
 [gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://pfpxs77fq4wj"]
 
-[ext_resource type="Texture2D" uid="uid://dnt56ejjxcc16" path="res://Assets/Textures/Character_UwU.png" id="1_dn762"]
+[ext_resource type="Texture2D" uid="uid://dnt56ejjxcc16" path="res://GameContent/Skins/Character_UwU.png" id="1_dn762"]
 
 [resource]
 resource_name = "Material"
