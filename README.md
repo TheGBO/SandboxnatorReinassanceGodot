@@ -43,7 +43,7 @@
 </p>
 
 <p align="center">
-  <i>Build, rotate, destroy, sync... it's your sandbox.</i>
+  <i>Build, rotate, destroy, chat...</i>
 </p>
 
 ---
