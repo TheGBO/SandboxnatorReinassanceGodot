@@ -22,19 +22,14 @@ public partial class PlacingItem : BaseItem
 	//Client Side
 	private void GeneratePreviewMesh()
 	{
+		Ptu.isUseValid = !previewCollider.IsColliding;
 
-		previewMesh.Visible = Ptu.rayCast.IsColliding();
+		previewMesh.Visible = Ptu.rayCast.IsColliding() && Ptu.isUseValid;
 		previewMesh.GlobalPosition = GetSnappedPosition(Ptu.rayCast.GetCollisionPoint(), Ptu.rayCast.GetCollisionNormal());
 		previewMesh.GlobalRotation = new Vector3(0, Ptu.desiredRotationY, 0);
 		previewCollider.GlobalPosition = previewMesh.GlobalPosition;
 		previewCollider.GlobalRotation = previewMesh.GlobalRotation;
 
-		Ptu.isUseValid = !previewCollider.IsColliding;
-		ShaderMaterial shaderMat = (ShaderMaterial)previewMesh.GetActiveMaterial(0);
-		if (shaderMat != null)
-		{
-			shaderMat.SetShaderParameter("isValid", Ptu.isUseValid);
-		}
 	}
 
 	//run on server

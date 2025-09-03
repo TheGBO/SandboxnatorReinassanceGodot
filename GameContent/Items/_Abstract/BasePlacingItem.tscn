@@ -8,7 +8,7 @@
 material = ExtResource("2_a2mfg")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_pcbtr"]
-size = Vector3(0.9, 0.9, 0.9)
+size = Vector3(0.8, 0.8, 0.8)
 
 [node name="BasePlacingItem" type="Node3D" node_paths=PackedStringArray("previewMesh", "previewCollider")]
 script = ExtResource("1_wv8dl")

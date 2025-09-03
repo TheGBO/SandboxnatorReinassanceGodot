@@ -17,10 +17,10 @@ void fragment() {
     vec2 center = vec2(0.5, 0.5); // Center of the screen in normalized space
     vec2 fragCoord = UV;
 	vec3 bgColor = texture(SCREEN_TEXTURE, SCREEN_UV).rgb;
-	
+
 	float distToCenter = length(fragCoord - center);
 	float darkeningFactor = max(0.0, 1.0 - distToCenter * sin(TIME));
-	
+
 	ROUGHNESS = 1.0;
 	ALPHA = (abs(sin(TIME)) + transparencyOffset) * transparencyAmplitude;
 	vec3 currentColor;
