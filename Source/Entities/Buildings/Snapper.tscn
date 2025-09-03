@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://dt7f7iern17j1"]
 
-[ext_resource type="Script" uid="uid://bvc72nnun3ec6" path="res://Entities/Buildings/Snapper.cs" id="1_ciduf"]
+[ext_resource type="Script" uid="uid://bvc72nnun3ec6" path="res://Source/Entities/Buildings/Snapper.cs" id="1_ciduf"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_3x3iw"]
 radius = 0.1

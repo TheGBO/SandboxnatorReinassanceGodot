@@ -4,12 +4,10 @@ using System;
 using System.Collections.Generic;
 
 
-//TODO: fix the sync n shite
-
 /// <summary>
 /// Class that represents the player's tools and inventory, functionality and data.
 /// </summary>
-public partial class PlayerItemUse : AbstractPlayerComponent
+public partial class PlayerItemUse : PlayerComponent
 {
 	[Export] public RayCast3D rayCast;
 	[Export] public Node3D hand;
@@ -29,7 +27,7 @@ public partial class PlayerItemUse : AbstractPlayerComponent
 	public override void _Ready()
 	{
 		currentItemID = inventory[0];
-		if (!parent.IsMultiplayerAuthority()) return;
+		if (!ComponentParent.IsMultiplayerAuthority()) return;
 		//send message to server requesting tool synchronization
 		SetupInput();
 		UpdateItemModelAndData();
@@ -37,20 +35,20 @@ public partial class PlayerItemUse : AbstractPlayerComponent
 
 	private void SetupInput()
 	{
-		parent.playerInput.RotateCCW += () =>
+		ComponentParent.playerInput.RotateCCW += () =>
 		{
 			desiredRotationY -= rotationIncrement * (Mathf.Pi / 180);
 		};
-		parent.playerInput.RotateCW += () =>
+		ComponentParent.playerInput.RotateCW += () =>
 		{
 			desiredRotationY += rotationIncrement * (Mathf.Pi / 180);
 		};
-		parent.playerInput.UsePrimary += ClientUse;
-		parent.playerInput.UseIncrement += () =>
+		ComponentParent.playerInput.UsePrimary += ClientUse;
+		ComponentParent.playerInput.UseIncrement += () =>
 		{
 			CycleItem(1);
 		};
-		parent.playerInput.UseDecrement += () =>
+		ComponentParent.playerInput.UseDecrement += () =>
 		{
 			CycleItem(-1);
 		};
@@ -72,7 +70,7 @@ public partial class PlayerItemUse : AbstractPlayerComponent
 
 		Vector3 collisionPoint = rayCast.GetCollisionPoint();
 		Vector3 normal = rayCast.GetCollisionNormal();
-		Dictionary itemUsageArgs = new ItemUsageArgs(collisionPoint, normal, parent.playerId).ToDictionary();
+		Dictionary itemUsageArgs = new ItemUsageArgs(collisionPoint, normal, ComponentParent.playerId).ToDictionary();
 		//Perform c2s RPC call if the player is a client
 		//Call this on the server side if the player using the tool is the one hosting
 

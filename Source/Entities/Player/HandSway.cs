@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class HandSway : AbstractPlayerComponent
+public partial class HandSway : PlayerComponent
 {
     [Export] private float swaySpeed;
     [Export] private Node3D hand;
@@ -20,11 +20,11 @@ public partial class HandSway : AbstractPlayerComponent
     {
         if (!IsMultiplayerAuthority()) return;
 
-        if (parent.playerInput.LookVector.X > swayThreshold)
+        if (ComponentParent.playerInput.LookVector.X > swayThreshold)
         {
             hand.Rotation = hand.Rotation.Lerp(rightSway, swaySpeed * (float)delta);
         }
-        else if (parent.playerInput.LookVector.X < -swayThreshold)
+        else if (ComponentParent.playerInput.LookVector.X < -swayThreshold)
         {
             hand.Rotation = hand.Rotation.Lerp(leftSway, swaySpeed * (float)delta);
         }

@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class PlayerChatHud : AbstractPlayerComponent
+public partial class PlayerChatHud : PlayerComponent
 {
     [Export] public Control chatRoot;
     [Export] public LineEdit messageEdit;
@@ -11,15 +11,15 @@ public partial class PlayerChatHud : AbstractPlayerComponent
     public override void _Ready()
     {
         if (!IsMultiplayerAuthority()) return;
-        parent.playerInput.OnShowChat += ShowChat;
-        parent.playerInput.OnUiEscape += HideChat;
+        ComponentParent.playerInput.OnShowChat += ShowChat;
+        ComponentParent.playerInput.OnUiEscape += HideChat;
         ChatManager.Instance.OnMessageReceived += ReceiveMessage;
     }
 
     public override void _Process(double delta)
     {
         if (!IsMultiplayerAuthority()) return;
-        parent.playerInput.IsChatOpen = chatRoot.Visible;
+        ComponentParent.playerInput.IsChatOpen = chatRoot.Visible;
     }
 
     private void ShowChat()

@@ -1,7 +1,7 @@
 [gd_scene load_steps=11 format=4 uid="uid://cr4ldfu1yskgy"]
 
 [ext_resource type="Script" uid="uid://cxqsixqi4x6k2" path="res://GameContent/Buildings/Bulb/Bulb.cs" id="1_mqh4i"]
-[ext_resource type="PackedScene" uid="uid://dt7f7iern17j1" path="res://Entities/Buildings/Snapper.tscn" id="2_g6hyp"]
+[ext_resource type="PackedScene" uid="uid://dt7f7iern17j1" path="res://Source/Entities/Buildings/Snapper.tscn" id="2_g6hyp"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jd8sy"]
 resource_name = "Base"

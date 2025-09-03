@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class PlayerInput : AbstractPlayerComponent
+public partial class PlayerInput : PlayerComponent
 {
     //movement
     public Vector2 MovementVector { get; private set; }
@@ -126,9 +126,9 @@ public partial class PlayerInput : AbstractPlayerComponent
 
     public override void _Input(InputEvent _event)
     {
-        if (parent.IsMultiplayerAuthority())
+        if (ComponentParent.IsMultiplayerAuthority())
         {
-            if (parent == null)
+            if (ComponentParent == null)
             {
                 GD.Print("NULL PARENT WARNING");
             }

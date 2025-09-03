@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="ItemData" load_steps=4 format=3 uid="uid://dnyagbdte5uuc"]
 
 [ext_resource type="PackedScene" uid="uid://d3bbvacocfmsd" path="res://GameContent/Items/Bulb/ItemBulb.tscn" id="1_5p2yt"]
-[ext_resource type="Script" uid="uid://dcb81xxw3xywm" path="res://Entities/Items/ItemData.cs" id="1_7i41d"]
+[ext_resource type="Script" uid="uid://dcb81xxw3xywm" path="res://Source/Items/ItemData.cs" id="1_7i41d"]
 [ext_resource type="Texture2D" uid="uid://l0soiaaicc2t" path="res://GameContent/Items/Bulb/BulbIcon.png" id="1_8gcc3"]
 
 [resource]

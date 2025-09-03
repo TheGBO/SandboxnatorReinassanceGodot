@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://db8m6k6h60fdk"]
 
-[ext_resource type="Script" uid="uid://dohfge5i1dn5p" path="res://Entities/Items/BaseItem.cs" id="1_a4t18"]
+[ext_resource type="Script" uid="uid://dohfge5i1dn5p" path="res://Source/Items/BaseItem.cs" id="1_a4t18"]
 
 [node name="BaseTool" type="Node3D" node_paths=PackedStringArray("model")]
 script = ExtResource("1_a4t18")

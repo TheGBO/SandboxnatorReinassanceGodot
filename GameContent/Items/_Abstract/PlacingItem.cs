@@ -15,7 +15,7 @@ public partial class PlacingItem : BaseItem
 
 	public override void _PhysicsProcess(double delta)
 	{
-		if (!Ptu.parent.IsMultiplayerAuthority()) return;
+		if (!Ptu.ComponentParent.IsMultiplayerAuthority()) return;
 		GeneratePreviewMesh();
 	}
 

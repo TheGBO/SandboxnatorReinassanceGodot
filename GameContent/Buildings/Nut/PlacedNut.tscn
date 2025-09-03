@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=4 uid="uid://bsin23prm8y74"]
 
-[ext_resource type="Script" uid="uid://bv0c7lrf15lmu" path="res://Entities/Buildings/Placeable.cs" id="1_k6qku"]
+[ext_resource type="Script" uid="uid://bv0c7lrf15lmu" path="res://Source/Entities/Buildings/Placeable.cs" id="1_k6qku"]
 [ext_resource type="Texture2D" uid="uid://cfro8yg1sldkk" path="res://GameContent/Items/Nut/Assets/Nut.png" id="1_xfmir"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_ipju5"]

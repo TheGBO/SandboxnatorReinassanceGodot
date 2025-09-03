@@ -1,17 +1,17 @@
 [gd_scene load_steps=24 format=3 uid="uid://1hsnhm80nlng"]
 
-[ext_resource type="Script" uid="uid://mr7xahsxhr7w" path="res://Entities/Player/PlayerMovement.cs" id="1_fmfn4"]
-[ext_resource type="Script" uid="uid://dt013s8d7ysto" path="res://Entities/Player/Player.cs" id="1_kjmmx"]
-[ext_resource type="Material" uid="uid://pfpxs77fq4wj" path="res://Entities/Player/Assets/PlayerSkins/UwU.tres" id="2_icefu"]
-[ext_resource type="Script" uid="uid://b0sc20fvjjujb" path="res://Entities/Player/CameraMovement.cs" id="3_bvtsg"]
+[ext_resource type="Script" uid="uid://mr7xahsxhr7w" path="res://Source/Entities/Player/PlayerMovement.cs" id="1_fmfn4"]
+[ext_resource type="Script" uid="uid://dt013s8d7ysto" path="res://Source/Entities/Player/Player.cs" id="1_kjmmx"]
+[ext_resource type="Material" uid="uid://pfpxs77fq4wj" path="res://Source/Entities/Player/Assets/PlayerSkins/UwU.tres" id="2_icefu"]
+[ext_resource type="Script" uid="uid://b0sc20fvjjujb" path="res://Source/Entities/Player/CameraMovement.cs" id="3_bvtsg"]
 [ext_resource type="AudioStream" uid="uid://b8xbjq5ide70f" path="res://Assets/Sounds/ui_message_received.mp3" id="3_bxpi0"]
 [ext_resource type="Texture2D" uid="uid://bvrby5xk2pk1j" path="res://GameContent/Items/Hammer/HammerIcon.png" id="4_lmeus"]
-[ext_resource type="ArrayMesh" uid="uid://ddihvbuyh5ki0" path="res://Entities/Player/Assets/headModel.tres" id="5_v8hmc"]
+[ext_resource type="ArrayMesh" uid="uid://ddihvbuyh5ki0" path="res://Source/Entities/Player/Assets/headModel.tres" id="5_v8hmc"]
 [ext_resource type="Texture2D" uid="uid://bglesdqd1oqd1" path="res://Assets/Textures/CrossHair.png" id="8_2c07k"]
-[ext_resource type="Script" uid="uid://b48urjcts4ei0" path="res://Entities/Player/PlayerItemUse.cs" id="9_rtpsh"]
-[ext_resource type="Script" uid="uid://g2wgr24sb1q6" path="res://Entities/Player/PlayerChatHud.cs" id="10_np6ov"]
-[ext_resource type="Script" uid="uid://blwddxb23k2it" path="res://Entities/Player/PlayerInput.cs" id="10_xk60u"]
-[ext_resource type="Script" uid="uid://b03asse870ciy" path="res://Entities/Player/HandSway.cs" id="11_v2xwv"]
+[ext_resource type="Script" uid="uid://b48urjcts4ei0" path="res://Source/Entities/Player/PlayerItemUse.cs" id="9_rtpsh"]
+[ext_resource type="Script" uid="uid://g2wgr24sb1q6" path="res://Source/Entities/Player/PlayerChatHud.cs" id="10_np6ov"]
+[ext_resource type="Script" uid="uid://blwddxb23k2it" path="res://Source/Entities/Player/PlayerInput.cs" id="10_xk60u"]
+[ext_resource type="Script" uid="uid://b03asse870ciy" path="res://Source/Entities/Player/HandSway.cs" id="11_v2xwv"]
 
 [sub_resource type="InputEventAction" id="InputEventAction_jynvv"]
 action = &"ui_enter"
@@ -157,19 +157,19 @@ properties/8/path = NodePath("Components/PlayerItemUse:isUseValid")
 properties/8/spawn = true
 properties/8/replication_mode = 1
 
-[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("playerMovement", "cameraMovement", "playerInput", "chatHud", "camera", "model", "hud", "componentList", "nameTag")]
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("componentList", "playerMovement", "cameraMovement", "playerInput", "chatHud", "model", "nameTag", "camera", "hud")]
 floor_stop_on_slope = false
 platform_on_leave = 2
 script = ExtResource("1_kjmmx")
+componentList = NodePath("Components")
 playerMovement = NodePath("Components/PlayerMovement")
 cameraMovement = NodePath("Components/CameraMovement")
 playerInput = NodePath("Components/PlayerInput")
 chatHud = NodePath("Components/PlayerChatHUD")
-camera = NodePath("Neck/Camera3D")
 model = NodePath("Neck/sandboxnatorCharacter")
-hud = NodePath("HUD")
-componentList = NodePath("Components")
 nameTag = NodePath("NameTagHolder/NameTag")
+camera = NodePath("Neck/Camera3D")
+hud = NodePath("HUD")
 
 [node name="HUD" type="Control" parent="."]
 layout_mode = 3
@@ -335,7 +335,7 @@ shape = SubResource("CapsuleShape3D_am40t")
 
 [node name="Components" type="Node" parent="."]
 
-[node name="PlayerMovement" type="Node3D" parent="Components" node_paths=PackedStringArray("cb", "camera", "neckAnimator", "parent")]
+[node name="PlayerMovement" type="Node3D" parent="Components" node_paths=PackedStringArray("cb", "camera", "neckAnimator")]
 script = ExtResource("1_fmfn4")
 cb = NodePath("../..")
 walkSpeed = 4.0
@@ -344,47 +344,41 @@ jumpVelocity = 8.0
 camera = NodePath("../../Neck/Camera3D")
 neckAnimator = NodePath("../../Neck/Camera3D/FovEffectsAnimator")
 sprintEffectTime = 0.125
-parent = NodePath("../..")
 
-[node name="CameraMovement" type="Node3D" parent="Components" node_paths=PackedStringArray("neck", "body", "parent")]
+[node name="CameraMovement" type="Node3D" parent="Components" node_paths=PackedStringArray("neck", "body")]
 script = ExtResource("3_bvtsg")
 neck = NodePath("../../Neck")
 body = NodePath("../..")
-parent = NodePath("../..")
 
-[node name="PlayerItemUse" type="Node3D" parent="Components" node_paths=PackedStringArray("rayCast", "hand", "handAnimator", "parent")]
+[node name="PlayerItemUse" type="Node3D" parent="Components" node_paths=PackedStringArray("rayCast", "hand", "handAnimator")]
 script = ExtResource("9_rtpsh")
 rayCast = NodePath("../../Neck/RayCast3D")
 hand = NodePath("../../Neck/Hand")
 handAnimator = NodePath("HandAnimator")
 inventory = Array[String](["hammer", "cube", "bulb"])
-parent = NodePath("../..")
 
 [node name="HandAnimator" type="AnimationPlayer" parent="Components/PlayerItemUse"]
 libraries = {
 &"": SubResource("AnimationLibrary_0sei0")
 }
 
-[node name="PlayerInput" type="Node3D" parent="Components" node_paths=PackedStringArray("parent")]
+[node name="PlayerInput" type="Node3D" parent="Components"]
 script = ExtResource("10_xk60u")
-parent = NodePath("../..")
 
-[node name="PlayerChatHUD" type="Node3D" parent="Components" node_paths=PackedStringArray("chatRoot", "messageEdit", "messageBox", "notificationSound", "parent")]
+[node name="PlayerChatHUD" type="Node3D" parent="Components" node_paths=PackedStringArray("chatRoot", "messageEdit", "messageBox", "notificationSound")]
 script = ExtResource("10_np6ov")
 chatRoot = NodePath("../../HUD/ChatRoot")
 messageEdit = NodePath("../../HUD/ChatRoot/ChatBox/VBoxContainer/Input/MessageEdit")
 messageBox = NodePath("../../HUD/ChatRoot/ChatBox/VBoxContainer/MarginContainer/MessagesContainer")
 notificationSound = NodePath("../../HUD/ChatRoot/NotificationSound")
-parent = NodePath("../..")
 
-[node name="HandSway" type="Node3D" parent="Components" node_paths=PackedStringArray("hand", "parent")]
+[node name="HandSway" type="Node3D" parent="Components" node_paths=PackedStringArray("hand")]
 script = ExtResource("11_v2xwv")
 swaySpeed = 3.0
 hand = NodePath("../../Neck/Hand")
 rightSway = Vector3(0, 0.56, 0)
 leftSway = Vector3(0, -0.56, 0)
 swayThreshold = 5.0
-parent = NodePath("../..")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_interval = 0.1

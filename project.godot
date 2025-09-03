@@ -23,7 +23,7 @@ config/icon="res://Assets/Textures/SANDBOXNATOR_ICON.png"
 
 UiSoundManager="*res://UI/UiSoundManager.tscn"
 ScenesBank="*res://Globals/ScenesBank/ScenesBank.tscn"
-PlayerProfileManager="*res://Entities/Player/PlayerProfileManager.cs"
+PlayerProfileManager="*res://Source/Entities/Player/PlayerProfileManager.cs"
 GameRegistries="*res://GameContent/GameRegistries.cs"
 
 [display]
@@ -43,8 +43,6 @@ run/main_run_args="client"
 
 folder_colors={
 "res://Assets/": "red",
-"res://Common/": "orange",
-"res://Entities/": "yellow",
 "res://GameContent/": "blue",
 "res://GameContent/Buildings/": "yellow",
 "res://GameContent/Items/": "blue",
@@ -53,7 +51,11 @@ folder_colors={
 "res://GameContent/Items/RGBall/": "red",
 "res://GameContent/Items/_Abstract/": "red",
 "res://Globals/": "purple",
-"res://Network/": "pink",
+"res://Source/": "green",
+"res://Source/Chat/": "blue",
+"res://Source/Common/": "orange",
+"res://Source/Entities/": "yellow",
+"res://Source/Network/": "pink",
 "res://UI/": "blue",
 "res://World/": "orange",
 "res://export/": "green"

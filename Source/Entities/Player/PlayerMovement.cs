@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class PlayerMovement : AbstractPlayerComponent
+public partial class PlayerMovement : PlayerComponent
 {
 	//movement
 	[Export] public CharacterBody3D cb;
@@ -27,11 +27,11 @@ public partial class PlayerMovement : AbstractPlayerComponent
 
 	public override void _Ready()
 	{
-		if (!parent.IsMultiplayerAuthority())
+		if (!ComponentParent.IsMultiplayerAuthority())
 			return;
 
 		currentSpeed = walkSpeed;
-		parent.playerInput.OnStopSprint += StopSprint;
+		ComponentParent.playerInput.OnStopSprint += StopSprint;
 	}
 
 
@@ -39,7 +39,7 @@ public partial class PlayerMovement : AbstractPlayerComponent
 	//TODO: Separate input from movement
 	public override void _PhysicsProcess(double delta)
 	{
-		if (!parent.IsMultiplayerAuthority())
+		if (!ComponentParent.IsMultiplayerAuthority())
 			return;
 
 		camera.Fov = fov;
@@ -51,7 +51,7 @@ public partial class PlayerMovement : AbstractPlayerComponent
 			velocity += cb.GetGravity() * (float)delta;
 		}
 
-		if (cb.IsOnFloor() && parent.playerInput.IsJumping)
+		if (cb.IsOnFloor() && ComponentParent.playerInput.IsJumping)
 		{
 			velocity.Y = jumpVelocity;
 		}
@@ -61,12 +61,12 @@ public partial class PlayerMovement : AbstractPlayerComponent
 		Vector3 forward = cb.GlobalTransform.Basis.Z;
 		Vector3 right = cb.GlobalTransform.Basis.X;
 
-		Vector2 inputDir = parent.playerInput.MovementVector;
+		Vector2 inputDir = ComponentParent.playerInput.MovementVector;
 		Vector3 direction = (forward * inputDir.Y + right * inputDir.X).Normalized();
 		bool isMoving = inputDir != Vector2.Zero;
 
 		//check for sprint
-		bool isSprinting = parent.playerInput.IsSprinting;
+		bool isSprinting = ComponentParent.playerInput.IsSprinting;
 		if (isSprinting)
 		{
 			Sprint(true);

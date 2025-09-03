@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class CameraMovement : AbstractPlayerComponent
+public partial class CameraMovement : PlayerComponent
 {
 	[Export] public Node3D neck;
 	[Export] public Node3D body;
@@ -9,20 +9,19 @@ public partial class CameraMovement : AbstractPlayerComponent
 	float sensitivity = 0.01f;
 	public override void _Ready()
 	{
-		if (!parent.IsMultiplayerAuthority())
+		if (!ComponentParent.IsMultiplayerAuthority())
 			return;
 
 		Input.MouseMode = Input.MouseModeEnum.Captured;
-		parent.playerInput.OnToggleCursorCapture += ToggleCursorCapture;
-		parent.playerInput.OnMouseMovement += LookAction;
+		ComponentParent.playerInput.OnToggleCursorCapture += ToggleCursorCapture;
+		ComponentParent.playerInput.OnMouseMovement += LookAction;
 	}
 
 
-	//TODO: (?) consider moving sensitivity to control settings
 	private void LookAction()
 	{
-		body.RotateY(-parent.playerInput.LookVector.X * sensitivity);
-		neck.RotateX(-parent.playerInput.LookVector.Y * sensitivity);
+		body.RotateY(-ComponentParent.playerInput.LookVector.X * sensitivity);
+		neck.RotateX(-ComponentParent.playerInput.LookVector.Y * sensitivity);
 		neck.Rotation = new Vector3(Mathf.Clamp(neck.Rotation.X, -90 * (Mathf.Pi / 180), 90 * (Mathf.Pi / 180)), neck.Rotation.Y, neck.Rotation.Z);
 
 	}

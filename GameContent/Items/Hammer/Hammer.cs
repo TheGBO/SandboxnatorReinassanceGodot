@@ -10,7 +10,6 @@ public partial class Hammer : BaseItem
 		if (hitObject is Placeable)
 		{
 			Placeable hitPlaceable = (Placeable)hitObject;
-			//TODO: destroy animation
 			hitPlaceable.Destroy();
 		}
 	}

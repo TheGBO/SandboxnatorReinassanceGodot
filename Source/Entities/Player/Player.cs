@@ -6,26 +6,34 @@ using GBOUtils;
 //The most basic and central class to a player.
 public partial class Player : CharacterBody3D
 {
+	//Components
+	//TODO: also abstract playerId as some part of networked entity thingy (e.g. NetworkedId) I suppose
+	public int playerId;
+	//TODO: Abstract this to be a property of a base entity
+	[Export] public Node componentList;
 	[Export] public PlayerMovement playerMovement;
 	[Export] public CameraMovement cameraMovement;
 	[Export] public PlayerInput playerInput;
 	[Export] public PlayerChatHud chatHud;
-	[Export] public Camera3D camera;
+
+	//Cosmetics; TODO: Make cosmetics its own component as well.
 	[Export] public MeshInstance3D model;
-	[Export] public Node hud;
-	[Export] public Node componentList;
 	[Export] public PlayerProfileData profileData;
 	[Export] public Label3D nameTag;
-	public int playerId;
+
+	//Individual client graphical user interface and camera holders
+	[Export] public Camera3D camera;
+	[Export] public Node hud;
 
 	public override void _EnterTree()
 	{
 		playerId = int.Parse(Name);
 		SetMultiplayerAuthority(playerId);
 		//set components
-		foreach (AbstractPlayerComponent component in componentList.GetChildren())
+		//TODO: Abstract this to a future base entity
+		foreach (PlayerComponent component in componentList.GetChildren())
 		{
-			component.parent = this;
+			component.SetParent(this);
 		}
 
 		//hide the player head model

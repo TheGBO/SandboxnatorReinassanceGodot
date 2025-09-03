@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://jm1mq53ol7ei" path="res://GameContent/Items/Cube/CubeIcon.png" id="1_7un7m"]
 [ext_resource type="PackedScene" uid="uid://djqekcjdmn1te" path="res://GameContent/Items/Cube/ItemCube.tscn" id="1_q23lb"]
-[ext_resource type="Script" uid="uid://dcb81xxw3xywm" path="res://Entities/Items/ItemData.cs" id="1_w4p4d"]
+[ext_resource type="Script" uid="uid://dcb81xxw3xywm" path="res://Source/Items/ItemData.cs" id="1_w4p4d"]
 
 [resource]
 script = ExtResource("1_w4p4d")
