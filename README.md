@@ -5,7 +5,7 @@
 
 <h1 align="center">🌍 Sandboxnator</h1>
 <p align="center">
-  <b>A very experimental multiplayer sandbox game where you can build <em>freely</em>, destroy stuff, rotate objects, and create your own experiences.</b>
+  <b>A very experimental multiplayer sandbox game.</b>
 </p>
 
 <p align="center">
