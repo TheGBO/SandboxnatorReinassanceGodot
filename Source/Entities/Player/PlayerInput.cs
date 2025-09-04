@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class PlayerInput : PlayerComponent
+public partial class PlayerInput : AbstractComponent<Player>
 {
     //movement
     public Vector2 MovementVector { get; private set; }

@@ -7,7 +7,7 @@ using System.Collections.Generic;
 /// <summary>
 /// Class that represents the player's tools and inventory, functionality and data.
 /// </summary>
-public partial class PlayerItemUse : PlayerComponent
+public partial class PlayerItemUse : AbstractComponent<Player>
 {
 	[Export] public RayCast3D rayCast;
 	[Export] public Node3D hand;
@@ -70,7 +70,7 @@ public partial class PlayerItemUse : PlayerComponent
 
 		Vector3 collisionPoint = rayCast.GetCollisionPoint();
 		Vector3 normal = rayCast.GetCollisionNormal();
-		Dictionary itemUsageArgs = new ItemUsageArgs(collisionPoint, normal, ComponentParent.playerId).ToDictionary();
+		Dictionary itemUsageArgs = new ItemUsageArgs(collisionPoint, normal, ComponentParent.componentHolder.entityId).ToDictionary();
 		//Perform c2s RPC call if the player is a client
 		//Call this on the server side if the player using the tool is the one hosting
 

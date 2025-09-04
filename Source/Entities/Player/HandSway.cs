@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class HandSway : PlayerComponent
+public partial class HandSway : AbstractComponent<Player>
 {
     [Export] private float swaySpeed;
     [Export] private Node3D hand;

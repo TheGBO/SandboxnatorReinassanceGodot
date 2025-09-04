@@ -51,7 +51,7 @@ public partial class World : Singleton<World>
 		foreach (Player player in GetPlayers())
 		{
 			GD.Print("data: " + player.profileData);
-			if (player.playerId == id)
+			if (player.componentHolder.entityId == id)
 			{
 				return player.profileData;
 			}

@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class PlayerChatHud : PlayerComponent
+public partial class PlayerChatHud : AbstractComponent<Player>
 {
     [Export] public Control chatRoot;
     [Export] public LineEdit messageEdit;

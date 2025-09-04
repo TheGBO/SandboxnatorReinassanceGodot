@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class CameraMovement : PlayerComponent
+public partial class CameraMovement : AbstractComponent<Player>
 {
 	[Export] public Node3D neck;
 	[Export] public Node3D body;

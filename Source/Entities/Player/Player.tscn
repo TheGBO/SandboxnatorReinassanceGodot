@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://1hsnhm80nlng"]
+[gd_scene load_steps=25 format=3 uid="uid://1hsnhm80nlng"]
 
 [ext_resource type="Script" uid="uid://mr7xahsxhr7w" path="res://Source/Entities/Player/PlayerMovement.cs" id="1_fmfn4"]
 [ext_resource type="Script" uid="uid://dt013s8d7ysto" path="res://Source/Entities/Player/Player.cs" id="1_kjmmx"]
@@ -7,6 +7,7 @@
 [ext_resource type="AudioStream" uid="uid://b8xbjq5ide70f" path="res://Assets/Sounds/ui_message_received.mp3" id="3_bxpi0"]
 [ext_resource type="Texture2D" uid="uid://bvrby5xk2pk1j" path="res://GameContent/Items/Hammer/HammerIcon.png" id="4_lmeus"]
 [ext_resource type="ArrayMesh" uid="uid://ddihvbuyh5ki0" path="res://Source/Entities/Player/Assets/headModel.tres" id="5_v8hmc"]
+[ext_resource type="Script" uid="uid://e34gkmm62lfj" path="res://Source/Entities/ComponentHolder.cs" id="7_kauam"]
 [ext_resource type="Texture2D" uid="uid://bglesdqd1oqd1" path="res://Assets/Textures/CrossHair.png" id="8_2c07k"]
 [ext_resource type="Script" uid="uid://b48urjcts4ei0" path="res://Source/Entities/Player/PlayerItemUse.cs" id="9_rtpsh"]
 [ext_resource type="Script" uid="uid://g2wgr24sb1q6" path="res://Source/Entities/Player/PlayerChatHud.cs" id="10_np6ov"]
@@ -157,15 +158,16 @@ properties/8/path = NodePath("Components/PlayerItemUse:isUseValid")
 properties/8/spawn = true
 properties/8/replication_mode = 1
 
-[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("componentList", "playerMovement", "cameraMovement", "playerInput", "chatHud", "model", "nameTag", "camera", "hud")]
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("componentHolder", "characterBody", "playerMovement", "cameraMovement", "playerInput", "chatHud", "model", "nameTag", "camera", "hud")]
 floor_stop_on_slope = false
 platform_on_leave = 2
 script = ExtResource("1_kjmmx")
-componentList = NodePath("Components")
-playerMovement = NodePath("Components/PlayerMovement")
-cameraMovement = NodePath("Components/CameraMovement")
-playerInput = NodePath("Components/PlayerInput")
-chatHud = NodePath("Components/PlayerChatHUD")
+componentHolder = NodePath("ComponentHolder")
+characterBody = NodePath(".")
+playerMovement = NodePath("ComponentHolder/PlayerMovement")
+cameraMovement = NodePath("ComponentHolder/CameraMovement")
+playerInput = NodePath("ComponentHolder/PlayerInput")
+chatHud = NodePath("ComponentHolder/PlayerChatHUD")
 model = NodePath("Neck/sandboxnatorCharacter")
 nameTag = NodePath("NameTagHolder/NameTag")
 camera = NodePath("Neck/Camera3D")
@@ -333,11 +335,11 @@ target_position = Vector3(0, 0, -8)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00504112, -1.19209e-07, -0.00414085)
 shape = SubResource("CapsuleShape3D_am40t")
 
-[node name="Components" type="Node" parent="."]
+[node name="ComponentHolder" type="Node" parent="."]
+script = ExtResource("7_kauam")
 
-[node name="PlayerMovement" type="Node3D" parent="Components" node_paths=PackedStringArray("cb", "camera", "neckAnimator")]
+[node name="PlayerMovement" type="Node3D" parent="ComponentHolder" node_paths=PackedStringArray("camera", "neckAnimator")]
 script = ExtResource("1_fmfn4")
-cb = NodePath("../..")
 walkSpeed = 4.0
 sprintSpeed = 7.0
 jumpVelocity = 8.0
@@ -345,34 +347,34 @@ camera = NodePath("../../Neck/Camera3D")
 neckAnimator = NodePath("../../Neck/Camera3D/FovEffectsAnimator")
 sprintEffectTime = 0.125
 
-[node name="CameraMovement" type="Node3D" parent="Components" node_paths=PackedStringArray("neck", "body")]
+[node name="CameraMovement" type="Node3D" parent="ComponentHolder" node_paths=PackedStringArray("neck", "body")]
 script = ExtResource("3_bvtsg")
 neck = NodePath("../../Neck")
 body = NodePath("../..")
 
-[node name="PlayerItemUse" type="Node3D" parent="Components" node_paths=PackedStringArray("rayCast", "hand", "handAnimator")]
+[node name="PlayerItemUse" type="Node3D" parent="ComponentHolder" node_paths=PackedStringArray("rayCast", "hand", "handAnimator")]
 script = ExtResource("9_rtpsh")
 rayCast = NodePath("../../Neck/RayCast3D")
 hand = NodePath("../../Neck/Hand")
 handAnimator = NodePath("HandAnimator")
 inventory = Array[String](["hammer", "cube", "bulb"])
 
-[node name="HandAnimator" type="AnimationPlayer" parent="Components/PlayerItemUse"]
+[node name="HandAnimator" type="AnimationPlayer" parent="ComponentHolder/PlayerItemUse"]
 libraries = {
 &"": SubResource("AnimationLibrary_0sei0")
 }
 
-[node name="PlayerInput" type="Node3D" parent="Components"]
+[node name="PlayerInput" type="Node3D" parent="ComponentHolder"]
 script = ExtResource("10_xk60u")
 
-[node name="PlayerChatHUD" type="Node3D" parent="Components" node_paths=PackedStringArray("chatRoot", "messageEdit", "messageBox", "notificationSound")]
+[node name="PlayerChatHUD" type="Node3D" parent="ComponentHolder" node_paths=PackedStringArray("chatRoot", "messageEdit", "messageBox", "notificationSound")]
 script = ExtResource("10_np6ov")
 chatRoot = NodePath("../../HUD/ChatRoot")
 messageEdit = NodePath("../../HUD/ChatRoot/ChatBox/VBoxContainer/Input/MessageEdit")
 messageBox = NodePath("../../HUD/ChatRoot/ChatBox/VBoxContainer/MarginContainer/MessagesContainer")
 notificationSound = NodePath("../../HUD/ChatRoot/NotificationSound")
 
-[node name="HandSway" type="Node3D" parent="Components" node_paths=PackedStringArray("hand")]
+[node name="HandSway" type="Node3D" parent="ComponentHolder" node_paths=PackedStringArray("hand")]
 script = ExtResource("11_v2xwv")
 swaySpeed = 3.0
 hand = NodePath("../../Neck/Hand")
@@ -392,5 +394,5 @@ billboard = 1
 text = "Player."
 outline_size = 7
 
-[connection signal="pressed" from="HUD/ChatRoot/ChatBox/VBoxContainer/Input/SendBtn" to="Components/PlayerChatHUD" method="_on_send_btn_pressed"]
-[connection signal="synchronized" from="MultiplayerSynchronizer" to="Components/PlayerItemUse" method="_on_multiplayer_synchronizer_synchronized"]
+[connection signal="pressed" from="HUD/ChatRoot/ChatBox/VBoxContainer/Input/SendBtn" to="ComponentHolder/PlayerChatHUD" method="_on_send_btn_pressed"]
+[connection signal="synchronized" from="MultiplayerSynchronizer" to="ComponentHolder/PlayerItemUse" method="_on_multiplayer_synchronizer_synchronized"]

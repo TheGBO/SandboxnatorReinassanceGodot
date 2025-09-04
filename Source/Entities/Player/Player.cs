@@ -7,10 +7,8 @@ using GBOUtils;
 public partial class Player : CharacterBody3D
 {
 	//Components
-	//TODO: also abstract playerId as some part of networked entity thingy (e.g. NetworkedId) I suppose
-	public int playerId;
-	//TODO: Abstract this to be a property of a base entity
-	[Export] public Node componentList;
+	[Export] public ComponentHolder componentHolder;
+	[Export] public CharacterBody3D characterBody;
 	[Export] public PlayerMovement playerMovement;
 	[Export] public CameraMovement cameraMovement;
 	[Export] public PlayerInput playerInput;
@@ -27,15 +25,9 @@ public partial class Player : CharacterBody3D
 
 	public override void _EnterTree()
 	{
-		playerId = int.Parse(Name);
-		SetMultiplayerAuthority(playerId);
-		//set components
-		//TODO: Abstract this to a future base entity
-		foreach (PlayerComponent component in componentList.GetChildren())
-		{
-			component.SetParent(this);
-		}
-
+		componentHolder.entityId = int.Parse(Name);
+		SetMultiplayerAuthority(componentHolder.entityId);
+		
 		//hide the player head model
 		if (IsMultiplayerAuthority())
 		{

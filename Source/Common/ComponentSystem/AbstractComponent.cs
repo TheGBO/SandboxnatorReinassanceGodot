@@ -1,23 +1,22 @@
 using Godot;
-using Godot.Collections;
-using System;
-using System.Collections.Generic;
 
-
-/// <summary>
-/// Holds the components of an entity
-/// </summary>
-
-//TODO: maybe consider to put properties as protected
-public abstract partial class AbstractComponent<T> : Node3D where T : Node3D
+public abstract partial class AbstractComponent<T> : Node, IComponent where T : Node
 {
-	public T ComponentParent { get; protected set;}
-	/// <summary>
-	/// Set the component's parent.
-	/// </summary>
-	public void SetParent(T parent)
-	{
-		ComponentParent = parent;
-	}
+    public T ComponentParent { get; private set; }
 
+    public void Initialize(ComponentHolder holder)
+    {
+        // Try to cast holder's parent to the expected type
+        ComponentParent = holder.GetParent<T>();
+
+        if (ComponentParent == null)
+        {
+            GD.PrintErr($"{GetType().Name} expected a parent of type {typeof(T).Name}, but got {holder.GetParent().GetType().Name}.");
+        }
+
+        OnInitialized();
+    }
+
+    // Optional: override this instead of Initialize() directly
+    protected virtual void OnInitialized() {}
 }

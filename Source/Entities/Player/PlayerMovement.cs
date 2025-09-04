@@ -1,10 +1,10 @@
 using Godot;
 using System;
 
-public partial class PlayerMovement : PlayerComponent
+public partial class PlayerMovement : AbstractComponent<Player>
 {
 	//movement
-	[Export] public CharacterBody3D cb;
+	[Export] private CharacterBody3D movementCBody;
 	private float currentSpeed;
 	[Export] public float walkSpeed;
 	[Export] public float sprintSpeed;
@@ -30,6 +30,12 @@ public partial class PlayerMovement : PlayerComponent
 		if (!ComponentParent.IsMultiplayerAuthority())
 			return;
 
+		if (movementCBody == null)
+		{
+			movementCBody = ComponentParent.characterBody;
+			GD.Print("Character body was null, something went wrong for some reason.");
+		}
+
 		currentSpeed = walkSpeed;
 		ComponentParent.playerInput.OnStopSprint += StopSprint;
 	}
@@ -39,27 +45,27 @@ public partial class PlayerMovement : PlayerComponent
 	//TODO: Separate input from movement
 	public override void _PhysicsProcess(double delta)
 	{
-		if (!ComponentParent.IsMultiplayerAuthority())
+		if (!ComponentParent.IsMultiplayerAuthority() || movementCBody == null)
 			return;
 
 		camera.Fov = fov;
-		velocity = cb.Velocity;
+		velocity = movementCBody.Velocity;
 
 		// Add the gravity.
-		if (!cb.IsOnFloor())
+		if (!movementCBody.IsOnFloor())
 		{
-			velocity += cb.GetGravity() * (float)delta;
+			velocity += movementCBody.GetGravity() * (float)delta;
 		}
 
-		if (cb.IsOnFloor() && ComponentParent.playerInput.IsJumping)
+		if (movementCBody.IsOnFloor() && ComponentParent.playerInput.IsJumping)
 		{
 			velocity.Y = jumpVelocity;
 		}
 
 		// Get the input direction and handle the movement/deceleration.
 		// As good practice, you should replace UI actions with custom gameplay actions.
-		Vector3 forward = cb.GlobalTransform.Basis.Z;
-		Vector3 right = cb.GlobalTransform.Basis.X;
+		Vector3 forward = movementCBody.GlobalTransform.Basis.Z;
+		Vector3 right = movementCBody.GlobalTransform.Basis.X;
 
 		Vector2 inputDir = ComponentParent.playerInput.MovementVector;
 		Vector3 direction = (forward * inputDir.Y + right * inputDir.X).Normalized();
@@ -83,12 +89,12 @@ public partial class PlayerMovement : PlayerComponent
 		}
 		else
 		{
-			velocity.X = Mathf.MoveToward(cb.Velocity.X, 0, currentSpeed);
-			velocity.Z = Mathf.MoveToward(cb.Velocity.Z, 0, currentSpeed);
+			velocity.X = Mathf.MoveToward(movementCBody.Velocity.X, 0, currentSpeed);
+			velocity.Z = Mathf.MoveToward(movementCBody.Velocity.Z, 0, currentSpeed);
 		}
 
-		cb.Velocity = velocity;
-		cb.MoveAndSlide();
+		movementCBody.Velocity = velocity;
+		movementCBody.MoveAndSlide();
 
 	}
 
@@ -96,9 +102,9 @@ public partial class PlayerMovement : PlayerComponent
 	//Disabled due to network issues.
 	private void PushAwayRigidBodies()
 	{
-		for (int i = 0; i < cb.GetSlideCollisionCount(); i++)
+		for (int i = 0; i < movementCBody.GetSlideCollisionCount(); i++)
 		{
-			KinematicCollision3D CollisionData = cb.GetSlideCollision(i);
+			KinematicCollision3D CollisionData = movementCBody.GetSlideCollision(i);
 
 			GodotObject UnkObj = CollisionData.GetCollider();
 
@@ -108,7 +114,7 @@ public partial class PlayerMovement : PlayerComponent
 				float MassRatio = Mathf.Min(1.0f, mass / Obj.Mass);
 				if (MassRatio < 0.25f) continue;
 				Vector3 PushDir = -CollisionData.GetNormal();
-				float VelocityDiffInPushDir = cb.Velocity.Dot(PushDir) - Obj.LinearVelocity.Dot(PushDir);
+				float VelocityDiffInPushDir = movementCBody.Velocity.Dot(PushDir) - Obj.LinearVelocity.Dot(PushDir);
 				VelocityDiffInPushDir = Mathf.Max(0.0f, VelocityDiffInPushDir);
 				PushDir.Y = 0;
 				float PushForce = MassRatio * pushForceScalar;

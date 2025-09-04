@@ -27,7 +27,7 @@ public partial class ChatManager : Singleton<ChatManager>
             string playerListMsg = "Received command \'players\'";
             foreach (Player p in World.Instance.GetPlayers())
             {
-                playerListMsg += $"\n[{p.playerId}] : [color={p.profileData.PlayerColor.ToHtml()}]{p.profileData.PlayerName}[/color]";
+                playerListMsg += $"\n[{p.componentHolder.entityId}] : [color={p.profileData.PlayerColor.ToHtml()}]{p.profileData.PlayerName}[/color]";
             }
             GD.Print("PlayerList CMD");
             SendPlayerlessMessage(playerListMsg, message.PlayerId);
