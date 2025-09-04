@@ -1,6 +1,7 @@
 using Godot;
 using System;
 
+
 [GlobalClass]
 [GodotClassName("PlacingItem")]
 public partial class PlacingItem : BaseItem

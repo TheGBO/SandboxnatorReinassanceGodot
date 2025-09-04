@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://djqekcjdmn1te"]
 
-[ext_resource type="PackedScene" uid="uid://brra32kqxyt3m" path="res://GameContent/Items/_Abstract/BasePlacingItem.tscn" id="1_jtm4k"]
+[ext_resource type="PackedScene" uid="uid://brra32kqxyt3m" path="res://Source/Items/BasePlacingItem.tscn" id="1_jtm4k"]
 [ext_resource type="PackedScene" uid="uid://wemqi51d1620" path="res://GameContent/Buildings/Cube/PlacedCube.tscn" id="2_nxowp"]
 [ext_resource type="BoxMesh" uid="uid://catxv1ai3nedn" path="res://GameContent/Items/Cube/mesh.tres" id="3_ghdtp"]
 
