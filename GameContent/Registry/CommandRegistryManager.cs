@@ -31,17 +31,17 @@ public class CommandRegistryManager : IRegistryManager
         );
 
         RegisterCommand(new ChatCommand()
-        .WithName("players")
-        .WithDescription("Retrieves a list of all players connected and their respective numeric identifiers")
-        .WithHandler((ctx) =>
-        {
-            string playerListMsg = "Connected players in to the server:";
-            foreach (Player p in World.Instance.GetPlayers())
+            .WithName("players")
+            .WithDescription("Retrieves a list of all players connected and their respective numeric identifiers")
+            .WithHandler((ctx) =>
             {
-                playerListMsg += $"\n[Player ID:{p.componentHolder.entityId}] : [color={p.profileData.PlayerColor.ToHtml()}]{p.profileData.PlayerName}[/color]";
-            }
-            ctx.Reply(playerListMsg);
-        })
+                string playerListMsg = "Connected players in to the server:";
+                foreach (Player p in World.Instance.GetPlayers())
+                {
+                    playerListMsg += $"\n[Player ID:{p.componentHolder.entityId}] : [color={p.profileData.PlayerColor.ToHtml()}]{p.profileData.PlayerName}[/color]";
+                }
+                ctx.Reply(playerListMsg);
+            })
         );
     }
 
