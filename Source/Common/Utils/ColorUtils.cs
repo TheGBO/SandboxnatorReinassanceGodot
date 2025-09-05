@@ -1,6 +1,6 @@
 using Godot;
 using System;
-namespace GBOUtils;
+namespace NullCyan.Util;
 
 class ColorUtils
 {

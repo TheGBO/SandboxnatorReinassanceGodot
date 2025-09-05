@@ -1,5 +1,6 @@
 using Godot;
 using System;
+namespace NullCyan.Sandboxnator.Item;
 
 [GlobalClass]
 public partial class ItemData : Resource

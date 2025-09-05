@@ -1,5 +1,8 @@
 using Godot;
+using NullCyan.Sandboxnator.UI;
+using NullCyan.Util;
 using System;
+namespace NullCyan.Sandboxnator;
 
 public partial class ScenesBank : Singleton<ScenesBank>
 {

@@ -1,5 +1,6 @@
 using Godot;
 using Godot.Collections;
+namespace NullCyan.Sandboxnator.Chat;
 
 public partial class ChatMessage
 {

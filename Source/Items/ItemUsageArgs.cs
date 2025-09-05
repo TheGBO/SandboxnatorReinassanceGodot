@@ -1,5 +1,6 @@
 using Godot;
 using Godot.Collections;
+namespace NullCyan.Sandboxnator.Item;
 
 public partial class ItemUsageArgs
 {

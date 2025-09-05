@@ -1,6 +1,7 @@
 using Godot;
 using Godot.Collections;
 using System;
+namespace NullCyan.Sandboxnator.Entity;
 
 //Individual player profile data class
 //this should be serializable in order to save in the future.

@@ -1,5 +1,7 @@
 using Godot;
+using NullCyan.Sandboxnator.Building;
 using System;
+namespace NullCyan.Sandboxnator.Item;
 
 public partial class Hammer : BaseItem
 {

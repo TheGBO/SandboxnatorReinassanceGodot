@@ -1,4 +1,5 @@
-namespace GBOUtils;
+namespace NullCyan.Util;
+
 
 public static class StringUtils
 {

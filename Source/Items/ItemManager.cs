@@ -1,7 +1,9 @@
-using GBOUtils;
+using NullCyan.Util;
 using Godot;
 using System;
 using System.Collections.Generic;
+using NullCyan.Sandboxnator.Registry;
+namespace NullCyan.Sandboxnator.Item;
 
 /// <summary>
 /// A class that holds the data for the tools, useful for adding and synchronizing tools.

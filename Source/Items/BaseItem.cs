@@ -1,5 +1,7 @@
 using Godot;
+using NullCyan.Sandboxnator.Entity;
 using System;
+namespace NullCyan.Sandboxnator.Item;
 
 [GlobalClass]
 public partial class BaseItem : Node3D

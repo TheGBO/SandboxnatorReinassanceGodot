@@ -1,7 +1,11 @@
 using Godot;
 using Godot.Collections;
+using NullCyan.Sandboxnator.Item;
+using NullCyan.Sandboxnator.Registry;
 using System;
 using System.Collections.Generic;
+using NullCyan.Util.ComponentSystem;
+namespace NullCyan.Sandboxnator.Entity;
 
 
 /// <summary>

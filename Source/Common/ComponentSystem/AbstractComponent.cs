@@ -1,4 +1,5 @@
 using Godot;
+namespace NullCyan.Util.ComponentSystem;
 
 public abstract partial class AbstractComponent<T> : Node, IComponent where T : Node
 {

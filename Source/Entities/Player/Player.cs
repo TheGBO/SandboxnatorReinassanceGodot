@@ -1,7 +1,11 @@
 using Godot;
 using System;
 using Godot.Collections;
-using GBOUtils;
+using NullCyan.Sandboxnator.WorldAndScenes;
+using NullCyan.Util;
+using NullCyan.Sandboxnator.UI;
+using NullCyan.Util.ComponentSystem;
+namespace NullCyan.Sandboxnator.Entity;
 
 //The most basic and central class to a player.
 public partial class Player : CharacterBody3D

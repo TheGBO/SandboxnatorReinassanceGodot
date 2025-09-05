@@ -1,5 +1,9 @@
 using Godot;
 using System;
+using NullCyan.Util;
+using NullCyan.Sandboxnator.Chat;
+using NullCyan.Sandboxnator.Entity;
+namespace NullCyan.Sandboxnator.WorldAndScenes;
 
 public partial class PlayerManager : Singleton<PlayerManager>
 {

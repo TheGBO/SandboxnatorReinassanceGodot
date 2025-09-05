@@ -1,5 +1,8 @@
 using Godot;
 using System;
+using NullCyan.Sandboxnator.Chat;
+using NullCyan.Util.ComponentSystem;
+namespace NullCyan.Sandboxnator.Entity;
 
 public partial class PlayerChatHud : AbstractComponent<Player>
 {

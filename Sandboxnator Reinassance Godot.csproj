@@ -4,7 +4,4 @@
     <EnableDynamicLoading>true</EnableDynamicLoading>
     <RootNamespace>SandboxnatorReinassanceGodot</RootNamespace>
   </PropertyGroup>
-  <ItemGroup>
-
-  </ItemGroup>
 </Project>

@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-
+namespace NullCyan.Util;
 
 public class Registry<T>
 {

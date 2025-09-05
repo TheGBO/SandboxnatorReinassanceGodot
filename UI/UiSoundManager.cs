@@ -1,6 +1,8 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using NullCyan.Util;
+namespace NullCyan.Sandboxnator.UI;
 
 public partial class UiSoundManager : Singleton<UiSoundManager>
 {

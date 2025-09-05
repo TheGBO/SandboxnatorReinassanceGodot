@@ -1,5 +1,7 @@
 using Godot;
+using NullCyan.Util.ComponentSystem;
 using System;
+namespace NullCyan.Sandboxnator.Entity;
 
 public partial class PlayerMovement : AbstractComponent<Player>
 {

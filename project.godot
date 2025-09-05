@@ -22,7 +22,7 @@ config/icon="res://Assets/Textures/SANDBOXNATOR_ICON.png"
 [autoload]
 
 UiSoundManager="*res://UI/UiSoundManager.tscn"
-ScenesBank="*res://Globals/ScenesBank/ScenesBank.tscn"
+ScenesBank="*res://World/ScenesBank/ScenesBank.tscn"
 PlayerProfileManager="*res://Source/Entities/Player/PlayerProfileManager.cs"
 GameRegistries="*res://GameContent/GameRegistries.cs"
 
@@ -50,7 +50,6 @@ folder_colors={
 "res://GameContent/Items/Nut/": "red",
 "res://GameContent/Items/RGBall/": "red",
 "res://GameContent/Items/_Abstract/": "red",
-"res://Globals/": "green",
 "res://Source/": "red",
 "res://Source/Chat/": "orange",
 "res://Source/Common/": "yellow",

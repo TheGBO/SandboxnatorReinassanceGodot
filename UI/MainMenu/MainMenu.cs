@@ -1,5 +1,7 @@
 using Godot;
 using System;
+namespace NullCyan.Sandboxnator.UI;
+
 
 public partial class MainMenu : Control
 {

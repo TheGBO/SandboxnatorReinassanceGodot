@@ -1,6 +1,10 @@
 using Godot;
 using Godot.Collections;
+using NullCyan.Util;
 using System;
+using NullCyan.Sandboxnator.Entity;
+namespace NullCyan.Sandboxnator.UI;
+
 
 public partial class ProfileEditingMenu : Control
 {

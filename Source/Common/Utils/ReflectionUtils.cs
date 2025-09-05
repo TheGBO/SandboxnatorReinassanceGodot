@@ -1,7 +1,7 @@
 using System;
 using System.Reflection;
+namespace NullCyan.Util;
 
-namespace GBOUtils;
 class ReflectionUtils
 {
     public static Delegate[] GetInvocationList(Action action)

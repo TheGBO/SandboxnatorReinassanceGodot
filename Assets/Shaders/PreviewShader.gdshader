@@ -1,39 +1,31 @@
 shader_type spatial;
 
 uniform vec3 validRenderColor = vec3(0.0, 1.0, 0.0);
-uniform vec3 invalidRenderColor = vec3(1.0, 0.0, 0.0);
-uniform bool isValid = true;
 uniform float transparencyAmplitude = 0.25;
 uniform float transparencyOffset = 0.125;
-render_mode unshaded;
+
 uniform sampler2D SCREEN_TEXTURE : hint_screen_texture;
-
-void vertex() {
-
-}
+render_mode unshaded;
 
 void fragment() {
-	// Calculate the distance from the center of the screen
-    vec2 center = vec2(0.5, 0.5); // Center of the screen in normalized space
-    vec2 fragCoord = UV;
-	vec3 bgColor = texture(SCREEN_TEXTURE, SCREEN_UV).rgb;
+    // Use screen UVs instead of mesh UVs
+    vec2 fragCoord = SCREEN_UV;
+    vec2 center = vec2(0.5, 0.5);
 
-	float distToCenter = length(fragCoord - center);
-	float darkeningFactor = max(0.0, 1.0 - distToCenter * sin(TIME));
+    // Sample background color
+    vec3 bgColor = texture(SCREEN_TEXTURE, fragCoord).rgb;
 
-	ROUGHNESS = 1.0;
-	ALPHA = (abs(sin(TIME)) + transparencyOffset) * transparencyAmplitude;
-	vec3 currentColor;
-	if(isValid){
-		currentColor = validRenderColor;
-	}
-	else{
-		currentColor = invalidRenderColor;
-	}
-	ALBEDO = currentColor - bgColor;
+    // Distance from screen center [0..1]
+    float distToCenter = length(fragCoord - center);
+
+    // Smooth darkening effect based on distance
+    float darkeningFactor = 1.0 - smoothstep(0.0, 0.5, distToCenter);
+
+    // Alpha animation
+    float alphaBase = (abs(sin(TIME)) + transparencyOffset) * transparencyAmplitude;
+    ALPHA = clamp(alphaBase, 0.0, 1.0);
+
+    // Final blended color
+    vec3 currentColor = mix(bgColor, validRenderColor, darkeningFactor);
+    ALBEDO = currentColor;
 }
-
-//void light() {
-	// Called for every pixel for every light affecting the material.
-	// Uncomment to replace the default light processing function with this one.
-//}

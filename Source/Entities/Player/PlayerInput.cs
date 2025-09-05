@@ -1,5 +1,7 @@
 using Godot;
 using System;
+using NullCyan.Util.ComponentSystem;
+namespace NullCyan.Sandboxnator.Entity;
 
 public partial class PlayerInput : AbstractComponent<Player>
 {

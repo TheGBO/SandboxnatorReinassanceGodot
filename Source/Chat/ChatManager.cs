@@ -3,6 +3,12 @@ using System;
 using Godot.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using NullCyan.Util;
+using NullCyan.Sandboxnator.Network;
+using NullCyan.Sandboxnator.WorldAndScenes;
+using NullCyan.Sandboxnator.Entity;
+namespace NullCyan.Sandboxnator.Chat;
+
 
 public partial class ChatManager : Singleton<ChatManager>
 {
