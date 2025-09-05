@@ -49,16 +49,20 @@ public partial class World : Singleton<World>
 		return players;
 	}
 
-	public PlayerProfileData GetPlayerProfileDataByID(long id)
+	public Player GetPlayerById(long id)
 	{
 		foreach (Player player in GetPlayers())
 		{
-			GD.Print("data: " + player.profileData);
 			if (player.componentHolder.entityId == id)
 			{
-				return player.profileData;
+				return player;
 			}
 		}
 		return null;
+	}
+
+	public PlayerProfileData GetPlayerProfileDataByID(long id)
+	{
+		return GetPlayerById(id).profileData;
 	}
 }

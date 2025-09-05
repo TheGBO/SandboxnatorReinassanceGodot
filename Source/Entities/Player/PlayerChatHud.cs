@@ -54,7 +54,7 @@ public partial class PlayerChatHud : AbstractComponent<Player>
         string msg = messageEdit.Text;
         if (!string.IsNullOrEmpty(msg) && !string.IsNullOrWhiteSpace(messageEdit.Text))
         {
-            ChatManager.Instance.SendMessage(msg);
+            ChatManager.Instance.RequestSendMessageToServer(msg);
             messageEdit.Text = "";
             messageEdit.GrabFocus();
         }

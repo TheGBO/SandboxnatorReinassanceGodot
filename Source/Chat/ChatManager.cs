@@ -7,6 +7,7 @@ using NullCyan.Util;
 using NullCyan.Sandboxnator.Network;
 using NullCyan.Sandboxnator.WorldAndScenes;
 using NullCyan.Sandboxnator.Entity;
+using NullCyan.Sandboxnator.Commands;
 namespace NullCyan.Sandboxnator.Chat;
 
 
@@ -16,7 +17,7 @@ public partial class ChatManager : Singleton<ChatManager>
     public Action<ChatMessage> OnMessageReceived;
 
     //called on client
-    public void SendMessage(string msg)
+    public void RequestSendMessageToServer(string msg)
     {
         ChatMessage message = new ChatMessage(msg, NetworkManager.Instance.peer.GetUniqueId());
         RpcId(1, nameof(C2S_HandleMessage), message.ToDictionary());
@@ -27,19 +28,13 @@ public partial class ChatManager : Singleton<ChatManager>
     {
         ChatMessage message = ChatMessage.FromDictionary(msg);
         GD.Print($"message received: {message.Content} from {message.PlayerId}");
-        if (message.Content.StartsWith("!players"))
-        {
 
-            string playerListMsg = "Received command \'players\'";
-            foreach (Player p in World.Instance.GetPlayers())
-            {
-                playerListMsg += $"\n[{p.componentHolder.entityId}] : [color={p.profileData.PlayerColor.ToHtml()}]{p.profileData.PlayerName}[/color]";
-            }
-            GD.Print("PlayerList CMD");
-            SendPlayerlessMessage(playerListMsg, message.PlayerId);
-        }
-        else
+        Player sender = World.Instance.GetPlayerById(message.PlayerId);
+
+        // Pass message to command system first
+        if (!CommandRegistryManager.ExecuteCommand(sender, message.Content))
         {
+            // If not a command, broadcast the message normally
             Rpc(nameof(S2C_ReceiveMessage), message.ToDictionary());
         }
     }

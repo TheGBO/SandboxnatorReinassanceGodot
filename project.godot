@@ -24,7 +24,7 @@ config/icon="res://Assets/Textures/SANDBOXNATOR_ICON.png"
 UiSoundManager="*res://UI/UiSoundManager.tscn"
 ScenesBank="*res://World/ScenesBank/ScenesBank.tscn"
 PlayerProfileManager="*res://Source/Entities/Player/PlayerProfileManager.cs"
-GameRegistries="*res://GameContent/GameRegistries.cs"
+GameRegistries="*res://GameContent/Registry/GameRegistries.cs"
 
 [display]
 

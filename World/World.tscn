@@ -4,7 +4,7 @@
 [ext_resource type="Material" uid="uid://dni3mk5x6hn4f" path="res://Assets/Materials/GreenTile.tres" id="2_2i86a"]
 [ext_resource type="PackedScene" uid="uid://t1rkfpsrocdb" path="res://Source/Network/NetworkManager/NetworkManager.tscn" id="4_kc546"]
 [ext_resource type="PackedScene" uid="uid://dowhshkw35fbv" path="res://UI/MultiplayerMenu/MultiplayerMenu.tscn" id="4_ssyfj"]
-[ext_resource type="Script" uid="uid://b3s088fqb3h2r" path="res://Source/Items/ItemManager.cs" id="5_aavq4"]
+[ext_resource type="Script" uid="uid://b3s088fqb3h2r" path="res://GameContent/Registry/ItemRegistryManager.cs" id="5_aavq4"]
 [ext_resource type="Script" uid="uid://jw73htruigdm" path="res://Source/Chat/ChatManager.cs" id="6_sbbat"]
 [ext_resource type="Script" uid="uid://c2kiihybgeyab" path="res://World/PlayerManager.cs" id="7_cf1t6"]
 [ext_resource type="PackedScene" uid="uid://1hsnhm80nlng" path="res://Source/Entities/Player/Player.tscn" id="8_cf1t6"]
@@ -94,3 +94,4 @@ script = ExtResource("6_sbbat")
 [node name="PlayerManager" type="Node3D" parent="."]
 script = ExtResource("7_cf1t6")
 playerScene = ExtResource("8_cf1t6")
+rangeOfRandomPos = Vector2(100, 100)

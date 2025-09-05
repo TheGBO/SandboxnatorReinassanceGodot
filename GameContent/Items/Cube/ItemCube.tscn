@@ -11,8 +11,5 @@ snapRange = 0.5
 [node name="HandItem" parent="." index="0"]
 mesh = ExtResource("3_ghdtp")
 
-[node name="PreviewMesh" parent="." index="1"]
-visible = true
-
 [connection signal="body_entered" from="PreviewCollider" to="PreviewCollider" method="_on_body_entered"]
 [connection signal="body_exited" from="PreviewCollider" to="PreviewCollider" method="_on_body_exited"]

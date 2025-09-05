@@ -13,26 +13,18 @@ namespace NullCyan.Sandboxnator.Item;
 /// TODO: Maybe consider initializing this class when the game opens instead of the world/lobby.
 /// </summary>
 
-public partial class ItemManager : Singleton<ItemManager>
+public partial class ItemRegistryManager : IRegistryManager
 {
-	/// <summary>
-	/// A dictionary responsible for storing every single item that can be available and registered in the whole game. Identified
-	/// by itemID.
-	/// </summary>
 	/// TODO: Make these functionalities for loading and auto registering game assets generic and type agnostic
-	[Export(PropertyHint.Dir)] string itemContentsPath;
-
-	public override void _Ready()
-	{
-		GD.Print("[color=yellow]Item content path:[/color]" + itemContentsPath);
-		InitializeItems(itemContentsPath);
-	}
+	private string itemContentsPath = "res://GameContent/Items";
 
 	/// <summary>
 	/// This function is responsible for loading the item data and registering them in-game.
 	/// </summary>
-	private void InitializeItems(string path)
+	public void Register()
 	{
+		string path = itemContentsPath;
+		GD.Print("[color=yellow]Item content path:[/color]" + itemContentsPath);
 		GD.PrintRich("[color=green]Loading vanilla item data...[/color]");
 		using var dir = DirAccess.Open(path);
 		if (dir != null)
