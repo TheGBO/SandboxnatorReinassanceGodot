@@ -148,13 +148,13 @@ properties/4/replication_mode = 2
 properties/5/path = NodePath("Neck/Hand:rotation")
 properties/5/spawn = true
 properties/5/replication_mode = 2
-properties/6/path = NodePath("Components/PlayerItemUse:currentItemID")
+properties/6/path = NodePath("ComponentHolder/PlayerItemUse:currentItemID")
 properties/6/spawn = true
 properties/6/replication_mode = 1
-properties/7/path = NodePath("Components/PlayerItemUse:desiredRotationY")
+properties/7/path = NodePath("ComponentHolder/PlayerItemUse:desiredRotationY")
 properties/7/spawn = true
 properties/7/replication_mode = 1
-properties/8/path = NodePath("Components/PlayerItemUse:isUseValid")
+properties/8/path = NodePath("ComponentHolder/PlayerItemUse:isUseValid")
 properties/8/spawn = true
 properties/8/replication_mode = 1
 
@@ -247,6 +247,7 @@ layout_mode = 2
 texture = ExtResource("4_lmeus")
 
 [node name="ChatRoot" type="MarginContainer" parent="HUD"]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
