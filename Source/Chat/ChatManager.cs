@@ -14,7 +14,7 @@ namespace NullCyan.Sandboxnator.Chat;
 public partial class ChatManager : Singleton<ChatManager>
 {
     public List<ChatMessage> messages;
-    public Action<ChatMessage> OnMessageReceived;
+    public Action<ChatMessage, PlayerProfileData> OnMessageReceived;
 
     //called on client
     public void RequestSendMessageToServer(string msg)
@@ -27,24 +27,24 @@ public partial class ChatManager : Singleton<ChatManager>
     private void C2S_HandleMessage(Dictionary msg)
     {
         ChatMessage message = ChatMessage.FromDictionary(msg);
-        GD.Print($"message received: {message.Content} from {message.PlayerId}");
-
+        GD.Print($"message received:{message.Content.Replace("\n", "|CRLF|")} from {message.PlayerId}");
         Player sender = World.Instance.GetPlayerById(message.PlayerId);
 
         // Pass message to command system first
         if (!CommandRegistryManager.ExecuteCommand(sender, message.Content))
         {
             // If not a command, broadcast the message normally
-            Rpc(nameof(S2C_ReceiveMessage), message.ToDictionary());
+            Rpc(nameof(S2C_ReceiveMessage), message.ToDictionary(), World.Instance.GetPlayerById(message.PlayerId).profileData.ToDictionary());
         }
     }
 
     [Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
-    private void S2C_ReceiveMessage(Dictionary msg)
+    private void S2C_ReceiveMessage(Dictionary msg, Dictionary profileData)
     {
         ChatMessage message = ChatMessage.FromDictionary(msg);
+        PlayerProfileData senderData = PlayerProfileData.FromDictionary(profileData);
         GD.Print(message.Content);
-        OnMessageReceived?.Invoke(message);
+        OnMessageReceived?.Invoke(message, senderData);
     }
 
     /// <summary>
@@ -58,7 +58,7 @@ public partial class ChatManager : Singleton<ChatManager>
         }
         //-1 playerless
         ChatMessage message = new ChatMessage(msg, -1);
-        Rpc(nameof(S2C_ReceiveMessage), message.ToDictionary());
+        Rpc(nameof(S2C_ReceiveMessage), message.ToDictionary(), new PlayerProfileData().ToDictionary());
     }
 
     /// <summary>
@@ -75,6 +75,6 @@ public partial class ChatManager : Singleton<ChatManager>
         }
         //-1 playerless
         ChatMessage message = new ChatMessage(msg, -1);
-        RpcId(playerId, nameof(S2C_ReceiveMessage), message.ToDictionary());
+        RpcId(playerId, nameof(S2C_ReceiveMessage), message.ToDictionary(), new PlayerProfileData{PlayerName = "SERVER", PlayerColor = Color.FromHtml("#ffff00ff")});
     }
 }

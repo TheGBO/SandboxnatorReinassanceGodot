@@ -197,15 +197,15 @@ texture = ExtResource("8_2c07k")
 
 [node name="HotBar" type="Control" parent="HUD"]
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = 7
 anchor_left = 0.5
-anchor_top = 0.5
+anchor_top = 1.0
 anchor_right = 0.5
-anchor_bottom = 0.5
-offset_top = 280.0
-offset_bottom = 280.0
+anchor_bottom = 1.0
+offset_top = -60.0
+offset_bottom = -60.0
 grow_horizontal = 2
-grow_vertical = 2
+grow_vertical = 0
 
 [node name="MarginContainer" type="MarginContainer" parent="HUD/HotBar"]
 layout_mode = 1

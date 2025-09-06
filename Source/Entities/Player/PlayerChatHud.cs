@@ -50,12 +50,12 @@ public partial class PlayerChatHud : AbstractComponent<Player>
         chatRoot.Visible = false;
     }
 
-    private void ReceiveMessage(ChatMessage message)
+    private void ReceiveMessage(ChatMessage message, PlayerProfileData senderData)
     {
         //-1: System notifications
         if (message.PlayerId != -1)
         {
-            messageBox.Text += $"\n[color=green][{message.PlayerId}][/color]:{message.Content}\n";
+            messageBox.Text += $"[color={senderData.PlayerColor.ToHtml()}](@{senderData.PlayerName}) [/color] : {message.Content}\n";
         }
         else
         {

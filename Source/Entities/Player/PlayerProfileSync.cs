@@ -64,7 +64,7 @@ public partial class PlayerProfileSync : AbstractComponent<Player>
 
 	//Client requests server to synchronize its profile.
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
-	private void C2S_SyncProfile(Dictionary<string, Variant> profileDict)
+	private void C2S_SyncProfile(Dictionary profileDict)
 	{
 		PlayerProfileData receivedProfileData = PlayerProfileData.FromDictionary(profileDict);
 		GD.PrintRich("[color=green](SYNC)[/color] Synchronization of player profile data");
@@ -76,7 +76,7 @@ public partial class PlayerProfileSync : AbstractComponent<Player>
 	}
 
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
-	private void S2C_SyncProfile(Dictionary<string, Variant> profileDict)
+	private void S2C_SyncProfile(Dictionary profileDict)
 	{
 		ComponentParent.profileData = PlayerProfileData.FromDictionary(profileDict);
 		UpdateVisual();
