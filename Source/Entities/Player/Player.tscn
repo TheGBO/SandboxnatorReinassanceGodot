@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://1hsnhm80nlng"]
+[gd_scene load_steps=26 format=3 uid="uid://1hsnhm80nlng"]
 
 [ext_resource type="Script" uid="uid://mr7xahsxhr7w" path="res://Source/Entities/Player/PlayerMovement.cs" id="1_fmfn4"]
 [ext_resource type="Script" uid="uid://dt013s8d7ysto" path="res://Source/Entities/Player/Player.cs" id="1_kjmmx"]
@@ -13,6 +13,7 @@
 [ext_resource type="Script" uid="uid://g2wgr24sb1q6" path="res://Source/Entities/Player/PlayerChatHud.cs" id="10_np6ov"]
 [ext_resource type="Script" uid="uid://blwddxb23k2it" path="res://Source/Entities/Player/PlayerInput.cs" id="10_xk60u"]
 [ext_resource type="Script" uid="uid://b03asse870ciy" path="res://Source/Entities/Player/HandSway.cs" id="11_v2xwv"]
+[ext_resource type="Script" uid="uid://1r4uikdke5pe" path="res://Source/Entities/Player/PlayerProfileSync.cs" id="14_3e0s0"]
 
 [sub_resource type="InputEventAction" id="InputEventAction_jynvv"]
 action = &"ui_enter"
@@ -158,7 +159,7 @@ properties/8/path = NodePath("ComponentHolder/PlayerItemUse:isUseValid")
 properties/8/spawn = true
 properties/8/replication_mode = 1
 
-[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("componentHolder", "characterBody", "playerMovement", "cameraMovement", "playerInput", "chatHud", "model", "nameTag", "camera", "hud")]
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("componentHolder", "characterBody", "playerMovement", "cameraMovement", "playerInput", "chatHud", "visuals", "camera", "hud")]
 floor_stop_on_slope = false
 platform_on_leave = 2
 script = ExtResource("1_kjmmx")
@@ -168,8 +169,7 @@ playerMovement = NodePath("ComponentHolder/PlayerMovement")
 cameraMovement = NodePath("ComponentHolder/CameraMovement")
 playerInput = NodePath("ComponentHolder/PlayerInput")
 chatHud = NodePath("ComponentHolder/PlayerChatHUD")
-model = NodePath("Neck/sandboxnatorCharacter")
-nameTag = NodePath("NameTagHolder/NameTag")
+visuals = NodePath("ComponentHolder/VisualSync")
 camera = NodePath("Neck/Camera3D")
 hud = NodePath("HUD")
 
@@ -285,6 +285,7 @@ size_flags_vertical = 3
 bbcode_enabled = true
 text = "
 "
+scroll_following = true
 
 [node name="Input" type="HBoxContainer" parent="HUD/ChatRoot/ChatBox/VBoxContainer"]
 layout_mode = 2
@@ -381,6 +382,11 @@ hand = NodePath("../../Neck/Hand")
 rightSway = Vector3(0, 0.56, 0)
 leftSway = Vector3(0, -0.56, 0)
 swayThreshold = 5.0
+
+[node name="VisualSync" type="Node3D" parent="ComponentHolder" node_paths=PackedStringArray("model", "nameTag")]
+script = ExtResource("14_3e0s0")
+model = NodePath("../../Neck/sandboxnatorCharacter")
+nameTag = NodePath("../../NameTagHolder/NameTag")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_interval = 0.1

@@ -25,9 +25,24 @@ public partial class PlayerChatHud : AbstractComponent<Player>
         ComponentParent.playerInput.IsChatOpen = chatRoot.Visible;
     }
 
+    public override void _Input(InputEvent inputEvent)
+    {
+        if (!IsMultiplayerAuthority()) return;
+        if (inputEvent is InputEventKey eventKey)
+        {
+            if (eventKey.Pressed && eventKey.Keycode == Key.Enter)
+            {
+                SendMessage();
+                GetViewport().SetInputAsHandled();
+            }
+        }
+    }
+
     private void ShowChat()
     {
         chatRoot.Visible = true;
+        messageEdit.FocusMode = Control.FocusModeEnum.All;
+        messageEdit.CallDeferred(Control.MethodName.GrabFocus);
     }
 
     private void HideChat()
@@ -40,7 +55,7 @@ public partial class PlayerChatHud : AbstractComponent<Player>
         //-1: System notifications
         if (message.PlayerId != -1)
         {
-            messageBox.Text += $"[color=green][{message.PlayerId}][/color]:{message.Content}\n";
+            messageBox.Text += $"\n[color=green][{message.PlayerId}][/color]:{message.Content}\n";
         }
         else
         {
@@ -49,14 +64,20 @@ public partial class PlayerChatHud : AbstractComponent<Player>
         notificationSound.Play();
     }
 
-    public void _on_send_btn_pressed()
+    private void SendMessage()
     {
         string msg = messageEdit.Text;
-        if (!string.IsNullOrEmpty(msg) && !string.IsNullOrWhiteSpace(messageEdit.Text))
+        if (!string.IsNullOrEmpty(msg) && !string.IsNullOrWhiteSpace(messageEdit.Text) && chatRoot.Visible)
         {
             ChatManager.Instance.RequestSendMessageToServer(msg);
             messageEdit.Text = "";
-            messageEdit.GrabFocus();
         }
+        messageEdit.FocusMode = Control.FocusModeEnum.All;
+        messageEdit.CallDeferred(Control.MethodName.GrabFocus);
+    }
+
+    public void _on_send_btn_pressed()
+    {
+        SendMessage();
     }
 }
