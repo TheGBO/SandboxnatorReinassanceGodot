@@ -11,6 +11,9 @@ using NullCyan.Sandboxnator.Commands;
 namespace NullCyan.Sandboxnator.Chat;
 
 
+/// <summary>
+/// Singleton responsible for sending, receiving, parsing and handling chat messages and commands.
+/// </summary>
 public partial class ChatManager : Singleton<ChatManager>
 {
     public List<ChatMessage> messages;
@@ -75,6 +78,6 @@ public partial class ChatManager : Singleton<ChatManager>
         }
         //-1 playerless
         ChatMessage message = new ChatMessage(msg, -1);
-        RpcId(playerId, nameof(S2C_ReceiveMessage), message.ToDictionary(), new PlayerProfileData{PlayerName = "SERVER", PlayerColor = Color.FromHtml("#ffff00ff")});
+        RpcId(playerId, nameof(S2C_ReceiveMessage), message.ToDictionary(), new PlayerProfileData { PlayerName = "SERVER", PlayerColor = Color.FromHtml("#ffff00ff") });
     }
 }

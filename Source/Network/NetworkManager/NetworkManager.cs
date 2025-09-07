@@ -23,17 +23,49 @@ public partial class NetworkManager : Singleton<NetworkManager>
 		}
 	}
 
+
+	/// <summary>
+	/// Initialize server-side game.
+	/// </summary>
+	/// <param name="port">network port</param>
+	/// <param name="dedicatedServer">//TODO: not fully implemented yet</param>
 	public void HostGame(int port = 1077, bool dedicatedServer = false)
 	{
-		peer.CreateServer(port);
-		Multiplayer.MultiplayerPeer = peer;
-		Multiplayer.PeerConnected += PlayerManager.Instance.AddPlayer;
-		PlayerManager.Instance.AddPlayer(1);
+		try
+		{
+			peer.CreateServer(port);
+		}
+		catch (Exception e)
+		{
+			GD.PrintErr($"Could not create server at port due to error: {e.Message}");
+			return;
+		}
+		if (peer.GetConnectionStatus() == MultiplayerPeer.ConnectionStatus.Connected)
+		{
+			Multiplayer.MultiplayerPeer = peer;
+			Multiplayer.PeerConnected += PlayerManager.Instance.AddPlayer;
+			PlayerManager.Instance.AddPlayer(1);
+			
+		}
 	}
 
+
+	/// <summary>
+	/// Initialize client-side game.
+	/// </summary>
+	/// <param name="port">network port</param>
+	/// <param name="ip">ipv4 address</param>
 	public void JoinGame(int port = 1077, string ip = "127.0.0.1")
 	{
-		peer.CreateClient(ip, port);
+		try
+		{
+			peer.CreateClient(ip, port);
+		}
+		catch (Exception e)
+		{
+			GD.PrintErr($"Could not create client at port due to error: {e.Message}");
+			return;
+		}
 		Multiplayer.MultiplayerPeer = peer;
 	}
 

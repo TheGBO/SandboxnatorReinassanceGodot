@@ -60,26 +60,40 @@ public class CommandRegistryManager : IRegistryManager
 
     public static bool ExecuteCommand(Player sender, string rawInput)
     {
+
         if (!rawInput.StartsWith("!"))
             return false;
 
         string[] split = rawInput.Substring(1).Split(' ');
-        string name = split[0].ToLower();
+        string commandKeyName = split[0].ToLower();
         string[] args = split.Length > 1 ? split[1..] : [];
 
-        ChatCommand cmd = GameRegistries.Instance.CommandRegistry.Get(name);
-        if (cmd != null)
+        try
         {
-            var context = new CommandContext(rawInput, name, args, sender);
-            cmd.Execute(context);
-            return true;
+            ChatCommand cmd = GameRegistries.Instance.CommandRegistry.Get(commandKeyName);
+            if (cmd != null)
+            {
+                var context = new CommandContext(rawInput, commandKeyName, args, sender);
+                cmd.Execute(context);
+                return true;
+            }
+            else
+            {
+                return SendInvalidCommandWarning(commandKeyName, sender);
+            }
         }
-        else
+        catch (System.Exception)
         {
-            ChatManager.Instance.SendPlayerlessMessage($"Unknown command: {name}", sender.componentHolder.entityId);
-            return false;
+            return SendInvalidCommandWarning(commandKeyName, sender);
         }
 
 
+    }
+
+    private static bool SendInvalidCommandWarning(string commandKeyName, Player sender)
+    {
+        ChatManager.Instance.SendPlayerlessMessage($"Unknown command: {commandKeyName}, try typing \"!help\" in order to see available in-game commands.", sender.componentHolder.entityId);
+        //Seems counterintuitive, but returnig true means that there was an attempt, not necessarily success.
+        return true;
     }
 }
