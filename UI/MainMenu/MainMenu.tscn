@@ -87,7 +87,7 @@ text = "Exit
 [node name="NotImplementedDialog" type="AcceptDialog" parent="."]
 title = "warning"
 position = Vector2i(395, 135)
-size = Vector2i(403, 100)
+size = Vector2i(721, 100)
 theme = ExtResource("4_al8mg")
 dialog_text = "Feature described on the pressed button is not implemented"
 

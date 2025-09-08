@@ -59,7 +59,7 @@ public partial class PlayerManager : Singleton<PlayerManager>
 
 	}
 
-	public void LogOutPlayer(long id)
+	public void RemovePlayer(long id)
 	{
 		PlayerProfileData pData = World.Instance.GetPlayerProfileDataByID(id);
 		ChatManager.Instance.BroadcastPlayerlessMessage($"[color={pData.PlayerColor.ToHtml()}]{pData.PlayerName}[/color] left the game :C");

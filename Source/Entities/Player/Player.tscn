@@ -1,4 +1,4 @@
-[gd_scene load_steps=43 format=4 uid="uid://1hsnhm80nlng"]
+[gd_scene load_steps=44 format=4 uid="uid://1hsnhm80nlng"]
 
 [ext_resource type="Script" uid="uid://mr7xahsxhr7w" path="res://Source/Entities/Player/PlayerMovement.cs" id="1_fmfn4"]
 [ext_resource type="Script" uid="uid://dt013s8d7ysto" path="res://Source/Entities/Player/Player.cs" id="1_kjmmx"]
@@ -12,6 +12,7 @@
 [ext_resource type="Script" uid="uid://blwddxb23k2it" path="res://Source/Entities/Player/PlayerInput.cs" id="10_xk60u"]
 [ext_resource type="Script" uid="uid://b03asse870ciy" path="res://Source/Entities/Player/HandSway.cs" id="11_v2xwv"]
 [ext_resource type="Texture2D" uid="uid://6aop4rk3parb" path="res://Source/Entities/Player/Assets/NewPlayerModel/PlayerModel_0.png" id="13_3e0s0"]
+[ext_resource type="Script" uid="uid://diil6t5g7kt2i" path="res://Source/Entities/Player/PlayerHUD.cs" id="13_7hef5"]
 [ext_resource type="Script" uid="uid://1r4uikdke5pe" path="res://Source/Entities/Player/PlayerVisualSync.cs" id="14_3e0s0"]
 [ext_resource type="Texture2D" uid="uid://diwsbtasoq4ky" path="res://GameContent/Skins/uwu.png" id="14_7hef5"]
 
@@ -79,7 +80,7 @@ _data = {
 }
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_3e0s0"]
-size = Vector3(0.7, 1.83, 0.7)
+size = Vector3(0.77, 1.83, 0.77)
 
 [sub_resource type="Animation" id="Animation_qvcfc"]
 resource_name = "HandUse"
@@ -539,7 +540,7 @@ _data = {
 &"WalkAndHold": SubResource("Animation_8kkfx")
 }
 
-[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("componentHolder", "characterBody", "playerMovement", "cameraMovement", "playerInput", "chatHud", "visuals", "camera", "hud")]
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("componentHolder", "characterBody", "playerMovement", "cameraMovement", "playerInput", "chatHud", "visuals", "playerHud", "camera", "hud")]
 floor_stop_on_slope = false
 platform_on_leave = 2
 script = ExtResource("1_kjmmx")
@@ -550,6 +551,7 @@ cameraMovement = NodePath("ComponentHolder/CameraMovement")
 playerInput = NodePath("ComponentHolder/PlayerInput")
 chatHud = NodePath("ComponentHolder/PlayerChatHUD")
 visuals = NodePath("ComponentHolder/VisualSync")
+playerHud = NodePath("ComponentHolder/PlayerHUD")
 camera = NodePath("Neck/Camera3D")
 hud = NodePath("HUD")
 
@@ -689,6 +691,39 @@ text = "Send"
 stream = ExtResource("3_bxpi0")
 volume_db = -12.0
 
+[node name="EscMenu" type="Panel" parent="HUD"]
+visible = false
+layout_mode = 1
+offset_right = 288.0
+offset_bottom = 180.0
+
+[node name="MarginContainer" type="MarginContainer" parent="HUD/EscMenu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HUD/EscMenu/MarginContainer"]
+layout_mode = 2
+
+[node name="LeaveGameBtn" type="Button" parent="HUD/EscMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "LEAVE GAME"
+
+[node name="SaveWorldBtn" type="Button" parent="HUD/EscMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+disabled = true
+text = "secret future feature"
+
 [node name="Neck" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0)
 
@@ -704,7 +739,7 @@ libraries = {
 target_position = Vector3(0, 0, -8)
 
 [node name="PhysicsHitbox" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0109814, 0.935236, -0.00131445)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.935, 0)
 shape = SubResource("BoxShape3D_3e0s0")
 
 [node name="ComponentHolder" type="Node" parent="."]
@@ -739,9 +774,8 @@ libraries = {
 [node name="PlayerInput" type="Node3D" parent="ComponentHolder"]
 script = ExtResource("10_xk60u")
 
-[node name="PlayerChatHUD" type="Node3D" parent="ComponentHolder" node_paths=PackedStringArray("chatRoot", "messageEdit", "messageBox", "notificationSound")]
+[node name="PlayerChatHUD" type="Node3D" parent="ComponentHolder" node_paths=PackedStringArray("messageEdit", "messageBox", "notificationSound")]
 script = ExtResource("10_np6ov")
-chatRoot = NodePath("../../HUD/ChatRoot")
 messageEdit = NodePath("../../HUD/ChatRoot/ChatBox/VBoxContainer/Input/MessageEdit")
 messageBox = NodePath("../../HUD/ChatRoot/ChatBox/VBoxContainer/MarginContainer/MessagesContainer")
 notificationSound = NodePath("../../HUD/ChatRoot/NotificationSound")
@@ -771,6 +805,11 @@ movementTypeAnimation = Dictionary[int, String]({
 1: "WalkAndHold",
 2: "WalkAndHold"
 })
+
+[node name="PlayerHUD" type="Node3D" parent="ComponentHolder" node_paths=PackedStringArray("chatRoot", "escMenu")]
+script = ExtResource("13_7hef5")
+chatRoot = NodePath("../../HUD/ChatRoot")
+escMenu = NodePath("../../HUD/EscMenu")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_interval = 0.1
@@ -855,4 +894,5 @@ libraries = {
 autoplay = "IdleAndHold"
 
 [connection signal="pressed" from="HUD/ChatRoot/ChatBox/VBoxContainer/Input/SendBtn" to="ComponentHolder/PlayerChatHUD" method="_on_send_btn_pressed"]
+[connection signal="pressed" from="HUD/EscMenu/MarginContainer/VBoxContainer/LeaveGameBtn" to="ComponentHolder/PlayerHUD" method="_on_leave_game_btn_pressed"]
 [connection signal="synchronized" from="MultiplayerSynchronizer" to="ComponentHolder/PlayerItemUse" method="_on_multiplayer_synchronizer_synchronized"]

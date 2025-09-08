@@ -18,6 +18,7 @@ public partial class Player : CharacterBody3D
 	[Export] public PlayerInput playerInput;
 	[Export] public PlayerChatHud chatHud;
 	[Export] public PlayerVisualSync visuals;
+	[Export] public PlayerHUD playerHud;
 
 	//Cosmetics; TODO: Make cosmetics its own component as well.
 	[Export] public PlayerProfileData profileData;
@@ -31,11 +32,11 @@ public partial class Player : CharacterBody3D
 	{
 		componentHolder.entityId = int.Parse(Name);
 		SetMultiplayerAuthority(componentHolder.entityId);
-		
+
 		//hide the player head model
 		if (IsMultiplayerAuthority())
 		{
-			
+
 			//nameTag.Visible = false;
 			//install ui sound on player Hud
 			UiSoundManager.Instance.TryInstallSounds(hud);
@@ -48,6 +49,11 @@ public partial class Player : CharacterBody3D
 			hud.QueueFree();
 		}
 
+	}
+	
+	public override void _ExitTree()
+	{
+		//PlayerManager.Instance.RemovePlayer(componentHolder.entityId); // Clean up references
 	}
 
 }

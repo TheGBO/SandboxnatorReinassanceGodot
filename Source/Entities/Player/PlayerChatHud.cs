@@ -6,7 +6,7 @@ namespace NullCyan.Sandboxnator.Entity;
 
 public partial class PlayerChatHud : AbstractComponent<Player>
 {
-    [Export] public Control chatRoot;
+    
     [Export] public LineEdit messageEdit;
     [Export] public RichTextLabel messageBox;
     [Export] public AudioStreamPlayer notificationSound;
@@ -22,7 +22,7 @@ public partial class PlayerChatHud : AbstractComponent<Player>
     public override void _Process(double delta)
     {
         if (!IsMultiplayerAuthority()) return;
-        ComponentParent.playerInput.IsChatOpen = chatRoot.Visible;
+        ComponentParent.playerHud.IsChatOpen = ComponentParent.playerHud.chatRoot.Visible;
     }
 
     public override void _Input(InputEvent inputEvent)
@@ -40,14 +40,14 @@ public partial class PlayerChatHud : AbstractComponent<Player>
 
     private void ShowChat()
     {
-        chatRoot.Visible = true;
+        ComponentParent.playerHud.chatRoot.Visible = true;
         messageEdit.FocusMode = Control.FocusModeEnum.All;
         messageEdit.CallDeferred(Control.MethodName.GrabFocus);
     }
 
     private void HideChat()
     {
-        chatRoot.Visible = false;
+        ComponentParent.playerHud.chatRoot.Visible = false;
     }
 
     private void ReceiveMessage(ChatMessage message, PlayerProfileData senderData)
@@ -67,7 +67,7 @@ public partial class PlayerChatHud : AbstractComponent<Player>
     private void SendMessage()
     {
         string msg = messageEdit.Text;
-        if (!string.IsNullOrEmpty(msg) && !string.IsNullOrWhiteSpace(messageEdit.Text) && chatRoot.Visible)
+        if (!string.IsNullOrEmpty(msg) && !string.IsNullOrWhiteSpace(messageEdit.Text) && ComponentParent.playerHud.chatRoot.Visible)
         {
             ChatManager.Instance.RequestSendMessageToServer(msg);
             messageEdit.Text = "";

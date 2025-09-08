@@ -11,7 +11,7 @@ public partial class PlayerInput : AbstractComponent<Player>
     public bool IsJumping { get; private set; }
     public Action OnStopSprint;
     //user interface
-    public bool IsChatOpen { get; set; }
+
     public Action OnShowChat;
     public Action OnUiEscape;
     //Camera
@@ -31,7 +31,7 @@ public partial class PlayerInput : AbstractComponent<Player>
     public override void _Process(double delta)
     {
         if (!IsMultiplayerAuthority()) return;
-        if (!IsChatOpen)
+        if (!ComponentParent.playerHud.IsHudBeingUsed)
         {
             HandleMovementInput();
             HandleBuildingInput();
@@ -53,6 +53,11 @@ public partial class PlayerInput : AbstractComponent<Player>
         {
             OnUiEscape?.Invoke();
         }
+
+        if (Input.IsActionJustPressed("toggle_capture"))
+        {
+            OnToggleCursorCapture?.Invoke();
+        }
     }
 
     private void HandleMovementInput()
@@ -71,11 +76,6 @@ public partial class PlayerInput : AbstractComponent<Player>
         if (Input.IsActionJustReleased("mv_sprint"))
         {
             OnStopSprint?.Invoke();
-        }
-
-        if (Input.IsActionJustPressed("toggle_capture"))
-        {
-            OnToggleCursorCapture?.Invoke();
         }
 
         MovementVector = Input.GetVector("mv_left", "mv_right", "mv_forward", "mv_backward");
