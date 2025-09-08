@@ -17,7 +17,24 @@ public partial class PlayerManager : Singleton<PlayerManager>
 		player.SetMultiplayerAuthority((int)id);
 		player.Name = id.ToString();
 		//set player position
-		World.Instance.networkedEntities.CallDeferred("add_child", player);
+		if (World.Instance == null)
+		{
+			GD.PrintErr("World.Instance is null!");
+		}
+		else if (World.Instance.networkedEntities == null)
+		{
+			GD.PrintErr("World.Instance.networkedEntities is null!");
+		}
+		else if (player == null)
+		{
+			GD.PrintErr("player is null!");
+		}
+		else
+		{
+			// Safe to call
+			World.Instance.networkedEntities.CallDeferred("add_child", player);
+		}
+
 		World.Instance.OnPlayerJoin?.Invoke(id);
 
 		if (Multiplayer.IsServer())

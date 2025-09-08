@@ -8,7 +8,7 @@ namespace NullCyan.Sandboxnator.Item;
 [GodotClassName("PlacingItem")]
 public partial class PlacingItem : BaseItem
 {
-	[Export] private PackedScene buildingScene;
+	[Export] public PackedScene buildingScene;
 	[Export] private MeshInstance3D previewMesh;
 	[Export] private PreviewCollider previewCollider;
 	[Export] private float snapRange;

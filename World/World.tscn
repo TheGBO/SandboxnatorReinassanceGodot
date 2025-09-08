@@ -24,7 +24,7 @@ background_color = Color(0.0627451, 0.431373, 1, 1)
 sky = SubResource("Sky_815yj")
 ambient_light_source = 2
 ambient_light_color = Color(1, 1, 1, 1)
-ambient_light_energy = 0.05
+ambient_light_energy = 0.1
 tonemap_mode = 3
 ssao_radius = 1.25
 ssao_intensity = 3.0
@@ -43,9 +43,10 @@ plane = Plane(0, 0, -1, 0)
 material = ExtResource("2_2i86a")
 size = Vector2(4096, 4096)
 
-[node name="World" type="Node3D" node_paths=PackedStringArray("networkedEntities")]
+[node name="World" type="Node3D" node_paths=PackedStringArray("networkedEntities", "multiplayerSpawner")]
 script = ExtResource("1_53ob6")
 networkedEntities = NodePath("NetworkedEntities")
+multiplayerSpawner = NodePath("MultiplayerSpawner")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_3neo8")
@@ -72,7 +73,7 @@ mesh = SubResource("PlaneMesh_qu3fq")
 skeleton = NodePath("../..")
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("uid://1hsnhm80nlng", "uid://cr4ldfu1yskgy", "uid://wemqi51d1620", "uid://bsin23prm8y74")
+_spawnable_scenes = PackedStringArray("uid://1hsnhm80nlng")
 spawn_path = NodePath("../NetworkedEntities")
 
 [node name="NetworkedEntities" type="Node3D" parent="."]

@@ -5,6 +5,7 @@ using NullCyan.Util;
 using System;
 using System.Collections.Generic;
 using NullCyan.Sandboxnator.Entity;
+using NullCyan.Sandboxnator.Registry;
 namespace NullCyan.Sandboxnator.WorldAndScenes;
 
 /// <summary>
@@ -16,6 +17,50 @@ public partial class World : Singleton<World>
 	public List<Snapper> snappers = new List<Snapper>();
 
 	[Export] public Node3D networkedEntities;
+	[Export] public MultiplayerSpawner multiplayerSpawner;
+	private HashSet<string> addedBuildingScenes = new();
+
+	public override void _EnterTree()
+	{
+		base.SetInstance();
+		if (GameRegistries.Instance == null)
+		{
+			GD.PrintErr("GameRegistries.Instance is null!");
+			return;
+		}
+
+		if (GameRegistries.Instance.BuildingRegistry == null)
+		{
+			GD.PrintErr("BuildingRegistry is null!");
+			return;
+		}
+
+		if (multiplayerSpawner == null)
+		{
+			GD.PrintErr("multiplayerSpawner is null!");
+			return;
+		}
+
+		AddBuildingScenesToSpawnList();
+	}
+
+	private void AddBuildingScenesToSpawnList()
+	{
+		//commit building items to the auto spawn list
+		foreach (PackedScene buildingScene in GameRegistries.Instance.BuildingRegistry.GetAllValues())
+		{
+			if (buildingScene == null)
+			{
+				GD.PrintErr("Found null buildingScene!");
+				continue;
+			}
+			string resPath = buildingScene.ResourcePath;
+			if (addedBuildingScenes.Add(resPath))
+			{
+				multiplayerSpawner.AddSpawnableScene(resPath);
+			}
+		}
+	}
 
 
 	public Vector3 GetNearestSnapper(Vector3 referential, float maxRange)

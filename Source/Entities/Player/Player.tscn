@@ -79,7 +79,7 @@ _data = {
 }
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_3e0s0"]
-size = Vector3(0.958252, 1.85272, 0.994629)
+size = Vector3(0.7, 1.83, 0.7)
 
 [sub_resource type="Animation" id="Animation_qvcfc"]
 resource_name = "HandUse"
@@ -703,7 +703,7 @@ libraries = {
 [node name="RayCast3D" type="RayCast3D" parent="Neck"]
 target_position = Vector3(0, 0, -8)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="PhysicsHitbox" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0109814, 0.935236, -0.00131445)
 shape = SubResource("BoxShape3D_3e0s0")
 
@@ -729,7 +729,7 @@ script = ExtResource("9_rtpsh")
 rayCast = NodePath("../../Neck/RayCast3D")
 hand = NodePath("../../PlayerModel/Node/Hands/right_H/Hand_R/HoldingPoint/Hand")
 handAnimator = NodePath("HandAnimator")
-inventory = Array[String](["hammer", "cube", "bulb"])
+inventory = Array[String](["hammer", "cube", "bulb", "black_cube"])
 
 [node name="HandAnimator" type="AnimationPlayer" parent="ComponentHolder/PlayerItemUse"]
 libraries = {

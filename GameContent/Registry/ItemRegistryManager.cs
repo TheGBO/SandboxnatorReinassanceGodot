@@ -10,8 +10,6 @@ namespace NullCyan.Sandboxnator.Item;
 /// As a manager, this is supposed to be a singleton, however, instead of being a global autoload
 /// it is only relevant in the World scene.
 /// 
-/// TODO: Maybe consider initializing this class when the game opens instead of the world/lobby.
-/// </summary>
 
 public partial class ItemRegistryManager : IRegistryManager
 {
@@ -41,6 +39,12 @@ public partial class ItemRegistryManager : IRegistryManager
 					foreach (ItemData res in resources)
 					{
 						GD.Print($"Valid item resource is {res.itemID}, registering...");
+						BaseItem itemScene = res.itemScene.Instantiate<BaseItem>();
+						if (itemScene is PlacingItem)
+						{
+							GD.Print($"({res.itemID}) is a placeable building, adding to building registry as well.");
+							GameRegistries.Instance.BuildingRegistry.Register(res.itemID, ((PlacingItem)itemScene).buildingScene);
+						}
 
 						//Register the item via resource
 						GameRegistries.Instance.ItemRegistry.Register(res.itemID, res);

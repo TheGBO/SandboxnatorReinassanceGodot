@@ -11,4 +11,3 @@ itemScene = ExtResource("1_f6c81")
 itemID = "hammer"
 itemIcon = ExtResource("1_5y844")
 itemName = "Hammer"
-usageCooldown = 1.25
