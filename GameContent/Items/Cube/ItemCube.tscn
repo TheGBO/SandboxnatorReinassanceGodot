@@ -7,6 +7,7 @@
 [node name="ItemCube" instance=ExtResource("1_jtm4k")]
 buildingScene = ExtResource("2_nxowp")
 snapRange = 0.5
+animateHand = false
 
 [node name="HandItem" parent="." index="0"]
 mesh = ExtResource("3_ghdtp")

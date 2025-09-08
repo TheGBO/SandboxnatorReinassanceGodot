@@ -12,4 +12,3 @@ itemID = "hammer"
 itemIcon = ExtResource("1_5y844")
 itemName = "Hammer"
 usageCooldown = 1.25
-raycastRange = 0.0
