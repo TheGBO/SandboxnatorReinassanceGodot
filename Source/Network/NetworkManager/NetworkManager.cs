@@ -12,7 +12,7 @@ namespace NullCyan.Sandboxnator.Network
 
 		// Timeout handling
 		private float connectionStartTime = 0f;
-		private float connectionTimeout = 15f; // Seconds before we cancel
+		private float connectionTimeout = 15f;
 		private bool waitingForConnection = false;
 
 		public override void _Ready()
@@ -35,7 +35,6 @@ namespace NullCyan.Sandboxnator.Network
 
 		public override void _Process(double delta)
 		{
-			// Check connection timeout when waiting for connection
 			if (waitingForConnection && peer != null)
 			{
 				float elapsed = (Time.GetTicksMsec() / 1000f) - connectionStartTime;
