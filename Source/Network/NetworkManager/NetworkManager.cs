@@ -4,7 +4,6 @@ using System.Linq;
 using NullCyan.Util;
 using NullCyan.Sandboxnator.WorldAndScenes;
 
-//I refactored it using AI, be careful, if i change this class I will remove this comment
 namespace NullCyan.Sandboxnator.Network
 {
 	public partial class NetworkManager : Singleton<NetworkManager>
@@ -70,7 +69,6 @@ namespace NullCyan.Sandboxnator.Network
 
 			// Hook server-side signals
 			Multiplayer.PeerConnected += PlayerManager.Instance.AddPlayer;
-			Multiplayer.PeerDisconnected += PlayerManager.Instance.RemovePlayer;
 
 			// Add host player manually
 			PlayerManager.Instance.AddPlayer(Multiplayer.GetUniqueId());
@@ -110,6 +108,7 @@ namespace NullCyan.Sandboxnator.Network
 		/// <summary>
 		/// Disconnects from server or shuts down hosted server safely.
 		/// </summary>
+		/// //TODO: FIX DISCONNECTION
 		public void QuitConnection()
 		{
 			if (Multiplayer.MultiplayerPeer == null)
