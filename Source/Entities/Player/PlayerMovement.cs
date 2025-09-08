@@ -3,7 +3,6 @@ using NullCyan.Util.ComponentSystem;
 using System;
 namespace NullCyan.Sandboxnator.Entity;
 
-[Icon("res://Assets/Textures/component.png")]
 [GodotClassName("PlayerMovement")]
 public partial class PlayerMovement : AbstractComponent<Player>
 {

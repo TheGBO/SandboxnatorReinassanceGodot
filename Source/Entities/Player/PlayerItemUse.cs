@@ -29,6 +29,7 @@ public partial class PlayerItemUse : AbstractComponent<Player>
 	[Export] public float desiredRotationY = 0f;
 	[Export] public bool isUseValid = false;
 	private float rotationIncrement = 45f;
+	private bool canUseItem = true;
 
 	public override void _Ready()
 	{
@@ -81,7 +82,8 @@ public partial class PlayerItemUse : AbstractComponent<Player>
 		//Call this on the server side if the player using the tool is the one hosting
 
 		RpcId(1, nameof(C2S_Use), itemUsageArgs);
-		
+
+		handAnimator.Stop();
 		if (item.animateHand)
 		{
 			handAnimator.Play("HandUse");
@@ -92,7 +94,19 @@ public partial class PlayerItemUse : AbstractComponent<Player>
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
 	private void C2S_Use(Dictionary args)
 	{
-		item.UseItem(ItemUsageArgs.FromDictionary(args));
+		if (canUseItem)
+		{
+			item.UseItem(ItemUsageArgs.FromDictionary(args));
+			canUseItem = false;
+
+			SceneTreeTimer coolDownTimer = GetTree().CreateTimer(item.usageCooldown);
+			coolDownTimer.Timeout += () =>
+			{
+				canUseItem = true;
+			};
+
+			
+		}
 	}
 
 
@@ -106,7 +120,7 @@ public partial class PlayerItemUse : AbstractComponent<Player>
 		ItemData itemResource = GameRegistries.Instance.ItemRegistry.Get(currentItemID);
 		BaseItem loadedItem = itemResource.itemScene.Instantiate<BaseItem>();
 		item = loadedItem;
-		item.Ptu = this;
+		item.ItemUser = this;
 		hand.AddChild(loadedItem);
 	}
 

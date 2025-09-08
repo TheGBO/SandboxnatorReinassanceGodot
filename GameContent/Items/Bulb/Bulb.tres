@@ -10,5 +10,3 @@ itemScene = ExtResource("1_5p2yt")
 itemID = "bulb"
 itemIcon = ExtResource("1_8gcc3")
 itemName = "Light Bulb"
-usageCooldown = 0.0
-raycastRange = 0.0

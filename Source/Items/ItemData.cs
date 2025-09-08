@@ -15,6 +15,4 @@ public partial class ItemData : Resource
     [ExportGroup("Visual information")]
     [Export] public Texture2D itemIcon;
     [Export] public string itemName;
-    [ExportGroup("Practical use")]
-    [Export] public float usageCooldown;
 }

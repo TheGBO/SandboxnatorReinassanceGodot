@@ -9,10 +9,11 @@ public partial class BaseItem : Node3D
 	/// <summary>
 	/// abbreviation for Player Tool Use
 	/// </summary>
-	public PlayerItemUse Ptu { get; set; }
+	public PlayerItemUse ItemUser { get; set; }
 
 	//TODO: Fix animate hand causing glitches on building.
 	[Export] public bool animateHand;
+	[Export] public float usageCooldown;
 
 	public virtual void UseItem(ItemUsageArgs args)
 	{
