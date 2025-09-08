@@ -1,11 +1,13 @@
-[gd_scene load_steps=5 format=3 uid="uid://cu2vloh7mq55n"]
+[gd_scene load_steps=7 format=3 uid="uid://cu2vloh7mq55n"]
 
 [ext_resource type="Script" uid="uid://dfcphkg5bitd8" path="res://UI/Profile/ProfileEditingMenu.cs" id="1_4fqg0"]
-[ext_resource type="Texture2D" uid="uid://dnt56ejjxcc16" path="res://GameContent/Skins/Character_UwU.png" id="2_tnmhm"]
-[ext_resource type="Texture2D" uid="uid://c08077ylywm20" path="res://GameContent/Skins/Character_Happy.png" id="3_k8yag"]
-[ext_resource type="Texture2D" uid="uid://dltvykko3kc2o" path="res://GameContent/Skins/Character_Skeptical.png" id="4_luaw6"]
+[ext_resource type="Texture2D" uid="uid://dnt56ejjxcc16" path="res://Assets/Textures/Character_UwU.png" id="2_tnmhm"]
+[ext_resource type="Texture2D" uid="uid://c08077ylywm20" path="res://Assets/Textures/Character_Happy.png" id="3_k8yag"]
+[ext_resource type="Texture2D" uid="uid://dltvykko3kc2o" path="res://Assets/Textures/Character_Skeptical.png" id="4_luaw6"]
+[ext_resource type="Texture2D" uid="uid://6aop4rk3parb" path="res://Source/Entities/Player/Assets/NewPlayerModel/PlayerModel_0.png" id="5_k8yag"]
+[ext_resource type="Texture2D" uid="uid://diwsbtasoq4ky" path="res://GameContent/Skins/uwu.png" id="6_luaw6"]
 
-[node name="ProfileEditingMenu" type="Control" node_paths=PackedStringArray("nameEdit", "skinPreview", "colorEdit")]
+[node name="ProfileEditingMenu" type="Control" node_paths=PackedStringArray("nameEdit", "backgroundPreview", "skinPreview", "colorEdit")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -14,6 +16,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_4fqg0")
 nameEdit = NodePath("RootPanel/Panel/ContainerContainer/VBoxContainer/NameContaner/NameEdit")
+backgroundPreview = NodePath("RootPanel/Panel/ContainerContainer/MarginContainer/BackgroundPreview")
 skinPreview = NodePath("RootPanel/Panel/ContainerContainer/MarginContainer/SkinPreview")
 colorEdit = NodePath("RootPanel/Panel/ContainerContainer/VBoxContainer/ColorContainer/ColorPicker")
 
@@ -103,10 +106,16 @@ theme_override_constants/margin_top = 96
 theme_override_constants/margin_right = 166
 theme_override_constants/margin_bottom = 96
 
+[node name="BackgroundPreview" type="TextureRect" parent="RootPanel/Panel/ContainerContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+texture = ExtResource("5_k8yag")
+stretch_mode = 6
+
 [node name="SkinPreview" type="TextureRect" parent="RootPanel/Panel/ContainerContainer/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-texture = ExtResource("3_k8yag")
+texture = ExtResource("6_luaw6")
 stretch_mode = 6
 
 [connection signal="color_changed" from="RootPanel/Panel/ContainerContainer/VBoxContainer/ColorContainer/ColorPicker" to="." method="_on_color_picker_color_changed"]

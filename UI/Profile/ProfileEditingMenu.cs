@@ -9,6 +9,7 @@ namespace NullCyan.Sandboxnator.UI;
 public partial class ProfileEditingMenu : Control
 {
 	[Export] LineEdit nameEdit;
+	[Export] TextureRect backgroundPreview;
 	[Export] TextureRect skinPreview;
 	[Export] ColorPicker colorEdit;
 
@@ -31,7 +32,7 @@ public partial class ProfileEditingMenu : Control
 
 	public void _on_item_list_item_selected(int index)
 	{
-		GD.Print(index);
+		OnAlteration();
 	}
 
 	public void _on_color_picker_color_changed(Color color)
@@ -45,7 +46,7 @@ public partial class ProfileEditingMenu : Control
 		//name
 		nameEdit.Text = cpfd.PlayerName;
 		//color
-		skinPreview.Modulate = cpfd.PlayerColor;
+		backgroundPreview.Modulate = cpfd.PlayerColor;
 		colorEdit.Color = cpfd.PlayerColor;
 	}
 

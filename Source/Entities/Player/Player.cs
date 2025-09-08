@@ -17,10 +17,9 @@ public partial class Player : CharacterBody3D
 	[Export] public CameraMovement cameraMovement;
 	[Export] public PlayerInput playerInput;
 	[Export] public PlayerChatHud chatHud;
-	[Export] public PlayerProfileSync visuals;
+	[Export] public PlayerVisualSync visuals;
 
 	//Cosmetics; TODO: Make cosmetics its own component as well.
-
 	[Export] public PlayerProfileData profileData;
 
 

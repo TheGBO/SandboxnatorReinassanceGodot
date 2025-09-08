@@ -3,6 +3,8 @@ using NullCyan.Util.ComponentSystem;
 using System;
 namespace NullCyan.Sandboxnator.Entity;
 
+[Icon("res://Assets/Textures/component.png")]
+[GodotClassName("PlayerMovement")]
 public partial class PlayerMovement : AbstractComponent<Player>
 {
 	//movement
@@ -19,13 +21,15 @@ public partial class PlayerMovement : AbstractComponent<Player>
 
 	//visual effects
 	[Export] public Camera3D camera;
-	[Export] public AnimationPlayer neckAnimator;
 	//TODO: fov able to be tweaked in settings.
 	[Export] public float fov = 75;
 	[Export] public float sprintFov = 100;
 	[Export] public float sprintEffectTime = 0.75f;
-
-
+	/// <summary>
+	/// Used for detection of movement and animations.
+	/// </summary>
+	[Export(PropertyHint.Enum, "FOR SYNCING PURPOSES!!!")]
+	public PlayerMovementType MovementType { get; private set; }
 
 	public override void _Ready()
 	{
@@ -77,11 +81,16 @@ public partial class PlayerMovement : AbstractComponent<Player>
 		bool isSprinting = ComponentParent.playerInput.IsSprinting;
 		if (isSprinting)
 		{
+			MovementType = PlayerMovementType.Sprint;
 			Sprint(true);
 		}
 		if (isMoving && !isSprinting)
 		{
-			neckAnimator.Play("walk");
+			MovementType = PlayerMovementType.Walk;
+		}
+		if (!isMoving && !isSprinting)
+		{
+			MovementType = PlayerMovementType.Idle;
 		}
 
 		if (direction != Vector3.Zero)
@@ -133,7 +142,7 @@ public partial class PlayerMovement : AbstractComponent<Player>
 
 	private void Sprint(bool beginSprint)
 	{
-		neckAnimator.Play("sprint");
+		MovementType = PlayerMovementType.Sprint;
 		Tween sprintTween = GetTree().CreateTween();
 		if (beginSprint)
 		{

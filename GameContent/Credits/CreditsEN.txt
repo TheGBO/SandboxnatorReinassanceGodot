@@ -1,9 +1,8 @@
-Sandboxnator : Reinassance (2024-????)
-TheGBO Customary Open Source License v1
+Sandboxnator
 
-Gabriel [not exposing my full name]: The solo developer (Known as TheGBO, GabrielGBO or NullCyan as online personas):
-- Programming
-- Art
-- Music
-- Design
+NullCyan:
 - Everything except for the external content listed below:
+
+Coqito5
+- gatonator.png player skin
+

@@ -11,5 +11,16 @@ class ColorUtils
         resultColor.A = color.A;
         return resultColor;
     }
+
+    public static void ChangeMeshColor(MeshInstance3D model, Color color)
+    {
+        var currentMaterial = model.GetActiveMaterial(0);
+		if (currentMaterial is StandardMaterial3D stdMat)
+		{
+			stdMat = (StandardMaterial3D)stdMat.Duplicate();
+			stdMat.AlbedoColor = color;
+			model.MaterialOverride = stdMat;
+		}
+    }
 }
 

@@ -11,6 +11,8 @@ namespace NullCyan.Sandboxnator.Entity;
 /// <summary>
 /// Class that represents the player's tools and inventory, functionality and data.
 /// </summary>
+[GodotClassName(nameof(PlayerItemUse))]
+[Icon("res://GameContent/Items/Hammer/HammerIcon.png")]
 public partial class PlayerItemUse : AbstractComponent<Player>
 {
 	[Export] public RayCast3D rayCast;
@@ -82,7 +84,7 @@ public partial class PlayerItemUse : AbstractComponent<Player>
 		
 		if (item.animateHand)
 		{
-			handAnimator.Play("hand_use");
+			handAnimator.Play("HandUse");
 		}
 	}
 

@@ -5,6 +5,8 @@ namespace NullCyan.Util.ComponentSystem;
 /// Acts as a representation of an entity, it should be a direct child of a node that is to be considered an entity in this
 /// custom entity system.
 /// </summary>
+[Icon("res://Assets/Textures/Components/componentHolder.png")]
+[GodotClassName(nameof(ComponentHolder))]
 public partial class ComponentHolder : Node
 {
     public int entityId;

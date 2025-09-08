@@ -59,7 +59,7 @@
 ## 🚀 Getting Started
 Clone the repository:
 ```bash
-git clone https://github.com/TheGBO/Sandboxnator.git
+git clone https://github.com/TheGBO/SandboxnatorReinassanceGodot.git
 ```
 - Make your own mods :P (read the license before publishing them, please)
 

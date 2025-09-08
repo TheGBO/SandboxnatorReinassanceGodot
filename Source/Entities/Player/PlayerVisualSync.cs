@@ -5,10 +5,26 @@ using NullCyan.Util;
 using NullCyan.Util.ComponentSystem;
 namespace NullCyan.Sandboxnator.Entity;
 
-public partial class PlayerProfileSync : AbstractComponent<Player>
+/// <summary>
+/// Handles the visual effects and their multiplayer synchronization.
+/// </summary>
+public partial class PlayerVisualSync : AbstractComponent<Player>
 {
-	[Export] public MeshInstance3D model;
-	[Export] public Label3D nameTag;
+	[Export] private Array<MeshInstance3D> modelsToColor;
+	[Export] private Array<Node3D> elementsToHideAsFirstPerson;
+	[Export] private Label3D nameTag;
+
+	[Export] private Node3D logicalHand;
+	[Export] private Node3D visualHand;
+
+	[Export] private Node3D logicalNeck;
+	[Export] private Node3D visualHead;
+	[Export] private Node3D arms;
+	[Export] private AnimationPlayer neckAnimator;
+	[Export] private AnimationPlayer modelAnimator;
+	[Export] private Dictionary<PlayerMovementType, string> movementTypeAnimation;
+
+
 
 	public override void _EnterTree()
 	{
@@ -16,7 +32,10 @@ public partial class PlayerProfileSync : AbstractComponent<Player>
 		if (IsMultiplayerAuthority())
 		{
 			UpdateProfile(PlayerProfileManager.Instance.CurrentProfile);
-			model.Visible = false;
+			foreach (Node3D element in elementsToHideAsFirstPerson)
+			{
+				element.Visible = false;
+			}
 		}
 		if (Multiplayer.IsServer())
 		{
@@ -29,23 +48,28 @@ public partial class PlayerProfileSync : AbstractComponent<Player>
 		}
 	}
 
+	public override void _Process(double delta)
+	{
+		visualHead.Rotation = logicalNeck.Rotation;
+		arms.Rotation = visualHead.Rotation;
+
+		modelAnimator.Play(movementTypeAnimation[ComponentParent.playerMovement.MovementType]);
+	}
+
 	public void UpdateVisual()
 	{
 		//nametag text
 		nameTag.Text = ComponentParent.profileData.PlayerName;
 		nameTag.Modulate = ComponentParent.profileData.PlayerColor;
 		nameTag.OutlineModulate = ColorUtils.InvertColor(ComponentParent.profileData.PlayerColor);
-		//TODO: Make an UTIL method to change colour of materials.
-		var currentMaterial = model.GetActiveMaterial(0);
-		if (currentMaterial is StandardMaterial3D stdMat)
+		foreach (MeshInstance3D element in modelsToColor)
 		{
-			stdMat = (StandardMaterial3D)stdMat.Duplicate();
-			stdMat.AlbedoColor = ComponentParent.profileData.PlayerColor;
-			model.MaterialOverride = stdMat;
+			ColorUtils.ChangeMeshColor(element, ComponentParent.profileData.PlayerColor);
 		}
+
 	}
-	
-		/// <summary>
+
+	/// <summary>
 	/// Updates the player profile and visuals based on newProfile in the client side
 	/// </summary>
 	/// <param name="newProfile"></param>

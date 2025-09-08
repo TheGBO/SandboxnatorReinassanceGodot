@@ -1,7 +1,10 @@
 using Godot;
 namespace NullCyan.Util.ComponentSystem;
 
-public abstract partial class AbstractComponent<T> : Node, IComponent where T : Node
+
+[GodotClassName(nameof(AbstractComponent<T>))]
+[Icon("res://Assets/Textures/Components/component.png")]
+public abstract partial class AbstractComponent<T> : Node3D, IComponent where T : Node
 {
     public T ComponentParent { get; private set; }
 
@@ -19,5 +22,5 @@ public abstract partial class AbstractComponent<T> : Node, IComponent where T : 
     }
 
     // Optional: override this instead of Initialize() directly
-    protected virtual void OnInitialized() {}
+    protected virtual void OnInitialized() { }
 }
