@@ -12,15 +12,12 @@ namespace NullCyan.Sandboxnator.Network
 
 		// Timeout handling
 		private float connectionStartTime = 0f;
-		private float connectionTimeout = 15f;
+		private float connectionTimeout = 5f;
 		private bool waitingForConnection = false;
 
 		public override void _Ready()
 		{
 			GD.Print("Sandboxnator multiplayer protocol initialized");
-
-			// Hook default signals
-			Multiplayer.PeerDisconnected += PlayerManager.Instance.RemovePlayer;
 
 			// Dedicated server boot check
 			string[] args = OS.GetCmdlineArgs();
@@ -54,6 +51,7 @@ namespace NullCyan.Sandboxnator.Network
 		public void HostGame(int port = 1077, bool dedicatedServer = false)
 		{
 			CleanupOldPeer();
+			GD.Print($"✅ Hosting server on port {port} | Dedicated: {dedicatedServer}");
 
 			peer = new ENetMultiplayerPeer();
 			Error result = peer.CreateServer(port);
@@ -67,12 +65,13 @@ namespace NullCyan.Sandboxnator.Network
 			Multiplayer.MultiplayerPeer = peer;
 
 			// Hook server-side signals
+			Multiplayer.PeerDisconnected += PlayerManager.Instance.RemovePlayer;
 			Multiplayer.PeerConnected += PlayerManager.Instance.AddPlayer;
 
-			// Add host player manually
-			PlayerManager.Instance.AddPlayer(Multiplayer.GetUniqueId());
+			// Add host player manually, dedicated servers have no player, hosts are servers with a player.
+			if(!dedicatedServer)
+				PlayerManager.Instance.AddPlayer(Multiplayer.GetUniqueId());
 
-			GD.Print($"✅ Hosting server on port {port} | Dedicated: {dedicatedServer}");
 		}
 
 		/// <summary>
@@ -108,33 +107,49 @@ namespace NullCyan.Sandboxnator.Network
 		/// Disconnects from server or shuts down hosted server safely.
 		/// </summary>
 		/// //TODO: FIX DISCONNECTION
-		public void QuitConnection()
+		public async void QuitConnection()
 		{
 			if (Multiplayer.MultiplayerPeer == null)
 				return;
 
 			GD.Print("🔻 Closing multiplayer connection...");
 
-			if (peer != null &&
-				(peer.GetConnectionStatus() == MultiplayerPeer.ConnectionStatus.Connected ||
-				 peer.GetConnectionStatus() == MultiplayerPeer.ConnectionStatus.Connecting))
+			// Disconnect signals to avoid unwanted callbacks during shutdown
+			if (Multiplayer.IsServer())
 			{
-				// Remove local player before closing
-				PlayerManager.Instance.RemovePlayer(Multiplayer.GetUniqueId());
-				peer.Close();
+				//Server signals
+				Multiplayer.PeerDisconnected -= PlayerManager.Instance.RemovePlayer;
+				Multiplayer.PeerConnected -= PlayerManager.Instance.AddPlayer;
+			}
+			else
+			{
+				//Client signals
+				Multiplayer.ConnectedToServer -= OnConnectedToServer;
+				Multiplayer.ConnectionFailed -= OnConnectionFailed;
 			}
 
-			// Reset networking state
+			// Tell ENet to close the session
+			if (peer != null && peer.GetConnectionStatus() != MultiplayerPeer.ConnectionStatus.Disconnected)
+			{
+				peer.Close();
+
+				// Wait until the peer status changes to Disconnected
+				while (peer.GetConnectionStatus() != MultiplayerPeer.ConnectionStatus.Disconnected)
+				{
+					await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+				}
+			}
+
+			// Remove the MultiplayerPeer reference
 			Multiplayer.MultiplayerPeer = null;
 			peer = null;
 			waitingForConnection = false;
 
-			// Unhook all events
-			Multiplayer.ConnectedToServer -= OnConnectedToServer;
-			Multiplayer.ConnectionFailed -= OnConnectionFailed;
-			Multiplayer.PeerConnected -= PlayerManager.Instance.AddPlayer;
-			Multiplayer.PeerDisconnected -= PlayerManager.Instance.RemovePlayer;
+			//TODO: Create a NullCyan.Util logger class so i can make log files.
+			GD.Print("✅ Multiplayer connection fully closed.");
 		}
+
+
 
 		private void OnConnectedToServer()
 		{

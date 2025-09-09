@@ -15,7 +15,16 @@ public partial class MultiplayerMenu : Control
 
 	public override void _Process(double delta)
 	{
-		Visible = NetworkManager.Instance?.peer?.GetConnectionStatus() != MultiplayerPeer.ConnectionStatus.Connected;
+		bool showMenu = true;
+
+		if (NetworkManager.Instance.peer != null)
+		{
+			MultiplayerPeer.ConnectionStatus status = NetworkManager.Instance.peer.GetConnectionStatus();
+			showMenu = status != MultiplayerPeer.ConnectionStatus.Connected &&
+					status != MultiplayerPeer.ConnectionStatus.Connecting;
+		}
+
+		Visible = showMenu;
 	}
 
 	public void _on_host_btn_pressed()

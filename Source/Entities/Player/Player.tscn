@@ -694,14 +694,17 @@ volume_db = -12.0
 [node name="EscMenu" type="Panel" parent="HUD"]
 visible = false
 layout_mode = 1
-offset_right = 288.0
-offset_bottom = 180.0
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 298.0
+grow_vertical = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="HUD/EscMenu"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_bottom = -469.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_vertical = 3
@@ -717,6 +720,11 @@ layout_mode = 2
 layout_mode = 2
 size_flags_vertical = 3
 text = "LEAVE GAME"
+
+[node name="SettingsBtn" type="Button" parent="HUD/EscMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Settings"
 
 [node name="SaveWorldBtn" type="Button" parent="HUD/EscMenu/MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -895,4 +903,5 @@ autoplay = "IdleAndHold"
 
 [connection signal="pressed" from="HUD/ChatRoot/ChatBox/VBoxContainer/Input/SendBtn" to="ComponentHolder/PlayerChatHUD" method="_on_send_btn_pressed"]
 [connection signal="pressed" from="HUD/EscMenu/MarginContainer/VBoxContainer/LeaveGameBtn" to="ComponentHolder/PlayerHUD" method="_on_leave_game_btn_pressed"]
+[connection signal="pressed" from="HUD/EscMenu/MarginContainer/VBoxContainer/SettingsBtn" to="ComponentHolder/PlayerHUD" method="_on_leave_game_btn_pressed"]
 [connection signal="synchronized" from="MultiplayerSynchronizer" to="ComponentHolder/PlayerItemUse" method="_on_multiplayer_synchronizer_synchronized"]
