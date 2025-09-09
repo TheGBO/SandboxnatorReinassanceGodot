@@ -44,6 +44,13 @@ namespace NullCyan.Sandboxnator.Network
 				}
 			}
 		}
+		
+		public bool HasMultiplayerPeer()
+		{
+			return Multiplayer != null &&
+				Multiplayer.HasMultiplayerPeer() &&
+				Multiplayer.MultiplayerPeer != null;
+		}
 
 		/// <summary>
 		/// Initialize server-side game.
@@ -69,7 +76,7 @@ namespace NullCyan.Sandboxnator.Network
 			Multiplayer.PeerConnected += PlayerManager.Instance.AddPlayer;
 
 			// Add host player manually, dedicated servers have no player, hosts are servers with a player.
-			if(!dedicatedServer)
+			if (!dedicatedServer)
 				PlayerManager.Instance.AddPlayer(Multiplayer.GetUniqueId());
 
 		}
@@ -144,7 +151,6 @@ namespace NullCyan.Sandboxnator.Network
 			Multiplayer.MultiplayerPeer = null;
 			peer = null;
 			waitingForConnection = false;
-
 			//TODO: Create a NullCyan.Util logger class so i can make log files.
 			GD.Print("✅ Multiplayer connection fully closed.");
 		}

@@ -26,6 +26,11 @@ public abstract partial class Singleton<T> : Node where T : Singleton<T>
         Instance = (T)this;
     }
 
+    public static bool HasInstance()
+    {
+        return Instance != null && IsInstanceValid(Instance);
+    }
+
     public override void _ExitTree()
     {
         if (Instance == this)
