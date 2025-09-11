@@ -22,7 +22,7 @@ public partial class PlayerProfileData
         GD.PrintRich($"{message} : [color={PlayerColor.ToHtml()}] name:{PlayerName} colour:{PlayerColor.ToHtml()}[/color]");
         byte[] binaryData = MPacker.Pack(this);
         GD.Print("Raw bytes: ", BitConverter.ToString(binaryData));
-        GD.Print($"when packed as a byte array, this has {binaryData} bytes");
+        GD.Print($"when packed as a byte array, this has {binaryData.Length} bytes");
     }
 }
 
