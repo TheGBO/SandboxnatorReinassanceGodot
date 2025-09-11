@@ -37,15 +37,15 @@ public partial class ChatManager : Singleton<ChatManager>
         if (!CommandRegistryManager.ExecuteCommand(sender, message.Content))
         {
             // If not a command, broadcast the message normally
-            Rpc(nameof(S2C_ReceiveMessage), message.ToDictionary(), World.Instance.GetPlayerById(message.PlayerId).profileData.ToDictionary());
+            Rpc(nameof(S2C_ReceiveMessage), message.ToDictionary(), MPacker.Pack(World.Instance.GetPlayerById(message.PlayerId).ProfileData));
         }
     }
 
     [Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
-    private void S2C_ReceiveMessage(Dictionary msg, Dictionary profileData)
+    private void S2C_ReceiveMessage(Dictionary msg, byte[] profileBytes)
     {
         ChatMessage message = ChatMessage.FromDictionary(msg);
-        PlayerProfileData senderData = PlayerProfileData.FromDictionary(profileData);
+        PlayerProfileData senderData = MPacker.Unpack<PlayerProfileData>(profileBytes);
         GD.Print(message.Content);
         OnMessageReceived?.Invoke(message, senderData);
     }
@@ -61,7 +61,7 @@ public partial class ChatManager : Singleton<ChatManager>
         }
         //-1 playerless
         ChatMessage message = new ChatMessage(msg, -1);
-        Rpc(nameof(S2C_ReceiveMessage), message.ToDictionary(), new PlayerProfileData().ToDictionary());
+        Rpc(nameof(S2C_ReceiveMessage), message.ToDictionary(), MPacker.Pack(new PlayerProfileData()));
     }
 
     /// <summary>
@@ -78,6 +78,7 @@ public partial class ChatManager : Singleton<ChatManager>
         }
         //-1 playerless
         ChatMessage message = new ChatMessage(msg, -1);
-        RpcId(playerId, nameof(S2C_ReceiveMessage), message.ToDictionary(), new PlayerProfileData { PlayerName = "SERVER", PlayerColor = Color.FromHtml("#ffff00ff") });
+        PlayerProfileData serverSystemData = new PlayerProfileData { PlayerName = "SERVER", PlayerColor = Color.FromHtml("#ffff00ff") };
+        RpcId(playerId, nameof(S2C_ReceiveMessage), message.ToDictionary(), MPacker.Pack(serverSystemData));
     }
 }

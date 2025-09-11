@@ -39,7 +39,7 @@ public class CommandRegistryManager : IRegistryManager
                 string playerListMsg = "Connected players in to the server:";
                 foreach (Player p in World.Instance.GetPlayers())
                 {
-                    playerListMsg += $"\n[Player ID:{p.componentHolder.entityId}] : [color={p.profileData.PlayerColor.ToHtml()}]{p.profileData.PlayerName}[/color]";
+                    playerListMsg += $"\n[Player ID:{p.componentHolder.entityId}] : [color={p.ProfileData.PlayerColor.ToHtml()}]{p.ProfileData.PlayerName}[/color]";
                 }
                 ctx.Reply(playerListMsg);
             })
@@ -53,7 +53,7 @@ public class CommandRegistryManager : IRegistryManager
                 void SendPos(Player p)
                 {
                     string positionMessage =
-                    $"\n{p.profileData.PlayerName} is at [color=RED]X:[/color]{(int)p.GlobalPosition.X}, [color=GREEN]Y;[/color]{(int)p.GlobalPosition.Y}, [color=BLUE]Z:[/color]{(int)p.GlobalPosition.Z}; [color=orange]facing:[/color]{p.GlobalTransform.Basis.Z.Round()}";
+                    $"\n{p.ProfileData.PlayerName} is at [color=RED]X:[/color]{(int)p.GlobalPosition.X}, [color=GREEN]Y;[/color]{(int)p.GlobalPosition.Y}, [color=BLUE]Z:[/color]{(int)p.GlobalPosition.Z}; [color=orange]facing:[/color]{p.GlobalTransform.Basis.Z.Round()}";
 
                     ctx.Reply(positionMessage);
                 }

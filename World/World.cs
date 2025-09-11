@@ -108,6 +108,6 @@ public partial class World : Singleton<World>
 
 	public PlayerProfileData GetPlayerProfileDataByID(long id)
 	{
-		return GetPlayerById(id).profileData;
+		return GetPlayerById(id).ProfileData;
 	}
 }

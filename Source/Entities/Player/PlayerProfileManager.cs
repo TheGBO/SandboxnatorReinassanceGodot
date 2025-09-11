@@ -11,7 +11,6 @@ namespace NullCyan.Sandboxnator.Entity;
 
 public partial class PlayerProfileManager : Singleton<PlayerProfileManager>
 {
-	[Export]
 	public PlayerProfileData CurrentProfile { get; private set; }
 
 

@@ -1,40 +1,26 @@
 using Godot;
 using Godot.Collections;
 using System;
+using MessagePack;
+using MessagePackGodot;
+using NullCyan.Util;
 namespace NullCyan.Sandboxnator.Entity;
 
-//Individual player profile data class
-//this should be serializable in order to save in the future.
-public partial class PlayerProfileData : Resource
+[MessagePackObject(true)]
+public partial class PlayerProfileData
 {
-    [Export]
+    [Key(0)]
     public string PlayerName { get; set; } = $"DEFAULT_PLAYER";
 
-    [Export]
+    [Key(1)]
     public Color PlayerColor { get; set; } = Colors.White;
     //TODO: PlayerTexture : The skin texture of the player, a Map that maps a string to a .tres material, this class will only get the texture, there will be a singleton in the future that will hold the registry for player skins in that dictionary.
 
-    public Dictionary ToDictionary()
+    public void PrintProperties(string message = "")
     {
-        return new Dictionary
-        {
-            { "PlayerName", PlayerName },
-            { "PlayerColor", PlayerColor.ToHtml() }
-        };
+        //using the british spelling on debug logs to avoid rich text conflict lol
+        GD.PrintRich($"{message} : [color={PlayerColor.ToHtml()}] name:{PlayerName} colour:{PlayerColor}[/color]");
+        GD.Print($"when packed as a byte array, this has {MPacker.Pack(this).Length} bytes");
     }
-
-    public static PlayerProfileData FromDictionary(Dictionary dict)
-    {
-        var data = new PlayerProfileData();
-        if (dict.TryGetValue("PlayerName", out var name))
-            data.PlayerName = (string)name;
-
-        if (dict.TryGetValue("PlayerColor", out var color))
-            data.PlayerColor = Color.FromHtml((string)color);
-
-        return data;
-    }
-
-
 }
 

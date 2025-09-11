@@ -4,4 +4,7 @@
     <EnableDynamicLoading>true</EnableDynamicLoading>
     <RootNamespace>SandboxnatorReinassanceGodot</RootNamespace>
   </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="MessagePackGodot" Version="1.0.2" />
+  </ItemGroup>
 </Project>
