@@ -2,6 +2,7 @@ using System.Linq;
 using Godot;
 using NullCyan.Sandboxnator.Chat;
 using NullCyan.Sandboxnator.Entity;
+using NullCyan.Sandboxnator.Network;
 using NullCyan.Sandboxnator.Registry;
 using NullCyan.Sandboxnator.WorldAndScenes;
 using NullCyan.Util;
@@ -41,6 +42,42 @@ public class CommandRegistryManager : IRegistryManager
                     playerListMsg += $"\n[Player ID:{p.componentHolder.entityId}] : [color={p.profileData.PlayerColor.ToHtml()}]{p.profileData.PlayerName}[/color]";
                 }
                 ctx.Reply(playerListMsg);
+            })
+        );
+
+        RegisterCommand(new ChatCommand()
+            .WithName("getpos")
+            .WithDescription("retrieves the position of a player by their ID in XYZ coordinates. Usage: !getpos <playerID>")
+            .WithHandler((ctx) =>
+            {
+                void SendPos(Player p)
+                {
+                    string positionMessage =
+                    $"\n{p.profileData.PlayerName} is at [color=RED]X:[/color]{(int)p.GlobalPosition.X}, [color=GREEN]Y;[/color]{(int)p.GlobalPosition.Y}, [color=BLUE]Z:[/color]{(int)p.GlobalPosition.Z}; [color=orange]facing:[/color]{p.GlobalTransform.Basis.Z.Round()}";
+
+                    ctx.Reply(positionMessage);
+                }
+
+                if (ctx.Args.Length < 1)
+                {
+                    SendPos(ctx.Sender);
+                    return;
+                }
+
+                if (int.TryParse(ctx.Args[0], out int idArg))
+                {
+                    Player p = World.Instance.GetPlayerById(idArg);
+                    if (p == null)
+                    {
+                        ctx.ReplyErr($"could not find player of ID {idArg}");
+                        return;
+                    }
+                    SendPos(p);
+                }
+                else
+                {
+                    ctx.ReplyErr("INVALID ARGUMENTS.");
+                }
             })
         );
     }
@@ -92,7 +129,7 @@ public class CommandRegistryManager : IRegistryManager
 
     private static bool SendInvalidCommandWarning(string commandKeyName, Player sender)
     {
-        ChatManager.Instance.SendPlayerlessMessage($"Unknown command: {commandKeyName}, try typing \"!help\" in order to see available in-game commands.", sender.componentHolder.entityId);
+        ChatManager.Instance.SendPlayerlessMessage($"Unknown command or invalid arguments when attempting to execute: {commandKeyName}, try typing \"!help\" in order to see available in-game commands and their respective usage instructions.", sender.componentHolder.entityId);
         //Seems counterintuitive, but returnig true means that there was an attempt, not necessarily success.
         return true;
     }

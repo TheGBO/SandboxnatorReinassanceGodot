@@ -22,4 +22,9 @@ public class CommandContext
         ChatManager.Instance.SendPlayerlessMessage(msg, SenderId);
     }
 
+    public void ReplyErr(string msg)
+    {
+        Reply($"[color=red](ERROR):[/color]{msg}");
+    }
+
 }
