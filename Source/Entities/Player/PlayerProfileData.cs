@@ -19,7 +19,7 @@ public partial class PlayerProfileData
     public void PrintProperties(string message = "")
     {
         //using the british spelling on debug logs to avoid rich text conflict lol
-        GD.PrintRich($"{message} : [color={PlayerColor.ToHtml()}] name:{PlayerName} colour:{PlayerColor}[/color]");
+        GD.PrintRich($"{message} : [color={PlayerColor.ToHtml()}] name:{PlayerName} colour:{PlayerColor.ToHtml}[/color]");
         GD.Print($"when packed as a byte array, this has {MPacker.Pack(this).Length} bytes");
     }
 }

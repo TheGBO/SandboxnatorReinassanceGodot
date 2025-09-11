@@ -105,7 +105,7 @@ public partial class PlayerVisualSync : AbstractComponent<Player>
 		if (!IsInstanceValid(this)) return;
 
 		PlayerProfileData unpackedProfileData = MPacker.Unpack<PlayerProfileData>(profileBytes);
-		unpackedProfileData.PrintProperties("[SERVER] receiveD player profile data as");
+		unpackedProfileData.PrintProperties("[SERVER] received player profile data as");
 		Rpc(nameof(S2C_SyncProfile), profileBytes);
 
 		ComponentParent.ProfileData = unpackedProfileData;
