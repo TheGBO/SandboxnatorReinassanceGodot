@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://ddpxqpot2m7a2"]
+[gd_scene load_steps=6 format=3 uid="uid://ddpxqpot2m7a2"]
 
 [ext_resource type="Texture2D" uid="uid://7bm83u8ekalo" path="res://UI/SBlogo.png" id="1_m3wq5"]
 [ext_resource type="Script" uid="uid://bcm1pork7vl08" path="res://UI/MainMenu/MainMenu.cs" id="1_n530s"]
 [ext_resource type="Theme" uid="uid://dbnnr7gglht1m" path="res://UI/Theme/Theme.tres" id="4_al8mg"]
+[ext_resource type="Script" uid="uid://daxeebjogf5wp" path="res://UI/MainMenu/test.gd" id="4_nahvw"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tltye"]
 bg_color = Color(0.137255, 0.137255, 0.137255, 1)
@@ -98,6 +99,9 @@ size = Vector2i(437, 100)
 ok_button_text = "yes"
 dialog_text = "Do you want to quit the game?"
 cancel_button_text = "no"
+
+[node name="TEST" type="Node" parent="."]
+script = ExtResource("4_nahvw")
 
 [connection signal="pressed" from="RootPanel/Panel/MarginContainer/VBoxContainer/PlayBtn" to="." method="_on_play_btn_pressed"]
 [connection signal="pressed" from="RootPanel/Panel/MarginContainer/VBoxContainer/ProfileBtn" to="." method="_on_customization_btn_pressed"]
