@@ -1,11 +1,20 @@
 using Godot;
 using Godot.Collections;
+using MessagePack;
 namespace NullCyan.Sandboxnator.Item;
 
+/// <summary>
+/// A Data Transfer Object (DTO) regarding the usage of items from players.
+/// </summary>
+/// 
+[MessagePackObject]
 public partial class ItemUsageArgs
 {
+    [Key(0)]
     public Vector3 Position { get; set; }
+    [Key(1)]
     public Vector3 Normal { get; set; }
+    [Key(2)]
     public int PlayerId { get; set; }
 
     // Constructor
@@ -16,23 +25,6 @@ public partial class ItemUsageArgs
         PlayerId = playerId;
     }
 
-    public Dictionary ToDictionary()
-    {
-        return new Dictionary
-        {
-            { "position", Position },
-            { "normal", Normal },
-            { "playerId", PlayerId }
-        };
-    }
-
-    // Static method to create an instance from a Dictionary
-    public static ItemUsageArgs FromDictionary(Dictionary data)
-    {
-        return new ItemUsageArgs(
-            (Vector3)data["position"],
-            (Vector3)data["normal"],
-            (int)data["playerId"]
-        );
-    }
+    public override string ToString()
+        => $"Item usage args | Pos={Position}, Normal={Normal}, PlayerId={PlayerId}";
 }

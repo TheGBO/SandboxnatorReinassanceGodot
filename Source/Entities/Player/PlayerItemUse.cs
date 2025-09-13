@@ -5,6 +5,7 @@ using NullCyan.Sandboxnator.Registry;
 using System;
 using System.Collections.Generic;
 using NullCyan.Util.ComponentSystem;
+using NullCyan.Util;
 namespace NullCyan.Sandboxnator.Entity;
 
 
@@ -77,12 +78,9 @@ public partial class PlayerItemUse : AbstractComponent<Player>
 
 		Vector3 collisionPoint = rayCast.GetCollisionPoint();
 		Vector3 normal = rayCast.GetCollisionNormal();
-		Dictionary itemUsageArgs = new ItemUsageArgs(collisionPoint, normal, ComponentParent.componentHolder.entityId).ToDictionary();
-		//Perform c2s RPC call if the player is a client
-		//Call this on the server side if the player using the tool is the one hosting
-
-		RpcId(1, nameof(C2S_Use), itemUsageArgs);
-
+		ItemUsageArgs itemUsageArgs = new ItemUsageArgs(collisionPoint, normal, ComponentParent.componentHolder.entityId);
+		byte[] usageArgsBytes = MPacker.Pack(itemUsageArgs);
+		RpcId(1, nameof(C2S_Use), usageArgsBytes);
 		handAnimator.Stop();
 		if (item.animateHand)
 		{
@@ -92,11 +90,11 @@ public partial class PlayerItemUse : AbstractComponent<Player>
 
 	//Dictionary conversion is needed for it is a networked function
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
-	private void C2S_Use(Dictionary args)
+	private void C2S_Use(byte[] usageArgsBytes)
 	{
 		if (canUseItem)
 		{
-			item.UseItem(ItemUsageArgs.FromDictionary(args));
+			item.UseItem(MPacker.Unpack<ItemUsageArgs>(usageArgsBytes));
 			canUseItem = false;
 
 			SceneTreeTimer coolDownTimer = GetTree().CreateTimer(item.usageCooldown);
