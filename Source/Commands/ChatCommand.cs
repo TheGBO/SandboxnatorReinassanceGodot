@@ -4,8 +4,8 @@ namespace NullCyan.Sandboxnator.Commands;
 
 public class ChatCommand()
 {
-    public string Name { get; private set; }
-    public string Description { get; private set; }
+    public string Name { get; protected set; }
+    public string Description { get; protected set; }
     //public CmdExecutionType ExecutionType { get; private set; }
     public Action<CommandContext> Handler { get; set; }
 
