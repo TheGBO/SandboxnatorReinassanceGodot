@@ -1,10 +1,12 @@
 using Godot;
+using NullCyan.Sandboxnator.Registry;
+using NullCyan.Sandboxnator.Settings;
 using NullCyan.Util.ComponentSystem;
 using System;
 namespace NullCyan.Sandboxnator.Entity;
 
 [GodotClassName("PlayerMovement")]
-public partial class PlayerMovement : AbstractComponent<Player>
+public partial class PlayerMovement : AbstractComponent<Player>, ISettingsLoader
 {
 	//movement
 	[Export] private CharacterBody3D movementCBody;
@@ -15,15 +17,14 @@ public partial class PlayerMovement : AbstractComponent<Player>
 	private Vector3 velocity;
 
 	//rigid body interaction
-	[Export] public float mass = 5f;
-	[Export] public float pushForceScalar = 2f;
+	// [Export] public float mass = 5f;
+	// [Export] public float pushForceScalar = 2f;
 
 	//visual effects
 	[Export] public Camera3D camera;
 	//TODO: fov able to be tweaked in settings.
-	[Export] public float fov = 75;
-	[Export] public float sprintFov = 100;
 	[Export] public float sprintEffectTime = 0.75f;
+	private float fov = 75;
 	/// <summary>
 	/// Used for detection of movement and animations.
 	/// </summary>
@@ -35,11 +36,7 @@ public partial class PlayerMovement : AbstractComponent<Player>
 		if (!ComponentParent.IsMultiplayerAuthority())
 			return;
 
-		if (movementCBody == null)
-		{
-			movementCBody = ComponentParent.characterBody;
-			GD.Print("Character body was null, something went wrong for some reason.");
-		}
+		UpdateSettingsData();
 
 		currentSpeed = walkSpeed;
 		ComponentParent.playerInput.OnStopSprint += StopSprint;
@@ -109,29 +106,29 @@ public partial class PlayerMovement : AbstractComponent<Player>
 	}
 
 	//not my code, adapted version from https://www.youtube.com/watch?v=Uh9PSOORMmA
-	//Disabled due to network issues.
-	private void PushAwayRigidBodies()
-	{
-		for (int i = 0; i < movementCBody.GetSlideCollisionCount(); i++)
-		{
-			KinematicCollision3D CollisionData = movementCBody.GetSlideCollision(i);
+	//DEPRECATED Disabled due to network issues.
+	// private void PushAwayRigidBodies()
+	// {
+	// 	for (int i = 0; i < movementCBody.GetSlideCollisionCount(); i++)
+	// 	{
+	// 		KinematicCollision3D CollisionData = movementCBody.GetSlideCollision(i);
 
-			GodotObject UnkObj = CollisionData.GetCollider();
+	// 		GodotObject UnkObj = CollisionData.GetCollider();
 
-			if (UnkObj is RigidBody3D)
-			{
-				RigidBody3D Obj = UnkObj as RigidBody3D;
-				float MassRatio = Mathf.Min(1.0f, mass / Obj.Mass);
-				if (MassRatio < 0.25f) continue;
-				Vector3 PushDir = -CollisionData.GetNormal();
-				float VelocityDiffInPushDir = movementCBody.Velocity.Dot(PushDir) - Obj.LinearVelocity.Dot(PushDir);
-				VelocityDiffInPushDir = Mathf.Max(0.0f, VelocityDiffInPushDir);
-				PushDir.Y = 0;
-				float PushForce = MassRatio * pushForceScalar;
-				Obj.ApplyImpulse(PushDir * VelocityDiffInPushDir * PushForce, CollisionData.GetPosition() - Obj.GlobalPosition);
-			}
-		}
-	}
+	// 		if (UnkObj is RigidBody3D)
+	// 		{
+	// 			RigidBody3D Obj = UnkObj as RigidBody3D;
+	// 			float MassRatio = Mathf.Min(1.0f, mass / Obj.Mass);
+	// 			if (MassRatio < 0.25f) continue;
+	// 			Vector3 PushDir = -CollisionData.GetNormal();
+	// 			float VelocityDiffInPushDir = movementCBody.Velocity.Dot(PushDir) - Obj.LinearVelocity.Dot(PushDir);
+	// 			VelocityDiffInPushDir = Mathf.Max(0.0f, VelocityDiffInPushDir);
+	// 			PushDir.Y = 0;
+	// 			float PushForce = MassRatio * pushForceScalar;
+	// 			Obj.ApplyImpulse(PushDir * VelocityDiffInPushDir * PushForce, CollisionData.GetPosition() - Obj.GlobalPosition);
+	// 		}
+	// 	}
+	// }
 
 	//input related.
 	private void StopSprint()
@@ -145,7 +142,7 @@ public partial class PlayerMovement : AbstractComponent<Player>
 		Tween sprintTween = GetTree().CreateTween();
 		if (beginSprint)
 		{
-			sprintTween.TweenProperty(camera, "fov", sprintFov, sprintEffectTime);
+			sprintTween.TweenProperty(camera, "fov", fov * 1.25, sprintEffectTime);
 			sprintTween.TweenProperty(this, nameof(currentSpeed), sprintSpeed, sprintEffectTime);
 		}
 		else
@@ -153,5 +150,10 @@ public partial class PlayerMovement : AbstractComponent<Player>
 			sprintTween.TweenProperty(camera, "fov", fov, sprintEffectTime);
 			sprintTween.TweenProperty(this, nameof(currentSpeed), walkSpeed, sprintEffectTime);
 		}
+	}
+
+	public void UpdateSettingsData()
+	{
+		fov = GameRegistries.Instance.SettingsData.FieldOfView;
 	}
 }

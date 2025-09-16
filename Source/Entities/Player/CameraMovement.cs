@@ -7,19 +7,19 @@ namespace NullCyan.Sandboxnator.Entity;
 
 public partial class CameraMovement : AbstractComponent<Player>, ISettingsLoader
 {
+	private const float SENSITIVITY_DENOMINATOR = 10000.0f;
+
 	[Export] public Node3D neck;
 	[Export] public Node3D body;
-	[Export] public Camera3D camera;
 
-	private const float SENSITIVITY_DENOMINATOR = 10000.0f;
-	float sensitivity;
+	private float sensitivity;
+
 	public override void _Ready()
 	{
 		if (!ComponentParent.IsMultiplayerAuthority())
 			return;
 
 		UpdateSettingsData();
-		GD.Print($"[DEBUG] camera={camera}, GameRegistries.Instance={GameRegistries.Instance}, SettingsData={(GameRegistries.Instance != null ? GameRegistries.Instance.SettingsData : null)}");
 		Input.MouseMode = Input.MouseModeEnum.Captured;
 		ComponentParent.playerInput.OnToggleCursorCapture += ToggleCursorCapture;
 		ComponentParent.playerInput.OnMouseMovement += LookAction;
@@ -47,7 +47,6 @@ public partial class CameraMovement : AbstractComponent<Player>, ISettingsLoader
 
 	public void UpdateSettingsData()
 	{
-		camera.Fov = GameRegistries.Instance.SettingsData.FieldOfView;
 		sensitivity = GameRegistries.Instance.SettingsData.Sensitivity / SENSITIVITY_DENOMINATOR;
 	}
 }
