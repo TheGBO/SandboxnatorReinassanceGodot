@@ -8,10 +8,11 @@ namespace NullCyan.Sandboxnator.UI;
 
 public partial class ProfileEditingMenu : Control
 {
-	[Export] LineEdit nameEdit;
-	[Export] TextureRect backgroundPreview;
-	[Export] TextureRect skinPreview;
-	[Export] ColorPicker colorEdit;
+	[Export] private LineEdit nameEdit;
+	[Export] private TextureRect backgroundPreview;
+	[Export] private TextureRect skinPreview;
+	[Export] private ColorPicker colorEdit;
+	[Export] private Button saveButton;
 
 	public void _on_save_and_return_btn_pressed()
 	{
@@ -26,10 +27,10 @@ public partial class ProfileEditingMenu : Control
 
 	public void OnAlteration()
 	{
-		UpdateProfileFromUI();
-		UpdateUiFromProfile();
+		UpdateUiFromUi();
 	}
 
+	#region ALTERATION HANDLERs
 	public void _on_item_list_item_selected(int index)
 	{
 		OnAlteration();
@@ -40,11 +41,31 @@ public partial class ProfileEditingMenu : Control
 		OnAlteration();
 	}
 
+	public void _on_name_edit_text_changed(string newName)
+	{
+		OnAlteration();
+	}
+	#endregion
+
+	private bool ValidateProfile()
+	{
+		bool isNameValid = !nameEdit.Text.Contains('!') && !string.IsNullOrEmpty(nameEdit.Text);
+		saveButton.Disabled = !isNameValid;
+		bool validProfile = isNameValid;
+		return validProfile;
+	}
+
+	private void UpdateUiFromUi()
+	{
+		backgroundPreview.Modulate = colorEdit.Color;
+	}
+
 	private void UpdateUiFromProfile()
 	{
 		PlayerProfileData cpfd = PlayerProfileManager.Instance.CurrentProfile;
 		//name
-		nameEdit.Text = cpfd.PlayerName;
+		if (!nameEdit.IsEditing())
+			nameEdit.Text = cpfd.PlayerName;
 		//color
 		backgroundPreview.Modulate = cpfd.PlayerColor;
 		colorEdit.Color = cpfd.PlayerColor;
@@ -52,7 +73,6 @@ public partial class ProfileEditingMenu : Control
 
 	private void UpdateProfileFromUI()
 	{
-		//TODO: Detect if name is null or empty and replace the profile name with a randomly generated one
 		PlayerProfileManager.Instance.CurrentProfile.PlayerName = nameEdit.Text;
 		PlayerProfileManager.Instance.CurrentProfile.PlayerColor = colorEdit.Color;
 	}
