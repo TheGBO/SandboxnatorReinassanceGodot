@@ -21,10 +21,11 @@ config/icon="res://Assets/Textures/sandboxnator_icon.png"
 
 [autoload]
 
-UiSoundManager="*res://UI/UiSoundManager.tscn"
+SaveLoader="*res://Source/Common/Utils/SaveLoader.cs"
+GameRegistries="*res://GameContent/Registry/GameRegistries.cs"
 ScenesBank="*res://World/ScenesBank/ScenesBank.tscn"
 PlayerProfileManager="*res://Source/Entities/Player/PlayerProfileManager.cs"
-GameRegistries="*res://GameContent/Registry/GameRegistries.cs"
+UiSoundManager="*res://UI/UiSoundManager.tscn"
 
 [display]
 
@@ -41,7 +42,7 @@ run/main_run_args="client"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/sandboxnatorplugin/plugin.cfg")
+enabled=PackedStringArray()
 
 [file_customization]
 
