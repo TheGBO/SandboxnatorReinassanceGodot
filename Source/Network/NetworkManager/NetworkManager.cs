@@ -72,6 +72,7 @@ namespace NullCyan.Sandboxnator.Network
 			Multiplayer.MultiplayerPeer = peer;
 
 			// Hook server-side signals
+			//TODO: Validate client game version, do NOT allow players with versions different from that of the server.
 			Multiplayer.PeerDisconnected += PlayerManager.Instance.RemovePlayer;
 			Multiplayer.PeerConnected += PlayerManager.Instance.AddPlayer;
 
