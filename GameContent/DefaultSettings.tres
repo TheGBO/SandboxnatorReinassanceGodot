@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="GameSettingsData" load_steps=2 format=3 uid="uid://cqxx2lthvlpp3"]
+
+[ext_resource type="Script" uid="uid://dnuf77hkcgnw1" path="res://Source/Settings/GameSettingsData.cs" id="1_gdefa"]
+
+[resource]
+script = ExtResource("1_gdefa")
+Sensitivity = 1.0
+metadata/_custom_type_script = "uid://dnuf77hkcgnw1"

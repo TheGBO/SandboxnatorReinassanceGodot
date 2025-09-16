@@ -763,10 +763,11 @@ jumpVelocity = 8.0
 camera = NodePath("../../Neck/Camera3D")
 sprintEffectTime = 0.125
 
-[node name="CameraMovement" type="Node3D" parent="ComponentHolder" node_paths=PackedStringArray("neck", "body")]
+[node name="CameraMovement" type="Node3D" parent="ComponentHolder" node_paths=PackedStringArray("neck", "body", "camera")]
 script = ExtResource("3_bvtsg")
 neck = NodePath("../../Neck")
 body = NodePath("../..")
+camera = NodePath("../../Neck/Camera3D")
 
 [node name="PlayerItemUse" type="Node3D" parent="ComponentHolder" node_paths=PackedStringArray("rayCast", "hand", "handAnimator")]
 script = ExtResource("9_rtpsh")

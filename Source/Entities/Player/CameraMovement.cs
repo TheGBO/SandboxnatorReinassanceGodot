@@ -1,24 +1,28 @@
 using Godot;
 using System;
 using NullCyan.Util.ComponentSystem;
+using NullCyan.Sandboxnator.Registry;
+using NullCyan.Sandboxnator.Settings;
 namespace NullCyan.Sandboxnator.Entity;
 
-public partial class CameraMovement : AbstractComponent<Player>
+public partial class CameraMovement : AbstractComponent<Player>, ISettingsLoader
 {
 	[Export] public Node3D neck;
 	[Export] public Node3D body;
-	//TODO: move sensitivity to control settings
-	float sensitivity = 1.0f/100.0f;
+	[Export] public Camera3D camera;
+
+	private const float SENSITIVITY_DENOMINATOR = 10000.0f;
+	float sensitivity;
 	public override void _Ready()
 	{
 		if (!ComponentParent.IsMultiplayerAuthority())
 			return;
 
+		GD.Print($"[DEBUG] camera={camera}, GameRegistries.Instance={GameRegistries.Instance}, SettingsData={(GameRegistries.Instance != null ? GameRegistries.Instance.SettingsData : null)}");
 		Input.MouseMode = Input.MouseModeEnum.Captured;
 		ComponentParent.playerInput.OnToggleCursorCapture += ToggleCursorCapture;
 		ComponentParent.playerInput.OnMouseMovement += LookAction;
 	}
-
 
 	private void LookAction()
 	{
@@ -40,5 +44,9 @@ public partial class CameraMovement : AbstractComponent<Player>
 		}
 	}
 
-
+	public void UpdateSettingsData()
+	{
+		camera.Fov = GameRegistries.Instance.SettingsData.FieldOfView;
+		sensitivity = GameRegistries.Instance.SettingsData.Sensitivity / SENSITIVITY_DENOMINATOR;
+	}
 }
