@@ -19,7 +19,7 @@
     <img src="https://img.shields.io/badge/license-Custom-important?style=for-the-badge" alt="License">
   </a>
   <a href="https://godotengine.org/">
-    <img src="https://img.shields.io/badge/Godot-4.4%20Mono-blue?style=for-the-badge" alt="Godot 4.4 Mono">
+    <img src="https://img.shields.io/badge/Godot-4.5%20Mono-blue?style=for-the-badge" alt="Godot 4.5 Mono">
   </a>
   <a href="https://discord.gg/RgyyWE7SnD">
   <img alt="Discord" src="https://img.shields.io/discord/1380519012374675497?style=for-the-badge&logo=discord&logoColor=blue&label=Discord%20server%20(Mainly%20portuguese%20because%20I%20am%20brazilian)&link=https%3A%2F%2Fdiscord.gg%2FRgyyWE7SnD">
@@ -29,7 +29,7 @@
 
 ---
 
-## ✨ Features (In progress)
+## ✨ Features (The whole game is still in progress)
 - 🏗️ **Freeform Building** – Place, rotate, and snap objects however you want.
 - 🌐 **Multiplayer Sync** – Powered by Godot 4’s multiplayer ENet API.
 - 🧩 **Modular Systems** – Custom player components, extensible commands, and more.
