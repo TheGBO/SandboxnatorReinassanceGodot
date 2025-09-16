@@ -18,6 +18,7 @@ public partial class CameraMovement : AbstractComponent<Player>, ISettingsLoader
 		if (!ComponentParent.IsMultiplayerAuthority())
 			return;
 
+		UpdateSettingsData();
 		GD.Print($"[DEBUG] camera={camera}, GameRegistries.Instance={GameRegistries.Instance}, SettingsData={(GameRegistries.Instance != null ? GameRegistries.Instance.SettingsData : null)}");
 		Input.MouseMode = Input.MouseModeEnum.Captured;
 		ComponentParent.playerInput.OnToggleCursorCapture += ToggleCursorCapture;
