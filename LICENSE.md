@@ -10,13 +10,13 @@ By accessing or using this source code, you agree to the following terms:
    - You are permitted to view, download, modify the source code and contribute to the project in case of the source code being publicly available.
 
 2. **Credit Attribution**: 
-   - All contributors have the right to request appropriate credit in any final product derived from this source code and are allowed to credit themselves on contributions they have made on derived products. However it is explicitly prohibited to claim the authorship of the underlying base software.
+   - All contributors have the right to request appropriate credit in any final product derived from this source code and are allowed to credit themselves on contributions they have made on derived products. However it is explicitly prohibited to claim the authorship of the underlying base software, also, do NOT distribute the game under other name.
 
 3. **Monetization Restrictions**: 
    - Only the original developer or designated team members by the authority of the developer are authorized to generate income from any products, services, or derivatives related to this source code. Any commercial use by third parties is strictly prohibited without prior written permission from the original developer.
 
 4. **Modding Allowance**: 
-   - You may create modifications (mods) to the source code or the game. However, selling or otherwise monetizing these mods is not permitted. Whether or not you you make the source code publicly availabe is up to you, if you decide to do so, keep this file on the project.
+   - You may create modifications (mods) to the source code or the game. However, selling or otherwise monetizing these mods is not permitted.  Whether or not you you make the source code publicly availabe is up to you, if you decide to do so, keep this file on the project. 
 
 5. **Original Developer Authority**: 
    - The original developer of this source code has total authority over any product derived from it when it comes to the underlying code base.
