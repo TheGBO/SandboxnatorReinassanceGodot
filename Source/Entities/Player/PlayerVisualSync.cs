@@ -11,19 +11,23 @@ namespace NullCyan.Sandboxnator.Entity;
 /// </summary>
 public partial class PlayerVisualSync : AbstractComponent<Player>
 {
-	[Export] private Array<MeshInstance3D> modelsToColor;
+	[ExportGroup("General")]
 	[Export] private Array<Node3D> elementsToHideAsFirstPerson;
 	[Export] private Label3D nameTag;
+	[Export] private Array<MeshInstance3D> modelsToColor;
+	[Export] private AnimationPlayer modelAnimator;
+	[Export] private Dictionary<PlayerMovementType, string> movementTypeAnimation;
 
+	[ExportGroup("Hand")]
 	[Export] private Node3D logicalHand;
-	[Export] private Node3D visualHand;
+	[Export] private Node3D itemHoldingPoint;
+	[Export] private MeshInstance3D handMesh;
 
+	[ExportGroup("Neck and arms")]
 	[Export] private Node3D logicalNeck;
 	[Export] private Node3D visualHead;
 	[Export] private Node3D arms;
 	[Export] private AnimationPlayer neckAnimator;
-	[Export] private AnimationPlayer modelAnimator;
-	[Export] private Dictionary<PlayerMovementType, string> movementTypeAnimation;
 
 	public override void _EnterTree()
 	{
@@ -34,6 +38,8 @@ public partial class PlayerVisualSync : AbstractComponent<Player>
 
 			foreach (Node3D element in elementsToHideAsFirstPerson)
 				element.Visible = false;
+			//use_z_clip_scale : Make hand not clip through objects as first person.
+			ColorAndMeshUtils.SetMeshClip(handMesh, true);
 		}
 
 		if (Multiplayer.IsServer() && World.HasInstance())
@@ -52,7 +58,7 @@ public partial class PlayerVisualSync : AbstractComponent<Player>
 			modelAnimator.Play(movementTypeAnimation[ComponentParent.playerMovement.MovementType]);
 	}
 
-#region SYNCs
+	#region SYNCs
 	private void OnPlayerJoinHandler(long id)
 	{
 		if (!IsInstanceValid(this)) return;
@@ -68,12 +74,12 @@ public partial class PlayerVisualSync : AbstractComponent<Player>
 
 		nameTag.Text = ComponentParent.ProfileData.PlayerName;
 		nameTag.Modulate = ComponentParent.ProfileData.PlayerColor;
-		nameTag.OutlineModulate = ColorUtils.InvertColor(ComponentParent.ProfileData.PlayerColor);
+		nameTag.OutlineModulate = ColorAndMeshUtils.InvertColor(ComponentParent.ProfileData.PlayerColor);
 
 		foreach (MeshInstance3D element in modelsToColor)
 		{
 			if (IsInstanceValid(element))
-				ColorUtils.ChangeMeshColor(element, ComponentParent.ProfileData.PlayerColor);
+				ColorAndMeshUtils.ChangeMeshColor(element, ComponentParent.ProfileData.PlayerColor);
 		}
 	}
 
@@ -123,8 +129,8 @@ public partial class PlayerVisualSync : AbstractComponent<Player>
 		unpackedProfileData.PrintProperties("[CLIENT] received profile data as");
 		UpdateVisual();
 	}
-	
-#endregion
+
+	#endregion
 
 }
 
