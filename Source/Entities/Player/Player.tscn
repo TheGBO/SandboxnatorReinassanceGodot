@@ -11,7 +11,7 @@
 [ext_resource type="Script" uid="uid://g2wgr24sb1q6" path="res://Source/Entities/Player/PlayerChatHud.cs" id="10_np6ov"]
 [ext_resource type="Script" uid="uid://blwddxb23k2it" path="res://Source/Entities/Player/PlayerInput.cs" id="10_xk60u"]
 [ext_resource type="Script" uid="uid://b03asse870ciy" path="res://Source/Entities/Player/HandSway.cs" id="11_v2xwv"]
-[ext_resource type="Texture2D" uid="uid://6aop4rk3parb" path="res://Source/Entities/Player/Assets/NewPlayerModel/PlayerModel_0.png" id="13_3e0s0"]
+[ext_resource type="Texture2D" uid="uid://6aop4rk3parb" path="res://Source/Entities/Player/Assets/NewPlayerModel/player_texture_0.png" id="13_3e0s0"]
 [ext_resource type="Script" uid="uid://diil6t5g7kt2i" path="res://Source/Entities/Player/PlayerHUD.cs" id="13_7hef5"]
 [ext_resource type="Script" uid="uid://1r4uikdke5pe" path="res://Source/Entities/Player/PlayerVisualSync.cs" id="14_3e0s0"]
 [ext_resource type="Texture2D" uid="uid://diwsbtasoq4ky" path="res://GameContent/Skins/uwu.png" id="14_7hef5"]
@@ -773,7 +773,7 @@ script = ExtResource("9_rtpsh")
 rayCast = NodePath("../../Neck/RayCast3D")
 hand = NodePath("../../PlayerModel/Node/Hands/right_H/Hand_R/HoldingPoint/Hand")
 handAnimator = NodePath("HandAnimator")
-inventory = Array[String](["hammer", "cube", "bulb", "black_cube"])
+inventory = Array[String](["Hammer", "Cube", "LightBulb", "BlackCube"])
 
 [node name="HandAnimator" type="AnimationPlayer" parent="ComponentHolder/PlayerItemUse"]
 libraries = {

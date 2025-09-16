@@ -7,6 +7,6 @@
 [resource]
 script = ExtResource("3_qy3bs")
 itemScene = ExtResource("2_0sdki")
-itemID = "black_cube"
+itemID = "BlackCube"
 itemIcon = ExtResource("1_og0nt")
 itemName = "Cube"

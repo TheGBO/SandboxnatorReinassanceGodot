@@ -8,7 +8,7 @@ public partial class CameraMovement : AbstractComponent<Player>
 	[Export] public Node3D neck;
 	[Export] public Node3D body;
 	//TODO: move sensitivity to control settings
-	float sensitivity = 0.01f;
+	float sensitivity = 1.0f/100.0f;
 	public override void _Ready()
 	{
 		if (!ComponentParent.IsMultiplayerAuthority())

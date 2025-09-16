@@ -17,7 +17,7 @@ run/main_scene="res://UI/MainMenu/MainMenu.tscn"
 config/features=PackedStringArray("4.5", "C#", "Forward Plus")
 boot_splash/use_filter=false
 boot_splash/image="res://UI/SBlogo.png"
-config/icon="res://Assets/Textures/SANDBOXNATOR_ICON.png"
+config/icon="res://Assets/Textures/sandboxnator_icon.png"
 
 [autoload]
 

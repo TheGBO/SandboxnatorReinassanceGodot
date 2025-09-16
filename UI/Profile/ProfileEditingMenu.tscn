@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://dnt56ejjxcc16" path="res://Assets/Textures/Character_UwU.png" id="2_tnmhm"]
 [ext_resource type="Texture2D" uid="uid://c08077ylywm20" path="res://Assets/Textures/Character_Happy.png" id="3_k8yag"]
 [ext_resource type="Texture2D" uid="uid://dltvykko3kc2o" path="res://Assets/Textures/Character_Skeptical.png" id="4_luaw6"]
-[ext_resource type="Texture2D" uid="uid://6aop4rk3parb" path="res://Source/Entities/Player/Assets/NewPlayerModel/PlayerModel_0.png" id="5_k8yag"]
+[ext_resource type="Texture2D" uid="uid://6aop4rk3parb" path="res://Source/Entities/Player/Assets/NewPlayerModel/player_texture_0.png" id="5_k8yag"]
 [ext_resource type="Texture2D" uid="uid://diwsbtasoq4ky" path="res://GameContent/Skins/uwu.png" id="6_luaw6"]
 
 [node name="ProfileEditingMenu" type="Control" node_paths=PackedStringArray("nameEdit", "backgroundPreview", "skinPreview", "colorEdit")]

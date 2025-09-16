@@ -40,7 +40,7 @@ public partial class UiSoundManager : Singleton<UiSoundManager>
 	private void InstallSounds(Node node)
 	{
 		//GD.Print("Installing sounds");
-		foreach (Node child in GetAllChildrenInNode(node))
+		foreach (Node child in NodeUtils.GetAllChildrenInNode(node))
 		{
 			if (child is Button btn)
 			{
@@ -71,20 +71,5 @@ public partial class UiSoundManager : Singleton<UiSoundManager>
 				break;
 
 		}
-	}
-
-	//TODO: This function is so useful that it should be added to utils later in order to avoid code duplications.
-	private List<Node> GetAllChildrenInNode(Node node, List<Node> nodes = null)
-	{
-		nodes ??= new List<Node>();
-		nodes.Add(node);
-		if (nodes != null)
-		{
-			foreach (Node kid in node.GetChildren())
-			{
-				nodes = GetAllChildrenInNode(kid, nodes);
-			}
-		}
-		return nodes;
 	}
 }

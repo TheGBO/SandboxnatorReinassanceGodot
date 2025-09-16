@@ -8,6 +8,6 @@
 resource_name = "tool_hammer"
 script = ExtResource("1_e88rv")
 itemScene = ExtResource("1_f6c81")
-itemID = "hammer"
+itemID = "Hammer"
 itemIcon = ExtResource("1_5y844")
 itemName = "Hammer"

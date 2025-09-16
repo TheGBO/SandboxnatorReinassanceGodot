@@ -1,21 +1,26 @@
 using Godot;
 using NullCyan.Sandboxnator.Commands;
 using NullCyan.Sandboxnator.Item;
+using NullCyan.Sandboxnator.Settings;
 using NullCyan.Util;
 namespace NullCyan.Sandboxnator.Registry;
 
+/// <summary>
+/// Monolithic class for game-wide data
+/// </summary>
 public partial class GameRegistries : Singleton<GameRegistries>
 {
     public Registry<ItemData> ItemRegistry { get; set; } = new();
     public Registry<ChatCommand> CommandRegistry { get; set; } = new();
     public Registry<PackedScene> BuildingRegistry { get; set; } = new();
+    public GameSettingsData SettingsData { get; set; } = new();
 
     public override void _Ready()
     {
         InitializeRegistries();
     }
 
-    
+
 
     private void InitializeRegistries()
     {
