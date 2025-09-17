@@ -11,7 +11,6 @@ public partial class BaseItem : Node3D
 	/// </summary>
 	public PlayerItemUse ItemUser { get; set; }
 
-	//TODO: Fix animate hand causing glitches on building.
 	[Export] public bool animateHand;
 	[Export] public float usageCooldown;
 

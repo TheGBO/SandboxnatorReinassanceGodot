@@ -35,8 +35,6 @@ public partial class PlacingItem : BaseItem
 
 	}
 
-	//run on server
-	//TODO: Reformulate method of passing tool usage data to P.T.U, probably just by getting them directly from the player
 	public override void UseItem(ItemUsageArgs args)
 	{
 		if (!ItemUser.isUseValid) return;
@@ -44,6 +42,7 @@ public partial class PlacingItem : BaseItem
 		Node3D building = (Node3D)buildingScene.Instantiate();
 		building.Name = Guid.NewGuid().GetHashCode().ToString();
 		building.Position = GetSnappedPosition(args.Position, args.Normal);
+		// CONSIDER: desiredRotation could be an element of ItemUsageArgs too.
 		building.Rotation = new Vector3(0, ItemUser.desiredRotationY, 0);
 		World.Instance.networkedEntities.CallDeferred("add_child", building);
 

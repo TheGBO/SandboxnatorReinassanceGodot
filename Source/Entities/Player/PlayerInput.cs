@@ -125,6 +125,7 @@ public partial class PlayerInput : AbstractComponent<Player>
             // in order to turn 100 into 5 in a proportional way, (5 * sens)/100
             // TOTEST: this needs further testing
             LookVector = joypadLookVector * (5 * GameRegistries.Instance.SettingsData.Sensitivity) / JOYPAD_SENSITIVITY_DENOMINATOR;
+            // This action name is slightly misleading but gets the job done.
             OnMouseMovement?.Invoke();
         }
     }

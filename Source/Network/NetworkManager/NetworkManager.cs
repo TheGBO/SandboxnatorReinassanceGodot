@@ -114,7 +114,6 @@ namespace NullCyan.Sandboxnator.Network
 		/// <summary>
 		/// Disconnects from server or shuts down hosted server safely.
 		/// </summary>
-		/// //TODO: FIX DISCONNECTION
 		public async void QuitConnection()
 		{
 			if (Multiplayer.MultiplayerPeer == null)
