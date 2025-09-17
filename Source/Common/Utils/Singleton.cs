@@ -1,5 +1,6 @@
 using System;
 using Godot;
+using NullCyan.Util.Log;
 namespace NullCyan.Util;
 /// <summary>
 /// Singleton base code, use _Ready instead of _EnterTree() in case of overriding,
@@ -20,7 +21,7 @@ public abstract partial class Singleton<T> : Node where T : Singleton<T>
     {
         if (Instance != this && Instance != null)
         {
-            GD.PrintErr("[ERROR] Invalid singleton state");
+            NcLogger.Log("[ERROR] Invalid singleton state");
             Instance.QueueFree();
         }
         Instance = (T)this;

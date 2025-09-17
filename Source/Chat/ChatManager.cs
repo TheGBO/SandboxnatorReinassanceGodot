@@ -30,7 +30,7 @@ public partial class ChatManager : Singleton<ChatManager>
     private void C2S_HandleMessage(byte[] messageBytes)
     {
         ChatMessage message = MPacker.Unpack<ChatMessage>(messageBytes);
-        GD.Print($"message received:{message.Content.Replace("\n", "|CRLF|")} from {message.PlayerId}");
+        GD.Print($"message received:{message.Content.Replace("\n", "|CR+LF|")} from {message.PlayerId}");
         Player sender = World.Instance.GetPlayerById(message.PlayerId);
 
         // Pass message to command system first

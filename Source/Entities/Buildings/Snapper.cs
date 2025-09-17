@@ -23,7 +23,6 @@ public partial class Snapper : Node3D
         if (body is Placeable)
         {
             InsideBody = true;
-            //GD.Print("I am inside a building, therefore I shall deactivate");
         }
     }
 
@@ -32,7 +31,6 @@ public partial class Snapper : Node3D
         if (body is Placeable)
         {
             InsideBody = false;
-            //GD.Print("I am outside a building, therefore I shall activate");
         }
     }
 }

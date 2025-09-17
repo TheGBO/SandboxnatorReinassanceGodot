@@ -39,7 +39,6 @@ public partial class UiSoundManager : Singleton<UiSoundManager>
 	/// </summary>
 	private void InstallSounds(Node node)
 	{
-		//GD.Print("Installing sounds");
 		foreach (Node child in NodeUtils.GetAllChildrenInNode(node))
 		{
 			if (child is Button btn)

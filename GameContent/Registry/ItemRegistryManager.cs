@@ -3,6 +3,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 using NullCyan.Sandboxnator.Registry;
+using NullCyan.Util.Log;
 namespace NullCyan.Sandboxnator.Item;
 
 /// <summary>
@@ -22,8 +23,8 @@ public partial class ItemRegistryManager : IRegistryManager
 	public void Register()
 	{
 		string path = itemContentsPath;
-		GD.Print("[color=yellow]Item content path:[/color]" + itemContentsPath);
-		GD.PrintRich("[color=green]Loading vanilla item data...[/color]");
+		NcLogger.Log("Item content path:" + itemContentsPath, NcLogger.LogType.Register);
+		NcLogger.Log("Loading vanilla item data...", NcLogger.LogType.Register);
 		using var dir = DirAccess.Open(path);
 		if (dir != null)
 		{
@@ -35,14 +36,14 @@ public partial class ItemRegistryManager : IRegistryManager
 				{
 					string absoluteItemDir = path + "/" + itemDir;
 					List<Resource> resources = LoadItemDataResources(absoluteItemDir);
-					GD.Print($"Found item resource(s) at {absoluteItemDir}:");
+					NcLogger.Log($"Found item resource(s) at {absoluteItemDir}:", NcLogger.LogType.Register);
 					foreach (ItemData res in resources)
 					{
-						GD.Print($"Valid item resource is {res.itemID}, registering...");
+						NcLogger.Log($"Valid item resource is {res.itemID}, registering...", NcLogger.LogType.Register);
 						BaseItem itemScene = res.itemScene.Instantiate<BaseItem>();
 						if (itemScene is PlacingItem)
 						{
-							GD.Print($"({res.itemID}) is a placeable building, adding to building registry as well.");
+							NcLogger.Log($"({res.itemID}) is a placeable building, adding to building registry as well.", NcLogger.LogType.Register);
 							GameRegistries.Instance.BuildingRegistry.Register(res.itemID, ((PlacingItem)itemScene).buildingScene);
 						}
 
@@ -54,7 +55,7 @@ public partial class ItemRegistryManager : IRegistryManager
 		}
 		else
 		{
-			GD.PrintErr($"The path: \"{path}\" returned null on file access attempt!");
+			NcLogger.Log($"The path: \"{path}\" returned null on file access attempt!", NcLogger.LogType.Error);
 		}
 	}
 
@@ -83,7 +84,7 @@ public partial class ItemRegistryManager : IRegistryManager
 			string loadFileName = fileName;
 			if (fileName.Contains(remapSuffix))
 			{
-				GD.Print($"REMAP FOUND {fileName}");
+				NcLogger.Log($"REMAP FOUND {fileName}", NcLogger.LogType.Register);
 				loadFileName = StringUtils.TrimSuffix(fileName, remapSuffix);
 			}
 

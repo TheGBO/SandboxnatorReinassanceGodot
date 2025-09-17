@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using NullCyan.Sandboxnator.Entity;
 using NullCyan.Sandboxnator.Registry;
+using NullCyan.Util.Log;
 namespace NullCyan.Sandboxnator.WorldAndScenes;
 
 /// <summary>
@@ -25,19 +26,19 @@ public partial class World : Singleton<World>
 		base.SetInstance();
 		if (GameRegistries.Instance == null)
 		{
-			GD.PrintErr("GameRegistries.Instance is null!");
+			NcLogger.Log("GameRegistries.Instance is null!");
 			return;
 		}
 
 		if (GameRegistries.Instance.BuildingRegistry == null)
 		{
-			GD.PrintErr("BuildingRegistry is null!");
+			NcLogger.Log("BuildingRegistry is null!");
 			return;
 		}
 
 		if (multiplayerSpawner == null)
 		{
-			GD.PrintErr("multiplayerSpawner is null!");
+			NcLogger.Log("multiplayerSpawner is null!");
 			return;
 		}
 
@@ -51,7 +52,7 @@ public partial class World : Singleton<World>
 		{
 			if (buildingScene == null)
 			{
-				GD.PrintErr("Found null buildingScene!");
+				NcLogger.Log("Found null buildingScene!");
 				continue;
 			}
 			string resPath = buildingScene.ResourcePath;

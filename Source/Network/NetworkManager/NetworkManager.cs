@@ -3,6 +3,7 @@ using System;
 using System.Linq;
 using NullCyan.Util;
 using NullCyan.Sandboxnator.WorldAndScenes;
+using NullCyan.Util.Log;
 
 namespace NullCyan.Sandboxnator.Network
 {
@@ -39,12 +40,12 @@ namespace NullCyan.Sandboxnator.Network
 				if (elapsed >= connectionTimeout &&
 					peer.GetConnectionStatus() == MultiplayerPeer.ConnectionStatus.Connecting)
 				{
-					GD.PrintErr($"⏳ Connection timed out after {connectionTimeout} seconds.");
+					NcLogger.Log($"⏳ Connection timed out after {connectionTimeout} seconds.");
 					OnConnectionFailed();
 				}
 			}
 		}
-		
+
 		public bool HasMultiplayerPeer()
 		{
 			return Multiplayer != null &&
@@ -65,7 +66,7 @@ namespace NullCyan.Sandboxnator.Network
 
 			if (result != Error.Ok)
 			{
-				GD.PrintErr($"❌ Could not create server at the specified port: {port}");
+				NcLogger.Log($"❌ Could not create server at the specified port: {port}");
 				return;
 			}
 
@@ -94,7 +95,7 @@ namespace NullCyan.Sandboxnator.Network
 
 			if (result != Error.Ok)
 			{
-				GD.PrintErr($"❌ Failed to start client: {result}");
+				NcLogger.Log($"❌ Failed to start client: {result}");
 				return;
 			}
 
@@ -166,7 +167,7 @@ namespace NullCyan.Sandboxnator.Network
 		private void OnConnectionFailed()
 		{
 			waitingForConnection = false;
-			GD.PrintErr("❌ Failed to connect to server. It may not exist or be unreachable.");
+			NcLogger.Log("❌ Failed to connect to server. It may not exist or be unreachable.");
 			QuitConnection();
 		}
 

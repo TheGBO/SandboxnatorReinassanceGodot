@@ -142,7 +142,6 @@ public partial class PlayerInput : AbstractComponent<Player>
             {
                 Vector2 mouseLookVector = new Vector2(mouseMotion.Relative.X, mouseMotion.Relative.Y);
                 LookVector = mouseLookVector;
-                //GD.Print($"mouse motion {mouseLookVector}");
                 OnMouseMovement?.Invoke();
             }
 

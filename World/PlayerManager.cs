@@ -3,14 +3,15 @@ using System;
 using NullCyan.Util;
 using NullCyan.Sandboxnator.Chat;
 using NullCyan.Sandboxnator.Entity;
+using NullCyan.Util.Log;
 namespace NullCyan.Sandboxnator.WorldAndScenes;
 
 public partial class PlayerManager : Singleton<PlayerManager>
 {
-    [Export] private PackedScene playerScene;
+	[Export] private PackedScene playerScene;
 	[Export] private Vector2 rangeOfRandomPos;
 
-    public void AddPlayer(long id = 1)
+	public void AddPlayer(long id = 1)
 	{
 
 		Node3D player = (Node3D)playerScene.Instantiate();
@@ -19,15 +20,15 @@ public partial class PlayerManager : Singleton<PlayerManager>
 		//set player position
 		if (World.Instance == null)
 		{
-			GD.PrintErr("World.Instance is null!");
+			NcLogger.Log("World.Instance is null!", NcLogger.LogType.Error);
 		}
 		else if (World.Instance.networkedEntities == null)
 		{
-			GD.PrintErr("World.Instance.networkedEntities is null!");
+			NcLogger.Log("World.Instance.networkedEntities is null!", NcLogger.LogType.Error);
 		}
 		else if (player == null)
 		{
-			GD.PrintErr("player is null!");
+			NcLogger.Log("player is null!", NcLogger.LogType.Error);
 		}
 		else
 		{

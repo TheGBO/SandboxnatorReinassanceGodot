@@ -4,6 +4,7 @@ using NullCyan.Sandboxnator.Commands;
 using NullCyan.Sandboxnator.Item;
 using NullCyan.Sandboxnator.Settings;
 using NullCyan.Util;
+using NullCyan.Util.Log;
 namespace NullCyan.Sandboxnator.Registry;
 
 /// <summary>
@@ -16,6 +17,7 @@ public partial class GameRegistries : Singleton<GameRegistries>
     public Registry<ChatCommand> CommandRegistry { get; set; } = new();
     public Registry<PackedScene> BuildingRegistry { get; set; } = new();
     public GameSettingsData SettingsData { get; set; } = new();
+    public string GetGameVersion => ProjectSettings.GetSetting("application/config/version").ToString();
 
     //EVENT BUS SECTION
     /// <summary>
@@ -25,7 +27,7 @@ public partial class GameRegistries : Singleton<GameRegistries>
 
     public override void _Ready()
     {
-        GD.PrintRich("[color=cyan]GAME REGISTRIES INITIALIZED[/color]");
+        NcLogger.Log("GAME REGISTRIES INITIALIZED", NcLogger.LogType.Register);
         //To avoid null reference exceptions.
         LoadDefaultSettings();
         InitializeRegistries();
@@ -36,7 +38,7 @@ public partial class GameRegistries : Singleton<GameRegistries>
         var settings = GD.Load<GameSettingsData>("res://GameContent/DefaultSettings.tres");
         if (settings == null)
         {
-            GD.PrintErr("Failed to load default settings! Creating fallback.");
+            NcLogger.Log("Failed to load default settings! Creating fallback.", NcLogger.LogType.Error);
             SettingsData = new GameSettingsData();
         }
         else

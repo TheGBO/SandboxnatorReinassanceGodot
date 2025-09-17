@@ -39,7 +39,6 @@ public partial class PlacingItem : BaseItem
 	public override void UseItem(ItemUsageArgs args)
 	{
 		if (!ItemUser.isUseValid) return;
-		//GD.Print($"block placed by {args.PlayerId}");
 		Node3D building = (Node3D)buildingScene.Instantiate();
 		building.Name = Guid.NewGuid().GetHashCode().ToString();
 		building.Position = GetSnappedPosition(args.Position, args.Normal);

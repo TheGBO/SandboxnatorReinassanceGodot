@@ -1,4 +1,5 @@
 using Godot;
+using NullCyan.Util.Log;
 namespace NullCyan.Util.ComponentSystem;
 
 
@@ -15,7 +16,7 @@ public abstract partial class AbstractComponent<T> : Node3D, IComponent where T 
 
         if (ComponentParent == null)
         {
-            GD.PrintErr($"{GetType().Name} expected a parent of type {typeof(T).Name}, but got {holder.GetParent().GetType().Name}.");
+            NcLogger.Log($"{GetType().Name} expected a parent of type {typeof(T).Name}, but got {holder.GetParent().GetType().Name}.");
         }
 
         OnInitialized();

@@ -6,6 +6,7 @@ using NullCyan.Sandboxnator.Network;
 using NullCyan.Sandboxnator.Registry;
 using NullCyan.Sandboxnator.WorldAndScenes;
 using NullCyan.Util;
+using NullCyan.Util.Log;
 
 namespace NullCyan.Sandboxnator.Commands;
 
@@ -26,12 +27,12 @@ public class CommandRegistryManager : IRegistryManager
     {
         if (GameRegistries.Instance.CommandRegistry.Contains(command.Name))
         {
-            GD.PrintErr($"[Commands] Command '{command.Name}' already exists!");
+            NcLogger.Log($"[Commands] Command '{command.Name}' already exists!", NcLogger.LogType.Error);
             return;
         }
 
         GameRegistries.Instance.CommandRegistry.Register(command.Name.ToLower(), command);
-        GD.Print($"[Commands] Registered '{command.Name}'");
+        NcLogger.Log($"[Commands] Registered '{command.Name}'", NcLogger.LogType.Register);
     }
 
     public static bool ExecuteCommand(Player sender, string rawInput)
