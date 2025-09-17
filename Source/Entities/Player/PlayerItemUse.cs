@@ -27,7 +27,7 @@ public partial class PlayerItemUse : AbstractComponent<Player>
 	//runtime tool reference
 	private BaseItem item;
 	//desired rotation
-	[Export] public float desiredRotationY = 0f;
+	public Vector3 desiredRotation = new();
 	[Export] public bool isUseValid = false;
 	private float rotationIncrement = 45f;
 	private bool canUseItem = true;
@@ -45,11 +45,11 @@ public partial class PlayerItemUse : AbstractComponent<Player>
 	{
 		ComponentParent.playerInput.RotateCCW += () =>
 		{
-			desiredRotationY -= rotationIncrement * (Mathf.Pi / 180);
+			desiredRotation.Y -= rotationIncrement * (Mathf.Pi / 180);
 		};
 		ComponentParent.playerInput.RotateCW += () =>
 		{
-			desiredRotationY += rotationIncrement * (Mathf.Pi / 180);
+			desiredRotation.Y += rotationIncrement * (Mathf.Pi / 180);
 		};
 		ComponentParent.playerInput.UsePrimary += ClientUse;
 		ComponentParent.playerInput.UseIncrement += () =>
@@ -78,9 +78,17 @@ public partial class PlayerItemUse : AbstractComponent<Player>
 
 		Vector3 collisionPoint = rayCast.GetCollisionPoint();
 		Vector3 normal = rayCast.GetCollisionNormal();
-		ItemUsageArgs itemUsageArgs = new ItemUsageArgs(collisionPoint, normal, ComponentParent.componentHolder.entityId);
+		ItemUsageArgs itemUsageArgs = new()
+		{
+			PlayerId = ComponentParent.componentHolder.entityId,
+			DesiredRotation = desiredRotation,
+			Normal = normal,
+			Position = collisionPoint
+		};
 		byte[] usageArgsBytes = MPacker.Pack(itemUsageArgs);
+		//Request to the server the usage of this item.
 		RpcId(1, nameof(C2S_Use), usageArgsBytes);
+
 		handAnimator.Stop();
 		if (item.animateHand)
 		{
@@ -88,7 +96,6 @@ public partial class PlayerItemUse : AbstractComponent<Player>
 		}
 	}
 
-	//Dictionary conversion is needed for it is a networked function
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
 	private void C2S_Use(byte[] usageArgsBytes)
 	{
@@ -102,8 +109,6 @@ public partial class PlayerItemUse : AbstractComponent<Player>
 			{
 				canUseItem = true;
 			};
-
-			
 		}
 	}
 

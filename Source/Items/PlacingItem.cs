@@ -29,12 +29,13 @@ public partial class PlacingItem : BaseItem
 
 		previewMesh.Visible = ItemUser.rayCast.IsColliding() && ItemUser.isUseValid;
 		previewMesh.GlobalPosition = GetSnappedPosition(ItemUser.rayCast.GetCollisionPoint(), ItemUser.rayCast.GetCollisionNormal());
-		previewMesh.GlobalRotation = new Vector3(0, ItemUser.desiredRotationY, 0);
+		previewMesh.GlobalRotation = ItemUser.desiredRotation;
 		previewCollider.GlobalPosition = previewMesh.GlobalPosition;
 		previewCollider.GlobalRotation = previewMesh.GlobalRotation;
 
 	}
 
+	//Server side
 	public override void UseItem(ItemUsageArgs args)
 	{
 		if (!ItemUser.isUseValid) return;
@@ -43,7 +44,7 @@ public partial class PlacingItem : BaseItem
 		building.Name = Guid.NewGuid().GetHashCode().ToString();
 		building.Position = GetSnappedPosition(args.Position, args.Normal);
 		// CONSIDER: desiredRotation could be an element of ItemUsageArgs too.
-		building.Rotation = new Vector3(0, ItemUser.desiredRotationY, 0);
+		building.Rotation = args.DesiredRotation;
 		World.Instance.networkedEntities.CallDeferred("add_child", building);
 
 	}
