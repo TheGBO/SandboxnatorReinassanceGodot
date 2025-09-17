@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using NullCyan.Util.ComponentSystem;
+using NullCyan.Sandboxnator.Registry;
 namespace NullCyan.Sandboxnator.Entity;
 
 public partial class PlayerInput : AbstractComponent<Player>
@@ -18,7 +19,6 @@ public partial class PlayerInput : AbstractComponent<Player>
     public Action OnToggleCursorCapture;
     public Vector2 LookVector { get; private set; }
     public Action OnMouseMovement;
-    public Action OnJoypadRStickMovement;
     //Building
     public Action RotateCW;
     public Action RotateCCW;
@@ -26,6 +26,8 @@ public partial class PlayerInput : AbstractComponent<Player>
     public Action UsePrimary;
     public Action UseIncrement;
     public Action UseDecrement;
+
+    private const float JOYPAD_SENSITIVITY_DENOMINATOR = 100.0f;
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(double delta)
@@ -116,12 +118,13 @@ public partial class PlayerInput : AbstractComponent<Player>
     private void HandleJoypadRstickInput()
     {
         Vector2 joypadLookVector = new Vector2(Input.GetAxis("look_left", "look_right"), Input.GetAxis("look_up", "look_down"));
-        if(joypadLookVector.Length() > 0.1f)
+        if (joypadLookVector.Length() > 0.1f)
         {
-            //GD.Print($"joypad motion {joypadLookVector}");
-            //TODO: replace provisory 5 with a setting called "Joypad sensitivity multiplier."
-            LookVector = joypadLookVector * 5;
-            //OnJoypadRStickMovement?.Invoke();
+            // There is a proportion matter when it comes to this.
+            // The default (raw) mouse sensitivity is 100, the default joypad sensitivity is 5.
+            // in order to turn 100 into 5 in a proportional way, (5 * sens)/100
+            // TOTEST: this needs further testing
+            LookVector = joypadLookVector * (5 * GameRegistries.Instance.SettingsData.Sensitivity) / JOYPAD_SENSITIVITY_DENOMINATOR;
             OnMouseMovement?.Invoke();
         }
     }
@@ -142,7 +145,7 @@ public partial class PlayerInput : AbstractComponent<Player>
                 OnMouseMovement?.Invoke();
             }
 
-            
+
         }
     }
 }
