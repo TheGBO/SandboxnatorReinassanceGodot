@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using NullCyan.Util;
+using NullCyan.Util.GodotHelpers;
 using NullCyan.Sandboxnator.Chat;
 using NullCyan.Sandboxnator.Entity;
 using NullCyan.Util.Log;

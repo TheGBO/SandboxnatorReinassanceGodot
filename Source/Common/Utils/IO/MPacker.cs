@@ -2,7 +2,7 @@ using MessagePack;
 using MessagePack.Resolvers;
 using MessagePackGodot;
 
-namespace NullCyan.Util;
+namespace NullCyan.Util.IO;
 
 public static class MPacker
 {

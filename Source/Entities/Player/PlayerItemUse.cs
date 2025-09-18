@@ -6,6 +6,8 @@ using System;
 using System.Collections.Generic;
 using NullCyan.Util.ComponentSystem;
 using NullCyan.Util;
+using NullCyan.Util.GodotHelpers;
+using NullCyan.Util.IO;
 namespace NullCyan.Sandboxnator.Entity;
 
 

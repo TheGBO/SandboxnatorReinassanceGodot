@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using NullCyan.Sandboxnator.Entity;
 using NullCyan.Sandboxnator.Registry;
 using NullCyan.Util.Log;
+using NullCyan.Util.GodotHelpers;
 namespace NullCyan.Sandboxnator.WorldAndScenes;
 
 /// <summary>

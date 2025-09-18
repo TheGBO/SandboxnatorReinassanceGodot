@@ -1,6 +1,6 @@
 using System;
 using Godot;
-
+using NullCyan.Util.IO;
 namespace NullCyan.Util.Log;
 
 /// <summary>
@@ -28,10 +28,10 @@ public static class NcLogger
     // Map log types to their default color and header
     private static readonly (Color Color, string Header)[] LogTypeMap =
     {
-        (Colors.Red, "[ERROR]"),     
-        (Colors.Green, "[INFO]"),    
-        (Colors.Cyan, "[REGISTER]"), 
-        (Colors.Yellow, "[WARN]")    
+        (Colors.Red, "[ERROR]"),
+        (Colors.Green, "[INFO]"),
+        (Colors.Cyan, "[REGISTER]"),
+        (Colors.Yellow, "[WARN]")
     };
 
     /// <summary>

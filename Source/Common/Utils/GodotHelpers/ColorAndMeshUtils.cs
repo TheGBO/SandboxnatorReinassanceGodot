@@ -1,6 +1,6 @@
 using Godot;
 using System;
-namespace NullCyan.Util;
+namespace NullCyan.Util.GodotHelpers;
 
 class ColorAndMeshUtils
 {

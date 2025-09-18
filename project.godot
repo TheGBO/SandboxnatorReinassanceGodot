@@ -21,7 +21,7 @@ config/icon="res://Assets/Textures/sandboxnator_icon.png"
 
 [autoload]
 
-SaveLoader="*res://Source/Common/Utils/SaveLoader.cs"
+SaveLoader="*res://Source/Common/Utils/IO/SaveLoader.cs"
 GameRegistries="*res://GameContent/Registry/GameRegistries.cs"
 ScenesBank="*res://World/ScenesBank/ScenesBank.tscn"
 PlayerProfileManager="*res://Source/Entities/Player/PlayerProfileManager.cs"

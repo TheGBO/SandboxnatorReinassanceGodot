@@ -1,7 +1,7 @@
 using System;
 using Godot;
 using NullCyan.Util.Log;
-namespace NullCyan.Util;
+namespace NullCyan.Util.GodotHelpers;
 /// <summary>
 /// Singleton base code, use _Ready instead of _EnterTree() in case of overriding,
 /// if using _EnterTree() is needed on singletons, call SetInstance();

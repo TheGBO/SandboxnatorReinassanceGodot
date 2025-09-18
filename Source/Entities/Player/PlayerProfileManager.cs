@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System;
 using NullCyan.Util;
 using NullCyan.Util.Log;
+using NullCyan.Util.GodotHelpers;
 namespace NullCyan.Sandboxnator.Entity;
+
 
 //This class will manage the player profiles, it will hold a list of player profiles and will be able to add, remove and edit them.
 //This class will also be a singleton, this means that there will only be one instance of this class in the game.

@@ -2,6 +2,7 @@ using Godot;
 using System;
 using System.Linq;
 using NullCyan.Util;
+using NullCyan.Util.GodotHelpers;
 using NullCyan.Sandboxnator.WorldAndScenes;
 using NullCyan.Util.Log;
 

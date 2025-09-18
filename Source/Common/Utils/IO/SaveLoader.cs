@@ -1,8 +1,9 @@
 using Godot;
 using NullCyan.Sandboxnator.Registry;
 using NullCyan.Util.Log;
+using NullCyan.Util.GodotHelpers;
 using System;
-namespace NullCyan.Util;
+namespace NullCyan.Util.IO;
 
 public partial class SaveLoader : Singleton<SaveLoader>
 {
@@ -20,9 +21,9 @@ public partial class SaveLoader : Singleton<SaveLoader>
     public void SaveToLog(string msg)
     {
         if (string.IsNullOrEmpty(LogSavePath)) return;
-        
+
         FileAccess file;
-        
+
         // Check if file exists first
         if (FileAccess.FileExists(LogSavePath))
         {
@@ -38,7 +39,7 @@ public partial class SaveLoader : Singleton<SaveLoader>
             // Create new file
             file = FileAccess.Open(LogSavePath, FileAccess.ModeFlags.Write);
         }
-        
+
         if (file != null)
         {
             using (file)
