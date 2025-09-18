@@ -2,6 +2,7 @@ using Godot;
 using System;
 using NullCyan.Util.ComponentSystem;
 using NullCyan.Sandboxnator.Registry;
+using NullCyan.Util.Log;
 namespace NullCyan.Sandboxnator.Entity;
 
 public partial class PlayerInput : AbstractComponent<Player>
@@ -136,7 +137,7 @@ public partial class PlayerInput : AbstractComponent<Player>
         {
             if (ComponentParent == null)
             {
-                GD.Print("NULL PARENT WARNING");
+                NcLogger.Log("NULL COMPONENT PARENT WARNING", NcLogger.LogType.Warn);
             }
             if (_event is InputEventMouseMotion mouseMotion && Input.MouseMode == Input.MouseModeEnum.Captured)
             {

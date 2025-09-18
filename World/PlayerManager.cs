@@ -46,7 +46,7 @@ public partial class PlayerManager : Singleton<PlayerManager>
 			if (Multiplayer.GetUniqueId() == id)
 			{
 				player.Position = desiredPosition;
-				GD.Print($"Server owned Player:{id} placed on XYZ {player.Position}");
+				NcLogger.Log($"Server owned Player:{id} placed on XYZ {player.Position}");
 			}
 			else
 			{
@@ -76,7 +76,7 @@ public partial class PlayerManager : Singleton<PlayerManager>
 			Node3D playerInstance = World.Instance.networkedEntities.GetNodeOrNull<Node3D>(playerId);
 			if (playerInstance == null)
 			{
-				GD.Print("Player instance is lagging behind, delaying position change");
+				NcLogger.Log("Player instance is lagging behind, delaying position change", NcLogger.LogType.Warn);
 				CallDeferred(nameof(S2C_SetInitialPosition), position, playerId);
 				return;
 			}
@@ -89,6 +89,6 @@ public partial class PlayerManager : Singleton<PlayerManager>
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
 	private void C2S_PositionCheck(Vector3 position, string playerId)
 	{
-		GD.Print($"Server placed the remote player of ID:{playerId} placed on XYZ {position} via RPC");
+		NcLogger.Log($"Server placed the remote player of ID:{playerId} placed on XYZ {position} via RPC");
 	}
 }

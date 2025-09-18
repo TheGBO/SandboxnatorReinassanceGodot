@@ -18,12 +18,12 @@ namespace NullCyan.Sandboxnator.Network
 
 		public override void _Ready()
 		{
-			GD.Print("Sandboxnator multiplayer protocol initialized");
+			NcLogger.Log("Sandboxnator multiplayer protocol initialized");
 
 			// Dedicated server boot check
 			string[] args = OS.GetCmdlineArgs();
 			bool dedicatedServer = args.Contains("server") && !args.Contains("client");
-			GD.Print($"Dedicated server check-up: {dedicatedServer}");
+			NcLogger.Log($"Dedicated server check-up: {dedicatedServer}");
 
 			if (dedicatedServer)
 			{
@@ -59,7 +59,7 @@ namespace NullCyan.Sandboxnator.Network
 		public void HostGame(int port = 1077, bool dedicatedServer = false)
 		{
 			CleanupOldPeer();
-			GD.Print($"✅ Hosting server on port {port} | Dedicated: {dedicatedServer}");
+			NcLogger.Log($"✅ Hosting server on port {port} | Dedicated: {dedicatedServer}");
 
 			peer = new ENetMultiplayerPeer();
 			Error result = peer.CreateServer(port);
@@ -105,7 +105,7 @@ namespace NullCyan.Sandboxnator.Network
 			Multiplayer.ConnectedToServer += OnConnectedToServer;
 			Multiplayer.ConnectionFailed += OnConnectionFailed;
 
-			GD.Print($"🔌 Attempting to connect to {ip}:{port}...");
+			NcLogger.Log($"🔌 Attempting to connect to {ip}:{port}...");
 
 			// Start timeout tracking
 			connectionStartTime = Time.GetTicksMsec() / 1000f;
@@ -120,7 +120,7 @@ namespace NullCyan.Sandboxnator.Network
 			if (Multiplayer.MultiplayerPeer == null)
 				return;
 
-			GD.Print("🔻 Closing multiplayer connection...");
+			NcLogger.Log("🔻 Closing multiplayer connection...");
 
 			// Disconnect signals to avoid unwanted callbacks during shutdown
 			if (Multiplayer.IsServer())
@@ -152,8 +152,7 @@ namespace NullCyan.Sandboxnator.Network
 			Multiplayer.MultiplayerPeer = null;
 			peer = null;
 			waitingForConnection = false;
-			//TODO: Create a NullCyan.Util logger class so i can make log files.
-			GD.Print("✅ Multiplayer connection fully closed.");
+			NcLogger.Log("✅ Multiplayer connection fully closed.");
 		}
 
 
@@ -161,7 +160,7 @@ namespace NullCyan.Sandboxnator.Network
 		private void OnConnectedToServer()
 		{
 			waitingForConnection = false;
-			GD.Print("✅ Successfully connected to server!");
+			NcLogger.Log("✅ Successfully connected to server!");
 		}
 
 		private void OnConnectionFailed()
@@ -178,7 +177,7 @@ namespace NullCyan.Sandboxnator.Network
 		{
 			if (Multiplayer.MultiplayerPeer != null)
 			{
-				GD.Print("⚠️ Cleaning up old multiplayer session before creating a new one...");
+				NcLogger.Log("⚠️ Cleaning up old multiplayer session before creating a new one...", NcLogger.LogType.Warn);
 				Multiplayer.MultiplayerPeer.Close();
 				Multiplayer.MultiplayerPeer = null;
 				peer = null;

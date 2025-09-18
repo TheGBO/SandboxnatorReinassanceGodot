@@ -8,6 +8,7 @@ using NullCyan.Sandboxnator.Network;
 using NullCyan.Sandboxnator.WorldAndScenes;
 using NullCyan.Sandboxnator.Entity;
 using NullCyan.Sandboxnator.Commands;
+using NullCyan.Util.Log;
 namespace NullCyan.Sandboxnator.Chat;
 
 
@@ -30,7 +31,7 @@ public partial class ChatManager : Singleton<ChatManager>
     private void C2S_HandleMessage(byte[] messageBytes)
     {
         ChatMessage message = MPacker.Unpack<ChatMessage>(messageBytes);
-        GD.Print($"message received:{message.Content.Replace("\n", "|CR+LF|")} from {message.PlayerId}");
+        NcLogger.Log($"[AS SERVER] message received:{message.Content.Replace("\n", "|CR+LF|")} from {message.PlayerId}");
         Player sender = World.Instance.GetPlayerById(message.PlayerId);
 
         // Pass message to command system first
@@ -46,7 +47,6 @@ public partial class ChatManager : Singleton<ChatManager>
     {
         ChatMessage message = MPacker.Unpack<ChatMessage>(messageBytes);
         PlayerProfileData senderData = MPacker.Unpack<PlayerProfileData>(profileBytes);
-        GD.Print(message.Content);
         OnMessageReceived?.Invoke(message, senderData);
     }
 

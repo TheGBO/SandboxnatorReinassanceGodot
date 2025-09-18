@@ -3,6 +3,7 @@ using Godot.Collections;
 using NullCyan.Util;
 using System;
 using NullCyan.Sandboxnator.Entity;
+using NullCyan.Util.Log;
 namespace NullCyan.Sandboxnator.UI;
 
 
@@ -78,22 +79,6 @@ public partial class ProfileEditingMenu : Control
 	}
 
 	//Placeholder to test name generation, this random name generation should only happen when there is no existing player profile.
-	private void FillNameField()
-	{
-		NameGenerator nameGen = NameGenerator.Create();
-		GD.Randomize();
-		if (GD.Randf() >= 0.5)
-		{
-			nameGen.UseWesternPatterns();
-		}
-		else
-		{
-			nameGen.UseSimplePatterns();
-		}
-		string name = nameGen.GenerateName();
-		string nameCorrected = char.ToUpper(name[0]) + name.Substring(1);
-		nameEdit.Text = nameCorrected;
-		GD.Print(nameCorrected);
-	}
+	
 
 }

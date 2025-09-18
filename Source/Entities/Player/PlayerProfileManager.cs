@@ -2,6 +2,7 @@ using Godot;
 using System.Collections.Generic;
 using System;
 using NullCyan.Util;
+using NullCyan.Util.Log;
 namespace NullCyan.Sandboxnator.Entity;
 
 //This class will manage the player profiles, it will hold a list of player profiles and will be able to add, remove and edit them.
@@ -40,7 +41,7 @@ public partial class PlayerProfileManager : Singleton<PlayerProfileManager>
 		}
 		string name = nameGen.GenerateName();
 		string nameCorrected = char.ToUpper(name[0]) + name.Substring(1);
-		GD.Print(nameCorrected);
+		NcLogger.Log($"Randomly generated name: {nameCorrected}");
 		return nameCorrected;
 	}
 

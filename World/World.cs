@@ -90,7 +90,6 @@ public partial class World : Singleton<World>
 			{
 				players.Add((Player)e);
 			}
-			GD.Print();
 		}
 		return players;
 	}
