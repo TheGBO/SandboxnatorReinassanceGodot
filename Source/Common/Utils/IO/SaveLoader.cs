@@ -45,7 +45,6 @@ public partial class SaveLoader : Singleton<SaveLoader>
             using (file)
             {
                 file.StoreString($"{msg}\n");
-                GD.Print($"Log saved to: {LogSavePath}");
             }
         }
         else
