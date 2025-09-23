@@ -5,6 +5,9 @@ using NullCyan.Util.GodotHelpers;
 using System;
 namespace NullCyan.Util.IO;
 
+/// <summary>
+/// A monolithic file IO class.
+/// </summary>
 public partial class SaveLoader : Singleton<SaveLoader>
 {
     public string SavePath => SetupGameSavePath();
@@ -79,7 +82,7 @@ public partial class SaveLoader : Singleton<SaveLoader>
     /// </summary>
     public string WriteTextFile(SaveFolder folder, string fileName, string content, bool append = false)
     {
-        string folderPath = GetFolderPath(folder); // ensures folder exists
+        string folderPath = GetFolderPath(folder);
         string path = $"{folderPath}/{fileName}";
 
         try
@@ -88,26 +91,20 @@ public partial class SaveLoader : Singleton<SaveLoader>
 
             if (append)
             {
-                // important: READ_WRITE will not create a missing file on many Godot versions.
-                // so choose mode depending on existence.
                 if (FileAccess.FileExists(path))
                 {
-                    // open read+write without truncating, then seek end
                     file = FileAccess.Open(path, FileAccess.ModeFlags.ReadWrite);
                 }
                 else
                 {
-                    // create new file
                     file = FileAccess.Open(path, FileAccess.ModeFlags.Write);
                 }
             }
             else
             {
-                // overwrite / create: WRITE_READ creates the file and truncates
                 file = FileAccess.Open(path, FileAccess.ModeFlags.WriteRead);
             }
 
-            // If open failed, try a reasonable fallback (WRITE)
             if (file == null)
             {
                 Error openErr = FileAccess.GetOpenError();
@@ -128,13 +125,9 @@ public partial class SaveLoader : Singleton<SaveLoader>
             {
                 if (append)
                 {
-                    // Seek to end before writing
                     file.SeekEnd();
                 }
-
                 file.StoreString(content);
-
-                // flush to disk so data persists immediately (useful during dev/tests).
                 file.Flush();
             }
 
@@ -183,7 +176,7 @@ public partial class SaveLoader : Singleton<SaveLoader>
 
     public void SaveToLog(string msg)
     {
-        string fileName = $"{DateTime.Now:yyyyMMdd}.log";
+        string fileName = $"{DateTime.Now:yyyyMMdd-HH:mm:ss}.log";
         WriteTextFile(SaveFolder.Logs, fileName, $"{DateTime.Now:u} {msg}\n", append: true);
     }
 
