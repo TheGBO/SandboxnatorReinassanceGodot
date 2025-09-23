@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using NullCyan.Sandboxnator.Registry;
 using NullCyan.Util.Log;
 using NullCyan.Util.IO;
+using System.Linq;
 namespace NullCyan.Sandboxnator.Item;
 
 /// <summary>
@@ -24,14 +25,14 @@ public partial class ItemRegistryManager : IRegistryManager
 	public void Register()
 	{
 		List<Resource> itemResources = ResourceIO.GetResources<ItemData>(itemContentsPath);
-		foreach (ItemData res in itemResources)
+		foreach (ItemData res in itemResources.Cast<ItemData>())
 		{
 			NcLogger.Log($"Valid item resource is {res.itemID}, registering...", NcLogger.LogType.Register);
 			BaseItem itemScene = res.itemScene.Instantiate<BaseItem>();
-			if (itemScene is PlacingItem)
+			if (itemScene is PlacingItem item)
 			{
 				NcLogger.Log($"({res.itemID}) is a placeable building, adding to building registry as well.", NcLogger.LogType.Register);
-				GameRegistries.Instance.BuildingRegistry.Register(res.itemID, ((PlacingItem)itemScene).buildingScene);
+				GameRegistries.Instance.BuildingRegistry.Register(res.itemID, item.buildingScene);
 			}
 
 			//Register the item via resource
