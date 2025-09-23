@@ -20,7 +20,7 @@ public partial class World : Singleton<World>
 
 	[Export] public Node3D networkedEntities;
 	[Export] public MultiplayerSpawner multiplayerSpawner;
-	private HashSet<string> addedBuildingScenes = [];
+	private readonly HashSet<string> addedBuildingScenes = [];
 
 	public override void _EnterTree()
 	{

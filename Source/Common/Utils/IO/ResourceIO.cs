@@ -23,6 +23,7 @@ public class ResourceIO
         string[] files = dirAccess.GetFiles();
         if (files == null) { return null; }
 
+        //ignore everything with these extensions.
         string remapSuffix = ".remap";
         string importSuffix = ".import";
         string uidSuffix = ".uid";

@@ -9,7 +9,7 @@ public class NameGenerator
     private Array<string> commonNameEndings;
     private Array<string> vowels;
     private Array<string> simpleConsonants;
-    private Random random;
+    private readonly Random random;
     private bool useWesternPatterns;
 
     private NameGenerator()

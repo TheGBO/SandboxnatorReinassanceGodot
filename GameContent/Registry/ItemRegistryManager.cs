@@ -16,7 +16,7 @@ namespace NullCyan.Sandboxnator.Item;
 public partial class ItemRegistryManager : IRegistryManager
 {
 	/// PROGRESS: Make these functionalities for loading and auto registering game assets generic and type agnostic
-	private string itemContentsPath = "res://GameContent/Items";
+	private readonly string itemContentsPath = "res://GameContent/Items";
 
 	/// <summary>
 	/// This function is responsible for loading the item data and registering them in-game.
