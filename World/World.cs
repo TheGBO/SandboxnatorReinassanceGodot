@@ -16,11 +16,11 @@ namespace NullCyan.Sandboxnator.WorldAndScenes;
 public partial class World : Singleton<World>
 {
 	public Action<long> OnPlayerJoin;
-	public List<Snapper> snappers = new List<Snapper>();
+	public List<Snapper> snappers = [];
 
 	[Export] public Node3D networkedEntities;
 	[Export] public MultiplayerSpawner multiplayerSpawner;
-	private HashSet<string> addedBuildingScenes = new();
+	private HashSet<string> addedBuildingScenes = [];
 
 	public override void _EnterTree()
 	{
@@ -84,7 +84,7 @@ public partial class World : Singleton<World>
 	/// <returns>An array of the current players.</returns>
 	public Array<Player> GetPlayers()
 	{
-		Array<Player> players = new Array<Player>();
+		Array<Player> players = [];
 		foreach (Node e in networkedEntities.GetChildren())
 		{
 			if (e is Player)

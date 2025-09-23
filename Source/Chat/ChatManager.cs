@@ -25,7 +25,7 @@ public partial class ChatManager : Singleton<ChatManager>
     //called on client
     public void RequestSendMessageToServer(string msg)
     {
-        ChatMessage message = new ChatMessage(msg, NetworkManager.Instance.peer.GetUniqueId());
+        ChatMessage message = new(msg, NetworkManager.Instance.peer.GetUniqueId());
         RpcId(1, nameof(C2S_HandleMessage), MPacker.Pack(message));
     }
 
@@ -62,7 +62,7 @@ public partial class ChatManager : Singleton<ChatManager>
             throw new InvalidOperationException("This operation can not be called on the client.");
         }
         //-1 playerless
-        ChatMessage message = new ChatMessage(msg, -1);
+        ChatMessage message = new(msg, -1);
         Rpc(nameof(S2C_ReceiveMessage), MPacker.Pack(message), MPacker.Pack(new PlayerProfileData()));
     }
 
@@ -79,8 +79,8 @@ public partial class ChatManager : Singleton<ChatManager>
             throw new InvalidOperationException("This operation can not be called on the client.");
         }
         //-1 playerless
-        ChatMessage message = new ChatMessage(msg, -1);
-        PlayerProfileData serverSystemData = new PlayerProfileData { PlayerName = "SERVER", PlayerColor = Color.FromHtml("#ffff00ff") };
+        ChatMessage message = new(msg, -1);
+        PlayerProfileData serverSystemData = new() { PlayerName = "SERVER", PlayerColor = Color.FromHtml("#ffff00ff") };
         RpcId(playerId, nameof(S2C_ReceiveMessage), MPacker.Pack(message), MPacker.Pack(serverSystemData));
     }
 }

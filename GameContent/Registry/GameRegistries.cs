@@ -41,7 +41,7 @@ public partial class GameRegistries : Singleton<GameRegistries>
         if (settings == null)
         {
             NcLogger.Log("Failed to load default settings! Creating fallback.", NcLogger.LogType.Error);
-            SettingsData = new GameSettingsData();
+            SettingsData = new();
         }
         else
         {

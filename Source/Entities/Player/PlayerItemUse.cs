@@ -23,7 +23,7 @@ public partial class PlayerItemUse : AbstractComponent<Player>
 	[Export] private AnimationPlayer handAnimator;
 	//The resource for loading the tool
 	//TODO: add inventory data structure and remove hard-coded tool ID
-	[Export] private Array<string> inventory = new Array<string>();
+	[Export] private Array<string> inventory = [];
 	[Export] private string currentItemID;
 	private int inventoryIndex;
 	//runtime tool reference

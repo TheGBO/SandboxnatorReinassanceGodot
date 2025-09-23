@@ -18,26 +18,26 @@ public class NameGenerator
         useWesternPatterns = false;
         
         // Western name elements
-        commonNameBeginnings = new Array<string>() {
+        commonNameBeginnings = [
             "Christ", "Joh", "Will", "Ed", "Rich", "Rob", "Thom", "Jam", "Mich", "Dav", "Paddy", "Jos", "Tom",
             "Alex", "Ben", "Charl", "Fran", "Georg", "Hen", "Jac", "Louis", "Matt", "Nathan", "Mat", "Bell",
             "Pat", "Sam", "Steph", "Tim", "Vict", "Zach", "Luc", "Max", "Osc", "Pete", "Edw", "Ew", "Mac", "Jon",
             "Ann", "Beth", "Carol", "Dian", "Ell", "Em", "Gabri", "Hann", "Isab", "Jess", "Giov", "Mig", "Bern",
             "Kath", "Laur", "Liz", "Mari", "Nic", "Oliv", "Rachel", "Sarah", "Soph", "Victor", "Bruces", "Hamilt"
-        };
+        ];
 
-        commonNameEndings = new Array<string>() {
+        commonNameEndings = [
             "opher", "nathan", "iel", "iam", "ias", "uel", "ard", "ert", "ew", "in", "eph", "el", "lad", "lass",
             "ob", "on", "ory", "uel", "vin", "y", "ty", "dy", "ny", "my", "an", "ord", "bert", "id", "i",
             "ley", "ton", "son", "man", "las", "mas", "rus", "vin", "don", "bell", "loyd", "anni", "rich",
             "a", "ia", "ie", "y", "elle", "ette", "ine", "ana", "ella", "ora", "bush", "field", "land", "borough",
             "issa", "ica", "ena", "ara", "ina", "elle", "anne", "lyn", "rose", "mary", "ace", "ray", "taylor", "essa"
-        };
+        ];
 
-        vowels = new Array<string>() { "a", "e", "i", "o", "u" };
-        simpleConsonants = new Array<string>() { "b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "r", "s", "t", "v", "w", "z" };
+        vowels = ["a", "e", "i", "o", "u"];
+        simpleConsonants = ["b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "r", "s", "t", "v", "w", "z"];
         
-        random = new Random();
+        random = new();
     }
 
     public static NameGenerator Create()

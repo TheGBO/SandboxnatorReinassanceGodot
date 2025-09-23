@@ -6,7 +6,7 @@ public class NodeUtils
 {
     public static List<Node> GetAllChildrenInNode(Node node, List<Node> nodes = null)
     {
-        nodes ??= new List<Node>();
+        nodes ??= [];
         nodes.Add(node);
         if (nodes != null)
         {

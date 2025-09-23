@@ -62,7 +62,7 @@ namespace NullCyan.Sandboxnator.Network
 			CleanupOldPeer();
 			NcLogger.Log($"✅ Hosting server on port {port} | Dedicated: {dedicatedServer}");
 
-			peer = new ENetMultiplayerPeer();
+			peer = new();
 			Error result = peer.CreateServer(port);
 
 			if (result != Error.Ok)
@@ -91,7 +91,7 @@ namespace NullCyan.Sandboxnator.Network
 		{
 			CleanupOldPeer();
 
-			peer = new ENetMultiplayerPeer();
+			peer = new();
 			Error result = peer.CreateClient(ip, port);
 
 			if (result != Error.Ok)

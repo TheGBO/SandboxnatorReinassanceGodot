@@ -50,7 +50,7 @@ public class CommandRegistryManager : IRegistryManager
             ChatCommand cmd = GameRegistries.Instance.CommandRegistry.Get(commandKeyName);
             if (cmd != null)
             {
-                var context = new CommandContext(rawInput, commandKeyName, args, sender);
+                CommandContext context = new(rawInput, commandKeyName, args, sender);
                 cmd.Execute(context);
                 return true;
             }

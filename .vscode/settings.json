@@ -4,5 +4,19 @@
     "**/*.uid": true,
     "**/*.import": true,
     "**/*.remap": true
+  },
+  "dotnet.enablePackageRestore": true,
+  "editor.quickSuggestions": {
+    "other": true,
+    "comments": false,
+    "strings": false
+  },
+  // Enable code style suggestions
+  "csharp.format.enable": true,
+  "csharp.suppressDotnetInstallWarning": true,
+  // Show code style issues as suggestions
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "always",
+    "source.fixAll.style": "always"
   }
 }

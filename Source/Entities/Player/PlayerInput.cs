@@ -118,7 +118,7 @@ public partial class PlayerInput : AbstractComponent<Player>
 
     private void HandleJoypadRstickInput()
     {
-        Vector2 joypadLookVector = new Vector2(Input.GetAxis("look_left", "look_right"), Input.GetAxis("look_up", "look_down"));
+        Vector2 joypadLookVector = new(Input.GetAxis("look_left", "look_right"), Input.GetAxis("look_up", "look_down"));
         if (joypadLookVector.Length() > 0.1f)
         {
             // There is a proportion matter when it comes to this.
@@ -141,7 +141,7 @@ public partial class PlayerInput : AbstractComponent<Player>
             }
             if (_event is InputEventMouseMotion mouseMotion && Input.MouseMode == Input.MouseModeEnum.Captured)
             {
-                Vector2 mouseLookVector = new Vector2(mouseMotion.Relative.X, mouseMotion.Relative.Y);
+                Vector2 mouseLookVector = new(mouseMotion.Relative.X, mouseMotion.Relative.Y);
                 LookVector = mouseLookVector;
                 OnMouseMovement?.Invoke();
             }

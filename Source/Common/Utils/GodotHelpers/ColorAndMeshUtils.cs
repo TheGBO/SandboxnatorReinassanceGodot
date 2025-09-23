@@ -6,7 +6,7 @@ class ColorAndMeshUtils
 {
     public static Color InvertColor(Color color)
     {
-        Color maxxedColor = new Color(1, 1, 1, 1);
+        Color maxxedColor = new(1, 1, 1, 1);
         Color resultColor = maxxedColor - color;
         resultColor.A = color.A;
         return resultColor;

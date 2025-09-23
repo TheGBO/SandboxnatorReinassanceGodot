@@ -15,7 +15,7 @@ public class ResourceIO
     /// <returns></returns>
     private static List<Resource> HandleResourcePath<T>(string path)
     {
-        List<Resource> resources = new List<Resource>();
+        List<Resource> resources = [];
 
         DirAccess dirAccess = DirAccess.Open(path);
         if (dirAccess == null) { return null; }
@@ -52,11 +52,11 @@ public class ResourceIO
 
     public static List<Resource> GetResources<T>(string contentPath)
     {
-        List<Resource> totalResources = new();
+        List<Resource> totalResources = [];
         string path = contentPath;
-		NcLogger.Log("Item content path:" + contentPath, NcLogger.LogType.Register);
-		NcLogger.Log("Loading vanilla item data...", NcLogger.LogType.Register);
-		using var dir = DirAccess.Open(path);
+        NcLogger.Log("Item content path:" + contentPath, NcLogger.LogType.Register);
+        NcLogger.Log("Loading vanilla item data...", NcLogger.LogType.Register);
+        using var dir = DirAccess.Open(path);
         if (dir != null)
         {
             string[] directories = dir.GetDirectories();

@@ -29,7 +29,7 @@ public partial class CameraMovement : AbstractComponent<Player>, ISettingsLoader
 	{
 		body.RotateY(-ComponentParent.playerInput.LookVector.X * sensitivity);
 		neck.RotateX(-ComponentParent.playerInput.LookVector.Y * sensitivity);
-		neck.Rotation = new Vector3(Mathf.Clamp(neck.Rotation.X, -90 * (Mathf.Pi / 180), 90 * (Mathf.Pi / 180)), neck.Rotation.Y, neck.Rotation.Z);
+		neck.Rotation = new(Mathf.Clamp(neck.Rotation.X, -90 * (Mathf.Pi / 180), 90 * (Mathf.Pi / 180)), neck.Rotation.Y, neck.Rotation.Z);
 
 	}
 

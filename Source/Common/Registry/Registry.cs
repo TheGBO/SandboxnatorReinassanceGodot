@@ -4,7 +4,7 @@ namespace NullCyan.Util;
 
 public class Registry<T>
 {
-    private readonly Dictionary<string, T> _entries = new();
+    private readonly Dictionary<string, T> _entries = [];
 
     /// <summary>
     /// Registers an entry into the registry.

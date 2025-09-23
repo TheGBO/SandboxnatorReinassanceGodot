@@ -22,9 +22,9 @@ public partial class PlayerProfileManager : Singleton<PlayerProfileManager>
 		if (CurrentProfile == null)
 		{
 			//Generate and set randomized profile
-			PlayerProfileData randomizedProfile = new PlayerProfileData();
+			PlayerProfileData randomizedProfile = new();
 			randomizedProfile.PlayerName = FillNameField();
-			randomizedProfile.PlayerColor = new Color(GD.Randf(), GD.Randf(), GD.Randf());
+			randomizedProfile.PlayerColor = new(GD.Randf(), GD.Randf(), GD.Randf());
 			CurrentProfile = randomizedProfile;
 		}
 	}
