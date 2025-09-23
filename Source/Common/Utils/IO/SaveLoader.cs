@@ -8,64 +8,48 @@ namespace NullCyan.Util.IO;
 public partial class SaveLoader : Singleton<SaveLoader>
 {
     public string SavePath => SetupGameSavePath();
-    public string LogSavePath { get; private set; }
 
     public override void _Ready()
     {
-        CreateDirectoryIfNotExists(SetupGameSavePath());
-        // setup once
-        LogSavePath = SetupLogSavePath();
-        GD.PrintRich($"[color=RED]{SavePath}[/color]");
+        // Ensure root save directory exists
+        CreateDirectoryIfNotExists(SavePath);
+
+        // Pre-create all known subfolders
+        foreach (SaveFolder folder in Enum.GetValues(typeof(SaveFolder)))
+        {
+            GetFolderPath(folder);
+        }
+
+        NcLogger.Log($"Save path initialized at: {SavePath}", NcLogger.LogType.Info);
     }
 
-    public void SaveToLog(string msg)
+    #region Path helpers
+
+    private string SetupGameSavePath()
     {
-        if (string.IsNullOrEmpty(LogSavePath)) return;
+        string pathRoot = PlatformCheck.IsDesktop()
+            ? OS.GetExecutablePath().GetBaseDir()
+            : OS.GetUserDataDir();
 
-        FileAccess file;
-
-        // Check if file exists first
-        if (FileAccess.FileExists(LogSavePath))
-        {
-            // Open existing file for reading and writing
-            file = FileAccess.Open(LogSavePath, FileAccess.ModeFlags.ReadWrite);
-            if (file != null)
-            {
-                file.SeekEnd();
-            }
-        }
-        else
-        {
-            // Create new file
-            file = FileAccess.Open(LogSavePath, FileAccess.ModeFlags.Write);
-        }
-
-        if (file != null)
-        {
-            using (file)
-            {
-                file.StoreString($"{msg}\n");
-            }
-        }
-        else
-        {
-            GD.PrintErr("Failed to open file for writing");
-        }
+        return $"{pathRoot}/sandboxnator_{GameRegistries.Instance.GetGameVersion.Replace(".", "_")}";
     }
 
-
-    public string SetupGameSavePath()
+    public string GetFolderPath(SaveFolder folder)
     {
-        string pathRoot = "";
-        if (PlatformCheck.IsDesktop())
+        string subDir = folder switch
         {
-            pathRoot = OS.GetExecutablePath().GetBaseDir();
-        }
-        else
-        {
-            pathRoot = OS.GetUserDataDir();
-        }
-        return $"{pathRoot}/sandboxnator{GameRegistries.Instance.GetGameVersion.Replace(".", "_")}";
+            SaveFolder.Logs => "logs",
+            SaveFolder.PlayerProfiles => "profiles",
+            SaveFolder.Worlds => "worlds",
+            SaveFolder.Config => "config",
+            SaveFolder.Temp => "temp",
+            SaveFolder.Misc => "misc",
+            _ => "misc"
+        };
+
+        string fullPath = $"{SavePath}/{subDir}";
+        CreateDirectoryIfNotExists(fullPath);
+        return fullPath;
     }
 
     public void CreateDirectoryIfNotExists(string path)
@@ -75,26 +59,133 @@ public partial class SaveLoader : Singleton<SaveLoader>
             Error error = DirAccess.MakeDirRecursiveAbsolute(path);
             if (error != Error.Ok)
             {
-                NcLogger.Log($"FAILED TO CREATE FOLDER ON {path}", NcLogger.LogType.Error, NcLogger.LogFlags.UseDateTime);
+                NcLogger.Log($"FAILED TO CREATE FOLDER: {path}", NcLogger.LogType.Error, NcLogger.LogFlags.UseDateTime);
             }
             else
             {
-                NcLogger.Log($"Folder on {path} created :3", NcLogger.LogType.Info, NcLogger.LogFlags.UseDateTime);
+                NcLogger.Log($"Folder created: {path}", NcLogger.LogType.Info, NcLogger.LogFlags.UseDateTime);
             }
         }
-        else
+    }
+    #endregion
+
+    #region Generic file helpers
+
+    /// <summary>
+    /// If append==true and the file exists => open non-truncating read/write and SeekEnd.
+    /// If append==true and the file does NOT exist => open WRITE (which creates file).
+    /// If append==false => open WRITE_READ (create & truncate).
+    /// Includes fallback attempts and logs FileAccess.GetOpenError() when open fails.
+    /// </summary>
+    public string WriteTextFile(SaveFolder folder, string fileName, string content, bool append = false)
+    {
+        string folderPath = GetFolderPath(folder); // ensures folder exists
+        string path = $"{folderPath}/{fileName}";
+
+        try
         {
-            NcLogger.Log($"{path} creation denied as it already exists.", NcLogger.LogType.Info, NcLogger.LogFlags.UseDateTime);
+            FileAccess file = null;
+
+            if (append)
+            {
+                // important: READ_WRITE will not create a missing file on many Godot versions.
+                // so choose mode depending on existence.
+                if (FileAccess.FileExists(path))
+                {
+                    // open read+write without truncating, then seek end
+                    file = FileAccess.Open(path, FileAccess.ModeFlags.ReadWrite);
+                }
+                else
+                {
+                    // create new file
+                    file = FileAccess.Open(path, FileAccess.ModeFlags.Write);
+                }
+            }
+            else
+            {
+                // overwrite / create: WRITE_READ creates the file and truncates
+                file = FileAccess.Open(path, FileAccess.ModeFlags.WriteRead);
+            }
+
+            // If open failed, try a reasonable fallback (WRITE)
+            if (file == null)
+            {
+                Error openErr = FileAccess.GetOpenError();
+                NcLogger.Log($"Initial open failed for {path} (err {openErr}). Trying fallback open (WRITE).",
+                    NcLogger.LogType.Warn, NcLogger.LogFlags.UseDateTime);
+
+                file = FileAccess.Open(path, FileAccess.ModeFlags.Write);
+                if (file == null)
+                {
+                    Error openErr2 = FileAccess.GetOpenError();
+                    NcLogger.Log($"Fallback open also failed for {path} (err {openErr2}).",
+                        NcLogger.LogType.Error, NcLogger.LogFlags.UseDateTime);
+                    return string.Empty;
+                }
+            }
+
+            using (file)
+            {
+                if (append)
+                {
+                    // Seek to end before writing
+                    file.SeekEnd();
+                }
+
+                file.StoreString(content);
+
+                // flush to disk so data persists immediately (useful during dev/tests).
+                file.Flush();
+            }
+
+            return path;
+        }
+        catch (Exception ex)
+        {
+            NcLogger.Log($"Exception writing file {path}: {ex.Message}", NcLogger.LogType.Error, NcLogger.LogFlags.UseDateTime);
+            GD.PrintErr($"[SaveLoader] Exception writing file {path}: {ex}");
+            return string.Empty;
         }
     }
 
-    private string SetupLogSavePath()
+    public string ReadTextFile(SaveFolder folder, string fileName)
     {
-        //Initialize the logger with the game version and datetime ONCE.
-        string logFileName = $"{DateTime.Now:yyyyMMddHHmmss}.sbxlog.txt";
-        //TODO: make folders for each type of file, like a separate folder just for logs.
-        string logSavePath = $"{SavePath}/{logFileName}";
+        string path = $"{GetFolderPath(folder)}/{fileName}";
+        if (!FileAccess.FileExists(path)) return string.Empty;
 
-        return logSavePath;
+        using var file = FileAccess.Open(path, FileAccess.ModeFlags.Read);
+        return file?.GetAsText() ?? string.Empty;
     }
+
+    public bool DeleteFile(SaveFolder folder, string fileName)
+    {
+        string path = $"{GetFolderPath(folder)}/{fileName}";
+        return FileAccess.FileExists(path) && DirAccess.RemoveAbsolute(path) == Error.Ok;
+    }
+
+    public void WriteBytes(SaveFolder folder, string fileName, byte[] data)
+    {
+        string path = $"{GetFolderPath(folder)}/{fileName}";
+        using var file = FileAccess.Open(path, FileAccess.ModeFlags.Write);
+        file?.StoreBuffer(data);
+    }
+
+    public byte[] ReadBytes(SaveFolder folder, string fileName)
+    {
+        string path = $"{GetFolderPath(folder)}/{fileName}";
+        if (!FileAccess.FileExists(path)) return null;
+        using var file = FileAccess.Open(path, FileAccess.ModeFlags.Read);
+        return file?.GetBuffer((long)file.GetLength());
+    }
+    #endregion
+
+    #region Specialized helpers
+
+    public void SaveToLog(string msg)
+    {
+        string fileName = $"{DateTime.Now:yyyyMMdd}.log";
+        WriteTextFile(SaveFolder.Logs, fileName, $"{DateTime.Now:u} {msg}\n", append: true);
+    }
+
+    #endregion
 }

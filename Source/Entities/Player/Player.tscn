@@ -79,8 +79,9 @@ _data = {
 &"walk": SubResource("Animation_h83is")
 }
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_3e0s0"]
-size = Vector3(0.77, 1.83, 0.77)
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_7hef5"]
+radius = 0.38
+height = 1.83
 
 [sub_resource type="Animation" id="Animation_qvcfc"]
 resource_name = "HandUse"
@@ -746,7 +747,7 @@ target_position = Vector3(0, 0, -8)
 
 [node name="PhysicsHitbox" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.935, 0)
-shape = SubResource("BoxShape3D_3e0s0")
+shape = SubResource("CapsuleShape3D_7hef5")
 
 [node name="ComponentHolder" type="Node" parent="."]
 script = ExtResource("7_kauam")
