@@ -15,7 +15,11 @@ public partial class PlayerProfileData
 
     [Key(1)]
     public Color PlayerColor { get; set; } = Colors.White;
-    //TODO: PlayerTexture : The skin texture of the player, a Map that maps a string to a .tres material, this class will only get the texture, there will be a singleton in the future that will hold the registry for player skins in that dictionary.
+
+    [Key(2)]
+
+    //being worked on the game registries.
+    public string PlayerTextureId { get; set; }
 
     public void PrintProperties(string message = "")
     {

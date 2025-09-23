@@ -1,3 +1,5 @@
+namespace NullCyan.Util.IO;
+
 public enum SaveFolder
 {
     Logs,

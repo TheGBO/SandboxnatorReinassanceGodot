@@ -814,10 +814,11 @@ visualHead = NodePath("../../PlayerModel/Node/HeadHolder")
 arms = NodePath("../../PlayerModel/Node/Hands")
 neckAnimator = NodePath("../../Neck/Camera3D/FovEffectsAnimator")
 
-[node name="PlayerHUD" type="Node3D" parent="ComponentHolder" node_paths=PackedStringArray("chatRoot", "escMenu")]
+[node name="PlayerHUD" type="Node3D" parent="ComponentHolder" node_paths=PackedStringArray("chatRoot", "escMenu", "hotBar")]
 script = ExtResource("13_7hef5")
 chatRoot = NodePath("../../HUD/ChatRoot")
 escMenu = NodePath("../../HUD/EscMenu")
+hotBar = NodePath("../../HUD/HotBar")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_interval = 0.1
