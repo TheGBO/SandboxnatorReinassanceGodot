@@ -135,4 +135,13 @@ public partial class PlayerItemUse : AbstractComponent<Player>
 		UpdateItemModelAndData();
 	}
 
+	#region Synchonize item
+
+	private void S2C_SyncItem()
+	{
+		
+	}
+
+	#endregion
+
 }
