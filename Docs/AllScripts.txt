@@ -1,0 +1,3493 @@
+// ===== ./Source/Entities/Buildings/Snapper.cs =====
+
+using Godot;
+using System;
+using NullCyan.Sandboxnator.WorldAndScenes;
+using NullCyan.Util;
+namespace NullCyan.Sandboxnator.Building;
+
+public partial class Snapper : Node3D
+{
+    public bool InsideBody { get; private set; }
+
+    public override void _EnterTree()
+    {
+        World.Instance.snappers.Add(this);
+    }
+
+    public override void _ExitTree()
+    {
+        World.Instance.snappers.Remove(this);
+    }
+
+    public void _on_area_3d_body_entered(Node3D body)
+    {
+        if (body is Placeable)
+        {
+            InsideBody = true;
+        }
+    }
+
+    public void _on_area_3d_body_exited(Node3D body)
+    {
+        if (body is Placeable)
+        {
+            InsideBody = false;
+        }
+    }
+}
+
+
+// ===== ./Source/Entities/Buildings/Placeable.cs =====
+
+using Godot;
+using System;
+namespace NullCyan.Sandboxnator.Building;
+
+public partial class Placeable : RigidBody3D
+{
+    //TODO: destroy animation
+    public void Destroy()
+    {
+        QueueFree();
+    }
+}
+
+
+// ===== ./Source/Entities/Player/PlayerProfileData.cs =====
+
+using Godot;
+using Godot.Collections;
+using System;
+using MessagePack;
+using MessagePackGodot;
+using NullCyan.Util;
+using NullCyan.Util.Log;
+namespace NullCyan.Sandboxnator.Entity;
+
+[MessagePackObject(true)]
+public partial class PlayerProfileData
+{
+    [Key(0)]
+    public string PlayerName { get; set; } = $"DEFAULT_PLAYER";
+
+    [Key(1)]
+    public Color PlayerColor { get; set; } = Colors.White;
+
+    [Key(2)]
+
+    //being worked on the game registries.
+    public string PlayerFaceId { get; set; } = "TinySmile";
+
+    public override string ToString()
+    {
+        return $"[color={PlayerColor.ToHtml()}] name:{PlayerName} colour:{PlayerColor.ToHtml()}[/color] faceID:{PlayerFaceId}";
+    }
+
+    public void PrintProperties(string message = "")
+    {
+        //using the british spelling on debug logs to avoid rich text conflict lol
+        NcLogger.Log($"{message} : {ToString()}");
+        // byte[] binaryData = MPacker.Pack(this);
+        // GD.Print("Raw bytes: ", BitConverter.ToString(binaryData).ToLower().Replace("-", ""));
+        // GD.Print($"when packed as a byte array, this has {binaryData.Length} bytes");
+    }
+}
+
+
+
+// ===== ./Source/Entities/Player/PlayerMovementType.cs =====
+
+using Godot;
+
+namespace NullCyan.Sandboxnator.Entity;
+
+public enum PlayerMovementType : uint
+{
+    Idle,
+    Walk,
+    Sprint
+}
+
+// ===== ./Source/Entities/Player/CameraMovement.cs =====
+
+using Godot;
+using System;
+using NullCyan.Util.ComponentSystem;
+using NullCyan.Sandboxnator.Registry;
+using NullCyan.Sandboxnator.Settings;
+namespace NullCyan.Sandboxnator.Entity;
+
+public partial class CameraMovement : AbstractComponent<Player>, ISettingsLoader
+{
+	private const float SENSITIVITY_DENOMINATOR = 10000.0f;
+
+	[Export] public Node3D neck;
+	[Export] public Node3D body;
+
+	private float sensitivity;
+
+	public override void _Ready()
+	{
+		if (!ComponentParent.IsMultiplayerAuthority())
+			return;
+
+		UpdateSettingsData();
+		Input.MouseMode = Input.MouseModeEnum.Captured;
+		ComponentParent.playerInput.OnToggleCursorCapture += ToggleCursorCapture;
+		ComponentParent.playerInput.OnMouseMovement += LookAction;
+	}
+
+	private void LookAction()
+	{
+		body.RotateY(-ComponentParent.playerInput.LookVector.X * sensitivity);
+		neck.RotateX(-ComponentParent.playerInput.LookVector.Y * sensitivity);
+		neck.Rotation = new(Mathf.Clamp(neck.Rotation.X, -90 * (Mathf.Pi / 180), 90 * (Mathf.Pi / 180)), neck.Rotation.Y, neck.Rotation.Z);
+
+	}
+
+	private void ToggleCursorCapture()
+	{
+		if (Input.MouseMode == Input.MouseModeEnum.Captured)
+		{
+			Input.MouseMode = Input.MouseModeEnum.Visible;
+		}
+		else
+		{
+			Input.MouseMode = Input.MouseModeEnum.Captured;
+		}
+	}
+
+	public void UpdateSettingsData()
+	{
+		sensitivity = GameRegistries.Instance.SettingsData.Sensitivity / SENSITIVITY_DENOMINATOR;
+	}
+}
+
+
+// ===== ./Source/Entities/Player/PlayerHUD.cs =====
+
+using Godot;
+using NullCyan.Sandboxnator.Network;
+using NullCyan.Util.ComponentSystem;
+using System;
+namespace NullCyan.Sandboxnator.Entity;
+
+/// <summary>
+/// Centralized component of Graphical User Interface to a player
+/// TODO: Centralize other HUD elements to be held by this class instead of scattered through other scripts.
+/// ? What hud elements exactly? i need to ellaborate this further xd
+/// </summary>
+[GodotClassName(nameof(PlayerHUD))]
+public partial class PlayerHUD : AbstractComponent<Player>
+{
+    [Export] public Control chatRoot;
+    [Export] private Control escMenu;
+    [Export] private Control hotBar;
+
+    public bool IsChatOpen { get; set; }
+    public bool IsHudBeingUsed { get; private set; }
+
+    public override void _Ready()
+    {
+        if (!IsMultiplayerAuthority())
+            return;
+
+        ComponentParent.playerInput.OnUiEscape += () =>
+        {
+            if (IsChatOpen) return;
+            //force mouse cursor to show up if it's not there
+            if (Input.MouseMode == Input.MouseModeEnum.Captured)
+                Input.MouseMode = Input.MouseModeEnum.Visible;
+
+            escMenu.Visible = !escMenu.Visible;
+        };
+    }
+
+    public void _on_leave_game_btn_pressed()
+    {
+        NetworkManager.Instance.QuitConnection();
+        GetTree().ReloadCurrentScene();
+    }
+
+    public override void _Process(double delta)
+    {
+        if (!IsMultiplayerAuthority()) return;
+
+        IsHudBeingUsed = IsChatOpen || escMenu.Visible;
+    }
+}
+
+
+// ===== ./Source/Entities/Player/HandSway.cs =====
+
+using Godot;
+using System;
+using NullCyan.Util.ComponentSystem;
+namespace NullCyan.Sandboxnator.Entity;
+
+public partial class HandSway : AbstractComponent<Player>
+{
+    [Export] private float swaySpeed;
+    [Export] private Node3D hand;
+    [Export] private Vector3 rightSway;
+    [Export] private Vector3 leftSway;
+    [Export] private float swayThreshold;
+
+    public override void _Ready()
+    {
+        if (!IsMultiplayerAuthority()) return;
+    }
+
+
+
+    public override void _Process(double delta)
+    {
+        if (!IsMultiplayerAuthority()) return;
+
+        if (ComponentParent.playerInput.LookVector.X > swayThreshold)
+        {
+            hand.Rotation = hand.Rotation.Lerp(rightSway, swaySpeed * (float)delta);
+        }
+        else if (ComponentParent.playerInput.LookVector.X < -swayThreshold)
+        {
+            hand.Rotation = hand.Rotation.Lerp(leftSway, swaySpeed * (float)delta);
+        }
+        else
+        {
+            hand.Rotation = hand.Rotation.Lerp(Vector3.Zero, swaySpeed * (float)delta);
+        }
+    }
+}
+
+
+// ===== ./Source/Entities/Player/PlayerInput.cs =====
+
+using Godot;
+using System;
+using NullCyan.Util.ComponentSystem;
+using NullCyan.Sandboxnator.Registry;
+using NullCyan.Util.Log;
+namespace NullCyan.Sandboxnator.Entity;
+
+public partial class PlayerInput : AbstractComponent<Player>
+{
+    //movement
+    public Vector2 MovementVector { get; private set; }
+    public bool IsSprinting { get; private set; }
+    public bool IsJumping { get; private set; }
+    public Action OnStopSprint;
+    //user interface
+
+    public Action OnShowChat;
+    public Action OnUiEscape;
+    //Camera
+    public Action OnToggleCursorCapture;
+    public Vector2 LookVector { get; private set; }
+    public Action OnMouseMovement;
+    //Building
+    public Action RotateCW;
+    public Action RotateCCW;
+    //usage
+    public Action UsePrimary;
+    public Action UseIncrement;
+    public Action UseDecrement;
+
+    private const float JOYPAD_SENSITIVITY_DENOMINATOR = 100.0f;
+
+    // Called every frame. 'delta' is the elapsed time since the previous frame.
+    public override void _Process(double delta)
+    {
+        if (!IsMultiplayerAuthority()) return;
+        if (!ComponentParent.playerHud.IsHudBeingUsed)
+        {
+            HandleMovementInput();
+            HandleBuildingInput();
+            HandleUsageInput();
+            HandleJoypadRstickInput();
+        }
+        HandleUserInterfaceInput();
+    }
+
+    private void HandleUserInterfaceInput()
+    {
+        if (Input.IsActionJustPressed("ui_show_chat"))
+        {
+            OnShowChat?.Invoke();
+            Input.MouseMode = Input.MouseModeEnum.Visible;
+        }
+
+        if (Input.IsActionJustPressed("ui_escape"))
+        {
+            OnUiEscape?.Invoke();
+        }
+
+        if (Input.IsActionJustPressed("toggle_capture"))
+        {
+            OnToggleCursorCapture?.Invoke();
+        }
+    }
+
+    private void HandleMovementInput()
+    {
+
+        if (Input.IsActionJustPressed("mv_jump"))
+        {
+            IsJumping = true;
+        }
+
+        if (Input.IsActionJustReleased("mv_jump"))
+        {
+            IsJumping = false;
+        }
+
+        if (Input.IsActionJustReleased("mv_sprint"))
+        {
+            OnStopSprint?.Invoke();
+        }
+
+        MovementVector = Input.GetVector("mv_left", "mv_right", "mv_forward", "mv_backward");
+        IsSprinting = Input.IsActionPressed("mv_sprint");
+    }
+
+    private void HandleBuildingInput()
+    {
+        if (Input.IsActionJustPressed("build_rotate_cw"))
+        {
+            RotateCW?.Invoke();
+        }
+
+        if (Input.IsActionJustPressed("build_rotate_ccw"))
+        {
+            RotateCCW?.Invoke();
+        }
+    }
+
+    private void HandleUsageInput()
+    {
+        if (Input.IsActionJustPressed("use_primary"))
+        {
+            UsePrimary?.Invoke();
+        }
+
+        if (Input.IsActionJustPressed("use_increment"))
+        {
+            UseIncrement?.Invoke();
+        }
+
+        if (Input.IsActionJustPressed("use_decrement"))
+        {
+            UseDecrement?.Invoke();
+        }
+    }
+
+    private void HandleJoypadRstickInput()
+    {
+        Vector2 joypadLookVector = new(Input.GetAxis("look_left", "look_right"), Input.GetAxis("look_up", "look_down"));
+        if (joypadLookVector.Length() > 0.1f)
+        {
+            // There is a proportion matter when it comes to this.
+            // The default (raw) mouse sensitivity is 100, the default joypad sensitivity is 5.
+            // in order to turn 100 into 5 in a proportional way, (5 * sens)/100
+            // TOTEST: this needs further testing
+            LookVector = joypadLookVector * (5 * GameRegistries.Instance.SettingsData.Sensitivity) / JOYPAD_SENSITIVITY_DENOMINATOR;
+            // This action name is slightly misleading but gets the job done.
+            OnMouseMovement?.Invoke();
+        }
+    }
+
+    public override void _Input(InputEvent _event)
+    {
+        if (ComponentParent.IsMultiplayerAuthority())
+        {
+            if (ComponentParent == null)
+            {
+                NcLogger.Log("NULL COMPONENT PARENT WARNING", NcLogger.LogType.Warn);
+            }
+            if (_event is InputEventMouseMotion mouseMotion && Input.MouseMode == Input.MouseModeEnum.Captured)
+            {
+                Vector2 mouseLookVector = new(mouseMotion.Relative.X, mouseMotion.Relative.Y);
+                LookVector = mouseLookVector;
+                OnMouseMovement?.Invoke();
+            }
+
+
+        }
+    }
+}
+
+
+// ===== ./Source/Entities/Player/PlayerChatHud.cs =====
+
+using Godot;
+using System;
+using NullCyan.Sandboxnator.Chat;
+using NullCyan.Util.ComponentSystem;
+namespace NullCyan.Sandboxnator.Entity;
+
+public partial class PlayerChatHud : AbstractComponent<Player>
+{
+    
+    [Export] public LineEdit messageEdit;
+    [Export] public RichTextLabel messageBox;
+    [Export] public AudioStreamPlayer notificationSound;
+
+    public override void _Ready()
+    {
+        if (!IsMultiplayerAuthority()) return;
+        ComponentParent.playerInput.OnShowChat += ShowChat;
+        ComponentParent.playerInput.OnUiEscape += HideChat;
+        ChatManager.Instance.OnMessageReceived += ReceiveMessage;
+    }
+
+    public override void _Process(double delta)
+    {
+        if (!IsMultiplayerAuthority()) return;
+        ComponentParent.playerHud.IsChatOpen = ComponentParent.playerHud.chatRoot.Visible;
+    }
+
+    public override void _Input(InputEvent inputEvent)
+    {
+        if (!IsMultiplayerAuthority()) return;
+        if (inputEvent is InputEventKey eventKey)
+        {
+            if (eventKey.Pressed && eventKey.Keycode == Key.Enter)
+            {
+                SendMessage();
+                GetViewport().SetInputAsHandled();
+            }
+        }
+    }
+
+    private void ShowChat()
+    {
+        ComponentParent.playerHud.chatRoot.Visible = true;
+        messageEdit.FocusMode = Control.FocusModeEnum.All;
+        messageEdit.CallDeferred(Control.MethodName.GrabFocus);
+    }
+
+    private void HideChat()
+    {
+        ComponentParent.playerHud.chatRoot.Visible = false;
+    }
+
+    private void ReceiveMessage(ChatMessage message, PlayerProfileData senderData)
+    {
+        //-1: System notifications
+        if (message.PlayerId != -1)
+        {
+            messageBox.Text += $"[color={senderData.PlayerColor.ToHtml()}](@{senderData.PlayerName}) [/color] : {message.Content}\n";
+        }
+        else
+        {
+            messageBox.Text += $"[color=yellow][System]:[/color]{message.Content}\n";
+        }
+        notificationSound.Play();
+    }
+
+    private void SendMessage()
+    {
+        string msg = messageEdit.Text;
+        if (!string.IsNullOrEmpty(msg) && !string.IsNullOrWhiteSpace(messageEdit.Text) && ComponentParent.playerHud.chatRoot.Visible)
+        {
+            ChatManager.Instance.RequestSendMessageToServer(msg);
+            messageEdit.Text = "";
+        }
+        messageEdit.FocusMode = Control.FocusModeEnum.All;
+        messageEdit.CallDeferred(Control.MethodName.GrabFocus);
+    }
+
+    public void _on_send_btn_pressed()
+    {
+        SendMessage();
+    }
+}
+
+
+// ===== ./Source/Entities/Player/PlayerMovement.cs =====
+
+using Godot;
+using NullCyan.Sandboxnator.Registry;
+using NullCyan.Sandboxnator.Settings;
+using NullCyan.Util.ComponentSystem;
+using System;
+namespace NullCyan.Sandboxnator.Entity;
+
+[GodotClassName("PlayerMovement")]
+public partial class PlayerMovement : AbstractComponent<Player>, ISettingsLoader
+{
+	//movement
+	[Export] private CharacterBody3D movementCBody;
+	private float currentSpeed;
+	[Export] public float walkSpeed;
+	[Export] public float sprintSpeed;
+	[Export] public float jumpVelocity;
+	private Vector3 velocity;
+
+	//rigid body interaction
+	// [Export] public float mass = 5f;
+	// [Export] public float pushForceScalar = 2f;
+
+	//visual effects
+	[Export] public Camera3D camera;
+	//TODO: fov able to be tweaked in settings.
+	[Export] public float sprintEffectTime = 0.75f;
+	private float fov = 75;
+	/// <summary>
+	/// Used for detection of movement and animations.
+	/// </summary>
+	[Export(PropertyHint.Enum, "FOR SYNCING PURPOSES!!!")]
+	public PlayerMovementType MovementType { get; private set; }
+
+	public override void _Ready()
+	{
+		if (!ComponentParent.IsMultiplayerAuthority())
+			return;
+
+		UpdateSettingsData();
+
+		currentSpeed = walkSpeed;
+		ComponentParent.playerInput.OnStopSprint += StopSprint;
+	}
+
+
+
+	//TODO: Separate input from movement
+	public override void _PhysicsProcess(double delta)
+	{
+		if (!ComponentParent.IsMultiplayerAuthority() || movementCBody == null)
+			return;
+
+		camera.Fov = fov;
+		velocity = movementCBody.Velocity;
+
+		// Add the gravity.
+		if (!movementCBody.IsOnFloor())
+		{
+			velocity += movementCBody.GetGravity() * (float)delta;
+		}
+
+		if (movementCBody.IsOnFloor() && ComponentParent.playerInput.IsJumping)
+		{
+			velocity.Y = jumpVelocity;
+		}
+
+		// Get the input direction and handle the movement/deceleration.
+		// As good practice, you should replace UI actions with custom gameplay actions.
+		Vector3 forward = movementCBody.GlobalTransform.Basis.Z;
+		Vector3 right = movementCBody.GlobalTransform.Basis.X;
+
+		Vector2 inputDir = ComponentParent.playerInput.MovementVector;
+		Vector3 direction = (forward * inputDir.Y + right * inputDir.X).Normalized();
+		bool isMoving = inputDir != Vector2.Zero;
+
+		//check for sprint
+		bool isSprinting = ComponentParent.playerInput.IsSprinting;
+		if (isSprinting)
+		{
+			MovementType = PlayerMovementType.Sprint;
+			Sprint(true);
+		}
+		if (isMoving && !isSprinting)
+		{
+			MovementType = PlayerMovementType.Walk;
+		}
+		if (!isMoving && !isSprinting)
+		{
+			MovementType = PlayerMovementType.Idle;
+		}
+
+		if (direction != Vector3.Zero)
+		{
+			velocity.X = direction.X * currentSpeed;
+			velocity.Z = direction.Z * currentSpeed;
+		}
+		else
+		{
+			velocity.X = Mathf.MoveToward(movementCBody.Velocity.X, 0, currentSpeed);
+			velocity.Z = Mathf.MoveToward(movementCBody.Velocity.Z, 0, currentSpeed);
+		}
+
+		movementCBody.Velocity = velocity;
+		movementCBody.MoveAndSlide();
+
+	}
+
+	//not my code, adapted version from https://www.youtube.com/watch?v=Uh9PSOORMmA
+	//DEPRECATED Disabled due to network issues.
+	// private void PushAwayRigidBodies()
+	// {
+	// 	for (int i = 0; i < movementCBody.GetSlideCollisionCount(); i++)
+	// 	{
+	// 		KinematicCollision3D CollisionData = movementCBody.GetSlideCollision(i);
+
+	// 		GodotObject UnkObj = CollisionData.GetCollider();
+
+	// 		if (UnkObj is RigidBody3D)
+	// 		{
+	// 			RigidBody3D Obj = UnkObj as RigidBody3D;
+	// 			float MassRatio = Mathf.Min(1.0f, mass / Obj.Mass);
+	// 			if (MassRatio < 0.25f) continue;
+	// 			Vector3 PushDir = -CollisionData.GetNormal();
+	// 			float VelocityDiffInPushDir = movementCBody.Velocity.Dot(PushDir) - Obj.LinearVelocity.Dot(PushDir);
+	// 			VelocityDiffInPushDir = Mathf.Max(0.0f, VelocityDiffInPushDir);
+	// 			PushDir.Y = 0;
+	// 			float PushForce = MassRatio * pushForceScalar;
+	// 			Obj.ApplyImpulse(PushDir * VelocityDiffInPushDir * PushForce, CollisionData.GetPosition() - Obj.GlobalPosition);
+	// 		}
+	// 	}
+	// }
+
+	//input related.
+	private void StopSprint()
+	{
+		Sprint(false);
+	}
+
+	private void Sprint(bool beginSprint)
+	{
+		MovementType = PlayerMovementType.Sprint;
+		Tween sprintTween = GetTree().CreateTween();
+		if (beginSprint)
+		{
+			sprintTween.TweenProperty(camera, "fov", fov * 1.25, sprintEffectTime);
+			sprintTween.TweenProperty(this, nameof(currentSpeed), sprintSpeed, sprintEffectTime);
+		}
+		else
+		{
+			sprintTween.TweenProperty(camera, "fov", fov, sprintEffectTime);
+			sprintTween.TweenProperty(this, nameof(currentSpeed), walkSpeed, sprintEffectTime);
+		}
+	}
+
+	public void UpdateSettingsData()
+	{
+		fov = GameRegistries.Instance.SettingsData.FieldOfView;
+	}
+}
+
+
+// ===== ./Source/Entities/Player/Player.cs =====
+
+using Godot;
+using System;
+using Godot.Collections;
+using NullCyan.Sandboxnator.WorldAndScenes;
+using NullCyan.Util;
+using NullCyan.Sandboxnator.UI;
+using NullCyan.Util.ComponentSystem;
+namespace NullCyan.Sandboxnator.Entity;
+
+//The most basic and central class to a player.
+public partial class Player : CharacterBody3D
+{
+	//Components
+	[Export] public ComponentHolder componentHolder;
+	[Export] public CharacterBody3D characterBody;
+	[Export] public PlayerMovement playerMovement;
+	[Export] public CameraMovement cameraMovement;
+	[Export] public PlayerInput playerInput;
+	[Export] public PlayerChatHud chatHud;
+	[Export] public PlayerVisualSync visuals;
+	[Export] public PlayerHUD playerHud;
+	public PlayerProfileData ProfileData { get; set; }
+
+
+	//Individual client graphical user interface and camera holders
+	[Export] public Camera3D camera;
+	[Export] public Node hud;
+
+	public override void _EnterTree()
+	{
+		componentHolder.entityId = int.Parse(Name);
+		SetMultiplayerAuthority(componentHolder.entityId);
+
+		if (IsMultiplayerAuthority())
+		{
+			//install ui sound on player Hud
+			UiSoundManager.Instance.TryInstallSounds(hud);
+		}
+		else
+		{
+			//disable camera and HUD from other players
+			camera.Current = false;
+			//make sure HUD is client side only
+			hud.QueueFree();
+		}
+
+	}
+	
+	public override void _ExitTree()
+	{
+		//PlayerManager.Instance.RemovePlayer(componentHolder.entityId); // Clean up references
+	}
+
+}
+
+
+// ===== ./Source/Entities/Player/PlayerVisualSync.cs =====
+
+using Godot;
+using Godot.Collections;
+using NullCyan.Sandboxnator.Network;
+using NullCyan.Sandboxnator.WorldAndScenes;
+using NullCyan.Util.GodotHelpers;
+using NullCyan.Util.ComponentSystem;
+using NullCyan.Util.IO;
+using NullCyan.Sandboxnator.Entity.PlayerCosmetics;
+namespace NullCyan.Sandboxnator.Entity;
+
+/// <summary>
+/// Handles the visual effects and their multiplayer synchronization.
+/// </summary>
+public partial class PlayerVisualSync : AbstractComponent<Player>
+{
+	[ExportGroup("General")]
+	[Export] private Array<Node3D> elementsToHideAsFirstPerson;
+	[Export] private Label3D nameTag;
+	[Export] private Array<MeshInstance3D> modelsToColor;
+	[Export] private AnimationPlayer modelAnimator;
+	[Export] private Dictionary<PlayerMovementType, string> movementTypeAnimation;
+
+	[ExportGroup("Hand")]
+	[Export] private Node3D logicalHand;
+	[Export] private Node3D itemHoldingPoint;
+	[Export] private MeshInstance3D handMesh;
+
+	[ExportGroup("Neck and arms")]
+	[Export] private Node3D logicalNeck;
+	[Export] private Node3D visualHead;
+	[Export] private Node3D arms;
+	[Export] private AnimationPlayer neckAnimator;
+
+	[ExportGroup("Face")]
+	[Export] private MeshInstance3D faceMesh;
+
+	public override void _EnterTree()
+	{
+		// If this player is the authority, send its profile to the server and hide first-person elements
+		if (IsMultiplayerAuthority())
+		{
+			UpdateProfile(PlayerProfileManager.Instance.CurrentProfile);
+
+			foreach (Node3D element in elementsToHideAsFirstPerson)
+				element.Visible = false;
+			//use_z_clip_scale : Make hand not clip through objects as first person.
+			ColorAndMeshUtils.SetMeshClip(handMesh, true);
+		}
+
+		if (Multiplayer.IsServer() && World.HasInstance())
+			World.Instance.OnPlayerJoin += OnPlayerJoinHandler;
+	}
+
+	public override void _Process(double delta)
+	{
+		if (!IsInstanceValid(visualHead) || !IsInstanceValid(logicalNeck) || !IsInstanceValid(arms))
+			return;
+
+		visualHead.Rotation = logicalNeck.Rotation;
+		arms.Rotation = visualHead.Rotation;
+
+		if (IsInstanceValid(modelAnimator))
+			modelAnimator.Play(movementTypeAnimation[ComponentParent.playerMovement.MovementType]);
+	}
+
+	#region SYNCs
+	private void OnPlayerJoinHandler(long id)
+	{
+		if (!IsInstanceValid(this)) return;
+
+		// Sync profile when new players join
+		C2S_SyncProfile(MPacker.Pack(ComponentParent.ProfileData));
+	}
+
+	public void UpdateVisual()
+	{
+		if (!IsInstanceValid(nameTag))
+			return;
+
+		nameTag.Text = ComponentParent.ProfileData.PlayerName;
+		nameTag.Modulate = ComponentParent.ProfileData.PlayerColor;
+		nameTag.OutlineModulate = ColorAndMeshUtils.InvertColor(ComponentParent.ProfileData.PlayerColor);
+
+		foreach (MeshInstance3D element in modelsToColor)
+		{
+			if (IsInstanceValid(element))
+				ColorAndMeshUtils.ChangeMeshColor(element, ComponentParent.ProfileData.PlayerColor);
+		}
+		ColorAndMeshUtils.ChangeMeshTexture(faceMesh, PlayerFaceRegistryManager.GetTextureByFaceId(ComponentParent.ProfileData.PlayerFaceId));
+	}
+
+	/// <summary>
+	/// Updates the player profile and visuals based on newProfile in the client side
+	/// </summary>
+	/// <param name="newProfile"></param>
+	public void UpdateProfile(PlayerProfileData newProfile)
+	{
+		//In case of disconnections and reconnections to avoid referencing objects that are no longer in the world.
+		if (!IsInstanceValid(this)) return;
+
+		if (IsMultiplayerAuthority())
+			ComponentParent.ProfileData = newProfile;
+
+		UpdateVisual();
+
+		newProfile.PrintProperties("[CLIENT] Data before being packed and sent to the server");
+		byte[] packedProfileData = MPacker.Pack(newProfile);
+		MPacker.Unpack<PlayerProfileData>(packedProfileData).PrintProperties("[CLIENT] Data as it's being sent to server");
+
+		if (Multiplayer.HasMultiplayerPeer() && IsInstanceValid(this))
+			RpcId(1, nameof(C2S_SyncProfile), packedProfileData);
+	}
+
+	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
+	private void C2S_SyncProfile(byte[] profileBytes)
+	{
+		if (!IsInstanceValid(this)) return;
+
+		PlayerProfileData unpackedProfileData = MPacker.Unpack<PlayerProfileData>(profileBytes);
+		unpackedProfileData.PrintProperties("[SERVER] received player profile data as");
+		Rpc(nameof(S2C_SyncProfile), profileBytes);
+
+		ComponentParent.ProfileData = unpackedProfileData;
+		UpdateVisual();
+	}
+
+	//Client requests server to synchronize its profile. This call sends the profile data to the client.
+	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
+	private void S2C_SyncProfile(byte[] profileBytes)
+	{
+		if (!IsInstanceValid(this)) return;
+
+		PlayerProfileData unpackedProfileData = MPacker.Unpack<PlayerProfileData>(profileBytes);
+		ComponentParent.ProfileData = unpackedProfileData;
+		unpackedProfileData.PrintProperties("[CLIENT] received profile data as");
+		UpdateVisual();
+	}
+
+	#endregion
+
+}
+
+
+
+// ===== ./Source/Entities/Player/PlayerProfileManager.cs =====
+
+using Godot;
+using System.Collections.Generic;
+using System;
+using NullCyan.Util;
+using NullCyan.Util.Log;
+using NullCyan.Util.GodotHelpers;
+namespace NullCyan.Sandboxnator.Entity;
+
+
+//This class will manage the player profiles, it will hold a list of player profiles and will be able to add, remove and edit them.
+//This class will also be a singleton, this means that there will only be one instance of this class in the game.
+//It will be a client side node, there should be a way to share this via the network somehow and make the player profiles accessible to all clients.
+//Other players should be able to see the profiles of other players.
+
+public partial class PlayerProfileManager : Singleton<PlayerProfileManager>
+{
+	public PlayerProfileData CurrentProfile { get; private set; }
+
+
+	public override void _Ready()
+	{
+		if (CurrentProfile == null)
+		{
+			//Generate and set randomized profile
+			PlayerProfileData randomizedProfile = new();
+			randomizedProfile.PlayerName = FillNameField();
+			randomizedProfile.PlayerColor = new(GD.Randf(), GD.Randf(), GD.Randf());
+			CurrentProfile = randomizedProfile;
+		}
+	}
+
+	private string FillNameField()
+	{
+		NameGenerator nameGen = NameGenerator.Create();
+		GD.Randomize();
+		if (GD.Randf() >= 0.5)
+		{
+			nameGen.UseWesternPatterns();
+		}
+		else
+		{
+			nameGen.UseSimplePatterns();
+		}
+		string name = nameGen.GenerateName();
+		string nameCorrected = char.ToUpper(name[0]) + name.Substring(1);
+		NcLogger.Log($"Randomly generated name: {nameCorrected}");
+		return nameCorrected;
+	}
+
+}
+
+
+// ===== ./Source/Entities/Player/PlayerItemUse.cs =====
+
+using Godot;
+using Godot.Collections;
+using NullCyan.Sandboxnator.Item;
+using NullCyan.Sandboxnator.Registry;
+using System;
+using System.Collections.Generic;
+using NullCyan.Util.ComponentSystem;
+using NullCyan.Util;
+using NullCyan.Util.GodotHelpers;
+using NullCyan.Util.IO;
+namespace NullCyan.Sandboxnator.Entity;
+
+
+/// <summary>
+/// Class that represents the player's tools and inventory, functionality and data.
+/// </summary>
+[GodotClassName(nameof(PlayerItemUse))]
+[Icon("res://GameContent/Items/Hammer/HammerIcon.png")]
+public partial class PlayerItemUse : AbstractComponent<Player>
+{
+	[Export] public RayCast3D rayCast;
+	[Export] public Node3D hand;
+	[Export] private AnimationPlayer handAnimator;
+	//The resource for loading the tool
+	//TODO: add inventory data structure and remove hard-coded tool ID
+	[Export] private Array<string> inventory = [];
+	[Export] private string currentItemID;
+	private int inventoryIndex;
+	//runtime tool reference
+	private BaseItem item;
+	//desired rotation
+	public Vector3 desiredRotation = new();
+	[Export] public bool isUseValid = false;
+	private float rotationIncrement = 45f;
+	private bool canUseItem = true;
+
+	public override void _Ready()
+	{
+		currentItemID = inventory[0];
+		if (!ComponentParent.IsMultiplayerAuthority()) return;
+		//send message to server requesting tool synchronization
+		SetupInput();
+		UpdateItemModelAndData();
+	}
+
+	private void SetupInput()
+	{
+		ComponentParent.playerInput.RotateCCW += () =>
+		{
+			desiredRotation.Y -= rotationIncrement * (Mathf.Pi / 180);
+		};
+		ComponentParent.playerInput.RotateCW += () =>
+		{
+			desiredRotation.Y += rotationIncrement * (Mathf.Pi / 180);
+		};
+		ComponentParent.playerInput.UsePrimary += ClientUse;
+		ComponentParent.playerInput.UseIncrement += () =>
+		{
+			CycleItem(1);
+		};
+		ComponentParent.playerInput.UseDecrement += () =>
+		{
+			CycleItem(-1);
+		};
+	}
+
+
+	private void CycleItem(int increment)
+	{
+		inventoryIndex += increment;
+		currentItemID = inventory[Mathf.Abs(inventoryIndex % inventory.Count)];
+
+		UpdateItemModelAndData();
+	}
+
+	//Use tools
+	public void ClientUse()
+	{
+		if (!rayCast.IsColliding()) return;
+
+		Vector3 collisionPoint = rayCast.GetCollisionPoint();
+		Vector3 normal = rayCast.GetCollisionNormal();
+		ItemUsageArgs itemUsageArgs = new()
+		{
+			PlayerId = ComponentParent.componentHolder.entityId,
+			DesiredRotation = desiredRotation,
+			Normal = normal,
+			Position = collisionPoint
+		};
+		byte[] usageArgsBytes = MPacker.Pack(itemUsageArgs);
+		//Request to the server the usage of this item.
+		RpcId(1, nameof(C2S_Use), usageArgsBytes);
+
+		handAnimator.Stop();
+		if (item.animateHand)
+		{
+			handAnimator.Play("HandUse");
+		}
+	}
+
+	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
+	private void C2S_Use(byte[] usageArgsBytes)
+	{
+		if (canUseItem)
+		{
+			item.UseItem(MPacker.Unpack<ItemUsageArgs>(usageArgsBytes));
+			canUseItem = false;
+
+			SceneTreeTimer coolDownTimer = GetTree().CreateTimer(item.usageCooldown);
+			coolDownTimer.Timeout += () =>
+			{
+				canUseItem = true;
+			};
+		}
+	}
+
+
+	private void UpdateItemModelAndData()
+	{
+		Node model = hand.GetChildOrNull<Node>(0);
+		if (model != null)
+		{
+			model.QueueFree();
+		}
+		ItemData itemResource = GameRegistries.Instance.ItemRegistry.Get(currentItemID);
+		BaseItem loadedItem = itemResource.itemScene.Instantiate<BaseItem>();
+		item = loadedItem;
+		item.ItemUser = this;
+		hand.AddChild(loadedItem);
+	}
+
+	private void _on_multiplayer_synchronizer_synchronized()
+	{
+		//TODO: Optimize synchronization
+		UpdateItemModelAndData();
+	}
+
+}
+
+
+// ===== ./Source/Entities/Player/PlayerFaceData.cs =====
+
+using Godot;
+using System;
+namespace NullCyan.Sandboxnator.Entity.PlayerCosmetics;
+
+//TODO: Make PlayerFaceData and ItemData inherit a common resource called "SandboxnatorAssetData"
+[GlobalClass]
+public partial class PlayerFaceData : Resource
+{
+    [ExportGroup("Basic properties")]
+    [Export] public string playerFaceId;
+    [Export] public Texture2D faceTexture;
+
+}
+
+
+// ===== ./Source/Chat/ChatMessage.cs =====
+
+using Godot;
+using Godot.Collections;
+using MessagePack;
+namespace NullCyan.Sandboxnator.Chat;
+
+[MessagePackObject]
+public partial class ChatMessage
+{
+    [Key(0)]
+    public string Content { get; set; }
+    [Key(1)]
+    public int PlayerId { get; set; }
+
+    // Constructor
+    public ChatMessage(string content, int playerId)
+    {
+        Content = content;
+        PlayerId = playerId;
+    }
+
+}
+
+// ===== ./Source/Chat/ChatManager.cs =====
+
+using Godot;
+using System;
+using Godot.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using NullCyan.Util;
+using NullCyan.Util.IO;
+using NullCyan.Sandboxnator.Network;
+using NullCyan.Sandboxnator.WorldAndScenes;
+using NullCyan.Sandboxnator.Entity;
+using NullCyan.Sandboxnator.Commands;
+using NullCyan.Util.GodotHelpers;
+using NullCyan.Util.Log;
+namespace NullCyan.Sandboxnator.Chat;
+
+
+/// <summary>
+/// Singleton responsible for sending, receiving, parsing and handling chat messages and commands.
+/// </summary>
+public partial class ChatManager : Singleton<ChatManager>
+{
+    public List<ChatMessage> messages;
+    public Action<ChatMessage, PlayerProfileData> OnMessageReceived;
+
+    //called on client
+    public void RequestSendMessageToServer(string msg)
+    {
+        ChatMessage message = new(msg, NetworkManager.Instance.peer.GetUniqueId());
+        RpcId(1, nameof(C2S_HandleMessage), MPacker.Pack(message));
+    }
+
+    [Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
+    private void C2S_HandleMessage(byte[] messageBytes)
+    {
+        ChatMessage message = MPacker.Unpack<ChatMessage>(messageBytes);
+        NcLogger.Log($"[AS SERVER] message received:{message.Content.Replace("\n", "|CR+LF|")} from {message.PlayerId}");
+        Player sender = World.Instance.GetPlayerById(message.PlayerId);
+
+        // Pass message to command system first
+        if (!CommandRegistryManager.ExecuteCommand(sender, message.Content))
+        {
+            // If not a command, broadcast the message normally
+            Rpc(nameof(S2C_ReceiveMessage), MPacker.Pack(message), MPacker.Pack(World.Instance.GetPlayerById(message.PlayerId).ProfileData));
+        }
+    }
+
+    [Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
+    private void S2C_ReceiveMessage(byte[] messageBytes, byte[] profileBytes)
+    {
+        ChatMessage message = MPacker.Unpack<ChatMessage>(messageBytes);
+        PlayerProfileData senderData = MPacker.Unpack<PlayerProfileData>(profileBytes);
+        OnMessageReceived?.Invoke(message, senderData);
+    }
+
+    /// <summary>
+    /// SERVER SIDE: send message from server to client without attached player
+    /// </summary>
+    public void BroadcastPlayerlessMessage(string msg)
+    {
+        if (!Multiplayer.IsServer())
+        {
+            throw new InvalidOperationException("This operation can not be called on the client.");
+        }
+        //-1 playerless
+        ChatMessage message = new(msg, -1);
+        Rpc(nameof(S2C_ReceiveMessage), MPacker.Pack(message), MPacker.Pack(new PlayerProfileData()));
+    }
+
+    /// <summary>
+    /// SERVER SIDE: Sends a private message to a single player without attached player
+    /// </summary>
+    /// <param name="msg">content</param>
+    /// <param name="playerId">player</param>
+    /// <exception cref="InvalidOperationException"></exception>
+    public void SendPlayerlessMessage(string msg, int playerId)
+    {
+        if (!Multiplayer.IsServer())
+        {
+            throw new InvalidOperationException("This operation can not be called on the client.");
+        }
+        //-1 playerless
+        ChatMessage message = new(msg, -1);
+        PlayerProfileData serverSystemData = new() { PlayerName = "SERVER", PlayerColor = Color.FromHtml("#ffff00ff") };
+        RpcId(playerId, nameof(S2C_ReceiveMessage), MPacker.Pack(message), MPacker.Pack(serverSystemData));
+    }
+}
+
+
+// ===== ./Source/Common/Registry/IRegistryManager.cs =====
+
+namespace NullCyan.Util;
+
+public interface IRegistryManager
+{  
+    /// <summary>
+    /// Register the elements of whoever implements this interface
+    /// </summary>
+    public void Register();
+}
+
+// ===== ./Source/Common/Registry/Registry.cs =====
+
+using System;
+using System.Collections.Generic;
+namespace NullCyan.Util;
+
+public class Registry<T>
+{
+    private readonly Dictionary<string, T> _entries = [];
+
+    /// <summary>
+    /// Registers an entry into the registry.
+    /// </summary>
+    public void Register(string id, T value)
+    {
+        if (_entries.ContainsKey(id))
+            throw new Exception($"[Registry<{typeof(T).Name}>] Duplicate ID '{id}'");
+
+        _entries[id] = value;
+    }
+
+    /// <summary>
+    /// Gets an entry by ID.
+    /// </summary>
+    public T Get(string id)
+    {
+        if (!_entries.TryGetValue(id, out var value))
+            throw new Exception($"[Registry<{typeof(T).Name}>] Entry '{id}' not found.");
+
+        return value;
+    }
+
+    /// <summary>
+    /// Checks if an entry exists.
+    /// </summary>
+    public bool Contains(string id) => _entries.ContainsKey(id);
+
+    /// <summary>
+    /// Returns all registered IDs.
+    /// </summary>
+    public IEnumerable<string> GetAllIds() => _entries.Keys;
+
+    /// <summary>
+    /// Returns all registered objects.
+    /// </summary>
+    public IEnumerable<T> GetAllValues() => _entries.Values;
+}
+
+
+// ===== ./Source/Common/ComponentSystem/IComponent.cs =====
+
+namespace NullCyan.Util.ComponentSystem;
+
+public interface IComponent
+{
+    void Initialize(ComponentHolder holder);
+}
+
+
+// ===== ./Source/Common/ComponentSystem/ComponentHolder.cs =====
+
+using Godot;
+namespace NullCyan.Util.ComponentSystem;
+
+/// <summary>
+/// Acts as a representation of an entity, it should be a direct child of a node that is to be considered an entity in this
+/// custom entity system.
+/// </summary>
+[Icon("res://Assets/Textures/Components/componentHolder.png")]
+[GodotClassName(nameof(ComponentHolder))]
+public partial class ComponentHolder : Node
+{
+    public int entityId;
+
+    public override void _EnterTree()
+    {
+        foreach (Node child in GetChildren())
+        {
+            if (child is IComponent component)
+            {
+                component.Initialize(this);
+            }
+        }
+    }
+
+    // Utility for typed components to grab other components
+    public T GetComponent<T>() where T : class, IComponent
+    {
+        foreach (Node child in GetChildren())
+            if (child is T match)
+                return match;
+        return null;
+    }
+}
+
+
+// ===== ./Source/Common/ComponentSystem/AbstractComponent.cs =====
+
+using Godot;
+using NullCyan.Util.Log;
+namespace NullCyan.Util.ComponentSystem;
+
+
+[GodotClassName(nameof(AbstractComponent<T>))]
+[Icon("res://Assets/Textures/Components/component.png")]
+public abstract partial class AbstractComponent<T> : Node3D, IComponent where T : Node
+{
+    public T ComponentParent { get; private set; }
+
+    public void Initialize(ComponentHolder holder)
+    {
+        // Try to cast holder's parent to the expected type
+        ComponentParent = holder.GetParent<T>();
+
+        if (ComponentParent == null)
+        {
+            NcLogger.Log($"{GetType().Name} expected a parent of type {typeof(T).Name}, but got {holder.GetParent().GetType().Name}.");
+        }
+
+        OnInitialized();
+    }
+
+    // Optional: override this instead of Initialize() directly
+    protected virtual void OnInitialized() { }
+}
+
+
+// ===== ./Source/Common/Utils/StringUtils.cs =====
+
+namespace NullCyan.Util;
+
+
+public static class StringUtils
+{
+    public static string TrimSuffix(this string s, string suffix)
+    {
+        if (s.EndsWith(suffix))
+        {
+            return s.Substring(0, s.Length - suffix.Length);
+        }
+
+        return s;
+    }
+}
+
+
+// ===== ./Source/Common/Utils/NameGenerator.cs =====
+
+using System;
+using Godot;
+using Godot.Collections;
+namespace NullCyan.Util;
+
+public class NameGenerator
+{
+    private Array<string> commonNameBeginnings;
+    private Array<string> commonNameEndings;
+    private Array<string> vowels;
+    private Array<string> simpleConsonants;
+    private readonly Random random;
+    private bool useWesternPatterns;
+
+    private NameGenerator()
+    {
+        // Default to simple patterns
+        useWesternPatterns = false;
+        
+        // Western name elements
+        commonNameBeginnings = [
+            "Christ", "Joh", "Will", "Ed", "Rich", "Rob", "Thom", "Jam", "Mich", "Dav", "Paddy", "Jos", "Tom",
+            "Alex", "Ben", "Charl", "Fran", "Georg", "Hen", "Jac", "Louis", "Matt", "Nathan", "Mat", "Bell",
+            "Pat", "Sam", "Steph", "Tim", "Vict", "Zach", "Luc", "Max", "Osc", "Pete", "Edw", "Ew", "Mac", "Jon",
+            "Ann", "Beth", "Carol", "Dian", "Ell", "Em", "Gabri", "Hann", "Isab", "Jess", "Giov", "Mig", "Bern",
+            "Kath", "Laur", "Liz", "Mari", "Nic", "Oliv", "Rachel", "Sarah", "Soph", "Victor", "Bruces", "Hamilt"
+        ];
+
+        commonNameEndings = [
+            "opher", "nathan", "iel", "iam", "ias", "uel", "ard", "ert", "ew", "in", "eph", "el", "lad", "lass",
+            "ob", "on", "ory", "uel", "vin", "y", "ty", "dy", "ny", "my", "an", "ord", "bert", "id", "i",
+            "ley", "ton", "son", "man", "las", "mas", "rus", "vin", "don", "bell", "loyd", "anni", "rich",
+            "a", "ia", "ie", "y", "elle", "ette", "ine", "ana", "ella", "ora", "bush", "field", "land", "borough",
+            "issa", "ica", "ena", "ara", "ina", "elle", "anne", "lyn", "rose", "mary", "ace", "ray", "taylor", "essa"
+        ];
+
+        vowels = ["a", "e", "i", "o", "u"];
+        simpleConsonants = ["b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "r", "s", "t", "v", "w", "z"];
+        
+        random = new();
+    }
+
+    public static NameGenerator Create()
+    {
+        return new NameGenerator();
+    }
+
+    // Fluent builder methods
+    public NameGenerator UseWesternPatterns()
+    {
+        this.useWesternPatterns = true;
+        return this;
+    }
+
+    public NameGenerator UseSimplePatterns()
+    {
+        this.useWesternPatterns = false;
+        return this;
+    }
+
+    public NameGenerator WithNameBeginnings(Array<string> beginnings)
+    {
+        this.commonNameBeginnings = beginnings;
+        return this;
+    }
+
+    public NameGenerator WithNameEndings(Array<string> endings)
+    {
+        this.commonNameEndings = endings;
+        return this;
+    }
+
+    public NameGenerator WithVowels(Array<string> vowels)
+    {
+        this.vowels = vowels;
+        return this;
+    }
+
+    public NameGenerator WithConsonants(Array<string> consonants)
+    {
+        this.simpleConsonants = consonants;
+        return this;
+    }
+
+    private string GenerateWesternName()
+    {
+        if (random.Next(5) > 0)
+        {
+            string beginning = commonNameBeginnings[random.Next(commonNameBeginnings.Count)];
+            string ending = commonNameEndings[random.Next(commonNameEndings.Count)];
+            
+            if (IsConsonant(beginning[beginning.Length - 1]) && IsConsonant(ending[0]))
+            {
+                string vowelBridge = vowels[random.Next(vowels.Count)];
+                return beginning + vowelBridge + ending;
+            }
+            
+            return beginning + ending;
+        }
+        else
+        {
+            string firstSyllable = GenerateSyllable("CV");
+            string secondSyllable = GenerateSyllable("CVC");
+            return firstSyllable + secondSyllable;
+        }
+    }
+
+    private string GenerateSimpleName()
+    {
+        int syllables = random.Next(2, 6);
+        string name = "";
+        for (int i = 0; i < syllables; i++)
+        {
+            name += GenerateSyllable("CV");
+        }
+        return name;
+    }
+
+    private string GenerateSyllable(string pattern)
+    {
+        string syllable = "";
+        foreach (char c in pattern)
+        {
+            if (c == 'C')
+            {
+                syllable += simpleConsonants[random.Next(simpleConsonants.Count)];
+            }
+            else if (c == 'V')
+            {
+                syllable += vowels[random.Next(vowels.Count)];
+            }
+        }
+        return syllable;
+    }
+
+    private bool IsConsonant(char c)
+    {
+        return !"aeiouAEIOU".Contains(c.ToString());
+    }
+
+    public string GenerateName()
+    {
+        string name = useWesternPatterns ? GenerateWesternName() : GenerateSimpleName();
+        return char.ToUpper(name[0]) + name.Substring(1);
+    }
+}
+
+// ===== ./Source/Common/Utils/Log/NcLogger.cs =====
+
+using System;
+using Godot;
+using NullCyan.Util.IO;
+namespace NullCyan.Util.Log;
+
+/// <summary>
+/// NullCyan logger
+/// </summary>
+public static class NcLogger
+{
+    public enum LogType
+    {
+        Error,
+        Info,
+        Register,
+        Warn
+    }
+
+    [Flags]
+    public enum LogFlags
+    {
+        UseDateTime = 1,
+        ShouldSave = 2,
+    }
+
+    public const LogFlags DEFAULT_LOG_FLAGS = LogFlags.ShouldSave | LogFlags.UseDateTime;
+
+    // Map log types to their default color and header
+    private static readonly (Color Color, string Header)[] LogTypeMap =
+    {
+        (Colors.Red, "[ERROR]"),
+        (Colors.Green, "[INFO]"),
+        (Colors.Cyan, "[REGISTER]"),
+        (Colors.Yellow, "[WARN]")
+    };
+
+    /// <summary>
+    /// General log function
+    /// </summary>
+    public static void Log(string msg, LogType logType = LogType.Info, LogFlags logFlags = DEFAULT_LOG_FLAGS)
+    {
+        var (color, header) = LogTypeMap[(int)logType];
+
+        if (logFlags.HasFlag(LogFlags.UseDateTime))
+            header = $"[{DateTime.Now:HH:mm:ss}] {header}";
+
+        GD.PrintRich($"[color={color.ToHtml()}]{header}[/color] :: {msg}");
+
+        if (logFlags.HasFlag(LogFlags.ShouldSave))
+            SaveLoader.Instance.SaveToLog($"({header}) :: {msg}");
+    }
+
+    /// <summary>
+    /// Flexible logging with custom color and header
+    /// </summary>
+    public static void LogWithColor(string msg, Color color, string header = "Basic Log", LogFlags logFlags = DEFAULT_LOG_FLAGS)
+    {
+        if (logFlags.HasFlag(LogFlags.UseDateTime))
+            header = $"[{DateTime.Now:HH:mm:ss}] {header}";
+
+        GD.PrintRich($"[color={color.ToHtml()}]{header}[/color] :: {msg}");
+
+        if (logFlags.HasFlag(LogFlags.ShouldSave))
+            SaveLoader.Instance.SaveToLog($"({header}) :: {msg}");
+    }
+}
+
+
+// ===== ./Source/Common/Utils/GodotHelpers/ColorAndMeshUtils.cs =====
+
+using Godot;
+using System;
+namespace NullCyan.Util.GodotHelpers;
+
+class ColorAndMeshUtils
+{
+    public static Color InvertColor(Color color)
+    {
+        Color maxxedColor = new(1, 1, 1, 1);
+        Color resultColor = maxxedColor - color;
+        resultColor.A = color.A;
+        return resultColor;
+    }
+
+    public static void ChangeMeshColor(MeshInstance3D model, Color color)
+    {
+        //Change the active model 0
+        var currentMaterial = model.GetActiveMaterial(0);
+        if (currentMaterial is StandardMaterial3D stdMat)
+        {
+            stdMat = (StandardMaterial3D)stdMat.Duplicate();
+            stdMat.AlbedoColor = color;
+            model.MaterialOverride = stdMat;
+        }
+    }
+
+    public static void ChangeMeshTexture(MeshInstance3D model, Texture2D texture)
+    {
+        //Change the active model 0
+        var currentMaterial = model.GetActiveMaterial(0);
+        if (currentMaterial is StandardMaterial3D stdMat)
+        {
+            stdMat = (StandardMaterial3D)stdMat.Duplicate();
+            stdMat.AlbedoTexture = texture;
+            model.MaterialOverride = stdMat;
+        }
+    }
+
+    /// <summary>
+    /// Set the ability of a mesh to physically show even when inside another model.
+    /// </summary>
+    /// <param name="model"></param>
+    /// <param name="clip"></param>
+    public static void SetMeshClip(MeshInstance3D model, bool clip)
+    {
+        var handMaterial = model.GetActiveMaterial(0);
+        if (handMaterial is StandardMaterial3D stdMat)
+        {
+            stdMat = (StandardMaterial3D)stdMat.Duplicate();
+            stdMat.UseZClipScale = true;
+            model.MaterialOverride = stdMat;
+        }
+    }
+}
+
+
+
+// ===== ./Source/Common/Utils/GodotHelpers/Singleton.cs =====
+
+using System;
+using Godot;
+using NullCyan.Util.Log;
+namespace NullCyan.Util.GodotHelpers;
+/// <summary>
+/// Singleton base code, use _Ready instead of _EnterTree() in case of overriding,
+/// if using _EnterTree() is needed on singletons, call SetInstance();
+/// </summary>
+/// <typeparam name="T"></typeparam>
+public abstract partial class Singleton<T> : Node where T : Singleton<T>
+{
+
+    public static T Instance;
+
+    public override void _EnterTree()
+    {
+        SetInstance();
+    }
+
+    protected void SetInstance()
+    {
+        if (Instance != this && Instance != null)
+        {
+            NcLogger.Log("[ERROR] Invalid singleton state");
+            Instance.QueueFree();
+        }
+        Instance = (T)this;
+    }
+
+    public static bool HasInstance()
+    {
+        return Instance != null && IsInstanceValid(Instance);
+    }
+
+    public override void _ExitTree()
+    {
+        if (Instance == this)
+            Instance = null;
+    }
+}
+
+
+// ===== ./Source/Common/Utils/GodotHelpers/NodeUtils.cs =====
+
+using System.Collections.Generic;
+using Godot;
+namespace NullCyan.Util.GodotHelpers;
+
+public class NodeUtils
+{
+    public static List<Node> GetAllChildrenInNode(Node node, List<Node> nodes = null)
+    {
+        nodes ??= [];
+        nodes.Add(node);
+        if (nodes != null)
+        {
+            foreach (Node child in node.GetChildren())
+            {
+                nodes = GetAllChildrenInNode(child, nodes);
+            }
+        }
+        return nodes;
+    }
+}
+
+// ===== ./Source/Common/Utils/GodotHelpers/PlatformCheck.cs =====
+
+using Godot;
+namespace NullCyan.Util.GodotHelpers;
+
+public static class PlatformCheck
+{
+    public static string OsName => OS.GetName().ToLower();
+
+    public static bool IsDesktop()
+    {
+        return OsName == "windows" || OsName == "macos" || OsName == "linux" || OsName == "freebsd" || OsName == "bsd" || OsName == "openbsd";
+    }
+
+    public static bool IsMobile()
+    {
+        return OsName == "android" || OsName == "ios";
+    }
+}
+
+// ===== ./Source/Common/Utils/IO/MPacker.cs =====
+
+using MessagePack;
+using MessagePack.Resolvers;
+using MessagePackGodot;
+
+namespace NullCyan.Util.IO;
+
+public static class MPacker
+{
+    //Had to use AI for this one, the MessagePackGodot is great but it has no god damn documentation.
+    private static readonly MessagePackSerializerOptions _options =
+        MessagePackSerializerOptions.Standard.WithResolver(
+            CompositeResolver.Create(
+                GodotResolver.Instance,
+                StandardResolver.Instance
+            )
+        );
+
+    /// <summary>
+    /// Converts a custom serializable data type to a byte array
+    /// </summary>
+    /// <typeparam name="T">The data type, must have the [MessagePackObject] attribute.</typeparam>
+    /// <param name="targetData"></param>
+    /// <returns>byte array</returns>
+    public static byte[] Pack<T>(T targetData) =>
+        MessagePackSerializer.Serialize(targetData, _options);
+
+    /// <summary>
+    /// From byte array to message pack object.
+    /// </summary>
+    /// <typeparam name="T">The data type, must have the [MessagePackObject] attribute.</typeparam>
+    /// <param name="bytes"></param>
+    /// <returns>yes</returns>
+    public static T Unpack<T>(byte[] bytes) =>
+        MessagePackSerializer.Deserialize<T>(bytes, _options);
+}
+
+
+// ===== ./Source/Common/Utils/IO/SaveFolder.cs =====
+
+namespace NullCyan.Util.IO;
+
+public enum SaveFolder
+{
+    Logs,
+    PlayerProfiles,
+    Worlds,
+    Config,
+    Temp,
+    Misc
+}
+
+
+// ===== ./Source/Common/Utils/IO/SaveLoader.cs =====
+
+using Godot;
+using NullCyan.Sandboxnator.Registry;
+using NullCyan.Util.Log;
+using NullCyan.Util.GodotHelpers;
+using System;
+namespace NullCyan.Util.IO;
+
+/// <summary>
+/// A monolithic file IO class.
+/// </summary>
+public partial class SaveLoader : Singleton<SaveLoader>
+{
+    public string SavePath => SetupGameSavePath();
+
+    public override void _Ready()
+    {
+        // Ensure root save directory exists
+        CreateDirectoryIfNotExists(SavePath);
+
+        // Pre-create all known subfolders
+        foreach (SaveFolder folder in Enum.GetValues(typeof(SaveFolder)))
+        {
+            GetFolderPath(folder);
+        }
+
+        NcLogger.Log($"Save path initialized at: {SavePath}", NcLogger.LogType.Info);
+    }
+
+    #region Path helpers
+
+    private string SetupGameSavePath()
+    {
+        string pathRoot = PlatformCheck.IsDesktop()
+            ? OS.GetExecutablePath().GetBaseDir()
+            : OS.GetUserDataDir();
+
+        return $"{pathRoot}/sandboxnator_{GameRegistries.GetGameVersion.Replace(".", "_")}";
+    }
+
+    public string GetFolderPath(SaveFolder folder)
+    {
+        string subDir = folder switch
+        {
+            SaveFolder.Logs => "logs",
+            SaveFolder.PlayerProfiles => "profiles",
+            SaveFolder.Worlds => "worlds",
+            SaveFolder.Config => "config",
+            SaveFolder.Temp => "temp",
+            SaveFolder.Misc => "misc",
+            _ => "misc"
+        };
+
+        string fullPath = $"{SavePath}/{subDir}";
+        CreateDirectoryIfNotExists(fullPath);
+        return fullPath;
+    }
+
+    public void CreateDirectoryIfNotExists(string path)
+    {
+        if (!DirAccess.DirExistsAbsolute(path))
+        {
+            Error error = DirAccess.MakeDirRecursiveAbsolute(path);
+            if (error != Error.Ok)
+            {
+                NcLogger.Log($"FAILED TO CREATE FOLDER: {path}", NcLogger.LogType.Error, NcLogger.LogFlags.UseDateTime);
+            }
+            else
+            {
+                NcLogger.Log($"Folder created: {path}", NcLogger.LogType.Info, NcLogger.LogFlags.UseDateTime);
+            }
+        }
+    }
+    #endregion
+
+    #region Generic file helpers
+
+    /// <summary>
+    /// If append==true and the file exists => open non-truncating read/write and SeekEnd.
+    /// If append==true and the file does NOT exist => open WRITE (which creates file).
+    /// If append==false => open WRITE_READ (create & truncate).
+    /// Includes fallback attempts and logs FileAccess.GetOpenError() when open fails.
+    /// </summary>
+    public string WriteTextFile(SaveFolder folder, string fileName, string content, bool append = false)
+    {
+        string folderPath = GetFolderPath(folder);
+        string path = $"{folderPath}/{fileName}";
+
+        try
+        {
+            FileAccess file = null;
+
+            if (append)
+            {
+                if (FileAccess.FileExists(path))
+                {
+                    file = FileAccess.Open(path, FileAccess.ModeFlags.ReadWrite);
+                }
+                else
+                {
+                    file = FileAccess.Open(path, FileAccess.ModeFlags.Write);
+                }
+            }
+            else
+            {
+                file = FileAccess.Open(path, FileAccess.ModeFlags.WriteRead);
+            }
+
+            if (file == null)
+            {
+                Error openErr = FileAccess.GetOpenError();
+                NcLogger.Log($"Initial open failed for {path} (err {openErr}). Trying fallback open (WRITE).",
+                    NcLogger.LogType.Warn, NcLogger.LogFlags.UseDateTime);
+
+                file = FileAccess.Open(path, FileAccess.ModeFlags.Write);
+                if (file == null)
+                {
+                    Error openErr2 = FileAccess.GetOpenError();
+                    NcLogger.Log($"Fallback open also failed for {path} (err {openErr2}).",
+                        NcLogger.LogType.Error, NcLogger.LogFlags.UseDateTime);
+                    return string.Empty;
+                }
+            }
+
+            using (file)
+            {
+                if (append)
+                {
+                    file.SeekEnd();
+                }
+                file.StoreString(content);
+                file.Flush();
+            }
+
+            return path;
+        }
+        catch (Exception ex)
+        {
+            NcLogger.Log($"Exception writing file {path}: {ex.Message}", NcLogger.LogType.Error, NcLogger.LogFlags.UseDateTime);
+            GD.PrintErr($"[SaveLoader] Exception writing file {path}: {ex}");
+            return string.Empty;
+        }
+    }
+
+    public string ReadTextFile(SaveFolder folder, string fileName)
+    {
+        string path = $"{GetFolderPath(folder)}/{fileName}";
+        if (!FileAccess.FileExists(path)) return string.Empty;
+
+        using var file = FileAccess.Open(path, FileAccess.ModeFlags.Read);
+        return file?.GetAsText() ?? string.Empty;
+    }
+
+    public bool DeleteFile(SaveFolder folder, string fileName)
+    {
+        string path = $"{GetFolderPath(folder)}/{fileName}";
+        return FileAccess.FileExists(path) && DirAccess.RemoveAbsolute(path) == Error.Ok;
+    }
+
+    public void WriteBytes(SaveFolder folder, string fileName, byte[] data)
+    {
+        string path = $"{GetFolderPath(folder)}/{fileName}";
+        using var file = FileAccess.Open(path, FileAccess.ModeFlags.Write);
+        file?.StoreBuffer(data);
+    }
+
+    public byte[] ReadBytes(SaveFolder folder, string fileName)
+    {
+        string path = $"{GetFolderPath(folder)}/{fileName}";
+        if (!FileAccess.FileExists(path)) return null;
+        using var file = FileAccess.Open(path, FileAccess.ModeFlags.Read);
+        return file?.GetBuffer((long)file.GetLength());
+    }
+    #endregion
+
+    #region Specialized helpers
+
+    public void SaveToLog(string msg)
+    {
+        string fileName = $"{DateTime.Now:yyyyMMdd-HH:mm:ss}.log";
+        WriteTextFile(SaveFolder.Logs, fileName, $"{DateTime.Now:u} {msg}\n", append: true);
+    }
+
+    #endregion
+}
+
+
+// ===== ./Source/Common/Utils/IO/ResourceIO.cs =====
+
+using System.Collections.Generic;
+using Godot;
+using NullCyan.Sandboxnator.Registry;
+using NullCyan.Util.Log;
+
+namespace NullCyan.Util.IO;
+
+public class ResourceIO
+{
+
+    /// <summary>
+    /// Loads the item data from game content folder in order to register them.
+    /// </summary>
+    /// <param name="path"></param>
+    /// <returns></returns>
+    private static List<Resource> HandleResourcePath<T>(string path)
+    {
+        List<Resource> resources = [];
+
+        DirAccess dirAccess = DirAccess.Open(path);
+        if (dirAccess == null) { return null; }
+
+        string[] files = dirAccess.GetFiles();
+        if (files == null) { return null; }
+
+        //ignore everything with these extensions.
+        string remapSuffix = ".remap";
+        string importSuffix = ".import";
+        string uidSuffix = ".uid";
+
+        foreach (string fileName in files)
+        {
+            string loadFileName = fileName;
+            if (fileName.Contains(remapSuffix))
+            {
+                NcLogger.Log($"REMAP FOUND {fileName}", NcLogger.LogType.Register);
+                loadFileName = StringUtils.TrimSuffix(fileName, remapSuffix);
+            }
+
+            if (!fileName.Contains(importSuffix) && !fileName.Contains(uidSuffix))
+            {
+                string resPath = path + "/" + loadFileName;
+                Resource loadedRes = GD.Load<Resource>(resPath);
+                if (loadedRes.GetType() == typeof(T))
+                {
+                    resources.Add(loadedRes);
+                }
+            }
+        }
+
+        return resources;
+    }
+
+    public static List<Resource> GetResources<T>(string contentPath)
+    {
+        List<Resource> totalResources = [];
+        string path = contentPath;
+        NcLogger.Log("Item content path:" + contentPath, NcLogger.LogType.Register);
+        NcLogger.Log("Loading vanilla data...", NcLogger.LogType.Register);
+        using var dir = DirAccess.Open(path);
+        if (dir != null)
+        {
+            string[] directories = dir.GetDirectories();
+            //Go inside each directorie for a deeper search regarding resources
+            foreach (string resDirectory in directories)
+            {
+                //underscore filters out abstract items
+                if (!resDirectory.StartsWith("_"))
+                {
+                    string absoluteResDirectory = path + "/" + resDirectory;
+                    List<Resource> currentLocalResources = HandleResourcePath<T>(absoluteResDirectory);
+                    NcLogger.Log($"Found {typeof(T).Name} resource(s) at {absoluteResDirectory}:", NcLogger.LogType.Register);
+                    foreach (Resource res in currentLocalResources)
+                    {
+                        totalResources.Add(res);
+                    }
+                }
+            }
+            return totalResources;
+        }
+        else
+        {
+            NcLogger.Log($"The path: \"{path}\" returned null on file access attempt!", NcLogger.LogType.Error);
+        }
+        return null;
+    }
+}
+
+// ===== ./Source/Commands/ChatCommand.cs =====
+
+using System;
+
+namespace NullCyan.Sandboxnator.Commands;
+
+public class ChatCommand()
+{
+    public string Name { get; protected set; }
+    public string Description { get; protected set; }
+    //public CmdExecutionType ExecutionType { get; private set; }
+    public Action<CommandContext> Handler { get; set; }
+
+
+    public ChatCommand WithName(string name)
+    {
+        Name = name;
+        return this;
+    }
+
+    public ChatCommand WithDescription(string description)
+    {
+        Description = description;
+        return this;
+    }
+
+    public ChatCommand WithHandler(Action<CommandContext> handler)
+    {
+        Handler = handler;
+        return this;
+    }
+
+    public void Execute(CommandContext context)
+    {
+        Handler?.Invoke(context);
+    }
+
+}
+
+// ===== ./Source/Commands/CmdExecutionType.cs =====
+
+namespace NullCyan.Sandboxnator.Commands;
+
+/// <summary>
+/// TEMPORARILY DEPRECATED : FOR NOW, ASSUME ALL COMMANDS ARE SERVER SIDED.
+/// </summary>
+public enum CmdExecutionType
+{
+    SERVER,
+    CLIENT
+}
+
+// ===== ./Source/Commands/CommandContext.cs =====
+
+using NullCyan.Sandboxnator.Chat;
+using NullCyan.Sandboxnator.Entity;
+
+public class CommandContext
+{
+    public string RawInput { get; }
+    public string CommandName { get; }
+    public string[] Args { get; }
+    public Player Sender;
+    public int SenderId => Sender?.componentHolder.entityId ?? -1;
+
+    public CommandContext(string rawInput, string commandName, string[] args, Player sender)
+    {
+        RawInput = rawInput;
+        CommandName = commandName;
+        Args = args;
+        Sender = sender;
+    }
+
+    public void Reply(string msg)
+    {
+        ChatManager.Instance.SendPlayerlessMessage(msg, SenderId);
+    }
+
+    public void ReplyErr(string msg)
+    {
+        Reply($"[color=red](ERROR):[/color]{msg}");
+    }
+
+}
+
+// ===== ./Source/Network/NetworkManager/NetworkManager.cs =====
+
+using Godot;
+using System;
+using System.Linq;
+using NullCyan.Util;
+using NullCyan.Util.GodotHelpers;
+using NullCyan.Sandboxnator.WorldAndScenes;
+using NullCyan.Util.Log;
+
+namespace NullCyan.Sandboxnator.Network
+{
+	public partial class NetworkManager : Singleton<NetworkManager>
+	{
+		public ENetMultiplayerPeer peer;
+
+		// Timeout handling
+		private float connectionStartTime = 0f;
+		private float connectionTimeout = 5f;
+		private bool waitingForConnection = false;
+
+		public override void _Ready()
+		{
+			NcLogger.Log("Sandboxnator multiplayer protocol initialized");
+
+			// Dedicated server boot check
+			string[] args = OS.GetCmdlineArgs();
+			bool dedicatedServer = args.Contains("server") && !args.Contains("client");
+			NcLogger.Log($"Dedicated server check-up: {dedicatedServer}");
+
+			if (dedicatedServer)
+			{
+				HostGame(1077, true);
+			}
+		}
+
+		public override void _Process(double delta)
+		{
+			if (waitingForConnection && peer != null)
+			{
+				float elapsed = (Time.GetTicksMsec() / 1000f) - connectionStartTime;
+
+				if (elapsed >= connectionTimeout &&
+					peer.GetConnectionStatus() == MultiplayerPeer.ConnectionStatus.Connecting)
+				{
+					NcLogger.Log($"⏳ Connection timed out after {connectionTimeout} seconds.");
+					OnConnectionFailed();
+				}
+			}
+		}
+
+		public bool HasMultiplayerPeer()
+		{
+			return Multiplayer != null &&
+				Multiplayer.HasMultiplayerPeer() &&
+				Multiplayer.MultiplayerPeer != null;
+		}
+
+		/// <summary>
+		/// Initialize server-side game.
+		/// </summary>
+		public void HostGame(int port = 1077, bool dedicatedServer = false)
+		{
+			CleanupOldPeer();
+			NcLogger.Log($"✅ Hosting server on port {port} | Dedicated: {dedicatedServer}");
+
+			peer = new();
+			Error result = peer.CreateServer(port);
+
+			if (result != Error.Ok)
+			{
+				NcLogger.Log($"❌ Could not create server at the specified port: {port}");
+				return;
+			}
+
+			Multiplayer.MultiplayerPeer = peer;
+
+			// Hook server-side signals
+			//TODO: Validate client game version, do NOT allow players with versions different from that of the server.
+			Multiplayer.PeerDisconnected += PlayerManager.Instance.RemovePlayer;
+			Multiplayer.PeerConnected += PlayerManager.Instance.AddPlayer;
+
+			// Add host player manually, dedicated servers have no player, hosts are servers with a player.
+			if (!dedicatedServer)
+				PlayerManager.Instance.AddPlayer(Multiplayer.GetUniqueId());
+
+		}
+
+		/// <summary>
+		/// Initialize client-side game.
+		/// </summary>
+		public void JoinGame(int port = 1077, string ip = "127.0.0.1")
+		{
+			CleanupOldPeer();
+
+			peer = new();
+			Error result = peer.CreateClient(ip, port);
+
+			if (result != Error.Ok)
+			{
+				NcLogger.Log($"❌ Failed to start client: {result}");
+				return;
+			}
+
+			Multiplayer.MultiplayerPeer = peer;
+
+			// Hook client-specific signals
+			Multiplayer.ConnectedToServer += OnConnectedToServer;
+			Multiplayer.ConnectionFailed += OnConnectionFailed;
+
+			NcLogger.Log($"🔌 Attempting to connect to {ip}:{port}...");
+
+			// Start timeout tracking
+			connectionStartTime = Time.GetTicksMsec() / 1000f;
+			waitingForConnection = true;
+		}
+
+		/// <summary>
+		/// Disconnects from server or shuts down hosted server safely.
+		/// </summary>
+		public async void QuitConnection()
+		{
+			if (Multiplayer.MultiplayerPeer == null)
+				return;
+
+			NcLogger.Log("🔻 Closing multiplayer connection...");
+
+			// Disconnect signals to avoid unwanted callbacks during shutdown
+			if (Multiplayer.IsServer())
+			{
+				//Server signals
+				Multiplayer.PeerDisconnected -= PlayerManager.Instance.RemovePlayer;
+				Multiplayer.PeerConnected -= PlayerManager.Instance.AddPlayer;
+			}
+			else
+			{
+				//Client signals
+				Multiplayer.ConnectedToServer -= OnConnectedToServer;
+				Multiplayer.ConnectionFailed -= OnConnectionFailed;
+			}
+
+			// Tell ENet to close the session
+			if (peer != null && peer.GetConnectionStatus() != MultiplayerPeer.ConnectionStatus.Disconnected)
+			{
+				peer.Close();
+
+				// Wait until the peer status changes to Disconnected
+				while (peer.GetConnectionStatus() != MultiplayerPeer.ConnectionStatus.Disconnected)
+				{
+					await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+				}
+			}
+
+			// Remove the MultiplayerPeer reference
+			Multiplayer.MultiplayerPeer = null;
+			peer = null;
+			waitingForConnection = false;
+			NcLogger.Log("✅ Multiplayer connection fully closed.");
+		}
+
+
+
+		private void OnConnectedToServer()
+		{
+			waitingForConnection = false;
+			NcLogger.Log("✅ Successfully connected to server!");
+		}
+
+		private void OnConnectionFailed()
+		{
+			waitingForConnection = false;
+			NcLogger.Log("❌ Failed to connect to server. It may not exist or be unreachable.");
+			QuitConnection();
+		}
+
+		/// <summary>
+		/// Ensures any previous multiplayer peer is properly closed before creating a new one.
+		/// </summary>
+		private void CleanupOldPeer()
+		{
+			if (Multiplayer.MultiplayerPeer != null)
+			{
+				NcLogger.Log("⚠️ Cleaning up old multiplayer session before creating a new one...", NcLogger.LogType.Warn);
+				Multiplayer.MultiplayerPeer.Close();
+				Multiplayer.MultiplayerPeer = null;
+				peer = null;
+				waitingForConnection = false;
+			}
+		}
+	}
+}
+
+
+// ===== ./Source/Settings/ISettingsLoader.cs =====
+
+using NullCyan.Sandboxnator.Registry;
+
+namespace NullCyan.Sandboxnator.Settings;
+
+public interface ISettingsLoader
+{
+    /// <summary>
+    /// Should be called on initialization as well.
+    /// </summary>
+    public void UpdateSettingsData();
+    public void SubscribeToSettingsEventBus()
+    {
+        GameRegistries.Instance.OnSettingsSaved += this.UpdateSettingsData;
+    }
+}
+
+// ===== ./Source/Settings/GameSettingsData.cs =====
+
+using Godot;
+
+namespace NullCyan.Sandboxnator.Settings;
+
+/// <summary>
+/// [DTO] Game settings such as FOV;
+/// Convention: DTOs that are not sent over network should be resources
+/// </summary>
+[GlobalClass]
+[GodotClassName("GameSettingsData")]
+public partial class GameSettingsData : Resource
+{
+    [ExportCategory("Controls")]
+    [Export] public float Sensitivity { get; set; } = 100;
+    [Export] public float FieldOfView { get; set; } = 75;
+    //[ExportCategory("Graphics")]
+}
+
+// ===== ./Source/Items/BaseItem.cs =====
+
+using Godot;
+using NullCyan.Sandboxnator.Entity;
+using System;
+namespace NullCyan.Sandboxnator.Item;
+
+[GlobalClass]
+public partial class BaseItem : Node3D
+{
+	/// <summary>
+	/// abbreviation for Player Tool Use
+	/// </summary>
+	public PlayerItemUse ItemUser { get; set; }
+
+	[Export] public bool animateHand;
+	[Export] public float usageCooldown;
+
+	public virtual void UseItem(ItemUsageArgs args)
+	{
+
+	}
+}
+
+
+// ===== ./Source/Items/PreviewCollider.cs =====
+
+using Godot;
+using System;
+namespace NullCyan.Sandboxnator.Item;
+
+public partial class PreviewCollider : Area3D
+{
+    public bool IsColliding => GetOverlappingBodies().Count > 0;
+}
+
+
+// ===== ./Source/Items/ItemUsageArgs.cs =====
+
+using Godot;
+using Godot.Collections;
+using MessagePack;
+namespace NullCyan.Sandboxnator.Item;
+
+/// <summary>
+/// A Data Transfer Object (DTO) regarding the usage of items from players.
+/// </summary>
+/// 
+[MessagePackObject]
+public partial class ItemUsageArgs
+{
+    [Key(0)]
+    public Vector3 Position { get; set; }
+
+    [Key(1)]
+    public Vector3 Normal { get; set; }
+
+    [Key(2)]
+    public int PlayerId { get; set; }
+
+    // Only used for building items
+    [Key(3)]
+    public Vector3 DesiredRotation { get; set; }
+
+
+    public override string ToString()
+        => $"Item usage args | Pos={Position}, Normal={Normal}, PlayerId={PlayerId}";
+}
+
+// ===== ./Source/Items/PlacingItem.cs =====
+
+using Godot;
+using System;
+using NullCyan.Util;
+using NullCyan.Sandboxnator.WorldAndScenes;
+namespace NullCyan.Sandboxnator.Item;
+
+[GlobalClass]
+[GodotClassName("PlacingItem")]
+public partial class PlacingItem : BaseItem
+{
+	[Export] public PackedScene buildingScene;
+	[Export] private MeshInstance3D previewMesh;
+	[Export] private PreviewCollider previewCollider;
+	[Export] private float snapRange;
+	[Export] private float normalOffset = 1;
+	//Sync C2S
+	
+
+	public override void _PhysicsProcess(double delta)
+	{
+		if (!ItemUser.ComponentParent.IsMultiplayerAuthority()) return;
+		GeneratePreviewMesh();
+	}
+
+	//Client Side
+	private void GeneratePreviewMesh()
+	{
+		ItemUser.isUseValid = !previewCollider.IsColliding;
+
+		previewMesh.Visible = ItemUser.rayCast.IsColliding() && ItemUser.isUseValid;
+		previewMesh.GlobalPosition = GetSnappedPosition(ItemUser.rayCast.GetCollisionPoint(), ItemUser.rayCast.GetCollisionNormal());
+		previewMesh.GlobalRotation = ItemUser.desiredRotation;
+		previewCollider.GlobalPosition = previewMesh.GlobalPosition;
+		previewCollider.GlobalRotation = previewMesh.GlobalRotation;
+
+	}
+
+	//Server side
+	public override void UseItem(ItemUsageArgs args)
+	{
+		if (!ItemUser.isUseValid) return;
+		Node3D building = (Node3D)buildingScene.Instantiate();
+		building.Name = Guid.NewGuid().GetHashCode().ToString();
+		building.Position = GetSnappedPosition(args.Position, args.Normal);
+		// CONSIDER: desiredRotation could be an element of ItemUsageArgs too.
+		building.Rotation = args.DesiredRotation;
+		World.Instance.networkedEntities.CallDeferred("add_child", building);
+
+	}
+
+	private Vector3 GetSnappedPosition(Vector3 collisionPoint, Vector3 collisionNormal)
+	{
+		return World.Instance.GetNearestSnapper(collisionPoint + (collisionNormal / 2) * normalOffset, snapRange);
+		//return World.Instance.GetNearestSnapper(collisionPoint, snapRange);
+	}
+}
+
+
+// ===== ./Source/Items/ItemData.cs =====
+
+using Godot;
+using System;
+namespace NullCyan.Sandboxnator.Item;
+
+[GlobalClass]
+public partial class ItemData : Resource
+{
+    //Contains the model and the logic
+    [ExportGroup("Basic properties")]
+    //The item scene that contains its model and functionality.
+    [Export] public PackedScene itemScene;
+    //The language-agnostic item id, use_snake_case_please
+    [Export] public string itemID;
+    //The item name, can be changed according to Locales.
+    [ExportGroup("Visual information")]
+    [Export] public Texture2D itemIcon;
+    [Export] public string itemName;
+}
+
+
+// ===== ./GameContent/Registry/GameRegistries.cs =====
+
+using Godot;
+using System;
+using NullCyan.Sandboxnator.Commands;
+using NullCyan.Sandboxnator.Item;
+using NullCyan.Sandboxnator.Settings;
+using NullCyan.Util;
+using NullCyan.Util.Log;
+using NullCyan.Util.GodotHelpers;
+using NullCyan.Sandboxnator.Entity.PlayerCosmetics;
+namespace NullCyan.Sandboxnator.Registry;
+
+/// <summary>
+/// Monolithic class for game-wide data
+/// </summary>
+public partial class GameRegistries : Singleton<GameRegistries>
+{
+    //DATA SECTION
+    public Registry<ItemData> ItemRegistry { get; set; } = new();
+    public Registry<PlayerFaceData> PlayerFaceRegistry { get; set; } = new();
+    public Registry<ChatCommand> CommandRegistry { get; set; } = new();
+    public Registry<PackedScene> BuildingRegistry { get; set; } = new();
+    public GameSettingsData SettingsData { get; set; } = new();
+
+    public static string GetGameVersion => ProjectSettings.GetSetting("application/config/version").ToString();
+
+    //EVENT BUS SECTION
+    /// <summary>
+    /// Called when settings are saved and SettingsData is reassigned.
+    /// </summary>
+    public Action OnSettingsSaved { get; set; }
+
+    public override void _Ready()
+    {
+        NcLogger.Log("GAME REGISTRIES INITIALIZED", NcLogger.LogType.Register);
+        //To avoid null reference exceptions.
+        LoadDefaultSettings();
+        InitializeRegistries();
+    }
+
+    private void LoadDefaultSettings()
+    {
+        var settings = GD.Load<GameSettingsData>("res://GameContent/DefaultSettings.tres");
+        if (settings == null)
+        {
+            NcLogger.Log("Failed to load default settings! Creating fallback.", NcLogger.LogType.Error);
+            SettingsData = new();
+        }
+        else
+        {
+            SettingsData = settings;
+        }
+        OnSettingsSaved?.Invoke();
+    }
+
+    private void InitializeRegistries()
+    {
+        ItemRegistryManager itemRegistryManager = new();
+        itemRegistryManager.Register();
+        CommandRegistryManager commandRegistryManager = new();
+        commandRegistryManager.Register();
+        PlayerFaceRegistryManager playerFaceRegistryManager = new();
+        playerFaceRegistryManager.Register();
+    }
+}
+
+// ===== ./GameContent/Registry/PlayerFaceRegistryManager.cs =====
+
+using System.Collections.Generic;
+using System.Linq;
+using Godot;
+using NullCyan.Sandboxnator.Item;
+using NullCyan.Sandboxnator.Registry;
+using NullCyan.Util;
+using NullCyan.Util.IO;
+using NullCyan.Util.Log;
+
+namespace NullCyan.Sandboxnator.Entity.PlayerCosmetics;
+
+public class PlayerFaceRegistryManager : IRegistryManager
+{
+    private readonly string itemContentsPath = "res://GameContent/Skins";
+
+    public void Register()
+    {
+        GD.Print("REGISTAREN FECESFWOGHWAERG)");
+        List<Resource> faceResources = ResourceIO.GetResources<PlayerFaceData>(itemContentsPath);
+        GD.Print(faceResources.Count);
+        foreach (PlayerFaceData res in faceResources.Cast<PlayerFaceData>())
+        {
+            NcLogger.Log($"Valid playerFace resource is {res.playerFaceId}, registering...", NcLogger.LogType.Register);
+            //Register the item via resource
+            GameRegistries.Instance.PlayerFaceRegistry.Register(res.playerFaceId, res);
+        }
+    }
+
+    public static Texture2D GetTextureByFaceId(string id) => GameRegistries.Instance.PlayerFaceRegistry.Get(id).faceTexture;
+}
+
+// ===== ./GameContent/Registry/ItemRegistryManager.cs =====
+
+using NullCyan.Util;
+using Godot;
+using System;
+using System.Collections.Generic;
+using NullCyan.Sandboxnator.Registry;
+using NullCyan.Util.Log;
+using NullCyan.Util.IO;
+using System.Linq;
+namespace NullCyan.Sandboxnator.Item;
+
+/// <summary>
+/// A class that holds the data for the tools, useful for adding and synchronizing tools.
+/// As a manager, this is supposed to be a singleton, however, instead of being a global autoload
+/// it is only relevant in the World scene.
+/// </summary>
+
+public partial class ItemRegistryManager : IRegistryManager
+{
+	/// TODO:PROGRESS: Make these functionalities for loading and auto registering game assets generic and type agnostic
+	private readonly string itemContentsPath = "res://GameContent/Items";
+
+	/// <summary>
+	/// This function is responsible for loading the item data and registering them in-game.
+	/// </summary>
+	public void Register()
+	{
+		List<Resource> itemResources = ResourceIO.GetResources<ItemData>(itemContentsPath);
+		foreach (ItemData res in itemResources.Cast<ItemData>())
+		{
+			NcLogger.Log($"Valid item resource is {res.itemID}, registering...", NcLogger.LogType.Register);
+			BaseItem itemScene = res.itemScene.Instantiate<BaseItem>();
+			if (itemScene is PlacingItem item)
+			{
+				NcLogger.Log($"({res.itemID}) is a placeable building, adding to building registry as well.", NcLogger.LogType.Register);
+				GameRegistries.Instance.BuildingRegistry.Register(res.itemID, item.buildingScene);
+			}
+
+			//Register the item via resource
+			GameRegistries.Instance.ItemRegistry.Register(res.itemID, res);
+		}
+	}
+
+
+
+
+}
+
+
+// ===== ./GameContent/Registry/CommandRegistryManager.cs =====
+
+using System.Linq;
+using Godot;
+using NullCyan.Sandboxnator.Chat;
+using NullCyan.Sandboxnator.Entity;
+using NullCyan.Sandboxnator.Network;
+using NullCyan.Sandboxnator.Registry;
+using NullCyan.Sandboxnator.WorldAndScenes;
+using NullCyan.Util;
+using NullCyan.Util.Log;
+
+namespace NullCyan.Sandboxnator.Commands;
+
+public class CommandRegistryManager : IRegistryManager
+{
+    /// <summary>
+    /// Register game chat commands
+    /// </summary>
+    public void Register()
+    {
+        RegisterCommand(new CommandHelp());
+        RegisterCommand(new CommandPlayers());
+        RegisterCommand(new CommandGetPos());
+    }
+
+
+    public static void RegisterCommand(ChatCommand command)
+    {
+        if (GameRegistries.Instance.CommandRegistry.Contains(command.Name))
+        {
+            NcLogger.Log($"[Commands] Command '{command.Name}' already exists!", NcLogger.LogType.Error);
+            return;
+        }
+
+        GameRegistries.Instance.CommandRegistry.Register(command.Name.ToLower(), command);
+        NcLogger.Log($"[Commands] Registered '{command.Name}'", NcLogger.LogType.Register);
+    }
+
+    public static bool ExecuteCommand(Player sender, string rawInput)
+    {
+
+        if (!rawInput.StartsWith("!"))
+            return false;
+
+        string[] split = rawInput.Substring(1).Split(' ');
+        string commandKeyName = split[0].ToLower();
+        string[] args = split.Length > 1 ? split[1..] : [];
+
+        try
+        {
+            ChatCommand cmd = GameRegistries.Instance.CommandRegistry.Get(commandKeyName);
+            if (cmd != null)
+            {
+                CommandContext context = new(rawInput, commandKeyName, args, sender);
+                cmd.Execute(context);
+                return true;
+            }
+            else
+            {
+                return SendInvalidCommandWarning(commandKeyName, sender);
+            }
+        }
+        catch (System.Exception)
+        {
+            return SendInvalidCommandWarning(commandKeyName, sender);
+        }
+
+
+    }
+
+    private static bool SendInvalidCommandWarning(string commandKeyName, Player sender)
+    {
+        ChatManager.Instance.SendPlayerlessMessage($"Unknown command or invalid arguments when attempting to execute: {commandKeyName}, try typing \"!help\" in order to see available in-game commands and their respective usage instructions.", sender.componentHolder.entityId);
+        //Seems counterintuitive, but returnig true means that there was an attempt, not necessarily success.
+        return true;
+    }
+}
+
+// ===== ./GameContent/Buildings/Bulb/Bulb.cs =====
+
+using Godot;
+using System;
+namespace NullCyan.Sandboxnator.Building;
+
+public partial class Bulb : Placeable
+{
+}
+
+
+// ===== ./GameContent/Commands/CommandPlayers.cs =====
+
+using NullCyan.Sandboxnator.Entity;
+using NullCyan.Sandboxnator.Registry;
+using NullCyan.Sandboxnator.WorldAndScenes;
+
+namespace NullCyan.Sandboxnator.Commands;
+
+public class CommandPlayers : ChatCommand, IChatCommand
+{
+    public CommandPlayers()
+    {
+        Name = "players";
+        Description = "list players and their id's";
+        Handler = Handle;
+    }
+
+    public void Handle(CommandContext ctx)
+    {
+        string playerListMsg = "Connected players in to the server:";
+        foreach (Player p in World.Instance.GetPlayers())
+        {
+            playerListMsg += $"\n[Player ID:{p.componentHolder.entityId}] : [color={p.ProfileData.PlayerColor.ToHtml()}]{p.ProfileData.PlayerName}[/color]";
+        }
+        ctx.Reply(playerListMsg);
+    }
+}
+
+// ===== ./GameContent/Commands/CommandGetPos.cs =====
+
+using NullCyan.Sandboxnator.Entity;
+using NullCyan.Sandboxnator.Registry;
+using NullCyan.Sandboxnator.WorldAndScenes;
+
+namespace NullCyan.Sandboxnator.Commands;
+
+public class CommandGetPos : ChatCommand, IChatCommand
+{
+    public CommandGetPos()
+    {
+        Name = "getpos";
+        Description = "get position of player by ID. Usage: !getpos <playerID>";
+        Handler = Handle;
+    }
+
+    public void Handle(CommandContext ctx)
+    {
+        void SendPos(Player p)
+        {
+            string positionMessage =
+            $"\n{p.ProfileData.PlayerName} is at [color=RED]X:[/color]{(int)p.GlobalPosition.X}, [color=GREEN]Y;[/color]{(int)p.GlobalPosition.Y}, [color=BLUE]Z:[/color]{(int)p.GlobalPosition.Z}; [color=orange]facing:[/color]{p.GlobalTransform.Basis.Z.Round()}";
+
+            ctx.Reply(positionMessage);
+        }
+
+        if (ctx.Args.Length < 1)
+        {
+            SendPos(ctx.Sender);
+            return;
+        }
+
+        if (int.TryParse(ctx.Args[0], out int idArg))
+        {
+            Player p = World.Instance.GetPlayerById(idArg);
+            if (p == null)
+            {
+                ctx.ReplyErr($"could not find player of ID {idArg}");
+                return;
+            }
+            SendPos(p);
+        }
+        else
+        {
+            ctx.ReplyErr("INVALID ARGUMENTS.");
+        }
+    }
+}
+
+// ===== ./GameContent/Commands/CommandHelp.cs =====
+
+using NullCyan.Sandboxnator.Registry;
+
+namespace NullCyan.Sandboxnator.Commands;
+
+public class CommandHelp : ChatCommand, IChatCommand
+{
+    public CommandHelp()
+    {
+        Name = "help";
+        Description = "displays all commands registered in the game.";
+        Handler = Handle;
+    }
+
+    public void Handle(CommandContext ctx)
+    {
+        string helpListMsg = "[color=cyan]Chat commands registered in the game[/color]:";
+        foreach (ChatCommand cmd in GameRegistries.Instance.CommandRegistry.GetAllValues())
+        {
+            helpListMsg += $"\n [color=orange][{cmd.Name}][/color]:{cmd.Description}";
+        }
+        ctx.Reply(helpListMsg);
+    }
+}
+
+// ===== ./GameContent/Commands/IChatCommand.cs =====
+
+namespace NullCyan.Sandboxnator.Commands;
+
+public interface IChatCommand
+{
+    void Handle(CommandContext ctx);
+}
+
+// ===== ./GameContent/Items/Hammer/Hammer.cs =====
+
+using Godot;
+using NullCyan.Sandboxnator.Building;
+using System;
+namespace NullCyan.Sandboxnator.Item;
+
+public partial class Hammer : BaseItem
+{
+	public override void UseItem(ItemUsageArgs args)
+	{
+		var hitObject = ItemUser.rayCast.GetCollider();
+		if (hitObject is Placeable)
+		{
+			Placeable hitPlaceable = (Placeable)hitObject;
+			hitPlaceable.Destroy();
+		}
+	}
+}
+
+
+// ===== ./.godot/mono/temp/obj/Debug/.NETCoreApp,Version=v8.0.AssemblyAttributes.cs =====
+
+// <autogenerated />
+using System;
+using System.Reflection;
+[assembly: global::System.Runtime.Versioning.TargetFrameworkAttribute(".NETCoreApp,Version=v8.0", FrameworkDisplayName = ".NET 8.0")]
+
+
+// ===== ./.godot/mono/temp/obj/Debug/Sandboxnator Reinassance Godot.AssemblyInfo.cs =====
+
+//------------------------------------------------------------------------------
+// <auto-generated>
+//     This code was generated by a tool.
+//
+//     Changes to this file may cause incorrect behavior and will be lost if
+//     the code is regenerated.
+// </auto-generated>
+//------------------------------------------------------------------------------
+
+using System;
+using System.Reflection;
+
+[assembly: System.Reflection.AssemblyCompanyAttribute("Sandboxnator Reinassance Godot")]
+[assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
+[assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b074caa4751d9596243dae624fbfeb3d191d3c8f")]
+[assembly: System.Reflection.AssemblyProductAttribute("Sandboxnator Reinassance Godot")]
+[assembly: System.Reflection.AssemblyTitleAttribute("Sandboxnator Reinassance Godot")]
+[assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
+
+// Generated by the MSBuild WriteCodeFragment class.
+
+
+
+// ===== ./World/World.cs =====
+
+using Godot;
+using Godot.Collections;
+using NullCyan.Sandboxnator.Building;
+using NullCyan.Util;
+using System;
+using System.Collections.Generic;
+using NullCyan.Sandboxnator.Entity;
+using NullCyan.Sandboxnator.Registry;
+using NullCyan.Util.Log;
+using NullCyan.Util.GodotHelpers;
+namespace NullCyan.Sandboxnator.WorldAndScenes;
+
+/// <summary>
+/// Class that holds the world scene data
+/// </summary>
+public partial class World : Singleton<World>
+{
+	public Action<long> OnPlayerJoin;
+	public List<Snapper> snappers = [];
+
+	[Export] public Node3D networkedEntities;
+	[Export] public MultiplayerSpawner multiplayerSpawner;
+	private readonly HashSet<string> addedBuildingScenes = [];
+
+	public override void _EnterTree()
+	{
+		base.SetInstance();
+		if (GameRegistries.Instance == null)
+		{
+			NcLogger.Log("GameRegistries.Instance is null!");
+			return;
+		}
+
+		if (GameRegistries.Instance.BuildingRegistry == null)
+		{
+			NcLogger.Log("BuildingRegistry is null!");
+			return;
+		}
+
+		if (multiplayerSpawner == null)
+		{
+			NcLogger.Log("multiplayerSpawner is null!");
+			return;
+		}
+
+		AddBuildingScenesToSpawnList();
+	}
+
+	private void AddBuildingScenesToSpawnList()
+	{
+		//commit building items to the auto spawn list
+		foreach (PackedScene buildingScene in GameRegistries.Instance.BuildingRegistry.GetAllValues())
+		{
+			if (buildingScene == null)
+			{
+				NcLogger.Log("Found null buildingScene!");
+				continue;
+			}
+			string resPath = buildingScene.ResourcePath;
+			if (addedBuildingScenes.Add(resPath))
+			{
+				multiplayerSpawner.AddSpawnableScene(resPath);
+			}
+		}
+	}
+
+
+	public Vector3 GetNearestSnapper(Vector3 referential, float maxRange)
+	{
+		foreach (Snapper snapper in snappers)
+		{
+			if ((referential.DistanceTo(snapper.GlobalPosition) <= maxRange) && !snapper.InsideBody)
+			{
+				return snapper.GlobalPosition;
+			}
+		}
+		return referential;
+	}
+
+
+	/// <summary>
+	/// Expected and designed to run on the server for now
+	/// </summary>
+	/// <returns>An array of the current players.</returns>
+	public Array<Player> GetPlayers()
+	{
+		Array<Player> players = [];
+		foreach (Node e in networkedEntities.GetChildren())
+		{
+			if (e is Player)
+			{
+				players.Add((Player)e);
+			}
+		}
+		return players;
+	}
+
+	public Player GetPlayerById(long id)
+	{
+		foreach (Player player in GetPlayers())
+		{
+			if (player.componentHolder.entityId == id)
+			{
+				return player;
+			}
+		}
+		return null;
+	}
+
+	public PlayerProfileData GetPlayerProfileDataByID(long id)
+	{
+		return GetPlayerById(id).ProfileData;
+	}
+}
+
+
+// ===== ./World/PlayerManager.cs =====
+
+using Godot;
+using System;
+using NullCyan.Util;
+using NullCyan.Util.GodotHelpers;
+using NullCyan.Sandboxnator.Chat;
+using NullCyan.Sandboxnator.Entity;
+using NullCyan.Util.Log;
+namespace NullCyan.Sandboxnator.WorldAndScenes;
+
+public partial class PlayerManager : Singleton<PlayerManager>
+{
+	[Export] private PackedScene playerScene;
+	[Export] private Vector2 rangeOfRandomPos;
+
+	public void AddPlayer(long id = 1)
+	{
+
+		Node3D player = (Node3D)playerScene.Instantiate();
+		player.SetMultiplayerAuthority((int)id);
+		player.Name = id.ToString();
+		//set player position
+		if (World.Instance == null)
+		{
+			NcLogger.Log("World.Instance is null!", NcLogger.LogType.Error);
+		}
+		else if (World.Instance.networkedEntities == null)
+		{
+			NcLogger.Log("World.Instance.networkedEntities is null!", NcLogger.LogType.Error);
+		}
+		else if (player == null)
+		{
+			NcLogger.Log("player is null!", NcLogger.LogType.Error);
+		}
+		else
+		{
+			// Safe to call
+			World.Instance.networkedEntities.CallDeferred("add_child", player);
+		}
+
+		World.Instance.OnPlayerJoin?.Invoke(id);
+
+		if (Multiplayer.IsServer())
+		{
+			GD.Seed((ulong)Time.GetUnixTimeFromSystem());
+			Vector2 randPos = new(GD.Randi() % rangeOfRandomPos.X, GD.Randi() % rangeOfRandomPos.Y);
+			Vector3 desiredPosition = new(randPos.X, 20, randPos.Y);
+			if (Multiplayer.GetUniqueId() == id)
+			{
+				player.Position = desiredPosition;
+				NcLogger.Log($"Server owned Player:{id} placed on XYZ {player.Position}");
+			}
+			else
+			{
+				//send a RPC to the player who connected to set their position
+				RpcId(id, nameof(S2C_SetInitialPosition), desiredPosition, player.Name);
+			}
+
+			ChatManager.Instance.BroadcastPlayerlessMessage($"[color=(1,1,0)]{id}[/color] joined the game :3");
+		}
+
+
+	}
+
+	public void RemovePlayer(long id)
+	{
+		PlayerProfileData pData = World.Instance.GetPlayerProfileDataByID(id);
+		ChatManager.Instance.BroadcastPlayerlessMessage($"[color={pData.PlayerColor.ToHtml()}]{pData.PlayerName}[/color] left the game :C");
+		World.Instance.networkedEntities.GetNode(id.ToString()).QueueFree();
+	}
+
+
+	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
+	private void S2C_SetInitialPosition(Vector3 position, string playerId)
+	{
+		if (!Multiplayer.IsServer())
+		{
+			Node3D playerInstance = World.Instance.networkedEntities.GetNodeOrNull<Node3D>(playerId);
+			if (playerInstance == null)
+			{
+				NcLogger.Log("Player instance is lagging behind, delaying position change", NcLogger.LogType.Warn);
+				CallDeferred(nameof(S2C_SetInitialPosition), position, playerId);
+				return;
+			}
+			playerInstance.Position = position;
+			RpcId(1, nameof(C2S_PositionCheck), position, playerId);
+		}
+	}
+
+	//run on server to check if player position is synchronized
+	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
+	private void C2S_PositionCheck(Vector3 position, string playerId)
+	{
+		NcLogger.Log($"Server placed the remote player of ID:{playerId} placed on XYZ {position} via RPC");
+	}
+}
+
+
+// ===== ./World/ScenesBank/ScenesBank.cs =====
+
+using Godot;
+using NullCyan.Sandboxnator.UI;
+using NullCyan.Util.GodotHelpers;
+using NullCyan.Util;
+using System;
+namespace NullCyan.Sandboxnator;
+
+public partial class ScenesBank : Singleton<ScenesBank>
+{
+
+    [Export] public PackedScene worldScene;
+    [Export] public PackedScene profileScene;
+    [Export] public PackedScene mainMenuScene;
+
+    public override void _Ready()
+    {
+        UiSoundManager.Instance.TryInstallSounds();
+    }
+}
+
+
+// ===== ./UI/UiSoundType.cs =====
+
+namespace NullCyan.Sandboxnator.UI;
+
+public enum UiSoundType
+{
+    Hover,
+    Interact,
+    PopUp
+}
+
+// ===== ./UI/UiSoundManager.cs =====
+
+using Godot;
+using System;
+using System.Collections.Generic;
+using NullCyan.Util;
+using NullCyan.Util.GodotHelpers;
+namespace NullCyan.Sandboxnator.UI;
+
+public partial class UiSoundManager : Singleton<UiSoundManager>
+{
+	[Export] private AudioStreamPlayer hoverSound;
+	[Export] private AudioStreamPlayer interactSound;
+	[Export] private AudioStreamPlayer popUpSound;
+
+	public override void _Ready()
+	{
+		TryInstallSounds();
+	}
+
+	/// <summary>
+	/// Called to set up InstallSounds
+	/// </summary>
+	public void TryInstallSounds(Node node = null)
+	{
+		Node root;
+		if (node == null)
+		{
+			root = GetTree().Root;
+		}
+		else
+		{
+			root = node;
+		}
+		InstallSounds(root);
+
+
+	}
+
+	/// <summary>
+	/// Connect the sound to interaction buttons
+	/// </summary>
+	private void InstallSounds(Node node)
+	{
+		foreach (Node child in NodeUtils.GetAllChildrenInNode(node))
+		{
+			if (child is Button btn)
+			{
+				//workaround, button_down usually never gets connections and I use pressed instead
+				bool hasConnection = btn.GetSignalConnectionList("button_down").Count > 0;
+				if (hasConnection)
+					return;
+
+				btn.ButtonDown += () => { PlaySfxSound(UiSoundType.Interact); };
+				btn.MouseEntered += () => { PlaySfxSound(UiSoundType.Hover); };
+			}
+		}
+	}
+
+	public void PlaySfxSound(UiSoundType _type)
+	{
+		switch (_type)
+		{
+			case UiSoundType.Hover:
+				hoverSound.PitchScale = 1f + (float)GD.RandRange(-0.2, 0.2);
+				hoverSound.Play();
+				break;
+			case UiSoundType.Interact:
+				interactSound.Play();
+				break;
+			case UiSoundType.PopUp:
+				popUpSound.Play();
+				break;
+
+		}
+	}
+}
+
+
+// ===== ./UI/Profile/ProfileEditingMenu.cs =====
+
+using Godot;
+using Godot.Collections;
+using NullCyan.Util;
+using System;
+using NullCyan.Sandboxnator.Entity;
+using NullCyan.Util.Log;
+using NullCyan.Util.GodotHelpers;
+using NullCyan.Sandboxnator.Item;
+using NullCyan.Sandboxnator.Entity.PlayerCosmetics;
+using NullCyan.Sandboxnator.Registry;
+namespace NullCyan.Sandboxnator.UI;
+
+
+public partial class ProfileEditingMenu : Control
+{
+	[Export] private LineEdit nameEdit;
+	[Export] private TextureRect backgroundPreview;
+	[Export] private TextureRect playerFacePreview;
+	[Export] private ColorPicker colorEdit;
+	[Export] private Button saveButton;
+	[Export] private ItemList playerFaceList;
+
+	public void _on_save_and_return_btn_pressed()
+	{
+		UpdateProfileFromUI();
+		GetTree().ChangeSceneToPacked(ScenesBank.Instance.mainMenuScene);
+	}
+
+	public override void _Ready()
+	{
+		FetchFacesFromRegistry();
+		UpdateUiFromProfile();
+	}
+
+	public void OnAlteration()
+	{
+		UpdateUiFromUi();
+	}
+
+	#region ALTERATION HANDLERs
+	public void _on_item_list_item_selected(int index)
+	{
+		OnAlteration();
+	}
+
+	public void _on_color_picker_color_changed(Color color)
+	{
+		OnAlteration();
+	}
+
+	public void _on_name_edit_text_changed(string newName)
+	{
+		OnAlteration();
+	}
+	#endregion
+
+	private bool ValidateProfile()
+	{
+		bool isNameValid = !nameEdit.Text.Contains('!') && !string.IsNullOrEmpty(nameEdit.Text);
+		saveButton.Disabled = !isNameValid;
+		bool validProfile = isNameValid;
+		return validProfile;
+	}
+
+	private void UpdateUiFromUi()
+	{
+		backgroundPreview.Modulate = colorEdit.Color;
+		playerFacePreview.Texture = GetSelectedFaceTexture();
+	}
+
+	private void UpdateUiFromProfile()
+	{
+		var currentProfile = PlayerProfileManager.Instance.CurrentProfile;
+		//name
+		if (!nameEdit.IsEditing())
+			nameEdit.Text = currentProfile.PlayerName;
+		//color
+		backgroundPreview.Modulate = currentProfile.PlayerColor;
+		colorEdit.Color = currentProfile.PlayerColor;
+		//texture
+		playerFacePreview.Texture = PlayerFaceRegistryManager.GetTextureByFaceId(currentProfile.PlayerFaceId);
+	}
+
+	private void UpdateProfileFromUI()
+	{
+		var currentProfile = PlayerProfileManager.Instance.CurrentProfile;
+
+		currentProfile.PlayerName = nameEdit.Text;
+		currentProfile.PlayerColor = colorEdit.Color;
+		currentProfile.PlayerFaceId = GetSelectedFaceID();
+		currentProfile.PrintProperties("Updated profile from UI");
+	}
+
+
+	#region Face registry related
+	private void FetchFacesFromRegistry()
+	{
+		playerFaceList.Clear();
+		foreach (PlayerFaceData face in GameRegistries.Instance.PlayerFaceRegistry.GetAllValues())
+		{
+			NcLogger.Log($"Found a face: id={face.playerFaceId}");
+			playerFaceList.AddItem(face.playerFaceId, face.faceTexture);
+
+		}
+	}
+
+	private Texture2D GetSelectedFaceTexture() => PlayerFaceRegistryManager.GetTextureByFaceId(GetSelectedFaceID());
+
+	private string GetSelectedFaceID()
+	{
+		var selected = playerFaceList.GetSelectedItems();
+		if (selected.Length > 0)
+		{
+			int index = selected[0];
+			string faceID = playerFaceList.GetItemText(index);
+			GD.Print("Selected item name: " + faceID);
+			return faceID;
+		}
+		return null;
+	}
+	#endregion
+	//Placeholder to test name generation, this random name generation should only happen when there is no existing player profile.
+
+
+}
+
+
+// ===== ./UI/MainMenu/MainMenu.cs =====
+
+using Godot;
+using System;
+namespace NullCyan.Sandboxnator.UI;
+
+
+public partial class MainMenu : Control
+{
+	[Export] public AcceptDialog notImplementedDialog;
+	[Export] public ConfirmationDialog exitDialog;
+
+	public override void _Ready()
+	{
+		UiSoundManager.Instance.TryInstallSounds();
+	}
+
+
+	public void _on_play_btn_pressed()
+	{
+		GetTree().ChangeSceneToPacked(ScenesBank.Instance.worldScene);
+	}
+
+	public void _on_customization_btn_pressed()
+	{
+		GetTree().ChangeSceneToPacked(ScenesBank.Instance.profileScene);
+	}
+
+	public void _on_settings_btn_pressed()
+	{
+		ShowNotImplentedPopup();
+
+	}
+
+	public void _on_exit_btn_pressed()
+	{
+		exitDialog.Popup();
+		UiSoundManager.Instance.PlaySfxSound(UiSoundType.PopUp);
+	}
+
+	public void _on_exit_dialog_confirmed()
+	{
+		GetTree().Quit();
+	}
+
+	private void ShowNotImplentedPopup()
+	{
+		UiSoundManager.Instance.PlaySfxSound(UiSoundType.PopUp);
+		notImplementedDialog.Popup();
+	}
+}
+
+
+// ===== ./UI/MultiplayerMenu/MultiplayerMenu.cs =====
+
+using Godot;
+using NullCyan.Sandboxnator.Network;
+using System;
+namespace NullCyan.Sandboxnator.UI;
+
+public partial class MultiplayerMenu : Control
+{
+	[Export] private SpinBox portInput;
+	[Export] private LineEdit ipAddressInput;
+
+	public override void _Ready()
+	{
+		UiSoundManager.Instance.TryInstallSounds();
+	}
+
+	public override void _Process(double delta)
+	{
+		bool showMenu = true;
+
+		if (NetworkManager.Instance.peer != null)
+		{
+			MultiplayerPeer.ConnectionStatus status = NetworkManager.Instance.peer.GetConnectionStatus();
+			showMenu = status != MultiplayerPeer.ConnectionStatus.Connected &&
+					status != MultiplayerPeer.ConnectionStatus.Connecting;
+		}
+
+		Visible = showMenu;
+	}
+
+	public void _on_host_btn_pressed()
+	{
+		NetworkManager.Instance.HostGame((int)portInput.Value, false);
+
+	}
+
+	public void _on_join_btn_pressed()
+	{
+		NetworkManager.Instance.JoinGame((int)portInput.Value, ipAddressInput.Text);
+	}
+
+	public void _on_main_menu_btn_pressed()
+	{
+
+		GetTree().ChangeSceneToPacked(ScenesBank.Instance.mainMenuScene);
+	}
+
+}
+
+
