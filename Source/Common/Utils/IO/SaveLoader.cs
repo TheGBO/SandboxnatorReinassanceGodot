@@ -34,7 +34,7 @@ public partial class SaveLoader : Singleton<SaveLoader>
             ? OS.GetExecutablePath().GetBaseDir()
             : OS.GetUserDataDir();
 
-        return $"{pathRoot}/sandboxnator_{GameRegistries.Instance.GetGameVersion.Replace(".", "_")}";
+        return $"{pathRoot}/sandboxnator_{GameRegistries.GetGameVersion.Replace(".", "_")}";
     }
 
     public string GetFolderPath(SaveFolder folder)

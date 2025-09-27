@@ -56,7 +56,7 @@ public class ResourceIO
         List<Resource> totalResources = [];
         string path = contentPath;
         NcLogger.Log("Item content path:" + contentPath, NcLogger.LogType.Register);
-        NcLogger.Log("Loading vanilla item data...", NcLogger.LogType.Register);
+        NcLogger.Log("Loading vanilla data...", NcLogger.LogType.Register);
         using var dir = DirAccess.Open(path);
         if (dir != null)
         {

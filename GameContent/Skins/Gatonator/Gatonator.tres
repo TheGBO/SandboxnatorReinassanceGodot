@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="PlayerFaceData" load_steps=3 format=3 uid="uid://dwyar4wgwwcgv"]
+
+[ext_resource type="Texture2D" uid="uid://dwxr66588mqx2" path="res://GameContent/Skins/Gatonator/gatonator.png" id="1_x3eb2"]
+[ext_resource type="Script" uid="uid://bjd33ah1roj1c" path="res://Source/Entities/Player/PlayerFaceData.cs" id="2_ld2xg"]
+
+[resource]
+script = ExtResource("2_ld2xg")
+playerFaceId = "Gatonator"
+faceTexture = ExtResource("1_x3eb2")
+metadata/_custom_type_script = "uid://bjd33ah1roj1c"

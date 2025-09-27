@@ -1,13 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://cu2vloh7mq55n"]
+[gd_scene load_steps=4 format=3 uid="uid://cu2vloh7mq55n"]
 
 [ext_resource type="Script" uid="uid://dfcphkg5bitd8" path="res://UI/Profile/ProfileEditingMenu.cs" id="1_4fqg0"]
-[ext_resource type="Texture2D" uid="uid://dnt56ejjxcc16" path="res://Assets/Textures/Character_UwU.png" id="2_tnmhm"]
-[ext_resource type="Texture2D" uid="uid://c08077ylywm20" path="res://Assets/Textures/Character_Happy.png" id="3_k8yag"]
-[ext_resource type="Texture2D" uid="uid://dltvykko3kc2o" path="res://Assets/Textures/Character_Skeptical.png" id="4_luaw6"]
 [ext_resource type="Texture2D" uid="uid://6aop4rk3parb" path="res://Source/Entities/Player/Assets/NewPlayerModel/player_texture_0.png" id="5_k8yag"]
-[ext_resource type="Texture2D" uid="uid://diwsbtasoq4ky" path="res://GameContent/Skins/uwu.png" id="6_luaw6"]
+[ext_resource type="Texture2D" uid="uid://bwynw0jew518v" path="res://GameContent/Skins/UwU/uwu.png" id="6_luaw6"]
 
-[node name="ProfileEditingMenu" type="Control" node_paths=PackedStringArray("nameEdit", "backgroundPreview", "skinPreview", "colorEdit", "saveButton")]
+[node name="ProfileEditingMenu" type="Control" node_paths=PackedStringArray("nameEdit", "backgroundPreview", "playerFacePreview", "colorEdit", "saveButton", "playerFaceList")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -17,9 +14,10 @@ grow_vertical = 2
 script = ExtResource("1_4fqg0")
 nameEdit = NodePath("RootPanel/Panel/ContainerContainer/VBoxContainer/NameContaner/NameEdit")
 backgroundPreview = NodePath("RootPanel/Panel/ContainerContainer/MarginContainer/BackgroundPreview")
-skinPreview = NodePath("RootPanel/Panel/ContainerContainer/MarginContainer/SkinPreview")
+playerFacePreview = NodePath("RootPanel/Panel/ContainerContainer/MarginContainer/FacePreview")
 colorEdit = NodePath("RootPanel/Panel/ContainerContainer/VBoxContainer/ColorContainer/ColorPicker")
 saveButton = NodePath("RootPanel/Panel/ContainerContainer/VBoxContainer/SaveAndReturnBtn")
+playerFaceList = NodePath("RootPanel/Panel/ContainerContainer/VBoxContainer/PlayerFaceListContainer/ItemList")
 
 [node name="RootPanel" type="Panel" parent="."]
 layout_mode = 1
@@ -81,20 +79,13 @@ color_modes_visible = false
 sliders_visible = false
 presets_visible = false
 
-[node name="SkinListContainer" type="HBoxContainer" parent="RootPanel/Panel/ContainerContainer/VBoxContainer"]
+[node name="PlayerFaceListContainer" type="HBoxContainer" parent="RootPanel/Panel/ContainerContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="ItemList" type="ItemList" parent="RootPanel/Panel/ContainerContainer/VBoxContainer/SkinListContainer"]
+[node name="ItemList" type="ItemList" parent="RootPanel/Panel/ContainerContainer/VBoxContainer/PlayerFaceListContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-item_count = 3
-item_0/text = "uwu"
-item_0/icon = ExtResource("2_tnmhm")
-item_1/text = ":D"
-item_1/icon = ExtResource("3_k8yag")
-item_2/text = ":/"
-item_2/icon = ExtResource("4_luaw6")
 
 [node name="SaveAndReturnBtn" type="Button" parent="RootPanel/Panel/ContainerContainer/VBoxContainer"]
 layout_mode = 2
@@ -114,7 +105,7 @@ size_flags_horizontal = 3
 texture = ExtResource("5_k8yag")
 stretch_mode = 6
 
-[node name="SkinPreview" type="TextureRect" parent="RootPanel/Panel/ContainerContainer/MarginContainer"]
+[node name="FacePreview" type="TextureRect" parent="RootPanel/Panel/ContainerContainer/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 texture = ExtResource("6_luaw6")
@@ -122,5 +113,5 @@ stretch_mode = 6
 
 [connection signal="text_changed" from="RootPanel/Panel/ContainerContainer/VBoxContainer/NameContaner/NameEdit" to="." method="_on_name_edit_text_changed"]
 [connection signal="color_changed" from="RootPanel/Panel/ContainerContainer/VBoxContainer/ColorContainer/ColorPicker" to="." method="_on_color_picker_color_changed"]
-[connection signal="item_selected" from="RootPanel/Panel/ContainerContainer/VBoxContainer/SkinListContainer/ItemList" to="." method="_on_item_list_item_selected"]
+[connection signal="item_selected" from="RootPanel/Panel/ContainerContainer/VBoxContainer/PlayerFaceListContainer/ItemList" to="." method="_on_item_list_item_selected"]
 [connection signal="pressed" from="RootPanel/Panel/ContainerContainer/VBoxContainer/SaveAndReturnBtn" to="." method="_on_save_and_return_btn_pressed"]

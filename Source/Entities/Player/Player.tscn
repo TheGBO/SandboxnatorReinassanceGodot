@@ -14,7 +14,7 @@
 [ext_resource type="Texture2D" uid="uid://6aop4rk3parb" path="res://Source/Entities/Player/Assets/NewPlayerModel/player_texture_0.png" id="13_3e0s0"]
 [ext_resource type="Script" uid="uid://diil6t5g7kt2i" path="res://Source/Entities/Player/PlayerHUD.cs" id="13_7hef5"]
 [ext_resource type="Script" uid="uid://1r4uikdke5pe" path="res://Source/Entities/Player/PlayerVisualSync.cs" id="14_3e0s0"]
-[ext_resource type="Texture2D" uid="uid://diwsbtasoq4ky" path="res://GameContent/Skins/uwu.png" id="14_7hef5"]
+[ext_resource type="Texture2D" uid="uid://bwynw0jew518v" path="res://GameContent/Skins/UwU/uwu.png" id="14_7hef5"]
 
 [sub_resource type="InputEventAction" id="InputEventAction_jynvv"]
 action = &"ui_enter"

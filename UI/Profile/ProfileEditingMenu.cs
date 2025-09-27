@@ -5,6 +5,9 @@ using System;
 using NullCyan.Sandboxnator.Entity;
 using NullCyan.Util.Log;
 using NullCyan.Util.GodotHelpers;
+using NullCyan.Sandboxnator.Item;
+using NullCyan.Sandboxnator.Entity.PlayerCosmetics;
+using NullCyan.Sandboxnator.Registry;
 namespace NullCyan.Sandboxnator.UI;
 
 
@@ -12,9 +15,10 @@ public partial class ProfileEditingMenu : Control
 {
 	[Export] private LineEdit nameEdit;
 	[Export] private TextureRect backgroundPreview;
-	[Export] private TextureRect skinPreview;
+	[Export] private TextureRect playerFacePreview;
 	[Export] private ColorPicker colorEdit;
 	[Export] private Button saveButton;
+	[Export] private ItemList playerFaceList;
 
 	public void _on_save_and_return_btn_pressed()
 	{
@@ -24,6 +28,7 @@ public partial class ProfileEditingMenu : Control
 
 	public override void _Ready()
 	{
+		FetchFacesFromRegistry();
 		UpdateUiFromProfile();
 	}
 
@@ -60,26 +65,61 @@ public partial class ProfileEditingMenu : Control
 	private void UpdateUiFromUi()
 	{
 		backgroundPreview.Modulate = colorEdit.Color;
+		playerFacePreview.Texture = GetSelectedFaceTexture();
 	}
 
 	private void UpdateUiFromProfile()
 	{
-		PlayerProfileData cpfd = PlayerProfileManager.Instance.CurrentProfile;
+		var currentProfile = PlayerProfileManager.Instance.CurrentProfile;
 		//name
 		if (!nameEdit.IsEditing())
-			nameEdit.Text = cpfd.PlayerName;
+			nameEdit.Text = currentProfile.PlayerName;
 		//color
-		backgroundPreview.Modulate = cpfd.PlayerColor;
-		colorEdit.Color = cpfd.PlayerColor;
+		backgroundPreview.Modulate = currentProfile.PlayerColor;
+		colorEdit.Color = currentProfile.PlayerColor;
+		//texture
+		playerFacePreview.Texture = PlayerFaceRegistryManager.GetTextureByFaceId(currentProfile.PlayerFaceId);
 	}
 
 	private void UpdateProfileFromUI()
 	{
-		PlayerProfileManager.Instance.CurrentProfile.PlayerName = nameEdit.Text;
-		PlayerProfileManager.Instance.CurrentProfile.PlayerColor = colorEdit.Color;
+		var currentProfile = PlayerProfileManager.Instance.CurrentProfile;
+
+		currentProfile.PlayerName = nameEdit.Text;
+		currentProfile.PlayerColor = colorEdit.Color;
+		currentProfile.PlayerFaceId = GetSelectedFaceID();
+		currentProfile.PrintProperties("Updated profile from UI");
 	}
 
+
+	#region Face registry related
+	private void FetchFacesFromRegistry()
+	{
+		playerFaceList.Clear();
+		foreach (PlayerFaceData face in GameRegistries.Instance.PlayerFaceRegistry.GetAllValues())
+		{
+			NcLogger.Log($"Found a face: id={face.playerFaceId}");
+			playerFaceList.AddItem(face.playerFaceId, face.faceTexture);
+
+		}
+	}
+
+	private Texture2D GetSelectedFaceTexture() => PlayerFaceRegistryManager.GetTextureByFaceId(GetSelectedFaceID());
+
+	private string GetSelectedFaceID()
+	{
+		var selected = playerFaceList.GetSelectedItems();
+		if (selected.Length > 0)
+		{
+			int index = selected[0];
+			string faceID = playerFaceList.GetItemText(index);
+			GD.Print("Selected item name: " + faceID);
+			return faceID;
+		}
+		return null;
+	}
+	#endregion
 	//Placeholder to test name generation, this random name generation should only happen when there is no existing player profile.
-	
+
 
 }

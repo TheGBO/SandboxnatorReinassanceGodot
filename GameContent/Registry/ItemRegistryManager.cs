@@ -12,7 +12,7 @@ namespace NullCyan.Sandboxnator.Item;
 /// A class that holds the data for the tools, useful for adding and synchronizing tools.
 /// As a manager, this is supposed to be a singleton, however, instead of being a global autoload
 /// it is only relevant in the World scene.
-/// 
+/// </summary>
 
 public partial class ItemRegistryManager : IRegistryManager
 {

@@ -6,6 +6,7 @@ using NullCyan.Sandboxnator.Settings;
 using NullCyan.Util;
 using NullCyan.Util.Log;
 using NullCyan.Util.GodotHelpers;
+using NullCyan.Sandboxnator.Entity.PlayerCosmetics;
 namespace NullCyan.Sandboxnator.Registry;
 
 /// <summary>
@@ -15,11 +16,12 @@ public partial class GameRegistries : Singleton<GameRegistries>
 {
     //DATA SECTION
     public Registry<ItemData> ItemRegistry { get; set; } = new();
+    public Registry<PlayerFaceData> PlayerFaceRegistry { get; set; } = new();
     public Registry<ChatCommand> CommandRegistry { get; set; } = new();
     public Registry<PackedScene> BuildingRegistry { get; set; } = new();
-    public Registry<Texture2D> PlayerFaceTextures { get; set; } = new();
     public GameSettingsData SettingsData { get; set; } = new();
-    public string GetGameVersion => ProjectSettings.GetSetting("application/config/version").ToString();
+
+    public static string GetGameVersion => ProjectSettings.GetSetting("application/config/version").ToString();
 
     //EVENT BUS SECTION
     /// <summary>
@@ -56,5 +58,7 @@ public partial class GameRegistries : Singleton<GameRegistries>
         itemRegistryManager.Register();
         CommandRegistryManager commandRegistryManager = new();
         commandRegistryManager.Register();
+        PlayerFaceRegistryManager playerFaceRegistryManager = new();
+        playerFaceRegistryManager.Register();
     }
 }
