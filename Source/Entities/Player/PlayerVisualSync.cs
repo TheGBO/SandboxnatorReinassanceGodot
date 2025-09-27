@@ -5,6 +5,7 @@ using NullCyan.Sandboxnator.WorldAndScenes;
 using NullCyan.Util.GodotHelpers;
 using NullCyan.Util.ComponentSystem;
 using NullCyan.Util.IO;
+using NullCyan.Sandboxnator.Entity.PlayerCosmetics;
 namespace NullCyan.Sandboxnator.Entity;
 
 /// <summary>
@@ -29,6 +30,9 @@ public partial class PlayerVisualSync : AbstractComponent<Player>
 	[Export] private Node3D visualHead;
 	[Export] private Node3D arms;
 	[Export] private AnimationPlayer neckAnimator;
+
+	[ExportGroup("Face")]
+	[Export] private MeshInstance3D faceMesh;
 
 	public override void _EnterTree()
 	{
@@ -82,6 +86,7 @@ public partial class PlayerVisualSync : AbstractComponent<Player>
 			if (IsInstanceValid(element))
 				ColorAndMeshUtils.ChangeMeshColor(element, ComponentParent.ProfileData.PlayerColor);
 		}
+		ColorAndMeshUtils.ChangeMeshTexture(faceMesh, PlayerFaceRegistryManager.GetTextureByFaceId(ComponentParent.ProfileData.PlayerFaceId));
 	}
 
 	/// <summary>

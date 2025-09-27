@@ -24,6 +24,18 @@ class ColorAndMeshUtils
         }
     }
 
+    public static void ChangeMeshTexture(MeshInstance3D model, Texture2D texture)
+    {
+        //Change the active model 0
+        var currentMaterial = model.GetActiveMaterial(0);
+        if (currentMaterial is StandardMaterial3D stdMat)
+        {
+            stdMat = (StandardMaterial3D)stdMat.Duplicate();
+            stdMat.AlbedoTexture = texture;
+            model.MaterialOverride = stdMat;
+        }
+    }
+
     /// <summary>
     /// Set the ability of a mesh to physically show even when inside another model.
     /// </summary>

@@ -795,7 +795,7 @@ rightSway = Vector3(0, 0.56, 0)
 leftSway = Vector3(0, -0.56, 0)
 swayThreshold = 5.0
 
-[node name="VisualSync" type="Node3D" parent="ComponentHolder" node_paths=PackedStringArray("elementsToHideAsFirstPerson", "nameTag", "modelsToColor", "modelAnimator", "logicalHand", "itemHoldingPoint", "handMesh", "logicalNeck", "visualHead", "arms", "neckAnimator")]
+[node name="VisualSync" type="Node3D" parent="ComponentHolder" node_paths=PackedStringArray("elementsToHideAsFirstPerson", "nameTag", "modelsToColor", "modelAnimator", "logicalHand", "itemHoldingPoint", "handMesh", "logicalNeck", "visualHead", "arms", "neckAnimator", "faceMesh")]
 script = ExtResource("14_3e0s0")
 elementsToHideAsFirstPerson = [NodePath("../../PlayerModel/Node/HeadHolder"), NodePath("../../NameTagHolder")]
 nameTag = NodePath("../../NameTagHolder/NameTag")
@@ -813,6 +813,7 @@ logicalNeck = NodePath("../../Neck")
 visualHead = NodePath("../../PlayerModel/Node/HeadHolder")
 arms = NodePath("../../PlayerModel/Node/Hands")
 neckAnimator = NodePath("../../Neck/Camera3D/FovEffectsAnimator")
+faceMesh = NodePath("../../PlayerModel/Node/HeadHolder/Face")
 
 [node name="PlayerHUD" type="Node3D" parent="ComponentHolder" node_paths=PackedStringArray("chatRoot", "escMenu", "hotBar")]
 script = ExtResource("13_7hef5")
