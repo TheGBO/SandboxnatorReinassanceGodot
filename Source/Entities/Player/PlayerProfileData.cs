@@ -48,7 +48,7 @@ public partial class PlayerProfileData
         NameGenerator nameGen = NameGenerator.Create();
         if (GD.Randf() <= 0.7)
         {
-            nameGen.UseWesternPatterns();
+            nameGen.UseDictedPatterns();
         }
         else
         {

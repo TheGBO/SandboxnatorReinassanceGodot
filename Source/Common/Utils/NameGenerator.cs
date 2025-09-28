@@ -10,14 +10,14 @@ public class NameGenerator
     private Array<string> vowels;
     private Array<string> simpleConsonants;
     private readonly Random random;
-    private bool useWesternPatterns;
+    private bool useDictedPatterns;
 
     private NameGenerator()
     {
         // Default to simple patterns
-        useWesternPatterns = false;
+        useDictedPatterns = false;
 
-        // Western name elements
+        // Dicted name elements
         nameBeginnings = [
             // Original names
             "Christ", "Joh", "Will", "Ed", "Rich", "Rob", "Thom", "Jam", "Mich", "Dav", "Paddy", "Jos", "Tom",
@@ -178,27 +178,27 @@ public class NameGenerator
     }
 
     // Fluent builder methods
-    public NameGenerator UseWesternPatterns()
+    public NameGenerator UseDictedPatterns()
     {
-        this.useWesternPatterns = true;
+        useDictedPatterns = true;
         return this;
     }
 
     public NameGenerator UseSimplePatterns()
     {
-        this.useWesternPatterns = false;
+        useDictedPatterns = false;
         return this;
     }
 
     public NameGenerator WithNameBeginnings(Array<string> beginnings)
     {
-        this.nameBeginnings = beginnings;
+        nameBeginnings = beginnings;
         return this;
     }
 
     public NameGenerator WithNameEndings(Array<string> endings)
     {
-        this.nameEndings = endings;
+        nameEndings = endings;
         return this;
     }
 
@@ -210,11 +210,11 @@ public class NameGenerator
 
     public NameGenerator WithConsonants(Array<string> consonants)
     {
-        this.simpleConsonants = consonants;
+        simpleConsonants = consonants;
         return this;
     }
 
-    private string GenerateWesternName()
+    private string GenerateDictedName()
     {
         if (random.Next(5) > 0)
         {
@@ -272,7 +272,7 @@ public class NameGenerator
 
     public string GenerateName()
     {
-        string name = useWesternPatterns ? GenerateWesternName() : GenerateSimpleName();
+        string name = useDictedPatterns ? GenerateDictedName() : GenerateSimpleName();
         return char.ToUpper(name[0]) + name.Substring(1);
     }
 }
