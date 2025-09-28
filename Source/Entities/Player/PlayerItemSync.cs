@@ -10,13 +10,14 @@ public partial class PlayerItemSync : AbstractComponent<Player>
     /// </summary>
     public void ServerForceSync(string itemId)
     {
-        if (ComponentParent.IsMultiplayerAuthority())
+        // if (ComponentParent.IsMultiplayerAuthority())
             Rpc(nameof(S2C_SetItem), itemId);
     }
 
     [Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
     private void S2C_SetItem(string itemId)
     {
+        GD.Print(itemId);
         var itemUse = ComponentParent.playerItemUse;
         if (itemUse != null)
             itemUse.SetItemFromNetwork(itemId);
