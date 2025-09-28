@@ -15,6 +15,9 @@ public partial class Player : CharacterBody3D
 	[Export] public CharacterBody3D characterBody;
 	[Export] public PlayerMovement playerMovement;
 	[Export] public CameraMovement cameraMovement;
+	[Export] public PlayerItemUse playerItemUse;
+	[Export] public PlayerItemSync playerItemSync;
+
 	[Export] public PlayerInput playerInput;
 	[Export] public PlayerChatHud chatHud;
 	[Export] public PlayerVisualSync visuals;

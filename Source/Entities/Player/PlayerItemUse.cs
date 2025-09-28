@@ -1,46 +1,46 @@
 using Godot;
-using Godot.Collections;
 using NullCyan.Sandboxnator.Item;
 using NullCyan.Sandboxnator.Registry;
-using System;
-using System.Collections.Generic;
+using NullCyan.Sandboxnator.WorldAndScenes;
 using NullCyan.Util.ComponentSystem;
-using NullCyan.Util;
-using NullCyan.Util.GodotHelpers;
 using NullCyan.Util.IO;
+using NullCyan.Util.Log;
+using System;
+
 namespace NullCyan.Sandboxnator.Entity;
 
-
-/// <summary>
-/// Class that represents the player's tools and inventory, functionality and data.
-/// </summary>
-[GodotClassName(nameof(PlayerItemUse))]
-[Icon("res://GameContent/Items/Hammer/HammerIcon.png")]
 public partial class PlayerItemUse : AbstractComponent<Player>
 {
 	[Export] public RayCast3D rayCast;
 	[Export] public Node3D hand;
 	[Export] private AnimationPlayer handAnimator;
-	//The resource for loading the tool
-	//TODO: add inventory data structure and remove hard-coded tool ID
-	[Export] private Array<string> inventory = [];
-	[Export] private string currentItemID;
+
+	[Export] private Godot.Collections.Array<string> inventory = [];
+	private string currentItemID;
 	private int inventoryIndex;
-	//runtime tool reference
+
 	private BaseItem item;
-	//desired rotation
 	public Vector3 desiredRotation = new();
 	[Export] public bool isUseValid = false;
 	private float rotationIncrement = 45f;
 	private bool canUseItem = true;
 
+	public string CurrentItemID => currentItemID;
+
 	public override void _Ready()
 	{
-		currentItemID = inventory[0];
-		if (!ComponentParent.IsMultiplayerAuthority()) return;
-		//send message to server requesting tool synchronization
+		currentItemID = inventory.Count > 0 ? inventory[0] : "";
 		SetupInput();
 		UpdateItemModelAndData();
+
+		// When a player joins, server enforces the correct item
+		if (Multiplayer.IsServer() && World.HasInstance())
+		{
+			World.Instance.OnPlayerJoin += (long _) =>
+			{
+				ComponentParent.playerItemSync.ServerForceSync(currentItemID);
+			};
+		}
 	}
 
 	private void SetupInput()
@@ -54,51 +54,58 @@ public partial class PlayerItemUse : AbstractComponent<Player>
 			desiredRotation.Y += rotationIncrement * (Mathf.Pi / 180);
 		};
 		ComponentParent.playerInput.UsePrimary += ClientUse;
-		ComponentParent.playerInput.UseIncrement += () =>
-		{
-			CycleItem(1);
-		};
-		ComponentParent.playerInput.UseDecrement += () =>
-		{
-			CycleItem(-1);
-		};
+		ComponentParent.playerInput.UseIncrement += () => RequestCycleItem(1);
+		ComponentParent.playerInput.UseDecrement += () => RequestCycleItem(-1);
 	}
 
-
-	private void CycleItem(int increment)
+	/// <summary>
+	/// Instead of changing immediately, client asks server for item switch.
+	/// </summary>
+	private void RequestCycleItem(int increment)
 	{
+		RpcId(1, nameof(C2S_RequestCycleItem), increment);
+	}
+
+	[Rpc(MultiplayerApi.RpcMode.Authority, CallLocal = true)]
+	private void C2S_RequestCycleItem(int increment)
+	{
+		// Server validates
+		if (inventory.Count == 0) return;
+
 		inventoryIndex += increment;
 		currentItemID = inventory[Mathf.Abs(inventoryIndex % inventory.Count)];
 
+		// Update server-side
 		UpdateItemModelAndData();
+
+		// Tell all clients
+		ComponentParent.playerItemSync.ServerForceSync(currentItemID);
 	}
 
-	//Use tools
 	public void ClientUse()
 	{
 		if (!rayCast.IsColliding()) return;
 
 		Vector3 collisionPoint = rayCast.GetCollisionPoint();
 		Vector3 normal = rayCast.GetCollisionNormal();
-		ItemUsageArgs itemUsageArgs = new()
+
+		ItemUsageArgs args = new()
 		{
 			PlayerId = ComponentParent.componentHolder.entityId,
 			DesiredRotation = desiredRotation,
 			Normal = normal,
 			Position = collisionPoint
 		};
-		byte[] usageArgsBytes = MPacker.Pack(itemUsageArgs);
-		//Request to the server the usage of this item.
-		RpcId(1, nameof(C2S_Use), usageArgsBytes);
+
+		// Send usage request to server
+		RpcId(1, nameof(C2S_Use), MPacker.Pack(args));
 
 		handAnimator.Stop();
 		if (item.animateHand)
-		{
 			handAnimator.Play("HandUse");
-		}
 	}
 
-	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
+	[Rpc(MultiplayerApi.RpcMode.Authority, CallLocal = true)]
 	private void C2S_Use(byte[] usageArgsBytes)
 	{
 		if (canUseItem)
@@ -107,41 +114,27 @@ public partial class PlayerItemUse : AbstractComponent<Player>
 			canUseItem = false;
 
 			SceneTreeTimer coolDownTimer = GetTree().CreateTimer(item.usageCooldown);
-			coolDownTimer.Timeout += () =>
-			{
-				canUseItem = true;
-			};
+			coolDownTimer.Timeout += () => canUseItem = true;
 		}
 	}
 
-
-	private void UpdateItemModelAndData()
+	public void UpdateItemModelAndData()
 	{
-		Node model = hand.GetChildOrNull<Node>(0);
-		if (model != null)
-		{
+		foreach (var model in hand.GetChildren())
 			model.QueueFree();
-		}
+
+		if (string.IsNullOrEmpty(currentItemID))
+			return;
+
 		ItemData itemResource = GameRegistries.Instance.ItemRegistry.Get(currentItemID);
-		BaseItem loadedItem = itemResource.itemScene.Instantiate<BaseItem>();
-		item = loadedItem;
+		item = itemResource.itemScene.Instantiate<BaseItem>();
 		item.ItemUser = this;
-		hand.AddChild(loadedItem);
+		hand.AddChild(item);
 	}
 
-	private void _on_multiplayer_synchronizer_synchronized()
+	public void SetItemFromNetwork(string itemId)
 	{
-		//TODO: Optimize synchronization
+		currentItemID = itemId;
 		UpdateItemModelAndData();
 	}
-
-	#region Synchonize item
-
-	private void S2C_SyncItem()
-	{
-		
-	}
-
-	#endregion
-
 }

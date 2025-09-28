@@ -1,4 +1,4 @@
-[gd_scene load_steps=44 format=4 uid="uid://1hsnhm80nlng"]
+[gd_scene load_steps=45 format=4 uid="uid://1hsnhm80nlng"]
 
 [ext_resource type="Script" uid="uid://mr7xahsxhr7w" path="res://Source/Entities/Player/PlayerMovement.cs" id="1_fmfn4"]
 [ext_resource type="Script" uid="uid://dt013s8d7ysto" path="res://Source/Entities/Player/Player.cs" id="1_kjmmx"]
@@ -15,6 +15,7 @@
 [ext_resource type="Script" uid="uid://diil6t5g7kt2i" path="res://Source/Entities/Player/PlayerHUD.cs" id="13_7hef5"]
 [ext_resource type="Script" uid="uid://1r4uikdke5pe" path="res://Source/Entities/Player/PlayerVisualSync.cs" id="14_3e0s0"]
 [ext_resource type="Texture2D" uid="uid://bwynw0jew518v" path="res://GameContent/Skins/UwU/uwu.png" id="14_7hef5"]
+[ext_resource type="Script" uid="uid://dfhgyr0xk8nju" path="res://Source/Entities/Player/PlayerItemSync.cs" id="14_a5byf"]
 
 [sub_resource type="InputEventAction" id="InputEventAction_jynvv"]
 action = &"ui_enter"
@@ -539,7 +540,7 @@ _data = {
 &"WalkAndHold": SubResource("Animation_8kkfx")
 }
 
-[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("componentHolder", "characterBody", "playerMovement", "cameraMovement", "playerInput", "chatHud", "visuals", "playerHud", "camera", "hud")]
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("componentHolder", "characterBody", "playerMovement", "cameraMovement", "playerItemUse", "playerItemSync", "playerInput", "chatHud", "visuals", "playerHud", "camera", "hud")]
 floor_stop_on_slope = false
 platform_on_leave = 2
 script = ExtResource("1_kjmmx")
@@ -547,6 +548,8 @@ componentHolder = NodePath("ComponentHolder")
 characterBody = NodePath(".")
 playerMovement = NodePath("ComponentHolder/PlayerMovement")
 cameraMovement = NodePath("ComponentHolder/CameraMovement")
+playerItemUse = NodePath("ComponentHolder/PlayerItemUse")
+playerItemSync = NodePath("ComponentHolder/PlayerItemSync")
 playerInput = NodePath("ComponentHolder/PlayerInput")
 chatHud = NodePath("ComponentHolder/PlayerChatHUD")
 visuals = NodePath("ComponentHolder/VisualSync")
@@ -820,6 +823,9 @@ script = ExtResource("13_7hef5")
 chatRoot = NodePath("../../HUD/ChatRoot")
 escMenu = NodePath("../../HUD/EscMenu")
 hotBar = NodePath("../../HUD/HotBar")
+
+[node name="PlayerItemSync" type="Node3D" parent="ComponentHolder"]
+script = ExtResource("14_a5byf")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_interval = 0.1

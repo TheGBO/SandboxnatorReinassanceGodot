@@ -90,4 +90,4 @@ script = ExtResource("6_sbbat")
 [node name="PlayerManager" type="Node3D" parent="."]
 script = ExtResource("7_cf1t6")
 playerScene = ExtResource("8_cf1t6")
-rangeOfRandomPos = Vector2(100, 100)
+rangeOfRandomPos = Vector2(15, 15)
