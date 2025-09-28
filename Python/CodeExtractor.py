@@ -1,7 +1,7 @@
 #generates the "debug documentation" .txt file that contains every single script in the game
 import os
 
-root_dir = "./"
+root_dir = "../"
 
 output_file = "Docs/AllScripts.txt"
 
