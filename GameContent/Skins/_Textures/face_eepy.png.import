@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dwxr66588mqx2"
-path="res://.godot/imported/gatonator.png-fb8ccedb7f4abe80762287cd573520a5.ctex"
+uid="uid://c327exhia5kf5"
+path="res://.godot/imported/face_eepy.png-95c064940c2820fcee434580ac7be7ec.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://GameContent/Skins/Gatonator/gatonator.png"
-dest_files=["res://.godot/imported/gatonator.png-fb8ccedb7f4abe80762287cd573520a5.ctex"]
+source_file="res://GameContent/Skins/_Textures/face_eepy.png"
+dest_files=["res://.godot/imported/face_eepy.png-95c064940c2820fcee434580ac7be7ec.ctex"]
 
 [params]
 

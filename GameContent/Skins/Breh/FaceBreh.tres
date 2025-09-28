@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="PlayerFaceData" load_steps=3 format=3 uid="uid://b1qj6tntt5t55"]
+
+[ext_resource type="Script" uid="uid://bjd33ah1roj1c" path="res://Source/Entities/Player/PlayerFaceData.cs" id="1_fkw66"]
+[ext_resource type="Texture2D" uid="uid://csnnifbrq66hk" path="res://GameContent/Skins/_Textures/face_breh.png" id="1_jvj6m"]
+
+[resource]
+script = ExtResource("1_fkw66")
+playerFaceId = "Breh"
+faceTexture = ExtResource("1_jvj6m")
+metadata/_custom_type_script = "uid://bjd33ah1roj1c"

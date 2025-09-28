@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="PlayerFaceData" load_steps=3 format=3 uid="uid://k5alu2uevta8"]
+
+[ext_resource type="Texture2D" uid="uid://nlxbpqdpodqw" path="res://GameContent/Skins/_Textures/face_mammal_01.png" id="1_3efd6"]
+[ext_resource type="Script" uid="uid://bjd33ah1roj1c" path="res://Source/Entities/Player/PlayerFaceData.cs" id="1_v6r3s"]
+
+[resource]
+script = ExtResource("1_v6r3s")
+playerFaceId = "Mammal01"
+faceTexture = ExtResource("1_3efd6")
+metadata/_custom_type_script = "uid://bjd33ah1roj1c"

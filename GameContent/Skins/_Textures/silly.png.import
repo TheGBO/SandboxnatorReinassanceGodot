@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://chfco4ad2pu4t"
-path="res://.godot/imported/tiny_smile.png-093b62d76ab1790115a73d62652ef5a0.ctex"
+uid="uid://4jnky7s8wbfs"
+path="res://.godot/imported/silly.png-1aa8a0bdf32fee69a8705117f1f0f3ac.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://GameContent/Skins/TinySmile/tiny_smile.png"
-dest_files=["res://.godot/imported/tiny_smile.png-093b62d76ab1790115a73d62652ef5a0.ctex"]
+source_file="res://GameContent/Skins/_Textures/silly.png"
+dest_files=["res://.godot/imported/silly.png-1aa8a0bdf32fee69a8705117f1f0f3ac.ctex"]
 
 [params]
 

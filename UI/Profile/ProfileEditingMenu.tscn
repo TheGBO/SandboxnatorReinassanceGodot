@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dfcphkg5bitd8" path="res://UI/Profile/ProfileEditingMenu.cs" id="1_4fqg0"]
 [ext_resource type="Texture2D" uid="uid://6aop4rk3parb" path="res://Source/Entities/Player/Assets/NewPlayerModel/player_texture_0.png" id="5_k8yag"]
-[ext_resource type="Texture2D" uid="uid://bwynw0jew518v" path="res://GameContent/Skins/UwU/uwu.png" id="6_luaw6"]
+[ext_resource type="Texture2D" uid="uid://bwynw0jew518v" path="res://GameContent/Skins/_Textures/uwu.png" id="6_luaw6"]
 
 [node name="ProfileEditingMenu" type="Control" node_paths=PackedStringArray("nameEdit", "backgroundPreview", "playerFacePreview", "colorEdit", "saveButton", "playerFaceList")]
 layout_mode = 3

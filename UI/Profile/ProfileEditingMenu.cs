@@ -108,6 +108,7 @@ public partial class ProfileEditingMenu : Control
 
 	private string GetSelectedFaceID()
 	{
+		var currentProfile = PlayerProfileManager.Instance.CurrentProfile;
 		var selected = playerFaceList.GetSelectedItems();
 		if (selected.Length > 0)
 		{
@@ -116,7 +117,7 @@ public partial class ProfileEditingMenu : Control
 			GD.Print("Selected item name: " + faceID);
 			return faceID;
 		}
-		return null;
+		return currentProfile.PlayerFaceId;
 	}
 	#endregion
 	//Placeholder to test name generation, this random name generation should only happen when there is no existing player profile.
