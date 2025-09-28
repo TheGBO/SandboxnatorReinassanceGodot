@@ -828,7 +828,6 @@ hotBar = NodePath("../../HUD/HotBar")
 script = ExtResource("14_a5byf")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
-delta_interval = 0.013
 replication_config = SubResource("SceneReplicationConfig_bglb2")
 
 [node name="NameTagHolder" type="Marker3D" parent="."]

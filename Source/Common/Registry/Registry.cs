@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 namespace NullCyan.Util;
 
 public class Registry<T>
@@ -26,6 +27,19 @@ public class Registry<T>
             throw new Exception($"[Registry<{typeof(T).Name}>] Entry '{id}' not found.");
 
         return value;
+    }
+
+    /// <summary>
+    /// Gets a random entry from this registry
+    /// </summary>
+    /// <returns></returns>
+    public KeyValuePair<string, T> GetRandomEntry()
+    {
+        if (_entries.Count == 0)
+            throw new InvalidOperationException($"[Registry<{typeof(T).Name}>] Cannot get random entry from empty registry");
+
+        var randomIndex = Random.Shared.Next(_entries.Count);
+        return _entries.ElementAt(randomIndex);
     }
 
     /// <summary>

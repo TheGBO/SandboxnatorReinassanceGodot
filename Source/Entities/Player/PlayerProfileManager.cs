@@ -22,29 +22,14 @@ public partial class PlayerProfileManager : Singleton<PlayerProfileManager>
 		if (CurrentProfile == null)
 		{
 			//Generate and set randomized profile
+			// Using proper methods to randomize player profiles now
+			NcLogger.Log("Randomizing player profile...");
 			PlayerProfileData randomizedProfile = new();
-			randomizedProfile.PlayerName = FillNameField();
-			randomizedProfile.PlayerColor = new(GD.Randf(), GD.Randf(), GD.Randf());
+			randomizedProfile.RandomizeProfile();
 			CurrentProfile = randomizedProfile;
 		}
 	}
 
-	private string FillNameField()
-	{
-		NameGenerator nameGen = NameGenerator.Create();
-		GD.Randomize();
-		if (GD.Randf() >= 0.5)
-		{
-			nameGen.UseWesternPatterns();
-		}
-		else
-		{
-			nameGen.UseSimplePatterns();
-		}
-		string name = nameGen.GenerateName();
-		string nameCorrected = char.ToUpper(name[0]) + name.Substring(1);
-		NcLogger.Log($"Randomly generated name: {nameCorrected}");
-		return nameCorrected;
-	}
+
 
 }
