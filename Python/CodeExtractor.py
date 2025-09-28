@@ -3,7 +3,7 @@ import os
 
 root_dir = "../"
 
-output_file = "Docs/AllScripts.txt"
+output_file = "AllScripts.txt"
 
 with open(output_file, "w", encoding="utf-8") as outfile:
     for dirpath, dirnames, filenames in os.walk(root_dir):

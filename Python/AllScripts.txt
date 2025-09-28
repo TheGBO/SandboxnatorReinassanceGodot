@@ -1,4 +1,4 @@
-// ===== ./Source/Entities/Buildings/Snapper.cs =====
+// ===== ../Source/Entities/Buildings/Snapper.cs =====
 
 using Godot;
 using System;
@@ -38,7 +38,7 @@ public partial class Snapper : Node3D
 }
 
 
-// ===== ./Source/Entities/Buildings/Placeable.cs =====
+// ===== ../Source/Entities/Buildings/Placeable.cs =====
 
 using Godot;
 using System;
@@ -54,7 +54,7 @@ public partial class Placeable : RigidBody3D
 }
 
 
-// ===== ./Source/Entities/Player/PlayerProfileData.cs =====
+// ===== ../Source/Entities/Player/PlayerProfileData.cs =====
 
 using Godot;
 using Godot.Collections;
@@ -96,7 +96,36 @@ public partial class PlayerProfileData
 
 
 
-// ===== ./Source/Entities/Player/PlayerMovementType.cs =====
+// ===== ../Source/Entities/Player/PlayerItemSync.cs =====
+
+using Godot;
+using NullCyan.Util.ComponentSystem;
+
+namespace NullCyan.Sandboxnator.Entity;
+//TODO: Make a basic abstract synchronize class to handle stuff
+public partial class PlayerItemSync : AbstractComponent<Player>
+{
+    /// <summary>
+    /// Called only by the server to push item state to all clients.
+    /// </summary>
+    public void ServerForceSync(string itemId)
+    {
+        //broadcast the item id and trigger update
+        Rpc(nameof(S2C_SetItem), itemId);
+    }
+
+    [Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
+    private void S2C_SetItem(string itemId)
+    {
+        //GD.Print(itemId);
+        var itemUse = ComponentParent.playerItemUse;
+        if (itemUse != null)
+            itemUse.SetItemFromNetwork(itemId);
+    }
+}
+
+
+// ===== ../Source/Entities/Player/PlayerMovementType.cs =====
 
 using Godot;
 
@@ -109,7 +138,7 @@ public enum PlayerMovementType : uint
     Sprint
 }
 
-// ===== ./Source/Entities/Player/CameraMovement.cs =====
+// ===== ../Source/Entities/Player/CameraMovement.cs =====
 
 using Godot;
 using System;
@@ -165,7 +194,7 @@ public partial class CameraMovement : AbstractComponent<Player>, ISettingsLoader
 }
 
 
-// ===== ./Source/Entities/Player/PlayerHUD.cs =====
+// ===== ../Source/Entities/Player/PlayerHUD.cs =====
 
 using Godot;
 using NullCyan.Sandboxnator.Network;
@@ -219,7 +248,7 @@ public partial class PlayerHUD : AbstractComponent<Player>
 }
 
 
-// ===== ./Source/Entities/Player/HandSway.cs =====
+// ===== ../Source/Entities/Player/HandSway.cs =====
 
 using Godot;
 using System;
@@ -261,7 +290,7 @@ public partial class HandSway : AbstractComponent<Player>
 }
 
 
-// ===== ./Source/Entities/Player/PlayerInput.cs =====
+// ===== ../Source/Entities/Player/PlayerInput.cs =====
 
 using Godot;
 using System;
@@ -417,7 +446,7 @@ public partial class PlayerInput : AbstractComponent<Player>
 }
 
 
-// ===== ./Source/Entities/Player/PlayerChatHud.cs =====
+// ===== ../Source/Entities/Player/PlayerChatHud.cs =====
 
 using Godot;
 using System;
@@ -504,7 +533,7 @@ public partial class PlayerChatHud : AbstractComponent<Player>
 }
 
 
-// ===== ./Source/Entities/Player/PlayerMovement.cs =====
+// ===== ../Source/Entities/Player/PlayerMovement.cs =====
 
 using Godot;
 using NullCyan.Sandboxnator.Registry;
@@ -667,7 +696,7 @@ public partial class PlayerMovement : AbstractComponent<Player>, ISettingsLoader
 }
 
 
-// ===== ./Source/Entities/Player/Player.cs =====
+// ===== ../Source/Entities/Player/Player.cs =====
 
 using Godot;
 using System;
@@ -686,6 +715,9 @@ public partial class Player : CharacterBody3D
 	[Export] public CharacterBody3D characterBody;
 	[Export] public PlayerMovement playerMovement;
 	[Export] public CameraMovement cameraMovement;
+	[Export] public PlayerItemUse playerItemUse;
+	[Export] public PlayerItemSync playerItemSync;
+
 	[Export] public PlayerInput playerInput;
 	[Export] public PlayerChatHud chatHud;
 	[Export] public PlayerVisualSync visuals;
@@ -725,7 +757,7 @@ public partial class Player : CharacterBody3D
 }
 
 
-// ===== ./Source/Entities/Player/PlayerVisualSync.cs =====
+// ===== ../Source/Entities/Player/PlayerVisualSync.cs =====
 
 using Godot;
 using Godot.Collections;
@@ -871,7 +903,7 @@ public partial class PlayerVisualSync : AbstractComponent<Player>
 
 
 
-// ===== ./Source/Entities/Player/PlayerProfileManager.cs =====
+// ===== ../Source/Entities/Player/PlayerProfileManager.cs =====
 
 using Godot;
 using System.Collections.Generic;
@@ -925,51 +957,51 @@ public partial class PlayerProfileManager : Singleton<PlayerProfileManager>
 }
 
 
-// ===== ./Source/Entities/Player/PlayerItemUse.cs =====
+// ===== ../Source/Entities/Player/PlayerItemUse.cs =====
 
 using Godot;
-using Godot.Collections;
 using NullCyan.Sandboxnator.Item;
 using NullCyan.Sandboxnator.Registry;
-using System;
-using System.Collections.Generic;
+using NullCyan.Sandboxnator.WorldAndScenes;
 using NullCyan.Util.ComponentSystem;
-using NullCyan.Util;
-using NullCyan.Util.GodotHelpers;
 using NullCyan.Util.IO;
+using NullCyan.Util.Log;
+using System;
+
 namespace NullCyan.Sandboxnator.Entity;
 
-
-/// <summary>
-/// Class that represents the player's tools and inventory, functionality and data.
-/// </summary>
-[GodotClassName(nameof(PlayerItemUse))]
-[Icon("res://GameContent/Items/Hammer/HammerIcon.png")]
 public partial class PlayerItemUse : AbstractComponent<Player>
 {
 	[Export] public RayCast3D rayCast;
 	[Export] public Node3D hand;
 	[Export] private AnimationPlayer handAnimator;
-	//The resource for loading the tool
-	//TODO: add inventory data structure and remove hard-coded tool ID
-	[Export] private Array<string> inventory = [];
-	[Export] private string currentItemID;
+
+	[Export] private Godot.Collections.Array<string> inventory = [];
+	private string currentItemID;
 	private int inventoryIndex;
-	//runtime tool reference
+
 	private BaseItem item;
-	//desired rotation
 	public Vector3 desiredRotation = new();
 	[Export] public bool isUseValid = false;
 	private float rotationIncrement = 45f;
 	private bool canUseItem = true;
 
+	public string CurrentItemID => currentItemID;
+
 	public override void _Ready()
 	{
-		currentItemID = inventory[0];
-		if (!ComponentParent.IsMultiplayerAuthority()) return;
-		//send message to server requesting tool synchronization
+		currentItemID = inventory.Count > 0 ? inventory[0] : "";
 		SetupInput();
 		UpdateItemModelAndData();
+
+		// When a player joins, server enforces the correct item
+		if (Multiplayer.IsServer() && World.HasInstance())
+		{
+			World.Instance.OnPlayerJoin += (long _) =>
+			{
+				ComponentParent.playerItemSync.ServerForceSync(currentItemID);
+			};
+		}
 	}
 
 	private void SetupInput()
@@ -983,48 +1015,56 @@ public partial class PlayerItemUse : AbstractComponent<Player>
 			desiredRotation.Y += rotationIncrement * (Mathf.Pi / 180);
 		};
 		ComponentParent.playerInput.UsePrimary += ClientUse;
-		ComponentParent.playerInput.UseIncrement += () =>
-		{
-			CycleItem(1);
-		};
-		ComponentParent.playerInput.UseDecrement += () =>
-		{
-			CycleItem(-1);
-		};
+		ComponentParent.playerInput.UseIncrement += () => RequestCycleItem(1);
+		ComponentParent.playerInput.UseDecrement += () => RequestCycleItem(-1);
 	}
 
-
-	private void CycleItem(int increment)
+	/// <summary>
+	/// Instead of changing immediately, client asks server for item switch.
+	/// </summary>
+	private void RequestCycleItem(int increment)
 	{
+		RpcId(1, nameof(C2S_RequestCycleItem), increment);
+	}
+
+	// Set from client to run in the server.
+	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
+	private void C2S_RequestCycleItem(int increment)
+	{
+		// Server validates
+		if (inventory.Count == 0) return;
+
 		inventoryIndex += increment;
 		currentItemID = inventory[Mathf.Abs(inventoryIndex % inventory.Count)];
 
+		// Update server-side
 		UpdateItemModelAndData();
+
+		// Tell all clients
+		ComponentParent.playerItemSync.ServerForceSync(currentItemID);
 	}
 
-	//Use tools
 	public void ClientUse()
 	{
 		if (!rayCast.IsColliding()) return;
 
 		Vector3 collisionPoint = rayCast.GetCollisionPoint();
 		Vector3 normal = rayCast.GetCollisionNormal();
-		ItemUsageArgs itemUsageArgs = new()
+
+		ItemUsageArgs args = new()
 		{
 			PlayerId = ComponentParent.componentHolder.entityId,
 			DesiredRotation = desiredRotation,
 			Normal = normal,
 			Position = collisionPoint
 		};
-		byte[] usageArgsBytes = MPacker.Pack(itemUsageArgs);
-		//Request to the server the usage of this item.
-		RpcId(1, nameof(C2S_Use), usageArgsBytes);
+
+		// Send usage request to server
+		RpcId(1, nameof(C2S_Use), MPacker.Pack(args));
 
 		handAnimator.Stop();
 		if (item.animateHand)
-		{
 			handAnimator.Play("HandUse");
-		}
 	}
 
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
@@ -1036,38 +1076,33 @@ public partial class PlayerItemUse : AbstractComponent<Player>
 			canUseItem = false;
 
 			SceneTreeTimer coolDownTimer = GetTree().CreateTimer(item.usageCooldown);
-			coolDownTimer.Timeout += () =>
-			{
-				canUseItem = true;
-			};
+			coolDownTimer.Timeout += () => canUseItem = true;
 		}
 	}
 
-
-	private void UpdateItemModelAndData()
+	public void UpdateItemModelAndData()
 	{
-		Node model = hand.GetChildOrNull<Node>(0);
-		if (model != null)
-		{
+		foreach (var model in hand.GetChildren())
 			model.QueueFree();
-		}
+
+		if (string.IsNullOrEmpty(currentItemID))
+			return;
+
 		ItemData itemResource = GameRegistries.Instance.ItemRegistry.Get(currentItemID);
-		BaseItem loadedItem = itemResource.itemScene.Instantiate<BaseItem>();
-		item = loadedItem;
+		item = itemResource.itemScene.Instantiate<BaseItem>();
 		item.ItemUser = this;
-		hand.AddChild(loadedItem);
+		hand.AddChild(item);
 	}
 
-	private void _on_multiplayer_synchronizer_synchronized()
+	public void SetItemFromNetwork(string itemId)
 	{
-		//TODO: Optimize synchronization
+		currentItemID = itemId;
 		UpdateItemModelAndData();
 	}
-
 }
 
 
-// ===== ./Source/Entities/Player/PlayerFaceData.cs =====
+// ===== ../Source/Entities/Player/PlayerFaceData.cs =====
 
 using Godot;
 using System;
@@ -1084,7 +1119,7 @@ public partial class PlayerFaceData : Resource
 }
 
 
-// ===== ./Source/Chat/ChatMessage.cs =====
+// ===== ../Source/Chat/ChatMessage.cs =====
 
 using Godot;
 using Godot.Collections;
@@ -1108,7 +1143,7 @@ public partial class ChatMessage
 
 }
 
-// ===== ./Source/Chat/ChatManager.cs =====
+// ===== ../Source/Chat/ChatManager.cs =====
 
 using Godot;
 using System;
@@ -1198,7 +1233,7 @@ public partial class ChatManager : Singleton<ChatManager>
 }
 
 
-// ===== ./Source/Common/Registry/IRegistryManager.cs =====
+// ===== ../Source/Common/Registry/IRegistryManager.cs =====
 
 namespace NullCyan.Util;
 
@@ -1210,7 +1245,7 @@ public interface IRegistryManager
     public void Register();
 }
 
-// ===== ./Source/Common/Registry/Registry.cs =====
+// ===== ../Source/Common/Registry/Registry.cs =====
 
 using System;
 using System.Collections.Generic;
@@ -1259,7 +1294,7 @@ public class Registry<T>
 }
 
 
-// ===== ./Source/Common/ComponentSystem/IComponent.cs =====
+// ===== ../Source/Common/ComponentSystem/IComponent.cs =====
 
 namespace NullCyan.Util.ComponentSystem;
 
@@ -1269,7 +1304,7 @@ public interface IComponent
 }
 
 
-// ===== ./Source/Common/ComponentSystem/ComponentHolder.cs =====
+// ===== ../Source/Common/ComponentSystem/ComponentHolder.cs =====
 
 using Godot;
 namespace NullCyan.Util.ComponentSystem;
@@ -1306,7 +1341,7 @@ public partial class ComponentHolder : Node
 }
 
 
-// ===== ./Source/Common/ComponentSystem/AbstractComponent.cs =====
+// ===== ../Source/Common/ComponentSystem/AbstractComponent.cs =====
 
 using Godot;
 using NullCyan.Util.Log;
@@ -1337,7 +1372,7 @@ public abstract partial class AbstractComponent<T> : Node3D, IComponent where T 
 }
 
 
-// ===== ./Source/Common/Utils/StringUtils.cs =====
+// ===== ../Source/Common/Utils/StringUtils.cs =====
 
 namespace NullCyan.Util;
 
@@ -1356,7 +1391,7 @@ public static class StringUtils
 }
 
 
-// ===== ./Source/Common/Utils/NameGenerator.cs =====
+// ===== ../Source/Common/Utils/NameGenerator.cs =====
 
 using System;
 using Godot;
@@ -1505,7 +1540,7 @@ public class NameGenerator
     }
 }
 
-// ===== ./Source/Common/Utils/Log/NcLogger.cs =====
+// ===== ../Source/Common/Utils/Log/NcLogger.cs =====
 
 using System;
 using Godot;
@@ -1575,7 +1610,7 @@ public static class NcLogger
 }
 
 
-// ===== ./Source/Common/Utils/GodotHelpers/ColorAndMeshUtils.cs =====
+// ===== ../Source/Common/Utils/GodotHelpers/ColorAndMeshUtils.cs =====
 
 using Godot;
 using System;
@@ -1634,7 +1669,7 @@ class ColorAndMeshUtils
 
 
 
-// ===== ./Source/Common/Utils/GodotHelpers/Singleton.cs =====
+// ===== ../Source/Common/Utils/GodotHelpers/Singleton.cs =====
 
 using System;
 using Godot;
@@ -1678,7 +1713,7 @@ public abstract partial class Singleton<T> : Node where T : Singleton<T>
 }
 
 
-// ===== ./Source/Common/Utils/GodotHelpers/NodeUtils.cs =====
+// ===== ../Source/Common/Utils/GodotHelpers/NodeUtils.cs =====
 
 using System.Collections.Generic;
 using Godot;
@@ -1701,7 +1736,7 @@ public class NodeUtils
     }
 }
 
-// ===== ./Source/Common/Utils/GodotHelpers/PlatformCheck.cs =====
+// ===== ../Source/Common/Utils/GodotHelpers/PlatformCheck.cs =====
 
 using Godot;
 namespace NullCyan.Util.GodotHelpers;
@@ -1721,7 +1756,7 @@ public static class PlatformCheck
     }
 }
 
-// ===== ./Source/Common/Utils/IO/MPacker.cs =====
+// ===== ../Source/Common/Utils/IO/MPacker.cs =====
 
 using MessagePack;
 using MessagePack.Resolvers;
@@ -1760,7 +1795,7 @@ public static class MPacker
 }
 
 
-// ===== ./Source/Common/Utils/IO/SaveFolder.cs =====
+// ===== ../Source/Common/Utils/IO/SaveFolder.cs =====
 
 namespace NullCyan.Util.IO;
 
@@ -1775,7 +1810,7 @@ public enum SaveFolder
 }
 
 
-// ===== ./Source/Common/Utils/IO/SaveLoader.cs =====
+// ===== ../Source/Common/Utils/IO/SaveLoader.cs =====
 
 using Godot;
 using NullCyan.Sandboxnator.Registry;
@@ -1963,7 +1998,7 @@ public partial class SaveLoader : Singleton<SaveLoader>
 }
 
 
-// ===== ./Source/Common/Utils/IO/ResourceIO.cs =====
+// ===== ../Source/Common/Utils/IO/ResourceIO.cs =====
 
 using System.Collections.Generic;
 using Godot;
@@ -2053,7 +2088,7 @@ public class ResourceIO
     }
 }
 
-// ===== ./Source/Commands/ChatCommand.cs =====
+// ===== ../Source/Commands/ChatCommand.cs =====
 
 using System;
 
@@ -2092,7 +2127,7 @@ public class ChatCommand()
 
 }
 
-// ===== ./Source/Commands/CmdExecutionType.cs =====
+// ===== ../Source/Commands/CmdExecutionType.cs =====
 
 namespace NullCyan.Sandboxnator.Commands;
 
@@ -2105,7 +2140,7 @@ public enum CmdExecutionType
     CLIENT
 }
 
-// ===== ./Source/Commands/CommandContext.cs =====
+// ===== ../Source/Commands/CommandContext.cs =====
 
 using NullCyan.Sandboxnator.Chat;
 using NullCyan.Sandboxnator.Entity;
@@ -2138,7 +2173,7 @@ public class CommandContext
 
 }
 
-// ===== ./Source/Network/NetworkManager/NetworkManager.cs =====
+// ===== ../Source/Network/NetworkManager/NetworkManager.cs =====
 
 using Godot;
 using System;
@@ -2331,7 +2366,7 @@ namespace NullCyan.Sandboxnator.Network
 }
 
 
-// ===== ./Source/Settings/ISettingsLoader.cs =====
+// ===== ../Source/Settings/ISettingsLoader.cs =====
 
 using NullCyan.Sandboxnator.Registry;
 
@@ -2349,7 +2384,7 @@ public interface ISettingsLoader
     }
 }
 
-// ===== ./Source/Settings/GameSettingsData.cs =====
+// ===== ../Source/Settings/GameSettingsData.cs =====
 
 using Godot;
 
@@ -2369,7 +2404,7 @@ public partial class GameSettingsData : Resource
     //[ExportCategory("Graphics")]
 }
 
-// ===== ./Source/Items/BaseItem.cs =====
+// ===== ../Source/Items/BaseItem.cs =====
 
 using Godot;
 using NullCyan.Sandboxnator.Entity;
@@ -2394,7 +2429,7 @@ public partial class BaseItem : Node3D
 }
 
 
-// ===== ./Source/Items/PreviewCollider.cs =====
+// ===== ../Source/Items/PreviewCollider.cs =====
 
 using Godot;
 using System;
@@ -2406,7 +2441,7 @@ public partial class PreviewCollider : Area3D
 }
 
 
-// ===== ./Source/Items/ItemUsageArgs.cs =====
+// ===== ../Source/Items/ItemUsageArgs.cs =====
 
 using Godot;
 using Godot.Collections;
@@ -2438,7 +2473,7 @@ public partial class ItemUsageArgs
         => $"Item usage args | Pos={Position}, Normal={Normal}, PlayerId={PlayerId}";
 }
 
-// ===== ./Source/Items/PlacingItem.cs =====
+// ===== ../Source/Items/PlacingItem.cs =====
 
 using Godot;
 using System;
@@ -2498,7 +2533,7 @@ public partial class PlacingItem : BaseItem
 }
 
 
-// ===== ./Source/Items/ItemData.cs =====
+// ===== ../Source/Items/ItemData.cs =====
 
 using Godot;
 using System;
@@ -2520,7 +2555,7 @@ public partial class ItemData : Resource
 }
 
 
-// ===== ./GameContent/Registry/GameRegistries.cs =====
+// ===== ../GameContent/Registry/GameRegistries.cs =====
 
 using Godot;
 using System;
@@ -2587,7 +2622,7 @@ public partial class GameRegistries : Singleton<GameRegistries>
     }
 }
 
-// ===== ./GameContent/Registry/PlayerFaceRegistryManager.cs =====
+// ===== ../GameContent/Registry/PlayerFaceRegistryManager.cs =====
 
 using System.Collections.Generic;
 using System.Linq;
@@ -2620,7 +2655,7 @@ public class PlayerFaceRegistryManager : IRegistryManager
     public static Texture2D GetTextureByFaceId(string id) => GameRegistries.Instance.PlayerFaceRegistry.Get(id).faceTexture;
 }
 
-// ===== ./GameContent/Registry/ItemRegistryManager.cs =====
+// ===== ../GameContent/Registry/ItemRegistryManager.cs =====
 
 using NullCyan.Util;
 using Godot;
@@ -2670,7 +2705,7 @@ public partial class ItemRegistryManager : IRegistryManager
 }
 
 
-// ===== ./GameContent/Registry/CommandRegistryManager.cs =====
+// ===== ../GameContent/Registry/CommandRegistryManager.cs =====
 
 using System.Linq;
 using Godot;
@@ -2749,7 +2784,7 @@ public class CommandRegistryManager : IRegistryManager
     }
 }
 
-// ===== ./GameContent/Buildings/Bulb/Bulb.cs =====
+// ===== ../GameContent/Buildings/Bulb/Bulb.cs =====
 
 using Godot;
 using System;
@@ -2760,7 +2795,7 @@ public partial class Bulb : Placeable
 }
 
 
-// ===== ./GameContent/Commands/CommandPlayers.cs =====
+// ===== ../GameContent/Commands/CommandPlayers.cs =====
 
 using NullCyan.Sandboxnator.Entity;
 using NullCyan.Sandboxnator.Registry;
@@ -2788,7 +2823,7 @@ public class CommandPlayers : ChatCommand, IChatCommand
     }
 }
 
-// ===== ./GameContent/Commands/CommandGetPos.cs =====
+// ===== ../GameContent/Commands/CommandGetPos.cs =====
 
 using NullCyan.Sandboxnator.Entity;
 using NullCyan.Sandboxnator.Registry;
@@ -2838,7 +2873,7 @@ public class CommandGetPos : ChatCommand, IChatCommand
     }
 }
 
-// ===== ./GameContent/Commands/CommandHelp.cs =====
+// ===== ../GameContent/Commands/CommandHelp.cs =====
 
 using NullCyan.Sandboxnator.Registry;
 
@@ -2864,7 +2899,7 @@ public class CommandHelp : ChatCommand, IChatCommand
     }
 }
 
-// ===== ./GameContent/Commands/IChatCommand.cs =====
+// ===== ../GameContent/Commands/IChatCommand.cs =====
 
 namespace NullCyan.Sandboxnator.Commands;
 
@@ -2873,7 +2908,7 @@ public interface IChatCommand
     void Handle(CommandContext ctx);
 }
 
-// ===== ./GameContent/Items/Hammer/Hammer.cs =====
+// ===== ../GameContent/Items/Hammer/Hammer.cs =====
 
 using Godot;
 using NullCyan.Sandboxnator.Building;
@@ -2894,7 +2929,7 @@ public partial class Hammer : BaseItem
 }
 
 
-// ===== ./.godot/mono/temp/obj/Debug/.NETCoreApp,Version=v8.0.AssemblyAttributes.cs =====
+// ===== ../.godot/mono/temp/obj/Debug/.NETCoreApp,Version=v8.0.AssemblyAttributes.cs =====
 
 // <autogenerated />
 using System;
@@ -2902,7 +2937,7 @@ using System.Reflection;
 [assembly: global::System.Runtime.Versioning.TargetFrameworkAttribute(".NETCoreApp,Version=v8.0", FrameworkDisplayName = ".NET 8.0")]
 
 
-// ===== ./.godot/mono/temp/obj/Debug/Sandboxnator Reinassance Godot.AssemblyInfo.cs =====
+// ===== ../.godot/mono/temp/obj/Debug/Sandboxnator Reinassance Godot.AssemblyInfo.cs =====
 
 //------------------------------------------------------------------------------
 // <auto-generated>
@@ -2919,7 +2954,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Sandboxnator Reinassance Godot")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b074caa4751d9596243dae624fbfeb3d191d3c8f")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7b95bfc3064797333963d596426283fbe7fe031f")]
 [assembly: System.Reflection.AssemblyProductAttribute("Sandboxnator Reinassance Godot")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Sandboxnator Reinassance Godot")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
@@ -2928,7 +2963,7 @@ using System.Reflection;
 
 
 
-// ===== ./World/World.cs =====
+// ===== ../World/World.cs =====
 
 using Godot;
 using Godot.Collections;
@@ -3046,7 +3081,7 @@ public partial class World : Singleton<World>
 }
 
 
-// ===== ./World/PlayerManager.cs =====
+// ===== ../World/PlayerManager.cs =====
 
 using Godot;
 using System;
@@ -3136,7 +3171,8 @@ public partial class PlayerManager : Singleton<PlayerManager>
 		}
 	}
 
-	//run on server to check if player position is synchronized
+	// Call from a client to run on server to check if player position is synchronized
+	// I have no idea why this has to be AnyPeer but whatever.
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
 	private void C2S_PositionCheck(Vector3 position, string playerId)
 	{
@@ -3145,7 +3181,7 @@ public partial class PlayerManager : Singleton<PlayerManager>
 }
 
 
-// ===== ./World/ScenesBank/ScenesBank.cs =====
+// ===== ../World/ScenesBank/ScenesBank.cs =====
 
 using Godot;
 using NullCyan.Sandboxnator.UI;
@@ -3168,7 +3204,7 @@ public partial class ScenesBank : Singleton<ScenesBank>
 }
 
 
-// ===== ./UI/UiSoundType.cs =====
+// ===== ../UI/UiSoundType.cs =====
 
 namespace NullCyan.Sandboxnator.UI;
 
@@ -3179,7 +3215,7 @@ public enum UiSoundType
     PopUp
 }
 
-// ===== ./UI/UiSoundManager.cs =====
+// ===== ../UI/UiSoundManager.cs =====
 
 using Godot;
 using System;
@@ -3258,7 +3294,7 @@ public partial class UiSoundManager : Singleton<UiSoundManager>
 }
 
 
-// ===== ./UI/Profile/ProfileEditingMenu.cs =====
+// ===== ../UI/Profile/ProfileEditingMenu.cs =====
 
 using Godot;
 using Godot.Collections;
@@ -3387,7 +3423,7 @@ public partial class ProfileEditingMenu : Control
 }
 
 
-// ===== ./UI/MainMenu/MainMenu.cs =====
+// ===== ../UI/MainMenu/MainMenu.cs =====
 
 using Godot;
 using System;
@@ -3440,7 +3476,7 @@ public partial class MainMenu : Control
 }
 
 
-// ===== ./UI/MultiplayerMenu/MultiplayerMenu.cs =====
+// ===== ../UI/MultiplayerMenu/MultiplayerMenu.cs =====
 
 using Godot;
 using NullCyan.Sandboxnator.Network;

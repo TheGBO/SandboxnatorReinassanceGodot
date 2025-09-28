@@ -66,7 +66,8 @@ public partial class PlayerItemUse : AbstractComponent<Player>
 		RpcId(1, nameof(C2S_RequestCycleItem), increment);
 	}
 
-	[Rpc(MultiplayerApi.RpcMode.Authority, CallLocal = true)]
+	// Set from client to run in the server.
+	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
 	private void C2S_RequestCycleItem(int increment)
 	{
 		// Server validates
@@ -105,7 +106,7 @@ public partial class PlayerItemUse : AbstractComponent<Player>
 			handAnimator.Play("HandUse");
 	}
 
-	[Rpc(MultiplayerApi.RpcMode.Authority, CallLocal = true)]
+	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
 	private void C2S_Use(byte[] usageArgsBytes)
 	{
 		if (canUseItem)

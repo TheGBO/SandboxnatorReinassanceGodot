@@ -86,7 +86,8 @@ public partial class PlayerManager : Singleton<PlayerManager>
 		}
 	}
 
-	//run on server to check if player position is synchronized
+	// Call from a client to run on server to check if player position is synchronized
+	// I have no idea why this has to be AnyPeer but whatever.
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
 	private void C2S_PositionCheck(Vector3 position, string playerId)
 	{
