@@ -1,8 +1,12 @@
-[gd_scene load_steps=4 format=3 uid="uid://cu2vloh7mq55n"]
+[gd_scene load_steps=5 format=3 uid="uid://cu2vloh7mq55n"]
 
 [ext_resource type="Script" uid="uid://dfcphkg5bitd8" path="res://UI/Profile/ProfileEditingMenu.cs" id="1_4fqg0"]
-[ext_resource type="Texture2D" uid="uid://6aop4rk3parb" path="res://Source/Entities/Player/Assets/NewPlayerModel/player_texture_0.png" id="5_k8yag"]
-[ext_resource type="Texture2D" uid="uid://bwynw0jew518v" path="res://GameContent/Skins/_Textures/uwu.png" id="6_luaw6"]
+[ext_resource type="Texture2D" uid="uid://c02jivmdni2ip" path="res://Assets/Textures/Components/component.png" id="3_xmniq"]
+[ext_resource type="PackedScene" uid="uid://bvk2qsd5vogiv" path="res://Source/Entities/Player/PlayerModel.tscn" id="4_4fqg0"]
+
+[sub_resource type="Environment" id="Environment_8rpsp"]
+background_mode = 1
+background_color = Color(1, 1, 1, 0)
 
 [node name="ProfileEditingMenu" type="Control" node_paths=PackedStringArray("nameEdit", "backgroundPreview", "playerFacePreview", "colorEdit", "saveButton", "playerFaceList")]
 layout_mode = 3
@@ -13,8 +17,8 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_4fqg0")
 nameEdit = NodePath("RootPanel/Panel/ContainerContainer/VBoxContainer/NameContaner/NameEdit")
-backgroundPreview = NodePath("RootPanel/Panel/ContainerContainer/MarginContainer/BackgroundPreview")
-playerFacePreview = NodePath("RootPanel/Panel/ContainerContainer/MarginContainer/FacePreview")
+backgroundPreview = NodePath("")
+playerFacePreview = NodePath("")
 colorEdit = NodePath("RootPanel/Panel/ContainerContainer/VBoxContainer/ColorContainer/ColorPicker")
 saveButton = NodePath("RootPanel/Panel/ContainerContainer/VBoxContainer/SaveAndReturnBtn")
 playerFaceList = NodePath("RootPanel/Panel/ContainerContainer/VBoxContainer/PlayerFaceListContainer/ItemList")
@@ -29,15 +33,13 @@ grow_vertical = 2
 
 [node name="Panel" type="Panel" parent="RootPanel"]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -526.0
-offset_top = -283.5
-offset_right = 526.0
-offset_bottom = 283.5
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 26.0
+offset_top = 26.0
+offset_right = -67.0
+offset_bottom = -44.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -94,22 +96,67 @@ text = "Save and return to main menu"
 [node name="MarginContainer" type="MarginContainer" parent="RootPanel/Panel/ContainerContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_constants/margin_left = 130
-theme_override_constants/margin_top = 96
-theme_override_constants/margin_right = 166
-theme_override_constants/margin_bottom = 96
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
 
-[node name="BackgroundPreview" type="TextureRect" parent="RootPanel/Panel/ContainerContainer/MarginContainer"]
+[node name="SubViewportContainer" type="SubViewportContainer" parent="RootPanel/Panel/ContainerContainer/MarginContainer"]
+layout_mode = 2
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="RootPanel/Panel/ContainerContainer/MarginContainer/SubViewportContainer"]
+transparent_bg = true
+size = Vector2i(310, 548)
+
+[node name="PlayerModelPreviewingScene" type="Node3D" parent="RootPanel/Panel/ContainerContainer/MarginContainer/SubViewportContainer/SubViewport"]
+
+[node name="Camera3D" type="Camera3D" parent="RootPanel/Panel/ContainerContainer/MarginContainer/SubViewportContainer/SubViewport/PlayerModelPreviewingScene"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.118, 0)
+keep_aspect = 0
+current = true
+size = 6.135
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="RootPanel/Panel/ContainerContainer/MarginContainer/SubViewportContainer/SubViewport/PlayerModelPreviewingScene"]
+environment = SubResource("Environment_8rpsp")
+
+[node name="PlayerModel" parent="RootPanel/Panel/ContainerContainer/MarginContainer/SubViewportContainer/SubViewport/PlayerModelPreviewingScene" instance=ExtResource("4_4fqg0")]
+transform = Transform3D(-1.9999999, 0, -1.7484554e-07, 0, 2, 0, 1.7484554e-07, 0, -1.9999999, 0, 0, -1.685)
+
+[node name="ProfileIO" type="MarginContainer" parent="RootPanel/Panel/ContainerContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-texture = ExtResource("5_k8yag")
-stretch_mode = 6
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
 
-[node name="FacePreview" type="TextureRect" parent="RootPanel/Panel/ContainerContainer/MarginContainer"]
+[node name="Panel" type="Panel" parent="RootPanel/Panel/ContainerContainer/ProfileIO"]
 layout_mode = 2
-size_flags_horizontal = 3
-texture = ExtResource("6_luaw6")
-stretch_mode = 6
+
+[node name="VBoxContainer" type="VBoxContainer" parent="RootPanel/Panel/ContainerContainer/ProfileIO/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Button" type="Button" parent="RootPanel/Panel/ContainerContainer/ProfileIO/Panel/VBoxContainer"]
+layout_mode = 2
+text = "Saved profiles"
+
+[node name="ItemList" type="ItemList" parent="RootPanel/Panel/ContainerContainer/ProfileIO/Panel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+item_count = 3
+fixed_icon_size = Vector2i(64, 64)
+item_0/text = "DUMMY 404"
+item_0/icon = ExtResource("3_xmniq")
+item_1/text = "DUMMY 404"
+item_1/icon = ExtResource("3_xmniq")
+item_2/text = "DUMMY 404"
+item_2/icon = ExtResource("3_xmniq")
 
 [connection signal="text_changed" from="RootPanel/Panel/ContainerContainer/VBoxContainer/NameContaner/NameEdit" to="." method="_on_name_edit_text_changed"]
 [connection signal="color_changed" from="RootPanel/Panel/ContainerContainer/VBoxContainer/ColorContainer/ColorPicker" to="." method="_on_color_picker_color_changed"]
