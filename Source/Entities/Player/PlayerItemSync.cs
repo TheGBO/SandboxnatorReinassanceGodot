@@ -2,7 +2,7 @@ using Godot;
 using NullCyan.Util.ComponentSystem;
 
 namespace NullCyan.Sandboxnator.Entity;
-
+//TODO: Make a basic abstract synchronize class to handle stuff
 public partial class PlayerItemSync : AbstractComponent<Player>
 {
     /// <summary>
