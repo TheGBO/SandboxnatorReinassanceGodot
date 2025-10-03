@@ -14,11 +14,12 @@ namespace NullCyan.Sandboxnator.UI;
 public partial class ProfileEditingMenu : Control
 {
 	[Export] private LineEdit nameEdit;
-	[Export] private TextureRect backgroundPreview;
-	[Export] private TextureRect playerFacePreview;
+	[Export] private PlayerModel playerModelPreview;
+	[Export] private Camera3D previewCamera;
 	[Export] private ColorPicker colorEdit;
 	[Export] private Button saveButton;
 	[Export] private ItemList playerFaceList;
+	private PlayerProfileData _cachedProfile = new();
 
 	public void _on_save_and_return_btn_pressed()
 	{
@@ -28,9 +29,26 @@ public partial class ProfileEditingMenu : Control
 
 	public override void _Ready()
 	{
+		_cachedProfile = PlayerProfileManager.Instance.CurrentProfile;
 		FetchFacesFromRegistry();
 		UpdateUiFromProfile();
 	}
+
+	public override void _Process(double delta)
+	{
+		if (PlatformCheck.IsDesktop())
+		{
+			Viewport viewPort = GetViewport();
+			Vector2 mousePos = viewPort.GetMousePosition();
+			float visibleRect = viewPort.GetVisibleRect().Size.X;
+			float mouseOnScreenRatio = (mousePos.X / visibleRect) - 0.5f;
+			playerModelPreview.GlobalRotation = new(0, mouseOnScreenRatio * Mathf.Pi - Mathf.Pi, 0);
+			GD.Print(mouseOnScreenRatio);
+
+		}
+
+	}
+
 
 	public void OnAlteration()
 	{
@@ -64,31 +82,26 @@ public partial class ProfileEditingMenu : Control
 
 	private void UpdateUiFromUi()
 	{
-		backgroundPreview.Modulate = colorEdit.Color;
-		playerFacePreview.Texture = GetSelectedFaceTexture();
+		_cachedProfile.PlayerName = nameEdit.Text;
+		_cachedProfile.PlayerColor = colorEdit.Color;
+		_cachedProfile.PlayerFaceId = GetSelectedFaceID();
+		playerModelPreview.UpdateVisual(_cachedProfile);
 	}
 
 	private void UpdateUiFromProfile()
 	{
-		var currentProfile = PlayerProfileManager.Instance.CurrentProfile;
 		//name
 		if (!nameEdit.IsEditing())
-			nameEdit.Text = currentProfile.PlayerName;
+			nameEdit.Text = _cachedProfile.PlayerName;
 		//color
-		backgroundPreview.Modulate = currentProfile.PlayerColor;
-		colorEdit.Color = currentProfile.PlayerColor;
-		//texture
-		playerFacePreview.Texture = PlayerFaceRegistryManager.GetTextureByFaceId(currentProfile.PlayerFaceId);
+		colorEdit.Color = _cachedProfile.PlayerColor;
+		playerModelPreview.UpdateVisual(_cachedProfile);
 	}
 
 	private void UpdateProfileFromUI()
 	{
-		var currentProfile = PlayerProfileManager.Instance.CurrentProfile;
-
-		currentProfile.PlayerName = nameEdit.Text;
-		currentProfile.PlayerColor = colorEdit.Color;
-		currentProfile.PlayerFaceId = GetSelectedFaceID();
-		currentProfile.PrintProperties("Updated profile from UI");
+		PlayerProfileManager.Instance.CurrentProfile = _cachedProfile;
+		_cachedProfile.PrintProperties("Updated profile from UI");
 	}
 
 

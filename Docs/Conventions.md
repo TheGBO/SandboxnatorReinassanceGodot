@@ -1,7 +1,8 @@
 ### Naming Conventions
 - ```PascalCase``` Classes, properties, methods, files and folder names, enums, structs.
-- ```camelCase``` Private fields, method arguments and local variables.
+- ```camelCase``` Private fields with the Export attribute, method arguments and local variables.
 - For game registry IDs, both camelCase and PascalCase are acceptable as long as it's consistent within the registry dictionary, if one command is camelCase, all should be, if one item is pascalCase, all should be.
+- ```_underscoreCamelCase``` Truly private fields without external references
 - ```snake_case``` files that have a prefix/suffix such as ui_hover.mp3, ui_interact.mp3, PlayerModel_0
 ### DTO Conventions : 
 - DTO (Data transfer objects) in Sandboxnator are of two types:

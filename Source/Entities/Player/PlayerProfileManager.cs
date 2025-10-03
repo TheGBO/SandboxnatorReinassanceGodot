@@ -14,7 +14,7 @@ namespace NullCyan.Sandboxnator.Entity;
 
 public partial class PlayerProfileManager : Singleton<PlayerProfileManager>
 {
-	public PlayerProfileData CurrentProfile { get; private set; }
+	public PlayerProfileData CurrentProfile { get; set; }
 
 
 	public override void _Ready()
