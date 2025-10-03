@@ -431,7 +431,7 @@ body = NodePath("../..")
 [node name="PlayerItemUse" type="Node3D" parent="ComponentHolder" node_paths=PackedStringArray("rayCast", "hand", "handAnimator")]
 script = ExtResource("9_rtpsh")
 rayCast = NodePath("../../Neck/RayCast3D")
-hand = NodePath("")
+hand = NodePath("../../PlayerModel/Node/Hands/right_H/Hand_R/HoldingPoint/Hand")
 handAnimator = NodePath("HandAnimator")
 inventory = Array[String](["Hammer", "Cube", "LightBulb", "BlackCube"])
 
@@ -452,30 +452,28 @@ notificationSound = NodePath("../../HUD/ChatRoot/NotificationSound")
 [node name="HandSway" type="Node3D" parent="ComponentHolder" node_paths=PackedStringArray("hand")]
 script = ExtResource("11_v2xwv")
 swaySpeed = 3.0
-hand = NodePath("")
+hand = NodePath("../../PlayerModel/Node/Hands/right_H/Hand_R/HoldingPoint/Hand")
 rightSway = Vector3(0, 0.56, 0)
 leftSway = Vector3(0, -0.56, 0)
 swayThreshold = 5.0
 
-[node name="VisualSync" type="Node3D" parent="ComponentHolder" node_paths=PackedStringArray("elementsToHideAsFirstPerson", "nameTag", "modelsToColor", "modelAnimator", "logicalHand", "itemHoldingPoint", "handMesh", "logicalNeck", "visualHead", "arms", "neckAnimator", "faceMesh")]
+[node name="VisualSync" type="Node3D" parent="ComponentHolder" node_paths=PackedStringArray("elementsToHideAsFirstPerson", "logicalNeck", "itemHoldingPoint", "logicalHand", "headHolder", "handsHolder", "neckAnimator", "modelAnimator", "playerModel", "nameTag")]
 script = ExtResource("14_3e0s0")
-elementsToHideAsFirstPerson = [NodePath(""), NodePath("../../NameTagHolder")]
-nameTag = NodePath("../../NameTagHolder/NameTag")
-modelsToColor = [NodePath(""), NodePath(""), NodePath(""), NodePath(""), NodePath("")]
-modelAnimator = NodePath("")
+elementsToHideAsFirstPerson = [NodePath("../../PlayerModel/Node/HeadHolder/Head"), NodePath("../../NameTagHolder"), NodePath("../../PlayerModel/Node/HeadHolder/Face")]
+logicalNeck = NodePath("../../Neck")
+itemHoldingPoint = NodePath("../../PlayerModel/Node/Hands/right_H/Hand_R/HoldingPoint")
+logicalHand = NodePath("../../PlayerModel/Node/Hands/right_H/Hand_R/HoldingPoint/Hand")
+headHolder = NodePath("../../PlayerModel/Node/HeadHolder")
+handsHolder = NodePath("../../PlayerModel/Node/Hands")
 movementTypeAnimation = Dictionary[int, String]({
 0: "IdleAndHold",
 1: "WalkAndHold",
 2: "WalkAndHold"
 })
-logicalHand = NodePath("")
-itemHoldingPoint = NodePath("")
-handMesh = NodePath("")
-logicalNeck = NodePath("../../Neck")
-visualHead = NodePath("")
-arms = NodePath("")
 neckAnimator = NodePath("../../Neck/Camera3D/FovEffectsAnimator")
-faceMesh = NodePath("")
+modelAnimator = NodePath("../../PlayerModel/ModelAnimator")
+playerModel = NodePath("../../PlayerModel")
+nameTag = NodePath("../../NameTagHolder/NameTag")
 
 [node name="PlayerHUD" type="Node3D" parent="ComponentHolder" node_paths=PackedStringArray("chatRoot", "escMenu", "hotBar")]
 script = ExtResource("13_7hef5")
@@ -504,3 +502,5 @@ autowrap_mode = 1
 [connection signal="pressed" from="HUD/EscMenu/MarginContainer/VBoxContainer/LeaveGameBtn" to="ComponentHolder/PlayerHUD" method="_on_leave_game_btn_pressed"]
 [connection signal="pressed" from="HUD/EscMenu/MarginContainer/VBoxContainer/SettingsBtn" to="ComponentHolder/PlayerHUD" method="_on_leave_game_btn_pressed"]
 [connection signal="synchronized" from="MultiplayerSynchronizer" to="ComponentHolder/PlayerItemUse" method="_on_multiplayer_synchronizer_synchronized"]
+
+[editable path="PlayerModel"]
