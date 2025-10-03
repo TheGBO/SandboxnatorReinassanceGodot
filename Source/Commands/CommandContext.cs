@@ -1,5 +1,6 @@
 using NullCyan.Sandboxnator.Chat;
 using NullCyan.Sandboxnator.Entity;
+namespace NullCyan.Sandboxnator.Commands;
 
 public class CommandContext
 {
