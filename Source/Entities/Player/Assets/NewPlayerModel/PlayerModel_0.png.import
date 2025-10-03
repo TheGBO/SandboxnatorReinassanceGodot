@@ -2,20 +2,24 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ojo0i4sevmr2"
-path="res://.godot/imported/Tile.png-ab14b6aea1e95ebdf06a542928eeaaa1.ctex"
+uid="uid://dparaaftp3m75"
+path.s3tc="res://.godot/imported/PlayerModel_0.png-64e5e49073cfba6cc9bc4aebda32a3f6.s3tc.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
+}
+generator_parameters={
+"md5": "729c56e510caf642d58136d93e49f0ae"
 }
 
 [deps]
 
-source_file="res://GameContent/Buildings/Cube/Tile.png"
-dest_files=["res://.godot/imported/Tile.png-ab14b6aea1e95ebdf06a542928eeaaa1.ctex"]
+source_file="res://Source/Entities/Player/Assets/NewPlayerModel/PlayerModel_0.png"
+dest_files=["res://.godot/imported/PlayerModel_0.png-64e5e49073cfba6cc9bc4aebda32a3f6.s3tc.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0

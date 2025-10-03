@@ -176,7 +176,7 @@ public partial class SaveLoader : Singleton<SaveLoader>
 
     public void SaveToLog(string msg)
     {
-        string fileName = $"{DateTime.Now:yyyyMMdd-HH:mm:ss}.log";
+        string fileName = $"{DateTime.Now:yyyyMMdd-HH:mm:ss}.log".Replace(":", "_");
         WriteTextFile(SaveFolder.Logs, fileName, $"{DateTime.Now:u} {msg}\n", append: true);
     }
 
