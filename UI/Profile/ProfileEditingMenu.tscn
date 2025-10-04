@@ -108,7 +108,7 @@ stretch = true
 [node name="SubViewport" type="SubViewport" parent="RootPanel/Panel/ContainerContainer/MarginContainer/SubViewportContainer"]
 transparent_bg = true
 handle_input_locally = false
-size = Vector2i(310, 548)
+size = Vector2i(655, 548)
 render_target_update_mode = 4
 
 [node name="PlayerModelPreviewingScene" type="Node3D" parent="RootPanel/Panel/ContainerContainer/MarginContainer/SubViewportContainer/SubViewport"]
@@ -126,6 +126,7 @@ environment = SubResource("Environment_8rpsp")
 transform = Transform3D(-1.9999999, 0, -1.7484554e-07, 0, 2, 0, 1.7484554e-07, 0, -1.9999999, 0, 0, -1.685)
 
 [node name="ProfileIO" type="MarginContainer" parent="RootPanel/Panel/ContainerContainer"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/margin_left = 16

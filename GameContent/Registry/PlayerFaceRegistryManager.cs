@@ -15,9 +15,9 @@ public class PlayerFaceRegistryManager : IRegistryManager
 
     public void Register()
     {
-        GD.Print("REGISTAREN FECESFWOGHWAERG)");
+        //GD.Print("REGISTAREN FECESFWOGHWAERG)");
         List<Resource> faceResources = ResourceIO.GetResources<PlayerFaceData>(itemContentsPath);
-        GD.Print(faceResources.Count);
+        //GD.Print(faceResources.Count);
         foreach (PlayerFaceData res in faceResources.Cast<PlayerFaceData>())
         {
             NcLogger.Log($"Valid playerFace resource is {res.playerFaceId}, registering...", NcLogger.LogType.Register);

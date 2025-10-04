@@ -43,8 +43,6 @@ public partial class ProfileEditingMenu : Control
 			float visibleRect = viewPort.GetVisibleRect().Size.X;
 			float mouseOnScreenRatio = (mousePos.X / visibleRect) - 0.5f;
 			playerModelPreview.GlobalRotation = new(0, mouseOnScreenRatio * Mathf.Pi - Mathf.Pi, 0);
-			GD.Print(mouseOnScreenRatio);
-
 		}
 
 	}
@@ -127,7 +125,7 @@ public partial class ProfileEditingMenu : Control
 		{
 			int index = selected[0];
 			string faceID = playerFaceList.GetItemText(index);
-			GD.Print("Selected item name: " + faceID);
+			//GD.Print("Selected item name: " + faceID);
 			return faceID;
 		}
 		return currentProfile.PlayerFaceId;
