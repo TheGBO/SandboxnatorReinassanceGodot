@@ -5,20 +5,20 @@ namespace NullCyan.Util;
 
 public class NameGenerator
 {
-    private Array<string> nameBeginnings;
-    private Array<string> nameEndings;
-    private Array<string> vowels;
-    private Array<string> simpleConsonants;
-    private readonly Random random;
-    private bool useDictedPatterns;
+    private Array<string> _nameBeginnings;
+    private Array<string> _nameEndings;
+    private Array<string> _vowels;
+    private Array<string> _simpleConsonants;
+    private readonly Random _random;
+    private bool _useDictedPatterns;
 
     private NameGenerator()
     {
         // Default to simple patterns
-        useDictedPatterns = false;
+        _useDictedPatterns = false;
 
         // Dicted name elements
-        nameBeginnings = [
+        _nameBeginnings = [
             // Original names
             "Christ", "Joh", "Will", "Ed", "Rich", "Rob", "Thom", "Jam", "Mich", "Dav", "Paddy", "Jos", "Tom",
     "Alex", "Ben", "Charl", "Fran", "Georg", "Hen", "Jac", "Louis", "Matt", "Nathan", "Mat", "Bell",
@@ -70,7 +70,7 @@ public class NameGenerator
     "Zac", "Zay"
         ];
 
-        nameEndings = [
+        _nameEndings = [
             // Original endings
             "neres", "opher", "nathan", "iel", "iam", "ias", "uel", "ard", "ert", "ew", "in", "eph", "el", "lad", "lass",
     "ob", "on", "ory", "uel", "vin", "y", "ty", "dy", "ny", "my", "an", "ord", "bert", "id", "i",
@@ -166,10 +166,10 @@ public class NameGenerator
     "zle", "zo", "zon", "zra", "zzer"
         ];
 
-        vowels = ["a", "e", "i", "o", "u"];
-        simpleConsonants = ["b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "r", "s", "t", "v", "w", "z"];
+        _vowels = ["a", "e", "i", "o", "u"];
+        _simpleConsonants = ["b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "r", "s", "t", "v", "w", "z"];
 
-        random = new();
+        _random = new();
     }
 
     public static NameGenerator Create()
@@ -180,50 +180,50 @@ public class NameGenerator
     // Fluent builder methods
     public NameGenerator UseDictedPatterns()
     {
-        useDictedPatterns = true;
+        _useDictedPatterns = true;
         return this;
     }
 
     public NameGenerator UseSimplePatterns()
     {
-        useDictedPatterns = false;
+        _useDictedPatterns = false;
         return this;
     }
 
     public NameGenerator WithNameBeginnings(Array<string> beginnings)
     {
-        nameBeginnings = beginnings;
+        _nameBeginnings = beginnings;
         return this;
     }
 
     public NameGenerator WithNameEndings(Array<string> endings)
     {
-        nameEndings = endings;
+        _nameEndings = endings;
         return this;
     }
 
     public NameGenerator WithVowels(Array<string> vowels)
     {
-        this.vowels = vowels;
+        this._vowels = vowels;
         return this;
     }
 
     public NameGenerator WithConsonants(Array<string> consonants)
     {
-        simpleConsonants = consonants;
+        _simpleConsonants = consonants;
         return this;
     }
 
     private string GenerateDictedName()
     {
-        if (random.Next(5) > 0)
+        if (_random.Next(5) > 0)
         {
-            string beginning = nameBeginnings[random.Next(nameBeginnings.Count)];
-            string ending = nameEndings[random.Next(nameEndings.Count)];
+            string beginning = _nameBeginnings[_random.Next(_nameBeginnings.Count)];
+            string ending = _nameEndings[_random.Next(_nameEndings.Count)];
 
             if (IsConsonant(beginning[beginning.Length - 1]) && IsConsonant(ending[0]))
             {
-                string vowelBridge = vowels[random.Next(vowels.Count)];
+                string vowelBridge = _vowels[_random.Next(_vowels.Count)];
                 return beginning + vowelBridge + ending;
             }
 
@@ -239,7 +239,7 @@ public class NameGenerator
 
     private string GenerateSimpleName()
     {
-        int syllables = random.Next(2, 6);
+        int syllables = _random.Next(2, 6);
         string name = "";
         for (int i = 0; i < syllables; i++)
         {
@@ -255,11 +255,11 @@ public class NameGenerator
         {
             if (c == 'C')
             {
-                syllable += simpleConsonants[random.Next(simpleConsonants.Count)];
+                syllable += _simpleConsonants[_random.Next(_simpleConsonants.Count)];
             }
             else if (c == 'V')
             {
-                syllable += vowels[random.Next(vowels.Count)];
+                syllable += _vowels[_random.Next(_vowels.Count)];
             }
         }
         return syllable;
@@ -272,7 +272,7 @@ public class NameGenerator
 
     public string GenerateName()
     {
-        string name = useDictedPatterns ? GenerateDictedName() : GenerateSimpleName();
+        string name = _useDictedPatterns ? GenerateDictedName() : GenerateSimpleName();
         return char.ToUpper(name[0]) + name.Substring(1);
     }
 }

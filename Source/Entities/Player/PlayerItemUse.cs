@@ -19,32 +19,32 @@ public partial class PlayerItemUse : AbstractComponent<Player>
 	[Export] public bool isUseValid = false;
 	public Vector3 desiredRotation = new();
 	// validation to internal factors such as cooldown
-	private bool canUseItem = true;
-	private float rotationIncrement = 45f;
+	private bool _canUseItem = true;
+	private float _rotationIncrement = 45f;
 
 	// Inventory management
 	[Export] private Godot.Collections.Array<string> inventory = [];
-	private string currentItemID;
-	private int inventoryIndex;
-	private BaseItem item;
+	private string _currentItemID;
+	private int _inventoryIndex;
+	private BaseItem _item;
 	public Action<string> OnItemChanged;
 
 
-	public string CurrentItemID => currentItemID;
+	public string CurrentItemID => _currentItemID;
 
 	public override void _Ready()
 	{
-		currentItemID = inventory.Count > 0 ? inventory[0] : "";
+		_currentItemID = inventory.Count > 0 ? inventory[0] : "";
 		SetupInput();
 		UpdateItemModelAndData();
-		OnItemChanged?.Invoke(currentItemID);
+		OnItemChanged?.Invoke(_currentItemID);
 
 		// When a player joins, server enforces the correct item
 		if (Multiplayer.IsServer() && World.HasInstance())
 		{
 			World.Instance.OnPlayerJoin += _ =>
 			{
-				ComponentParent.playerItemSync.ServerForceSync(currentItemID);
+				ComponentParent.playerItemSync.ServerForceSync(_currentItemID);
 			};
 		}
 	}
@@ -53,11 +53,11 @@ public partial class PlayerItemUse : AbstractComponent<Player>
 	{
 		ComponentParent.playerInput.RotateCCW += () =>
 		{
-			desiredRotation.Y -= rotationIncrement * (Mathf.Pi / 180);
+			desiredRotation.Y -= _rotationIncrement * (Mathf.Pi / 180);
 		};
 		ComponentParent.playerInput.RotateCW += () =>
 		{
-			desiredRotation.Y += rotationIncrement * (Mathf.Pi / 180);
+			desiredRotation.Y += _rotationIncrement * (Mathf.Pi / 180);
 		};
 		ComponentParent.playerInput.UsePrimary += ClientUse;
 		ComponentParent.playerInput.UseIncrement += () => RequestCycleItem(1);
@@ -79,16 +79,16 @@ public partial class PlayerItemUse : AbstractComponent<Player>
 		// Server validation
 		if (inventory.Count == 0) return;
 
-		inventoryIndex += increment;
-		currentItemID = inventory[Mathf.Abs(inventoryIndex % inventory.Count)];
-		OnItemChanged?.Invoke(currentItemID);
+		_inventoryIndex += increment;
+		_currentItemID = inventory[Mathf.Abs(_inventoryIndex % inventory.Count)];
+		OnItemChanged?.Invoke(_currentItemID);
 
 
 		// Update server-side
 		UpdateItemModelAndData();
 
 		// Tell all clients
-		ComponentParent.playerItemSync.ServerForceSync(currentItemID);
+		ComponentParent.playerItemSync.ServerForceSync(_currentItemID);
 	}
 
 	public void ClientUse()
@@ -110,20 +110,20 @@ public partial class PlayerItemUse : AbstractComponent<Player>
 		RpcId(1, nameof(C2S_Use), MPacker.Pack(args));
 
 		handAnimator.Stop();
-		if (item.animateHand)
+		if (_item.animateHand)
 			handAnimator.Play("HandUse");
 	}
 
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
 	private void C2S_Use(byte[] usageArgsBytes)
 	{
-		if (canUseItem)
+		if (_canUseItem)
 		{
-			item.UseItem(MPacker.Unpack<ItemUsageArgs>(usageArgsBytes));
-			canUseItem = false;
+			_item.UseItem(MPacker.Unpack<ItemUsageArgs>(usageArgsBytes));
+			_canUseItem = false;
 
-			SceneTreeTimer coolDownTimer = GetTree().CreateTimer(item.usageCooldown);
-			coolDownTimer.Timeout += () => canUseItem = true;
+			SceneTreeTimer coolDownTimer = GetTree().CreateTimer(_item.usageCooldown);
+			coolDownTimer.Timeout += () => _canUseItem = true;
 		}
 	}
 
@@ -132,19 +132,19 @@ public partial class PlayerItemUse : AbstractComponent<Player>
 		foreach (var model in hand.GetChildren())
 			model.QueueFree();
 
-		if (string.IsNullOrEmpty(currentItemID))
+		if (string.IsNullOrEmpty(_currentItemID))
 			return;
 
-		ItemData itemResource = GameRegistries.Instance.ItemRegistry.Get(currentItemID);
-		item = itemResource.itemScene.Instantiate<BaseItem>();
-		item.ItemUser = this;
-		hand.AddChild(item);
+		ItemData itemResource = GameRegistries.Instance.ItemRegistry.Get(_currentItemID);
+		_item = itemResource.itemScene.Instantiate<BaseItem>();
+		_item.ItemUser = this;
+		hand.AddChild(_item);
 	}
 
 	public void SetItemFromNetwork(string itemId)
 	{
-		currentItemID = itemId;
-		OnItemChanged?.Invoke(currentItemID);
+		_currentItemID = itemId;
+		OnItemChanged?.Invoke(_currentItemID);
 		UpdateItemModelAndData();
 	}
 }

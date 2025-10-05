@@ -1,6 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://dowhshkw35fbv"]
+[gd_scene load_steps=5 format=3 uid="uid://dowhshkw35fbv"]
 
 [ext_resource type="Script" uid="uid://41bay46uwyf4" path="res://UI/MultiplayerMenu/MultiplayerMenu.cs" id="1_t2st1"]
+[ext_resource type="Script" uid="uid://co22epydu1y4p" path="res://UI/MultiplayerMenu/ServerBrowser.cs" id="2_kkaxb"]
+[ext_resource type="PackedScene" uid="uid://drkyst4xf3w5h" path="res://UI/MultiplayerMenu/ServerInfoContainer.tscn" id="2_q01po"]
 [ext_resource type="Theme" uid="uid://dbnnr7gglht1m" path="res://UI/Theme/Theme.tres" id="2_tttxr"]
 
 [node name="MultiplayerMenu" type="Control" node_paths=PackedStringArray("portInput", "ipAddressInput")]
@@ -48,10 +50,27 @@ theme_override_constants/margin_bottom = 25
 [node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer/Panel/MarginContainer"]
 layout_mode = 2
 
-[node name="Panel" type="Panel" parent="PanelContainer/MarginContainer/Panel/MarginContainer/HBoxContainer"]
+[node name="ServerBrowser" type="Panel" parent="PanelContainer/MarginContainer/Panel/MarginContainer/HBoxContainer"]
 custom_minimum_size = Vector2(600, 0)
 layout_mode = 2
 size_flags_vertical = 3
+script = ExtResource("2_kkaxb")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/ServerBrowser"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/ServerBrowser/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="ServerInfoContainer" parent="PanelContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/ServerBrowser/ScrollContainer/VBoxContainer" instance=ExtResource("2_q01po")]
+layout_mode = 2
 
 [node name="Spacer" type="Control" parent="PanelContainer/MarginContainer/Panel/MarginContainer/HBoxContainer"]
 layout_mode = 2
@@ -78,7 +97,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 min_value = 1024.0
 max_value = 65535.0
-value = 1077.0
+value = 49200.0
 alignment = 1
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="PanelContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer"]

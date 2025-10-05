@@ -64,6 +64,8 @@ text = "Name:"
 [node name="NameEdit" type="LineEdit" parent="RootPanel/Panel/ContainerContainer/VBoxContainer/NameContaner"]
 layout_mode = 2
 size_flags_horizontal = 3
+placeholder_text = "Name (max. 32 char.)"
+max_length = 48
 
 [node name="ColorContainer" type="HBoxContainer" parent="RootPanel/Panel/ContainerContainer/VBoxContainer"]
 layout_mode = 2

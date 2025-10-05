@@ -13,9 +13,9 @@ namespace NullCyan.Sandboxnator.Network
 		public ENetMultiplayerPeer peer;
 
 		// Timeout handling
-		private float connectionStartTime = 0f;
-		private float connectionTimeout = 5f;
-		private bool waitingForConnection = false;
+		private float _connectionStartTime = 0f;
+		private float _connectionTimeout = 5f;
+		private bool _waitingForConnection = false;
 
 		public override void _Ready()
 		{
@@ -34,14 +34,14 @@ namespace NullCyan.Sandboxnator.Network
 
 		public override void _Process(double delta)
 		{
-			if (waitingForConnection && peer != null)
+			if (_waitingForConnection && peer != null)
 			{
-				float elapsed = (Time.GetTicksMsec() / 1000f) - connectionStartTime;
+				float elapsed = (Time.GetTicksMsec() / 1000f) - _connectionStartTime;
 
-				if (elapsed >= connectionTimeout &&
+				if (elapsed >= _connectionTimeout &&
 					peer.GetConnectionStatus() == MultiplayerPeer.ConnectionStatus.Connecting)
 				{
-					NcLogger.Log($"⏳ Connection timed out after {connectionTimeout} seconds.");
+					NcLogger.Log($"⏳ Connection timed out after {_connectionTimeout} seconds.");
 					OnConnectionFailed();
 				}
 			}
@@ -109,8 +109,8 @@ namespace NullCyan.Sandboxnator.Network
 			NcLogger.Log($"🔌 Attempting to connect to {ip}:{port}...");
 
 			// Start timeout tracking
-			connectionStartTime = Time.GetTicksMsec() / 1000f;
-			waitingForConnection = true;
+			_connectionStartTime = Time.GetTicksMsec() / 1000f;
+			_waitingForConnection = true;
 		}
 
 		/// <summary>
@@ -152,7 +152,7 @@ namespace NullCyan.Sandboxnator.Network
 			// Remove the MultiplayerPeer reference
 			Multiplayer.MultiplayerPeer = null;
 			peer = null;
-			waitingForConnection = false;
+			_waitingForConnection = false;
 			NcLogger.Log("✅ Multiplayer connection fully closed.");
 		}
 
@@ -160,13 +160,13 @@ namespace NullCyan.Sandboxnator.Network
 
 		private void OnConnectedToServer()
 		{
-			waitingForConnection = false;
+			_waitingForConnection = false;
 			NcLogger.Log("✅ Successfully connected to server!");
 		}
 
 		private void OnConnectionFailed()
 		{
-			waitingForConnection = false;
+			_waitingForConnection = false;
 			NcLogger.Log("❌ Failed to connect to server. It may not exist or be unreachable.");
 			QuitConnection();
 		}
@@ -182,7 +182,7 @@ namespace NullCyan.Sandboxnator.Network
 				Multiplayer.MultiplayerPeer.Close();
 				Multiplayer.MultiplayerPeer = null;
 				peer = null;
-				waitingForConnection = false;
+				_waitingForConnection = false;
 			}
 		}
 	}

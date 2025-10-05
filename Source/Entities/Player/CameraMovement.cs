@@ -12,7 +12,7 @@ public partial class CameraMovement : AbstractComponent<Player>, ISettingsLoader
 	[Export] public Node3D neck;
 	[Export] public Node3D body;
 
-	private float sensitivity;
+	private float _sensitivity;
 
 	public override void _Ready()
 	{
@@ -27,8 +27,8 @@ public partial class CameraMovement : AbstractComponent<Player>, ISettingsLoader
 
 	private void LookAction()
 	{
-		body.RotateY(-ComponentParent.playerInput.LookVector.X * sensitivity);
-		neck.RotateX(-ComponentParent.playerInput.LookVector.Y * sensitivity);
+		body.RotateY(-ComponentParent.playerInput.LookVector.X * _sensitivity);
+		neck.RotateX(-ComponentParent.playerInput.LookVector.Y * _sensitivity);
 		neck.Rotation = new(Mathf.Clamp(neck.Rotation.X, -90 * (Mathf.Pi / 180), 90 * (Mathf.Pi / 180)), neck.Rotation.Y, neck.Rotation.Z);
 
 	}
@@ -47,6 +47,6 @@ public partial class CameraMovement : AbstractComponent<Player>, ISettingsLoader
 
 	public void UpdateSettingsData()
 	{
-		sensitivity = GameRegistries.Instance.SettingsData.Sensitivity / SENSITIVITY_DENOMINATOR;
+		_sensitivity = GameRegistries.Instance.SettingsData.Sensitivity / SENSITIVITY_DENOMINATOR;
 	}
 }

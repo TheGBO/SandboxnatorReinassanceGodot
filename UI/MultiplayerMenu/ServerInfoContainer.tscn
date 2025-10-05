@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://drkyst4xf3w5h"]
+
+[node name="ServerInfoContainer" type="HBoxContainer"]
+
+[node name="HostNameLabel" type="Label" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Fine_lad"
+vertical_alignment = 1
+
+[node name="GameVersionLabel" type="Label" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "X.Y.Z"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PlayerCountLabel" type="Label" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "JOIN GAME"

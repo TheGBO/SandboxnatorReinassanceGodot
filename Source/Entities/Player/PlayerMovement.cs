@@ -10,11 +10,11 @@ public partial class PlayerMovement : AbstractComponent<Player>, ISettingsLoader
 {
 	//movement
 	[Export] private CharacterBody3D movementCBody;
-	private float currentSpeed;
+	private float _currentSpeed;
 	[Export] public float walkSpeed;
 	[Export] public float sprintSpeed;
 	[Export] public float jumpVelocity;
-	private Vector3 velocity;
+	private Vector3 _velocity;
 
 	//rigid body interaction
 	// [Export] public float mass = 5f;
@@ -24,7 +24,7 @@ public partial class PlayerMovement : AbstractComponent<Player>, ISettingsLoader
 	[Export] public Camera3D camera;
 	//TODO: fov able to be tweaked in settings.
 	[Export] public float sprintEffectTime = 0.75f;
-	private float fov = 75;
+	private float _fov = 75;
 	/// <summary>
 	/// Used for detection of movement and animations.
 	/// </summary>
@@ -38,7 +38,7 @@ public partial class PlayerMovement : AbstractComponent<Player>, ISettingsLoader
 
 		UpdateSettingsData();
 
-		currentSpeed = walkSpeed;
+		_currentSpeed = walkSpeed;
 		ComponentParent.playerInput.OnStopSprint += StopSprint;
 	}
 
@@ -50,18 +50,18 @@ public partial class PlayerMovement : AbstractComponent<Player>, ISettingsLoader
 		if (!ComponentParent.IsMultiplayerAuthority() || movementCBody == null)
 			return;
 
-		camera.Fov = fov;
-		velocity = movementCBody.Velocity;
+		camera.Fov = GameRegistries.Instance.SettingsData.FieldOfView;
+		_velocity = movementCBody.Velocity;
 
 		// Add the gravity.
 		if (!movementCBody.IsOnFloor())
 		{
-			velocity += movementCBody.GetGravity() * (float)delta;
+			_velocity += movementCBody.GetGravity() * (float)delta;
 		}
 
 		if (movementCBody.IsOnFloor() && ComponentParent.playerInput.IsJumping)
 		{
-			velocity.Y = jumpVelocity;
+			_velocity.Y = jumpVelocity;
 		}
 
 		// Get the input direction and handle the movement/deceleration.
@@ -91,16 +91,16 @@ public partial class PlayerMovement : AbstractComponent<Player>, ISettingsLoader
 
 		if (direction != Vector3.Zero)
 		{
-			velocity.X = direction.X * currentSpeed;
-			velocity.Z = direction.Z * currentSpeed;
+			_velocity.X = direction.X * _currentSpeed;
+			_velocity.Z = direction.Z * _currentSpeed;
 		}
 		else
 		{
-			velocity.X = Mathf.MoveToward(movementCBody.Velocity.X, 0, currentSpeed);
-			velocity.Z = Mathf.MoveToward(movementCBody.Velocity.Z, 0, currentSpeed);
+			_velocity.X = Mathf.MoveToward(movementCBody.Velocity.X, 0, _currentSpeed);
+			_velocity.Z = Mathf.MoveToward(movementCBody.Velocity.Z, 0, _currentSpeed);
 		}
 
-		movementCBody.Velocity = velocity;
+		movementCBody.Velocity = _velocity;
 		movementCBody.MoveAndSlide();
 
 	}
@@ -142,18 +142,18 @@ public partial class PlayerMovement : AbstractComponent<Player>, ISettingsLoader
 		Tween sprintTween = GetTree().CreateTween();
 		if (beginSprint)
 		{
-			sprintTween.TweenProperty(camera, "fov", fov * 1.25, sprintEffectTime);
-			sprintTween.TweenProperty(this, nameof(currentSpeed), sprintSpeed, sprintEffectTime);
+			sprintTween.TweenProperty(camera, "fov", _fov * 1.25, sprintEffectTime);
+			sprintTween.TweenProperty(this, nameof(_currentSpeed), sprintSpeed, sprintEffectTime);
 		}
 		else
 		{
-			sprintTween.TweenProperty(camera, "fov", fov, sprintEffectTime);
-			sprintTween.TweenProperty(this, nameof(currentSpeed), walkSpeed, sprintEffectTime);
+			sprintTween.TweenProperty(camera, "fov", _fov, sprintEffectTime);
+			sprintTween.TweenProperty(this, nameof(_currentSpeed), walkSpeed, sprintEffectTime);
 		}
 	}
 
 	public void UpdateSettingsData()
 	{
-		fov = GameRegistries.Instance.SettingsData.FieldOfView;
+		_fov = GameRegistries.Instance.SettingsData.FieldOfView;
 	}
 }
