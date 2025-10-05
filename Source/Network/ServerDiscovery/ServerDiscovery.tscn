@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://bnwnratn6imgt"]
+
+[ext_resource type="Script" uid="uid://p267veusxi0x" path="res://Source/Network/ServerDiscovery/ServerDiscovery.cs" id="1_70j8d"]
+
+[node name="ServerDiscoveryService" type="Node" node_paths=PackedStringArray("broadcastTimer")]
+script = ExtResource("1_70j8d")
+broadcastTimer = NodePath("Timer")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 5.0
+autostart = true

@@ -41,7 +41,7 @@ namespace NullCyan.Sandboxnator.Network
 				if (elapsed >= _connectionTimeout &&
 					peer.GetConnectionStatus() == MultiplayerPeer.ConnectionStatus.Connecting)
 				{
-					NcLogger.Log($"⏳ Connection timed out after {_connectionTimeout} seconds.");
+					NcLogger.Log($"[!] Connection timed out after {_connectionTimeout} seconds.", NcLogger.LogType.Warn);
 					OnConnectionFailed();
 				}
 			}
@@ -60,14 +60,14 @@ namespace NullCyan.Sandboxnator.Network
 		public void HostGame(int port = 1077, bool dedicatedServer = false)
 		{
 			CleanupOldPeer();
-			NcLogger.Log($"✅ Hosting server on port {port} | Dedicated: {dedicatedServer}");
+			NcLogger.Log($"[V] Hosting server on port {port} | Dedicated: {dedicatedServer}");
 
 			peer = new();
 			Error result = peer.CreateServer(port);
 
 			if (result != Error.Ok)
 			{
-				NcLogger.Log($"❌ Could not create server at the specified port: {port}");
+				NcLogger.Log($"[X] Could not create server at the specified port: {port}");
 				return;
 			}
 
@@ -82,6 +82,7 @@ namespace NullCyan.Sandboxnator.Network
 			if (!dedicatedServer)
 				PlayerManager.Instance.AddPlayer(Multiplayer.GetUniqueId());
 
+			ServerDiscovery.Instance.SetupBroadcast();
 		}
 
 		/// <summary>
@@ -121,7 +122,7 @@ namespace NullCyan.Sandboxnator.Network
 			if (Multiplayer.MultiplayerPeer == null)
 				return;
 
-			NcLogger.Log("🔻 Closing multiplayer connection...");
+			NcLogger.Log("[!] Closing multiplayer connection...");
 
 			// Disconnect signals to avoid unwanted callbacks during shutdown
 			if (Multiplayer.IsServer())
@@ -153,7 +154,7 @@ namespace NullCyan.Sandboxnator.Network
 			Multiplayer.MultiplayerPeer = null;
 			peer = null;
 			_waitingForConnection = false;
-			NcLogger.Log("✅ Multiplayer connection fully closed.");
+			NcLogger.Log("[V] Multiplayer connection fully closed.");
 		}
 
 
@@ -161,13 +162,13 @@ namespace NullCyan.Sandboxnator.Network
 		private void OnConnectedToServer()
 		{
 			_waitingForConnection = false;
-			NcLogger.Log("✅ Successfully connected to server!");
+			NcLogger.Log("[V] Successfully connected to server!");
 		}
 
 		private void OnConnectionFailed()
 		{
 			_waitingForConnection = false;
-			NcLogger.Log("❌ Failed to connect to server. It may not exist or be unreachable.");
+			NcLogger.Log("[X] Failed to connect to server. It may not exist or be unreachable.");
 			QuitConnection();
 		}
 
@@ -178,7 +179,7 @@ namespace NullCyan.Sandboxnator.Network
 		{
 			if (Multiplayer.MultiplayerPeer != null)
 			{
-				NcLogger.Log("⚠️ Cleaning up old multiplayer session before creating a new one...", NcLogger.LogType.Warn);
+				NcLogger.Log("[!] Cleaning up old multiplayer session before creating a new one...", NcLogger.LogType.Warn);
 				Multiplayer.MultiplayerPeer.Close();
 				Multiplayer.MultiplayerPeer = null;
 				peer = null;

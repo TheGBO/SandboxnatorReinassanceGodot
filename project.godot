@@ -26,6 +26,7 @@ GameRegistries="*res://GameContent/Registry/GameRegistries.cs"
 ScenesBank="*res://World/ScenesBank/ScenesBank.tscn"
 PlayerProfileManager="*res://Source/Entities/Player/PlayerProfileManager.cs"
 UiSoundManager="*res://UI/UiSoundManager.tscn"
+ServerDiscovery="*res://Source/Network/ServerDiscovery/ServerDiscovery.tscn"
 
 [display]
 
