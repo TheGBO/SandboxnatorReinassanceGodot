@@ -1,7 +1,8 @@
-[gd_scene load_steps=27 format=3 uid="uid://1hsnhm80nlng"]
+[gd_scene load_steps=28 format=3 uid="uid://1hsnhm80nlng"]
 
 [ext_resource type="Script" uid="uid://mr7xahsxhr7w" path="res://Source/Entities/Player/PlayerMovement.cs" id="1_fmfn4"]
 [ext_resource type="Script" uid="uid://dt013s8d7ysto" path="res://Source/Entities/Player/Player.cs" id="1_kjmmx"]
+[ext_resource type="Script" uid="uid://b860gecuclqa0" path="res://Source/Entities/Player/PlayerHotBar.cs" id="3_a5byf"]
 [ext_resource type="Script" uid="uid://b0sc20fvjjujb" path="res://Source/Entities/Player/CameraMovement.cs" id="3_bvtsg"]
 [ext_resource type="AudioStream" uid="uid://b8xbjq5ide70f" path="res://Assets/Sounds/ui_message_received.mp3" id="3_bxpi0"]
 [ext_resource type="Texture2D" uid="uid://bvrby5xk2pk1j" path="res://GameContent/Items/Hammer/HammerIcon.png" id="4_lmeus"]
@@ -238,7 +239,7 @@ grow_vertical = 2
 scale = Vector2(2, 2)
 texture = ExtResource("8_2c07k")
 
-[node name="HotBar" type="Control" parent="HUD"]
+[node name="HotBar" type="Control" parent="HUD" node_paths=PackedStringArray("playerItemUse", "activeItemIcon")]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -249,6 +250,9 @@ offset_top = -60.0
 offset_bottom = -60.0
 grow_horizontal = 2
 grow_vertical = 0
+script = ExtResource("3_a5byf")
+playerItemUse = NodePath("../../ComponentHolder/PlayerItemUse")
+activeItemIcon = NodePath("MarginContainer/Items/ActiveItemContainer/ItemIconContainer/ItemIconTexture")
 
 [node name="MarginContainer" type="MarginContainer" parent="HUD/HotBar"]
 layout_mode = 1
@@ -269,11 +273,11 @@ theme_override_constants/margin_bottom = 4
 layout_mode = 2
 alignment = 1
 
-[node name="ItemContainer" type="Panel" parent="HUD/HotBar/MarginContainer/Items"]
+[node name="ActiveItemContainer" type="Panel" parent="HUD/HotBar/MarginContainer/Items"]
 custom_minimum_size = Vector2(56, 56)
 layout_mode = 2
 
-[node name="ItemIconContainer" type="MarginContainer" parent="HUD/HotBar/MarginContainer/Items/ItemContainer"]
+[node name="ItemIconContainer" type="MarginContainer" parent="HUD/HotBar/MarginContainer/Items/ActiveItemContainer"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -285,7 +289,7 @@ theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
-[node name="ItemIconTexture" type="TextureRect" parent="HUD/HotBar/MarginContainer/Items/ItemContainer/ItemIconContainer"]
+[node name="ItemIconTexture" type="TextureRect" parent="HUD/HotBar/MarginContainer/Items/ActiveItemContainer/ItemIconContainer"]
 layout_mode = 2
 texture = ExtResource("4_lmeus")
 
