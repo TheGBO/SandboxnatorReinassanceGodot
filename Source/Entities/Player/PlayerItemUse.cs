@@ -15,10 +15,10 @@ public partial class PlayerItemUse : AbstractComponent<Player>
 	[Export] public RayCast3D rayCast;
 	[Export] public Node3D hand;
 	[Export] private AnimationPlayer handAnimator;
-	//validation related to external factors such as world position
+	//validation related to client-side factors such as controls andworld position
 	[Export] public bool isUseValid = false;
 	public Vector3 desiredRotation = new();
-	// validation to internal factors such as cooldown
+	// validation to server-side factors such as cooldown
 	private bool _canUseItem = true;
 	private float _rotationIncrement = 45f;
 

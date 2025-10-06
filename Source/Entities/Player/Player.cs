@@ -11,6 +11,7 @@ namespace NullCyan.Sandboxnator.Entity;
 public partial class Player : CharacterBody3D
 {
 	//Components
+	//TODO: make a component holder have a GetComponent method instead of holding tons of references
 	[Export] public ComponentHolder componentHolder;
 	[Export] public CharacterBody3D characterBody;
 	[Export] public PlayerMovement playerMovement;
