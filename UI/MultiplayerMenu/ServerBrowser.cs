@@ -8,7 +8,7 @@ namespace NullCyan.Sandboxnator.UI;
 
 public partial class ServerBrowser : Panel
 {
-
+    [Export] PackedScene serverInfoContainer;
     public override void _Ready()
     {
 

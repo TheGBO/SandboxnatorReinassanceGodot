@@ -21,6 +21,7 @@ public partial class ServerDiscovery : Singleton<ServerDiscovery>
     [Export] private string broadcastAddress = "255.255.255.255";
     [Export] private double broadcastTimeout = 5;
     private double _elapsedTime = 0;
+    public Action<ServerInfoData> OnBroadcastReceived;
 
     public override void _Ready()
     {
@@ -50,7 +51,7 @@ public partial class ServerDiscovery : Singleton<ServerDiscovery>
             ServerInfoData serverInfo = MPacker.Unpack<ServerInfoData>(serverInfoBytes);
             serverInfo.IpAddress = serverIP;
             serverInfo.Port = serverPort;
-            GD.Print($"Received server info! {serverInfo}");
+            OnBroadcastReceived?.Invoke(serverInfo);
         }
     }
 
