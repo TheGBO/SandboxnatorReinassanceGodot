@@ -40,13 +40,6 @@ public partial class PlayerItemUse : AbstractComponent<Player>
 		OnItemChanged?.Invoke(_currentItemID);
 
 		// When a player joins, server enforces the correct item
-		if (Multiplayer.IsServer() && World.HasInstance())
-		{
-			World.Instance.OnPlayerJoin += _ =>
-			{
-				ComponentParent.playerItemSync.ServerForceSync(_currentItemID);
-			};
-		}
 	}
 
 	private void SetupInput()

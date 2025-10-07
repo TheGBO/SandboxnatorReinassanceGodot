@@ -69,7 +69,7 @@ public partial class PlayerVisualSync : AbstractComponent<Player>
 		if (!IsInstanceValid(this)) return;
 
 		// Sync profile when new players join
-		C2S_SyncProfile(MPacker.Pack(ComponentParent.ProfileData));
+		C2S_Sync(MPacker.Pack(ComponentParent.ProfileData));
 	}
 
 	public void UpdateVisual()
@@ -103,17 +103,17 @@ public partial class PlayerVisualSync : AbstractComponent<Player>
 		MPacker.Unpack<PlayerProfileData>(packedProfileData).PrintProperties("[CLIENT] Data as it's being sent to server");
 
 		if (Multiplayer.HasMultiplayerPeer() && IsInstanceValid(this))
-			RpcId(1, nameof(C2S_SyncProfile), packedProfileData);
+			RpcId(1, nameof(C2S_Sync), packedProfileData);
 	}
 
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
-	private void C2S_SyncProfile(byte[] profileBytes)
+	private void C2S_Sync(byte[] profileBytes)
 	{
 		if (!IsInstanceValid(this)) return;
 
 		PlayerProfileData unpackedProfileData = MPacker.Unpack<PlayerProfileData>(profileBytes);
 		unpackedProfileData.PrintProperties("[SERVER] received player profile data as");
-		Rpc(nameof(S2C_SyncProfile), profileBytes);
+		Rpc(nameof(S2C_Sync), profileBytes);
 
 		ComponentParent.ProfileData = unpackedProfileData;
 		UpdateVisual();
@@ -121,7 +121,7 @@ public partial class PlayerVisualSync : AbstractComponent<Player>
 
 	//Client requests server to synchronize its profile. This call sends the profile data to the client.
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
-	private void S2C_SyncProfile(byte[] profileBytes)
+	private void S2C_Sync(byte[] profileBytes)
 	{
 		if (!IsInstanceValid(this)) return;
 
