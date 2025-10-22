@@ -1,17 +1,22 @@
 using Godot;
+using NullCyan.Sandboxnator.Network;
 using NullCyan.Util.Log;
 using System;
-using System.Net.NetworkInformation;
-using System.Net.Sockets;
-//TODO: separation of concerns between networking and server browser UI
+
 namespace NullCyan.Sandboxnator.UI;
 
 public partial class ServerBrowser : Panel
 {
     [Export] PackedScene serverInfoContainer;
+    // 
     public override void _Ready()
     {
+        ServerDiscovery.Instance.OnBroadcastReceived += HandleServerDiscovery;
+    }
 
+    private void HandleServerDiscovery(ServerInfoData serverInfoData)
+    {
+        NcLogger.Log("Received a server");
     }
 
     public override void _Process(double delta)

@@ -51,12 +51,14 @@ theme_override_constants/margin_bottom = 25
 layout_mode = 2
 
 [node name="ServerBrowser" type="Panel" parent="PanelContainer/MarginContainer/Panel/MarginContainer/HBoxContainer"]
+visible = false
 custom_minimum_size = Vector2(600, 0)
 layout_mode = 2
 size_flags_vertical = 3
 script = ExtResource("2_kkaxb")
 
 [node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/ServerBrowser"]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0

@@ -19,6 +19,11 @@ namespace NullCyan.Sandboxnator.Network
 
 		public override void _Ready()
 		{
+
+		}
+
+		private void InitializeNetworkManager()
+        {
 			NcLogger.Log("Sandboxnator multiplayer protocol initialized");
 
 			// Dedicated server boot check
@@ -30,7 +35,7 @@ namespace NullCyan.Sandboxnator.Network
 			{
 				HostGame(1077, true);
 			}
-		}
+        }
 
 		public override void _Process(double delta)
 		{
@@ -82,7 +87,7 @@ namespace NullCyan.Sandboxnator.Network
 			if (!dedicatedServer)
 				PlayerManager.Instance.AddPlayer(Multiplayer.GetUniqueId());
 
-			ServerDiscovery.Instance.SetupBroadcast();
+			//ServerDiscovery.Instance.SetupBroadcast();
 		}
 
 		/// <summary>
@@ -97,7 +102,7 @@ namespace NullCyan.Sandboxnator.Network
 
 			if (result != Error.Ok)
 			{
-				NcLogger.Log($"❌ Failed to start client: {result}");
+				NcLogger.Log($"Failed to start client: {result}");
 				return;
 			}
 
@@ -107,7 +112,7 @@ namespace NullCyan.Sandboxnator.Network
 			Multiplayer.ConnectedToServer += OnConnectedToServer;
 			Multiplayer.ConnectionFailed += OnConnectionFailed;
 
-			NcLogger.Log($"🔌 Attempting to connect to {ip}:{port}...");
+			NcLogger.Log($"Attempting to connect to {ip}:{port}...");
 
 			// Start timeout tracking
 			_connectionStartTime = Time.GetTicksMsec() / 1000f;
@@ -130,6 +135,7 @@ namespace NullCyan.Sandboxnator.Network
 				//Server signals
 				Multiplayer.PeerDisconnected -= PlayerManager.Instance.RemovePlayer;
 				Multiplayer.PeerConnected -= PlayerManager.Instance.AddPlayer;
+				//ServerDiscovery.Instance.KillBroadcast();
 			}
 			else
 			{
