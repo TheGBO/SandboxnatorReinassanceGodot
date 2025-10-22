@@ -26,7 +26,7 @@
 
 ### Itens (Conteúdo):
 - ✅ Martelo de Destruição
-- Pincel
+- RGBall
 - Bomba Arremessável
 - Cajado de Explosão Mágica
 - Itens correspondentes a blocos específicos
@@ -37,9 +37,9 @@
 
 ## 🔣 Melhorias de UX & UI (Experiência e Interface do Utilizador)
 - Personalização de perfil:
-  - Nome
-  - Cor
-  - Aparência (Skin/Aspecto)
+  - ✅ Nome
+  - ✅ Cor
+  - ✅ Aparência (Skin/Aspecto)
   - Acessórios (?)
   - Tradução e localização
 
@@ -58,7 +58,7 @@
 ### Formas Geométricas:
 - ✅ Cubo
 - Meio-Cubo
-- Cone
+- ✅ Cone
 - Pirâmide
 - Cilindro
 - Esfera

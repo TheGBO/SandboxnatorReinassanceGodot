@@ -1,0 +1,11 @@
+[gd_scene load_steps=4 format=3 uid="uid://wgea4e2y5142"]
+
+[ext_resource type="PackedScene" uid="uid://brra32kqxyt3m" path="res://Source/Items/BasePlacingItem.tscn" id="1_13c64"]
+[ext_resource type="PackedScene" uid="uid://kicqsbwx5srw" path="res://GameContent/Buildings/Cone/PlacedCone.tscn" id="2_x31gy"]
+[ext_resource type="ArrayMesh" uid="uid://ytmryq6ofimr" path="res://GameContent/Buildings/Cone/ConeMesh.tres" id="3_76muv"]
+
+[node name="BasePlacingItem" instance=ExtResource("1_13c64")]
+buildingScene = ExtResource("2_x31gy")
+
+[node name="HandItem" parent="." index="0"]
+mesh = ExtResource("3_76muv")

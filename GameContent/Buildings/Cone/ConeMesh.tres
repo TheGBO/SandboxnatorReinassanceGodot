@@ -1,0 +1,558 @@
+[gd_resource type="ArrayMesh" load_steps=5 format=3 uid="uid://ytmryq6ofimr"]
+
+[ext_resource type="Texture2D" uid="uid://b07dgedjbkepk" path="res://GameContent/Buildings/Cone/cone_0.png" id="1_vb4wv"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_j3ed5"]
+resource_name = "material_0"
+transparency = 2
+alpha_scissor_threshold = 0.05
+alpha_antialiasing_mode = 0
+cull_mode = 2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_uukg1"]
+resource_name = "material_1"
+transparency = 2
+alpha_scissor_threshold = 0.05
+alpha_antialiasing_mode = 0
+cull_mode = 2
+albedo_texture = ExtResource("1_vb4wv")
+texture_filter = 0
+texture_repeat = false
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_ujaai"]
+_surfaces = [{
+"aabb": AABB(0, 0, 0, 0.36602542, 1e-05, 0.5),
+"format": 34896613377,
+"index_count": 3,
+"index_data": PackedByteArray(0, 0, 1, 0, 2, 0),
+"name": "material_0",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 3,
+"vertex_data": PackedByteArray(255, 255, 0, 0, 102, 187, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 179, 93, 0, 0, 255, 255, 0, 0)
+}, {
+"aabb": AABB(0, 0, 0, 0.36602542, 1, 0.5),
+"format": 34896613377,
+"index_count": 3,
+"index_data": PackedByteArray(0, 0, 1, 0, 2, 0),
+"name": "material_1",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 3,
+"vertex_data": PackedByteArray(179, 93, 0, 0, 255, 255, 0, 0, 0, 0, 255, 255, 0, 0, 0, 0, 255, 255, 0, 0, 102, 187, 0, 0)
+}, {
+"aabb": AABB(0, 0, 0, 0.5, 1e-05, 0.36602542),
+"format": 34896613377,
+"index_count": 3,
+"index_data": PackedByteArray(0, 0, 1, 0, 2, 0),
+"name": "material_0",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 3,
+"vertex_data": PackedByteArray(255, 255, 0, 0, 179, 93, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 102, 187, 0, 0, 255, 255, 0, 0)
+}, {
+"aabb": AABB(0, 0, 0, 0.5, 1, 0.36602542),
+"format": 34896613377,
+"index_count": 3,
+"index_data": PackedByteArray(0, 0, 1, 0, 2, 0),
+"name": "material_1",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 3,
+"vertex_data": PackedByteArray(102, 187, 0, 0, 255, 255, 0, 0, 0, 0, 255, 255, 0, 0, 0, 0, 255, 255, 0, 0, 179, 93, 0, 0)
+}, {
+"aabb": AABB(0, 0, -0.1339746, 0.5, 1e-05, 0.2679492),
+"format": 34896613377,
+"index_count": 3,
+"index_data": PackedByteArray(0, 0, 1, 0, 2, 0),
+"name": "material_0",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 3,
+"vertex_data": PackedByteArray(255, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 127, 0, 0, 255, 255, 0, 0, 255, 255, 0, 0)
+}, {
+"aabb": AABB(0, 0, -0.1339746, 0.5, 1, 0.2679492),
+"format": 34896613377,
+"index_count": 3,
+"index_data": PackedByteArray(0, 0, 1, 0, 2, 0),
+"name": "material_1",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 3,
+"vertex_data": PackedByteArray(255, 255, 0, 0, 255, 255, 0, 0, 0, 0, 255, 255, 255, 127, 0, 0, 255, 255, 0, 0, 0, 0, 0, 0)
+}, {
+"aabb": AABB(0, 0, -0.36602542, 0.5, 1e-05, 0.36602542),
+"format": 34896613377,
+"index_count": 3,
+"index_data": PackedByteArray(0, 0, 1, 0, 2, 0),
+"name": "material_0",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 3,
+"vertex_data": PackedByteArray(102, 187, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 0, 0, 255, 255, 0, 0, 75, 162, 0, 0)
+}, {
+"aabb": AABB(0, 0, -0.36602542, 0.5, 1, 0.36602542),
+"format": 34896613377,
+"index_count": 3,
+"index_data": PackedByteArray(0, 0, 1, 0, 2, 0),
+"name": "material_1",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 3,
+"vertex_data": PackedByteArray(255, 255, 0, 0, 75, 162, 0, 0, 0, 0, 255, 255, 255, 255, 0, 0, 102, 187, 0, 0, 0, 0, 0, 0)
+}, {
+"aabb": AABB(0, 0, -0.5, 0.36602542, 1e-05, 0.5),
+"format": 34896613377,
+"index_count": 3,
+"index_data": PackedByteArray(0, 0, 1, 0, 2, 0),
+"name": "material_0",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 3,
+"vertex_data": PackedByteArray(179, 93, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 0, 0, 255, 255, 0, 0, 152, 68, 0, 0)
+}, {
+"aabb": AABB(0, 0, -0.5, 0.36602542, 1, 0.5),
+"format": 34896613377,
+"index_count": 3,
+"index_data": PackedByteArray(0, 0, 1, 0, 2, 0),
+"name": "material_1",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 3,
+"vertex_data": PackedByteArray(255, 255, 0, 0, 152, 68, 0, 0, 0, 0, 255, 255, 255, 255, 0, 0, 179, 93, 0, 0, 0, 0, 0, 0)
+}, {
+"aabb": AABB(-0.1339746, 0, -0.5, 0.2679492, 1e-05, 0.5),
+"format": 34896613377,
+"index_count": 3,
+"index_data": PackedByteArray(0, 0, 1, 0, 2, 0),
+"name": "material_0",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 3,
+"vertex_data": PackedByteArray(0, 0, 0, 0, 0, 0, 0, 0, 255, 127, 0, 0, 255, 255, 0, 0, 255, 255, 0, 0, 0, 0, 0, 0)
+}, {
+"aabb": AABB(-0.1339746, 0, -0.5, 0.2679492, 1, 0.5),
+"format": 34896613377,
+"index_count": 3,
+"index_data": PackedByteArray(0, 0, 1, 0, 2, 0),
+"name": "material_1",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 3,
+"vertex_data": PackedByteArray(255, 255, 0, 0, 0, 0, 0, 0, 255, 127, 255, 255, 255, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+}, {
+"aabb": AABB(-0.36602542, 0, -0.5, 0.36602542, 1e-05, 0.5),
+"format": 34896613377,
+"index_count": 3,
+"index_data": PackedByteArray(0, 0, 1, 0, 2, 0),
+"name": "material_0",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 3,
+"vertex_data": PackedByteArray(0, 0, 0, 0, 152, 68, 0, 0, 255, 255, 0, 0, 255, 255, 0, 0, 75, 162, 0, 0, 0, 0, 0, 0)
+}, {
+"aabb": AABB(-0.36602542, 0, -0.5, 0.36602542, 1, 0.5),
+"format": 34896613377,
+"index_count": 3,
+"index_data": PackedByteArray(0, 0, 1, 0, 2, 0),
+"name": "material_1",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 3,
+"vertex_data": PackedByteArray(75, 162, 0, 0, 0, 0, 0, 0, 255, 255, 255, 255, 255, 255, 0, 0, 0, 0, 0, 0, 152, 68, 0, 0)
+}, {
+"aabb": AABB(-0.5, 0, -0.36602542, 0.5, 1e-05, 0.36602542),
+"format": 34896613377,
+"index_count": 3,
+"index_data": PackedByteArray(0, 0, 1, 0, 2, 0),
+"name": "material_0",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 3,
+"vertex_data": PackedByteArray(0, 0, 0, 0, 75, 162, 0, 0, 255, 255, 0, 0, 255, 255, 0, 0, 152, 68, 0, 0, 0, 0, 0, 0)
+}, {
+"aabb": AABB(-0.5, 0, -0.36602542, 0.5, 1, 0.36602542),
+"format": 34896613377,
+"index_count": 3,
+"index_data": PackedByteArray(0, 0, 1, 0, 2, 0),
+"name": "material_1",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 3,
+"vertex_data": PackedByteArray(152, 68, 0, 0, 0, 0, 0, 0, 255, 255, 255, 255, 255, 255, 0, 0, 0, 0, 0, 0, 75, 162, 0, 0)
+}, {
+"aabb": AABB(-0.5, 0, -0.1339746, 0.5, 1e-05, 0.2679492),
+"format": 34896613377,
+"index_count": 3,
+"index_data": PackedByteArray(0, 0, 1, 0, 2, 0),
+"name": "material_0",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 3,
+"vertex_data": PackedByteArray(0, 0, 0, 0, 255, 255, 0, 0, 255, 255, 0, 0, 255, 127, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+}, {
+"aabb": AABB(-0.5, 0, -0.1339746, 0.5, 1, 0.2679492),
+"format": 34896613377,
+"index_count": 3,
+"index_data": PackedByteArray(0, 0, 1, 0, 2, 0),
+"name": "material_1",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 3,
+"vertex_data": PackedByteArray(0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 255, 255, 255, 127, 0, 0, 0, 0, 0, 0, 255, 255, 0, 0)
+}, {
+"aabb": AABB(-0.5, 0, 0, 0.5, 1e-05, 0.36602542),
+"format": 34896613377,
+"index_count": 3,
+"index_data": PackedByteArray(0, 0, 1, 0, 2, 0),
+"name": "material_0",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 3,
+"vertex_data": PackedByteArray(152, 68, 0, 0, 255, 255, 0, 0, 255, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 179, 93, 0, 0)
+}, {
+"aabb": AABB(-0.5, 0, 0, 0.5, 1, 0.36602542),
+"format": 34896613377,
+"index_count": 3,
+"index_data": PackedByteArray(0, 0, 1, 0, 2, 0),
+"name": "material_1",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 3,
+"vertex_data": PackedByteArray(0, 0, 0, 0, 179, 93, 0, 0, 255, 255, 255, 255, 0, 0, 0, 0, 152, 68, 0, 0, 255, 255, 0, 0)
+}, {
+"aabb": AABB(-0.36602542, 0, 0, 0.36602542, 1e-05, 0.5),
+"format": 34896613377,
+"index_count": 3,
+"index_data": PackedByteArray(0, 0, 1, 0, 2, 0),
+"name": "material_0",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 3,
+"vertex_data": PackedByteArray(75, 162, 0, 0, 255, 255, 0, 0, 255, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 102, 187, 0, 0)
+}, {
+"aabb": AABB(-0.36602542, 0, 0, 0.36602542, 1, 0.5),
+"format": 34896613377,
+"index_count": 3,
+"index_data": PackedByteArray(0, 0, 1, 0, 2, 0),
+"name": "material_1",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 3,
+"vertex_data": PackedByteArray(0, 0, 0, 0, 102, 187, 0, 0, 255, 255, 255, 255, 0, 0, 0, 0, 75, 162, 0, 0, 255, 255, 0, 0)
+}, {
+"aabb": AABB(-0.1339746, 0, 0, 0.2679492, 1e-05, 0.5),
+"format": 34896613377,
+"index_count": 3,
+"index_data": PackedByteArray(0, 0, 1, 0, 2, 0),
+"name": "material_0",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 3,
+"vertex_data": PackedByteArray(255, 255, 0, 0, 255, 255, 0, 0, 255, 127, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 0, 0)
+}, {
+"aabb": AABB(-0.1339746, 0, 0, 0.2679492, 1, 0.5),
+"format": 34896613377,
+"index_count": 3,
+"index_data": PackedByteArray(0, 0, 1, 0, 2, 0),
+"name": "material_1",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 3,
+"vertex_data": PackedByteArray(0, 0, 0, 0, 255, 255, 0, 0, 255, 127, 255, 255, 0, 0, 0, 0, 255, 255, 0, 0, 255, 255, 0, 0)
+}]
+blend_shape_mode = 0
+
+[resource]
+resource_name = "blockbench_export_mesh"
+_surfaces = [{
+"aabb": AABB(0, 0, 0, 0.36602542, 1e-05, 0.5),
+"attribute_data": PackedByteArray(131, 132, 65, 66, 0, 0, 65, 66, 194, 114, 0, 0),
+"format": 34896613399,
+"index_count": 3,
+"index_data": PackedByteArray(0, 0, 1, 0, 2, 0),
+"material": SubResource("StandardMaterial3D_j3ed5"),
+"name": "material_0",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 3,
+"vertex_data": PackedByteArray(255, 255, 0, 0, 102, 187, 252, 197, 0, 0, 0, 0, 0, 0, 252, 197, 179, 93, 0, 0, 255, 255, 252, 197, 255, 28, 253, 185, 255, 28, 253, 185, 255, 28, 253, 185)
+}, {
+"aabb": AABB(0, 0, 0, 0.36602542, 1, 0.5),
+"attribute_data": PackedByteArray(0, 0, 27, 143, 38, 17, 0, 0, 76, 34, 27, 143),
+"format": 34896613399,
+"index_count": 3,
+"index_data": PackedByteArray(0, 0, 1, 0, 2, 0),
+"material": SubResource("StandardMaterial3D_uukg1"),
+"name": "material_1",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 3,
+"vertex_data": PackedByteArray(179, 93, 0, 0, 255, 255, 89, 156, 0, 0, 255, 255, 0, 0, 89, 156, 255, 255, 0, 0, 102, 187, 89, 156, 137, 195, 68, 53, 137, 195, 68, 53, 137, 195, 68, 53)
+}, {
+"aabb": AABB(0, 0, 0, 0.5, 1e-05, 0.36602542),
+"attribute_data": PackedByteArray(131, 132, 65, 66, 0, 0, 65, 66, 194, 114, 0, 0),
+"format": 34896613399,
+"index_count": 3,
+"index_data": PackedByteArray(0, 0, 1, 0, 2, 0),
+"material": SubResource("StandardMaterial3D_j3ed5"),
+"name": "material_0",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 3,
+"vertex_data": PackedByteArray(255, 255, 0, 0, 179, 93, 176, 192, 0, 0, 0, 0, 0, 0, 176, 192, 102, 187, 0, 0, 255, 255, 176, 192, 86, 13, 173, 154, 86, 13, 173, 154, 86, 13, 173, 154)
+}, {
+"aabb": AABB(0, 0, 0, 0.5, 1, 0.36602542),
+"attribute_data": PackedByteArray(0, 0, 27, 143, 38, 17, 0, 0, 76, 34, 27, 143),
+"format": 34896613399,
+"index_count": 3,
+"index_data": PackedByteArray(0, 0, 1, 0, 2, 0),
+"material": SubResource("StandardMaterial3D_uukg1"),
+"name": "material_1",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 3,
+"vertex_data": PackedByteArray(102, 187, 0, 0, 255, 255, 76, 174, 0, 0, 255, 255, 0, 0, 76, 174, 255, 255, 0, 0, 179, 93, 76, 174, 46, 178, 208, 31, 46, 178, 208, 31, 46, 178, 208, 31)
+}, {
+"aabb": AABB(0, 0, -0.1339746, 0.5, 1e-05, 0.2679492),
+"attribute_data": PackedByteArray(255, 127, 152, 68, 0, 0, 76, 34, 255, 127, 0, 0),
+"format": 34896613399,
+"index_count": 3,
+"index_data": PackedByteArray(0, 0, 1, 0, 2, 0),
+"material": SubResource("StandardMaterial3D_j3ed5"),
+"name": "material_0",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 3,
+"vertex_data": PackedByteArray(255, 255, 0, 0, 0, 0, 255, 191, 0, 0, 0, 0, 255, 127, 255, 191, 255, 255, 0, 0, 255, 255, 255, 191, 0, 0, 255, 127, 0, 0, 255, 127, 0, 0, 255, 127)
+}, {
+"aabb": AABB(0, 0, -0.1339746, 0.5, 1, 0.2679492),
+"attribute_data": PackedByteArray(0, 0, 27, 143, 38, 17, 0, 0, 76, 34, 27, 143),
+"format": 34896613399,
+"index_count": 3,
+"index_data": PackedByteArray(0, 0, 1, 0, 2, 0),
+"material": SubResource("StandardMaterial3D_uukg1"),
+"name": "material_1",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 3,
+"vertex_data": PackedByteArray(255, 255, 0, 0, 255, 255, 38, 194, 0, 0, 255, 255, 255, 127, 38, 194, 255, 255, 0, 0, 0, 0, 38, 194, 12, 169, 134, 20, 12, 169, 134, 20, 12, 169, 134, 20)
+}, {
+"aabb": AABB(0, 0, -0.36602542, 0.5, 1e-05, 0.36602542),
+"attribute_data": PackedByteArray(0, 0, 131, 132, 0, 0, 0, 0, 65, 66, 194, 114),
+"format": 34896613399,
+"index_count": 3,
+"index_data": PackedByteArray(0, 0, 1, 0, 2, 0),
+"material": SubResource("StandardMaterial3D_j3ed5"),
+"name": "material_0",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 3,
+"vertex_data": PackedByteArray(102, 187, 0, 0, 0, 0, 252, 197, 0, 0, 0, 0, 255, 255, 252, 197, 255, 255, 0, 0, 75, 162, 252, 197, 255, 28, 253, 185, 255, 28, 253, 185, 255, 28, 253, 185)
+}, {
+"aabb": AABB(0, 0, -0.36602542, 0.5, 1, 0.36602542),
+"attribute_data": PackedByteArray(0, 0, 27, 143, 38, 17, 0, 0, 76, 34, 27, 143),
+"format": 34896613399,
+"index_count": 3,
+"index_data": PackedByteArray(0, 0, 1, 0, 2, 0),
+"material": SubResource("StandardMaterial3D_uukg1"),
+"name": "material_1",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 3,
+"vertex_data": PackedByteArray(255, 255, 0, 0, 75, 162, 149, 214, 0, 0, 255, 255, 255, 255, 149, 214, 102, 187, 0, 0, 0, 0, 149, 214, 186, 162, 182, 12, 186, 162, 182, 12, 186, 162, 182, 12)
+}, {
+"aabb": AABB(0, 0, -0.5, 0.36602542, 1e-05, 0.5),
+"attribute_data": PackedByteArray(0, 0, 131, 132, 0, 0, 0, 0, 65, 66, 194, 114),
+"format": 34896613399,
+"index_count": 3,
+"index_data": PackedByteArray(0, 0, 1, 0, 2, 0),
+"material": SubResource("StandardMaterial3D_j3ed5"),
+"name": "material_0",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 3,
+"vertex_data": PackedByteArray(179, 93, 0, 0, 0, 0, 176, 192, 0, 0, 0, 0, 255, 255, 176, 192, 255, 255, 0, 0, 152, 68, 176, 192, 86, 13, 173, 154, 86, 13, 173, 154, 86, 13, 173, 154)
+}, {
+"aabb": AABB(0, 0, -0.5, 0.36602542, 1, 0.5),
+"attribute_data": PackedByteArray(0, 0, 27, 143, 38, 17, 0, 0, 76, 34, 27, 143),
+"format": 34896613399,
+"index_count": 3,
+"index_data": PackedByteArray(0, 0, 1, 0, 2, 0),
+"material": SubResource("StandardMaterial3D_uukg1"),
+"name": "material_1",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 3,
+"vertex_data": PackedByteArray(255, 255, 0, 0, 152, 68, 63, 235, 0, 0, 255, 255, 255, 255, 63, 235, 179, 93, 0, 0, 0, 0, 63, 235, 124, 157, 59, 6, 124, 157, 59, 6, 124, 157, 59, 6)
+}, {
+"aabb": AABB(-0.1339746, 0, -0.5, 0.2679492, 1e-05, 0.5),
+"attribute_data": PackedByteArray(0, 0, 255, 127, 76, 34, 0, 0, 152, 68, 255, 127),
+"format": 34896613399,
+"index_count": 3,
+"index_data": PackedByteArray(0, 0, 1, 0, 2, 0),
+"material": SubResource("StandardMaterial3D_j3ed5"),
+"name": "material_0",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 3,
+"vertex_data": PackedByteArray(0, 0, 0, 0, 0, 0, 255, 191, 255, 127, 0, 0, 255, 255, 255, 191, 255, 255, 0, 0, 0, 0, 255, 191, 0, 0, 255, 127, 0, 0, 255, 127, 0, 0, 255, 127)
+}, {
+"aabb": AABB(-0.1339746, 0, -0.5, 0.2679492, 1, 0.5),
+"attribute_data": PackedByteArray(0, 0, 27, 143, 38, 17, 0, 0, 76, 34, 27, 143),
+"format": 34896613399,
+"index_count": 3,
+"index_data": PackedByteArray(0, 0, 1, 0, 2, 0),
+"material": SubResource("StandardMaterial3D_uukg1"),
+"name": "material_1",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 3,
+"vertex_data": PackedByteArray(255, 255, 0, 0, 0, 0, 255, 255, 255, 127, 255, 255, 255, 255, 255, 255, 0, 0, 0, 0, 0, 0, 255, 255, 255, 127, 140, 231, 255, 127, 140, 231, 255, 127, 140, 231)
+}, {
+"aabb": AABB(-0.36602542, 0, -0.5, 0.36602542, 1e-05, 0.5),
+"attribute_data": PackedByteArray(0, 0, 0, 0, 131, 132, 0, 0, 192, 17, 65, 66),
+"format": 34896613399,
+"index_count": 3,
+"index_data": PackedByteArray(0, 0, 1, 0, 2, 0),
+"material": SubResource("StandardMaterial3D_j3ed5"),
+"name": "material_0",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 3,
+"vertex_data": PackedByteArray(0, 0, 0, 0, 152, 68, 252, 197, 255, 255, 0, 0, 255, 255, 252, 197, 75, 162, 0, 0, 0, 0, 252, 197, 255, 28, 253, 185, 255, 28, 253, 185, 255, 28, 253, 185)
+}, {
+"aabb": AABB(-0.36602542, 0, -0.5, 0.36602542, 1, 0.5),
+"attribute_data": PackedByteArray(0, 0, 27, 143, 38, 17, 0, 0, 76, 34, 27, 143),
+"format": 34896613399,
+"index_count": 3,
+"index_data": PackedByteArray(0, 0, 1, 0, 2, 0),
+"material": SubResource("StandardMaterial3D_uukg1"),
+"name": "material_1",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 3,
+"vertex_data": PackedByteArray(75, 162, 0, 0, 0, 0, 63, 235, 255, 255, 255, 255, 255, 255, 63, 235, 0, 0, 0, 0, 152, 68, 63, 235, 58, 134, 130, 226, 58, 134, 130, 226, 58, 134, 130, 226)
+}, {
+"aabb": AABB(-0.5, 0, -0.36602542, 0.5, 1e-05, 0.36602542),
+"attribute_data": PackedByteArray(0, 0, 0, 0, 131, 132, 0, 0, 192, 17, 65, 66),
+"format": 34896613399,
+"index_count": 3,
+"index_data": PackedByteArray(0, 0, 1, 0, 2, 0),
+"material": SubResource("StandardMaterial3D_j3ed5"),
+"name": "material_0",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 3,
+"vertex_data": PackedByteArray(0, 0, 0, 0, 75, 162, 176, 192, 255, 255, 0, 0, 255, 255, 176, 192, 152, 68, 0, 0, 0, 0, 176, 192, 86, 13, 173, 154, 86, 13, 173, 154, 86, 13, 173, 154)
+}, {
+"aabb": AABB(-0.5, 0, -0.36602542, 0.5, 1, 0.36602542),
+"attribute_data": PackedByteArray(0, 0, 27, 143, 38, 17, 0, 0, 76, 34, 27, 143),
+"format": 34896613399,
+"index_count": 3,
+"index_data": PackedByteArray(0, 0, 1, 0, 2, 0),
+"material": SubResource("StandardMaterial3D_uukg1"),
+"name": "material_1",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 3,
+"vertex_data": PackedByteArray(152, 68, 0, 0, 0, 0, 149, 214, 255, 255, 255, 255, 255, 255, 149, 214, 0, 0, 0, 0, 75, 162, 149, 214, 181, 140, 68, 221, 181, 140, 68, 221, 181, 140, 68, 221)
+}, {
+"aabb": AABB(-0.5, 0, -0.1339746, 0.5, 1e-05, 0.2679492),
+"attribute_data": PackedByteArray(0, 0, 0, 0, 255, 127, 76, 34, 0, 0, 152, 68),
+"format": 34896613399,
+"index_count": 3,
+"index_data": PackedByteArray(0, 0, 1, 0, 2, 0),
+"material": SubResource("StandardMaterial3D_j3ed5"),
+"name": "material_0",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 3,
+"vertex_data": PackedByteArray(0, 0, 0, 0, 255, 255, 255, 191, 255, 255, 0, 0, 255, 127, 255, 191, 0, 0, 0, 0, 0, 0, 255, 191, 0, 0, 255, 127, 0, 0, 255, 127, 0, 0, 255, 127)
+}, {
+"aabb": AABB(-0.5, 0, -0.1339746, 0.5, 1, 0.2679492),
+"attribute_data": PackedByteArray(0, 0, 27, 143, 38, 17, 0, 0, 76, 34, 27, 143),
+"format": 34896613399,
+"index_count": 3,
+"index_data": PackedByteArray(0, 0, 1, 0, 2, 0),
+"material": SubResource("StandardMaterial3D_uukg1"),
+"name": "material_1",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 3,
+"vertex_data": PackedByteArray(0, 0, 0, 0, 0, 0, 38, 194, 255, 255, 255, 255, 255, 127, 38, 194, 0, 0, 0, 0, 255, 255, 38, 194, 134, 148, 241, 214, 134, 148, 241, 214, 134, 148, 241, 214)
+}, {
+"aabb": AABB(-0.5, 0, 0, 0.5, 1e-05, 0.36602542),
+"attribute_data": PackedByteArray(65, 66, 0, 0, 65, 66, 131, 132, 0, 0, 192, 17),
+"format": 34896613399,
+"index_count": 3,
+"index_data": PackedByteArray(0, 0, 1, 0, 2, 0),
+"material": SubResource("StandardMaterial3D_j3ed5"),
+"name": "material_0",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 3,
+"vertex_data": PackedByteArray(152, 68, 0, 0, 255, 255, 252, 197, 255, 255, 0, 0, 0, 0, 252, 197, 0, 0, 0, 0, 179, 93, 252, 197, 255, 28, 253, 185, 255, 28, 253, 185, 255, 28, 253, 185)
+}, {
+"aabb": AABB(-0.5, 0, 0, 0.5, 1, 0.36602542),
+"attribute_data": PackedByteArray(0, 0, 27, 143, 38, 17, 0, 0, 76, 34, 27, 143),
+"format": 34896613399,
+"index_count": 3,
+"index_data": PackedByteArray(0, 0, 1, 0, 2, 0),
+"material": SubResource("StandardMaterial3D_uukg1"),
+"name": "material_1",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 3,
+"vertex_data": PackedByteArray(0, 0, 0, 0, 179, 93, 76, 174, 255, 255, 255, 255, 0, 0, 76, 174, 152, 68, 0, 0, 255, 255, 76, 174, 208, 159, 207, 205, 208, 159, 207, 205, 208, 159, 207, 205)
+}, {
+"aabb": AABB(-0.36602542, 0, 0, 0.36602542, 1e-05, 0.5),
+"attribute_data": PackedByteArray(65, 66, 0, 0, 65, 66, 131, 132, 0, 0, 192, 17),
+"format": 34896613399,
+"index_count": 3,
+"index_data": PackedByteArray(0, 0, 1, 0, 2, 0),
+"material": SubResource("StandardMaterial3D_j3ed5"),
+"name": "material_0",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 3,
+"vertex_data": PackedByteArray(75, 162, 0, 0, 255, 255, 176, 192, 255, 255, 0, 0, 0, 0, 176, 192, 0, 0, 0, 0, 102, 187, 176, 192, 86, 13, 173, 154, 86, 13, 173, 154, 86, 13, 173, 154)
+}, {
+"aabb": AABB(-0.36602542, 0, 0, 0.36602542, 1, 0.5),
+"attribute_data": PackedByteArray(0, 0, 27, 143, 38, 17, 0, 0, 76, 34, 27, 143),
+"format": 34896613399,
+"index_count": 3,
+"index_data": PackedByteArray(0, 0, 1, 0, 2, 0),
+"material": SubResource("StandardMaterial3D_uukg1"),
+"name": "material_1",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 3,
+"vertex_data": PackedByteArray(0, 0, 0, 0, 102, 187, 89, 156, 255, 255, 255, 255, 0, 0, 89, 156, 75, 162, 0, 0, 255, 255, 89, 156, 67, 181, 117, 188, 67, 181, 117, 188, 67, 181, 117, 188)
+}, {
+"aabb": AABB(-0.1339746, 0, 0, 0.2679492, 1e-05, 0.5),
+"attribute_data": PackedByteArray(152, 68, 0, 0, 76, 34, 255, 127, 0, 0, 0, 0),
+"format": 34896613399,
+"index_count": 3,
+"index_data": PackedByteArray(0, 0, 1, 0, 2, 0),
+"material": SubResource("StandardMaterial3D_j3ed5"),
+"name": "material_0",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 3,
+"vertex_data": PackedByteArray(255, 255, 0, 0, 255, 255, 255, 191, 255, 127, 0, 0, 0, 0, 255, 191, 0, 0, 0, 0, 255, 255, 255, 191, 0, 0, 255, 127, 0, 0, 255, 127, 0, 0, 255, 127)
+}, {
+"aabb": AABB(-0.1339746, 0, 0, 0.2679492, 1, 0.5),
+"attribute_data": PackedByteArray(0, 0, 27, 143, 38, 17, 0, 0, 76, 34, 27, 143),
+"format": 34896613399,
+"index_count": 3,
+"index_data": PackedByteArray(0, 0, 1, 0, 2, 0),
+"material": SubResource("StandardMaterial3D_uukg1"),
+"name": "material_1",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 3,
+"vertex_data": PackedByteArray(0, 0, 0, 0, 255, 255, 227, 146, 255, 127, 255, 255, 0, 0, 227, 146, 255, 255, 0, 0, 255, 255, 227, 146, 255, 255, 255, 127, 255, 255, 255, 127, 255, 255, 255, 127)
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_ujaai")

@@ -434,7 +434,7 @@ script = ExtResource("9_rtpsh")
 rayCast = NodePath("../../Neck/RayCast3D")
 hand = NodePath("../../PlayerModel/Node/Hands/right_H/Hand_R/HoldingPoint/Hand")
 handAnimator = NodePath("HandAnimator")
-inventory = Array[String](["Hammer", "Cube", "LightBulb", "BlackCube"])
+inventory = Array[String](["Hammer", "Cube", "LightBulb", "BlackCube", "Cone"])
 
 [node name="HandAnimator" type="AnimationPlayer" parent="ComponentHolder/PlayerItemUse"]
 libraries = {

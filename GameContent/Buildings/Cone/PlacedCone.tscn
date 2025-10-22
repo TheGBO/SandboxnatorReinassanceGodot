@@ -1,0 +1,15 @@
+[gd_scene load_steps=4 format=3 uid="uid://kicqsbwx5srw"]
+
+[ext_resource type="PackedScene" uid="uid://wemqi51d1620" path="res://GameContent/Buildings/Cube/Placed_Cube.tscn" id="1_4jdau"]
+[ext_resource type="ArrayMesh" uid="uid://ytmryq6ofimr" path="res://GameContent/Buildings/Cone/ConeMesh.tres" id="2_4jdau"]
+[ext_resource type="Shape3D" uid="uid://bbuxt2el4p0fq" path="res://GameContent/Buildings/Cone/ConeColl.tres" id="3_x2het"]
+
+[node name="PlacedCone" instance=ExtResource("1_4jdau")]
+
+[node name="MeshInstance3D" parent="." index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+mesh = ExtResource("2_4jdau")
+
+[node name="CollisionShape3D" parent="." index="2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+shape = ExtResource("3_x2het")
