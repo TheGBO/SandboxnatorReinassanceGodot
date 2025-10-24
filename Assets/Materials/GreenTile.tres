@@ -3,6 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://boo5ad36he1ul" path="res://Assets/Textures/BorderlessTile.png" id="1_0itlb"]
 
 [resource]
+diffuse_mode = 3
 albedo_color = Color(0.3363, 0.59, 0.3363, 1)
 albedo_texture = ExtResource("1_0itlb")
 metallic_specular = 0.0

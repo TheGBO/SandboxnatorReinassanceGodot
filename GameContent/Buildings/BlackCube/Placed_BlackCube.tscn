@@ -1,9 +1,0 @@
-[gd_scene load_steps=3 format=3 uid="uid://d2fncfbkequtx"]
-
-[ext_resource type="PackedScene" uid="uid://wemqi51d1620" path="res://GameContent/Buildings/Cube/Placed_Cube.tscn" id="1_sab7d"]
-[ext_resource type="BoxMesh" uid="uid://bnxq0glaa18cp" path="res://GameContent/Buildings/BlackCube/PlacedBlackCubeMesh.tres" id="2_5fhjm"]
-
-[node name="PlacedBlackCube" instance=ExtResource("1_sab7d")]
-
-[node name="MeshInstance3D" parent="." index="1"]
-mesh = ExtResource("2_5fhjm")

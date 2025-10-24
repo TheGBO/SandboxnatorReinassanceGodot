@@ -2,7 +2,7 @@ shader_type spatial;
 
 uniform vec3 validRenderColor = vec3(0.0, 1.0, 0.0);
 uniform float transparencyAmplitude = 0.25;
-uniform float transparencyOffset = 0.125;
+uniform float transparencyOffset = 0.75;
 
 uniform sampler2D SCREEN_TEXTURE : hint_screen_texture;
 render_mode unshaded;

@@ -1,0 +1,55 @@
+[gd_scene load_steps=8 format=3 uid="uid://bwpdpg3s1b868"]
+
+[ext_resource type="Script" uid="uid://bv0c7lrf15lmu" path="res://Source/Entities/Buildings/Placeable.cs" id="1_lrkqx"]
+[ext_resource type="Material" uid="uid://cwqjolp2w3bto" path="res://Assets/Materials/tileMaterial.tres" id="2_tomxc"]
+[ext_resource type="PackedScene" uid="uid://dt7f7iern17j1" path="res://Source/Entities/Buildings/Snapper.tscn" id="3_jxyuh"]
+[ext_resource type="Script" uid="uid://e34gkmm62lfj" path="res://Source/Common/ComponentSystem/ComponentHolder.cs" id="4_peig7"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_0od6p"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 2
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 2
+
+[sub_resource type="BoxMesh" id="BoxMesh_613oe"]
+material = ExtResource("2_tomxc")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_3v22q"]
+
+[node name="BasePlaced" type="RigidBody3D"]
+freeze = true
+script = ExtResource("1_lrkqx")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_0od6p")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_613oe")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_3v22q")
+
+[node name="snappers" type="Node3D" parent="."]
+
+[node name="snapper_N" parent="snappers" instance=ExtResource("3_jxyuh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
+
+[node name="snapper_S" parent="snappers" instance=ExtResource("3_jxyuh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
+
+[node name="snapper_E" parent="snappers" instance=ExtResource("3_jxyuh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
+
+[node name="snapper_W" parent="snappers" instance=ExtResource("3_jxyuh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 0)
+
+[node name="snapper_U" parent="snappers" instance=ExtResource("3_jxyuh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="snapper_D" parent="snappers" instance=ExtResource("3_jxyuh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+
+[node name="ComponentHolder" type="Node" parent="."]
+script = ExtResource("4_peig7")

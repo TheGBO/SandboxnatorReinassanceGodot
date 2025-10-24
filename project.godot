@@ -49,6 +49,7 @@ enabled=PackedStringArray()
 
 folder_colors={
 "res://Assets/": "red",
+"res://Export/": "orange",
 "res://GameContent/": "yellow",
 "res://GameContent/Buildings/": "yellow",
 "res://GameContent/Items/": "yellow",
@@ -56,14 +57,13 @@ folder_colors={
 "res://GameContent/Items/Nut/": "red",
 "res://GameContent/Items/RGBall/": "red",
 "res://GameContent/Items/_Abstract/": "red",
-"res://Source/": "red",
+"res://Source/": "green",
 "res://Source/Chat/": "orange",
 "res://Source/Common/": "yellow",
 "res://Source/Entities/": "green",
 "res://Source/Items/": "blue",
-"res://UI/": "purple",
-"res://World/": "orange",
-"res://export/": "orange"
+"res://UI/": "blue",
+"res://World/": "purple"
 }
 
 [gui]
