@@ -6,7 +6,7 @@
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_q3ce8"]
 transparency = 1
-albedo_color = Color(1, 1, 1, 0.34117648)
+shading_mode = 0
 
 [sub_resource type="SphereMesh" id="SphereMesh_ravi1"]
 material = SubResource("StandardMaterial3D_q3ce8")
