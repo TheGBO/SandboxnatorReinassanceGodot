@@ -21,9 +21,12 @@ public partial class GameRegistries : Singleton<GameRegistries>
     public Registry<PackedScene> BuildingRegistry { get; set; } = new();
     public GameSettingsData SettingsData { get; set; } = new();
 
+    [Export]
+    public Texture2D BuildingPallete;
+
     public static string GetGameVersion => ProjectSettings.GetSetting("application/config/version").ToString();
 
-    //EVENT BUS SECTION
+    //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-EVENT BUS SECTION
     /// <summary>
     /// Called when settings are saved and SettingsData is reassigned.
     /// </summary>

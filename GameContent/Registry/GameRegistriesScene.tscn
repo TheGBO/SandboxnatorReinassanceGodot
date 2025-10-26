@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://dx4fogi4qptr5"]
+
+[ext_resource type="Script" uid="uid://bl0srvs3r6ihk" path="res://GameContent/Registry/GameRegistries.cs" id="1_w0xus"]
+[ext_resource type="Texture2D" uid="uid://ejjv6hmc4fqq" path="res://Assets/Pallete.png" id="2_n3rbt"]
+
+[node name="GameRegistriesScene" type="Node"]
+script = ExtResource("1_w0xus")
+BuildingPallete = ExtResource("2_n3rbt")

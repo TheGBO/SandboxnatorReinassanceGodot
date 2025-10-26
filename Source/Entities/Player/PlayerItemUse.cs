@@ -38,8 +38,15 @@ public partial class PlayerItemUse : AbstractComponent<Player>
 		SetupInput();
 		UpdateItemModelAndData();
 		OnItemChanged?.Invoke(_currentItemID);
+		OnItemChanged += UpdateRaycastRange;
 
 		// When a player joins, server enforces the correct item
+	}
+
+	private void UpdateRaycastRange(string _)
+	{
+		rayCast.TargetPosition = Vector3.Forward * _item.RaycastRangeOverride;
+		NcLogger.Log($"updating raycast range to {rayCast.TargetPosition}");
 	}
 
 	private void SetupInput()
@@ -52,7 +59,8 @@ public partial class PlayerItemUse : AbstractComponent<Player>
 		{
 			desiredRotation.Y += _rotationIncrement * (Mathf.Pi / 180);
 		};
-		ComponentParent.playerInput.UsePrimary += ClientUse;
+		ComponentParent.playerInput.UsePrimary += ClientUsePrimary;
+		ComponentParent.playerInput.UseSecondary += ClientUseSecondary;
 		ComponentParent.playerInput.UseIncrement += () => RequestCycleItem(1);
 		ComponentParent.playerInput.UseDecrement += () => RequestCycleItem(-1);
 	}
@@ -84,7 +92,10 @@ public partial class PlayerItemUse : AbstractComponent<Player>
 		ComponentParent.playerItemSync.ServerForceSync(_currentItemID);
 	}
 
-	public void ClientUse()
+	public void ClientUsePrimary() => ClientUse(true);
+	public void ClientUseSecondary() => ClientUse(false);
+
+	public void ClientUse(bool primaryUsage)
 	{
 		if (!rayCast.IsColliding()) return;
 
@@ -96,7 +107,8 @@ public partial class PlayerItemUse : AbstractComponent<Player>
 			PlayerId = ComponentParent.componentHolder.entityId,
 			DesiredRotation = desiredRotation,
 			Normal = normal,
-			Position = collisionPoint
+			Position = collisionPoint,
+			IsPrimaryUse = primaryUsage
 		};
 
 		// Send usage request to server

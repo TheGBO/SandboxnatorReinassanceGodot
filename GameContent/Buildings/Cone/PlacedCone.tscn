@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://kicqsbwx5srw"]
+
+[ext_resource type="PackedScene" uid="uid://dyjq7d6grfpuu" path="res://GameContent/Buildings/Cube/PlacedCube.tscn" id="1_4jdau"]
+[ext_resource type="ArrayMesh" uid="uid://ytmryq6ofimr" path="res://GameContent/Buildings/Cone/ConeMesh.tres" id="2_x2het"]
+
+[node name="PlacedCone" instance=ExtResource("1_4jdau")]
+
+[node name="MeshInstance3D" parent="." index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+mesh = ExtResource("2_x2het")

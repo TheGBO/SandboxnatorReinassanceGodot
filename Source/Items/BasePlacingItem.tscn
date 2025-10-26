@@ -14,7 +14,7 @@ size = Vector3(0.95, 0.95, 0.95)
 script = ExtResource("1_wv8dl")
 previewMesh = NodePath("PreviewMesh")
 previewCollider = NodePath("PreviewCollider")
-snapRange = 1.0
+snapRange = 0.5
 animateHand = true
 usageCooldown = 0.2
 

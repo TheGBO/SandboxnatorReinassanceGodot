@@ -10,6 +10,7 @@ public partial class BaseItem : Node3D
 	/// abbreviation for Player Tool Use
 	/// </summary>
 	public PlayerItemUse ItemUser { get; set; }
+	[Export] public float RaycastRangeOverride { get; private set; } = 8;
 
 	[Export] public bool animateHand;
 	[Export] public float usageCooldown;

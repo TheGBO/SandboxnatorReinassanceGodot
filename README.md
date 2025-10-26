@@ -3,7 +3,7 @@
   <img src="UI/SBlogo.png" width="500" alt="Sandboxnator Logo">
 </p>
 
-<h1 align="center">🌍 Sandboxnator</h1>
+<h1 align="center">Sandboxnator</h1>
 <p align="center">
   <b>A very experimental multiplayer sandbox game.</b>
 </p>
@@ -29,15 +29,15 @@
 
 ---
 
-## ✨ Features (The whole game is still in progress)
-- 🏗️ **Freeform Building** – Place, rotate, and snap objects however you want.
-- 🌐 **Multiplayer Sync** – Powered by Godot 4’s multiplayer ENet API.
-- 🧩 **Modular Systems** – Custom player components, extensible commands, and more.
-- 🎮 **Godot 4 Mono (C#)** – Full power of C# for modularity and performance.
+## Features (The whole game is still in progress)
+- **Freeform Building** – Place, rotate, and snap objects however you want.
+- **Multiplayer Sync** – Powered by Godot 4’s multiplayer ENet API.
+- **Modular Systems** – Custom player components, extensible commands, and more.
+- **Godot 4 Mono (C#)** – Full power of C# for modularity and performance.
 
 ---
 
-## 📸 Showcase
+## Showcase
 <p align="center">
   <img src="https://media.discordapp.net/attachments/1405673226104864778/1410346467629207834/image.png?ex=68b940c0&is=68b7ef40&hm=e9bfa9d7a27b5a1a413414179db21bc7743214a5c3061cee31fa6b1684bc3f13&=&format=webp&quality=lossless&width=1388&height=781" width="600" alt="Gameplay GIF">
 </p>
@@ -48,7 +48,7 @@
 
 ---
 
-## 🛠 Tech Stack
+## Tech Stack
 - **Engine:** [Godot 4 Mono](https://godotengine.org/)
 - **Language:** C#
 - **Networking:** Godot Multiplayer API
@@ -56,7 +56,7 @@
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 Clone the repository:
 ```bash
 git clone https://github.com/TheGBO/SandboxnatorReinassanceGodot.git

@@ -1,0 +1,33 @@
+[gd_scene load_steps=6 format=3 uid="uid://qgk237jsmlka"]
+
+[ext_resource type="PackedScene" uid="uid://db8m6k6h60fdk" path="res://Source/Items/BaseItem.tscn" id="1_3sn1u"]
+[ext_resource type="Texture2D" uid="uid://bhncfyiqm2nju" path="res://GameContent/Items/PaintBubble/RGBall.png" id="2_mc0uy"]
+[ext_resource type="Script" uid="uid://dasd4jgq0ws7a" path="res://GameContent/Items/PaintBubble/PaintBubble.cs" id="2_q3ce8"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_q3ce8"]
+transparency = 1
+albedo_color = Color(1, 1, 1, 0.34117648)
+
+[sub_resource type="SphereMesh" id="SphereMesh_ravi1"]
+material = SubResource("StandardMaterial3D_q3ce8")
+radius = 0.25
+height = 0.5
+radial_segments = 8
+rings = 8
+
+[node name="PaintBubble" node_paths=PackedStringArray("bubble") instance=ExtResource("1_3sn1u")]
+script = ExtResource("2_q3ce8")
+bubble = NodePath("MeshInstance3D")
+colorIndex = 0
+RaycastRangeOverride = 32.0
+animateHand = false
+
+[node name="Sprite3D" type="Sprite3D" parent="." index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.17482622, 0)
+visible = false
+billboard = 1
+texture = ExtResource("2_mc0uy")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.17837751, 0)
+mesh = SubResource("SphereMesh_ravi1")

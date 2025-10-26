@@ -19,12 +19,14 @@ public partial class PlayerInput : AbstractComponent<Player>
     //Camera
     public Action OnToggleCursorCapture;
     public Vector2 LookVector { get; private set; }
+
     public Action OnMouseMovement;
     //Building
     public Action RotateCW;
     public Action RotateCCW;
     //usage
     public Action UsePrimary;
+    public Action UseSecondary;
     public Action UseIncrement;
     public Action UseDecrement;
 
@@ -103,6 +105,11 @@ public partial class PlayerInput : AbstractComponent<Player>
         if (Input.IsActionJustPressed("use_primary"))
         {
             UsePrimary?.Invoke();
+        }
+
+        if (Input.IsActionJustPressed("use_secondary"))
+        {
+            UseSecondary?.Invoke();
         }
 
         if (Input.IsActionJustPressed("use_increment"))

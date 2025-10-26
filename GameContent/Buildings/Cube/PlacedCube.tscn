@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://dyjq7d6grfpuu"]
+
+[ext_resource type="PackedScene" uid="uid://bwpdpg3s1b868" path="res://GameContent/Buildings/_BasePlaced.tscn" id="1_1uskk"]
+[ext_resource type="Script" uid="uid://cl8l1clcyvaxu" path="res://Source/Entities/Components/Paintable.cs" id="2_o6dq1"]
+
+[node name="PlacedCube" instance=ExtResource("1_1uskk")]
+
+[node name="Paintable" type="Node3D" parent="ComponentHolder" index="0" node_paths=PackedStringArray("targetMeshes")]
+script = ExtResource("2_o6dq1")
+targetMeshes = [NodePath("../../MeshInstance3D")]

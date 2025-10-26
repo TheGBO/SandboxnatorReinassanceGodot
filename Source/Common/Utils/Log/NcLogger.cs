@@ -34,6 +34,20 @@ public static class NcLogger
         (Colors.Yellow, "[WARN]")
     };
 
+    //aliases
+    public static void Info(string msg, LogFlags flags = DEFAULT_LOG_FLAGS)
+    => Log(msg, LogType.Info, flags);
+
+    public static void Warn(string msg, LogFlags flags = DEFAULT_LOG_FLAGS)
+        => Log(msg, LogType.Warn, flags);
+
+    public static void Error(string msg, LogFlags flags = DEFAULT_LOG_FLAGS)
+        => Log(msg, LogType.Error, flags);
+
+    public static void Register(string msg, LogFlags flags = DEFAULT_LOG_FLAGS)
+        => Log(msg, LogType.Register, flags);
+
+
     /// <summary>
     /// General log function
     /// </summary>

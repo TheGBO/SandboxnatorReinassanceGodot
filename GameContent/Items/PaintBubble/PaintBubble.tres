@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="ItemData" load_steps=4 format=3 uid="uid://cj7744x5cwyjg"]
+
+[ext_resource type="Texture2D" uid="uid://bhncfyiqm2nju" path="res://GameContent/Items/PaintBubble/RGBall.png" id="1_8iojf"]
+[ext_resource type="Script" uid="uid://dcb81xxw3xywm" path="res://Source/Items/ItemData.cs" id="1_hkwh4"]
+[ext_resource type="PackedScene" uid="uid://qgk237jsmlka" path="res://GameContent/Items/PaintBubble/ItemPaintBubble.tscn" id="2_yfovi"]
+
+[resource]
+script = ExtResource("1_hkwh4")
+itemScene = ExtResource("2_yfovi")
+itemID = "PaintBubble"
+itemIcon = ExtResource("1_8iojf")
+itemName = "Paint Bubble"
+metadata/_custom_type_script = "uid://dcb81xxw3xywm"

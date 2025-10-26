@@ -23,7 +23,10 @@ public partial class ItemUsageArgs
     [Key(3)]
     public Vector3 DesiredRotation { get; set; }
 
+    [Key(4)]
+    public bool IsPrimaryUse { get; set; } = true;
+
 
     public override string ToString()
-        => $"Item usage args | Pos={Position}, Normal={Normal}, PlayerId={PlayerId}";
+        => $"Item usage args | Pos={Position}, Normal={Normal}, PlayerId={PlayerId}, IsPrimary={IsPrimaryUse}";
 }

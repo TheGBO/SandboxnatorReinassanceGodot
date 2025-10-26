@@ -1,9 +1,29 @@
 using Godot;
+using Godot.Collections;
 using System;
 namespace NullCyan.Util.GodotHelpers;
 
 class ColorAndMeshUtils
 {
+	public static Array<Color> PixelsOfImage(Image img)
+	{
+		Array<Color> result = new();
+
+		if (img.IsCompressed()) img.Decompress();
+
+		Vector2I dimensions = new(img.GetWidth(), img.GetHeight());
+		for (int y = 0; y < dimensions.Y; y++)
+		{
+			for (int x = 0; x < dimensions.X; x++)
+			{
+				Color pixelAt = img.GetPixel(x, y);
+				result.Add(pixelAt);
+			}
+		}
+
+		return result;
+	}
+
 	public static Color InvertColor(Color color)
 	{
 		Color maxxedColor = new(1, 1, 1, 1);

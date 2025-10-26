@@ -1,31 +1,20 @@
 shader_type spatial;
+render_mode unshaded, cull_back, blend_mix;
 
-uniform vec3 validRenderColor = vec3(0.0, 1.0, 0.0);
-uniform float transparencyAmplitude = 0.25;
-uniform float transparencyOffset = 0.75;
+uniform vec3 outline_color = vec3(0.0, 1.0, 1.0);
+uniform float outline_thickness = 0.005;
+uniform float fill_alpha = 0.5;
 
-uniform sampler2D SCREEN_TEXTURE : hint_screen_texture;
-render_mode unshaded;
+void vertex() {
+    // store expanded vertex for outline in a separate varying
+    VERTEX += NORMAL * outline_thickness;
+}
 
 void fragment() {
-    // Use screen UVs instead of mesh UVs
-    vec2 fragCoord = SCREEN_UV;
-    vec2 center = vec2(0.5, 0.5);
+    // faint transparent green fill
+    ALBEDO = outline_color;
+    ALPHA = fill_alpha;
 
-    // Sample background color
-    vec3 bgColor = texture(SCREEN_TEXTURE, fragCoord).rgb;
-
-    // Distance from screen center [0..1]
-    float distToCenter = length(fragCoord - center);
-
-    // Smooth darkening effect based on distance
-    float darkeningFactor = 1.0 - smoothstep(0.0, 0.5, distToCenter);
-
-    // Alpha animation
-    float alphaBase = (abs(sin(TIME)) + transparencyOffset) * transparencyAmplitude;
-    ALPHA = clamp(alphaBase, 0.0, 1.0);
-
-    // Final blended color
-    vec3 currentColor = mix(bgColor, validRenderColor, darkeningFactor);
-    ALBEDO = currentColor;
+    // optional pulsing alpha for “phantom” effect
+    ALPHA *= 0.75 + 0.25 * sin(TIME * 2.0);
 }

@@ -4,8 +4,9 @@
 [ext_resource type="PackedScene" uid="uid://kicqsbwx5srw" path="res://GameContent/Buildings/Cone/PlacedCone.tscn" id="2_x31gy"]
 [ext_resource type="ArrayMesh" uid="uid://ytmryq6ofimr" path="res://GameContent/Buildings/Cone/ConeMesh.tres" id="3_76muv"]
 
-[node name="BasePlacingItem" instance=ExtResource("1_13c64")]
+[node name="ItemCone" instance=ExtResource("1_13c64")]
 buildingScene = ExtResource("2_x31gy")
 
 [node name="HandItem" parent="." index="0"]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0.2, 0)
 mesh = ExtResource("3_76muv")

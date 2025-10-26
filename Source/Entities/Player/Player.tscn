@@ -405,6 +405,12 @@ libraries = {
 &"": SubResource("AnimationLibrary_a7qbv")
 }
 
+[node name="Ears" type="AudioListener3D" parent="Neck/Camera3D"]
+
+[node name="WARNING_NOT_IMPLEMENTED" type="Node" parent="Neck/Camera3D/Ears"]
+
+[node name="MAKE_CURRENT_IF_USED" type="Node" parent="Neck/Camera3D/Ears"]
+
 [node name="RayCast3D" type="RayCast3D" parent="Neck"]
 target_position = Vector3(0, 0, -8)
 
@@ -434,7 +440,7 @@ script = ExtResource("9_rtpsh")
 rayCast = NodePath("../../Neck/RayCast3D")
 hand = NodePath("../../PlayerModel/Node/Hands/right_H/Hand_R/HoldingPoint/Hand")
 handAnimator = NodePath("HandAnimator")
-inventory = Array[String](["Hammer", "Cube", "LightBulb", "BlackCube", "Cone"])
+inventory = Array[String](["Hammer", "Cube", "Cone", "PaintBubble"])
 
 [node name="HandAnimator" type="AnimationPlayer" parent="ComponentHolder/PlayerItemUse"]
 libraries = {
@@ -498,6 +504,9 @@ outline_size = 7
 autowrap_mode = 1
 
 [node name="PlayerModel" parent="." instance=ExtResource("15_7hef5")]
+
+[node name="right_H" parent="PlayerModel/Node/Hands" index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.30626476, -0.03124994, 0)
 
 [connection signal="pressed" from="HUD/ChatRoot/ChatBox/VBoxContainer/Input/SendBtn" to="ComponentHolder/PlayerChatHUD" method="_on_send_btn_pressed"]
 [connection signal="pressed" from="HUD/EscMenu/MarginContainer/VBoxContainer/LeaveGameBtn" to="ComponentHolder/PlayerHUD" method="_on_leave_game_btn_pressed"]

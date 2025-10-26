@@ -46,14 +46,9 @@ public partial class PlayerProfileData
     private string FillNameField()
     {
         NameGenerator nameGen = NameGenerator.Create();
-        if (GD.Randf() <= 0.7)
-        {
-            nameGen.UseDictedPatterns();
-        }
-        else
-        {
-            nameGen.UseSimplePatterns();
-        }
+        if (GD.Randf() <= 0.7) nameGen.UseDictedPatterns();
+        else nameGen.UseSimplePatterns();
+
         string name = nameGen.GenerateName();
         string nameCorrected = char.ToUpper(name[0]) + name.Substring(1);
         NcLogger.Log($"Randomly generated name: {nameCorrected}");

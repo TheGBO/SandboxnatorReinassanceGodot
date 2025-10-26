@@ -18,9 +18,10 @@ material = ExtResource("2_tomxc")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_3v22q"]
 
-[node name="BasePlaced" type="RigidBody3D"]
+[node name="BasePlaced" type="RigidBody3D" node_paths=PackedStringArray("componentHolder")]
 freeze = true
 script = ExtResource("1_lrkqx")
+componentHolder = NodePath("ComponentHolder")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_0od6p")
