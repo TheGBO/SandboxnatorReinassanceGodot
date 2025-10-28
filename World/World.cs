@@ -77,7 +77,6 @@ public partial class World : Singleton<World>
 		return referential;
 	}
 
-
 	/// <summary>
 	/// Expected and designed to run on the server for now
 	/// </summary>
