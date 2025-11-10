@@ -1,3 +1,5 @@
+(Em breve, descrição/readme em português)
+
 <!-- Banner / Logo -->
 <p align="center">
   <img src="UI/SBlogo.png" width="500" alt="Sandboxnator Logo">
@@ -30,10 +32,10 @@
 ---
 
 ## Features (The whole game is still in progress)
-- **Freeform Building** – Place, rotate, and snap objects however you want.
-- **Multiplayer Sync** – Powered by Godot 4’s multiplayer ENet API.
-- **Modular Systems** – Custom player components, extensible commands, and more.
-- **Godot 4 Mono (C#)** – Full power of C# for modularity and performance.
+- **Freeform Building**: Place, rotate, and snap objects however you want (or almost that).
+- **Multiplayer Sync**: Powered by Godot 4’s multiplayer ENet API and some custom C# thingies like MessagePack serialization.
+- **Modular Systems**: Custom player components, extensible commands and game data.
+- **Godot 4 Mono (C#)**: modularity and performance.
 
 ---
 
@@ -61,7 +63,9 @@ Clone the repository:
 ```bash
 git clone https://github.com/TheGBO/SandboxnatorReinassanceGodot.git
 ```
-- Make your own mods :P (read the license before publishing them, please)
+- Make your own mods :P (read the license before publishing them, please). This is not fully proprietary software but also not fully open source, I wrote the license myself to fit specific project needs that don't suit exactly my needs.
+
+- This game is ~90% human made, generative AI like github copilot were used to automate boring as fuck tasks like creating word lists for random name generation, stupid temporary placeholder and also troubleshooting. I do NOT use features such as image generation because they're pretty much automated plagiarism, nearly almost all of the assets were coded, drawn or 3d modelled by me, with external exceptions listed on GameContent/Credits.txt
 
 ## Legacy Version (R.I.P)
 - First ever multiplayer sandboxnator game whose source code was lost but to God.
