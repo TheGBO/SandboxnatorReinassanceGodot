@@ -28,15 +28,26 @@ public partial class SaveLoader : Singleton<SaveLoader>
 
     #region Path helpers
 
+    /// <summary>
+    /// Setup the path where the game data will be saved
+    /// </summary>
+    /// <returns>returns the selected path as a string</returns>
     private string SetupGameSavePath()
     {
-        string pathRoot = PlatformCheck.IsDesktop()
+        //the base directory
+        string pathRoot = (PlatformCheck.IsDesktop() && PlatformCheck.IsExport())
             ? OS.GetExecutablePath().GetBaseDir()
             : OS.GetUserDataDir();
 
+        //the complete directory. (game version sensitive)
         return $"{pathRoot}/sandboxnator_{GameRegistries.GetGameVersion.Replace(".", "_")}";
     }
 
+    /// <summary>
+    /// Utility that returns the path based on a specified enum.
+    /// </summary>
+    /// <param name="folder"></param>
+    /// <returns></returns>
     public string GetFolderPath(SaveFolder folder)
     {
         string subDir = folder switch
@@ -55,6 +66,7 @@ public partial class SaveLoader : Singleton<SaveLoader>
         return fullPath;
     }
 
+    //self explanatory name
     public void CreateDirectoryIfNotExists(string path)
     {
         if (!DirAccess.DirExistsAbsolute(path))
@@ -75,9 +87,9 @@ public partial class SaveLoader : Singleton<SaveLoader>
     #region Generic file helpers
 
     /// <summary>
-    /// If append==true and the file exists => open non-truncating read/write and SeekEnd.
-    /// If append==true and the file does NOT exist => open WRITE (which creates file).
-    /// If append==false => open WRITE_READ (create & truncate).
+    /// append==true and the file exists, open without clearing and append.
+    /// append==true and the file does NOT exist => create file and write.
+    /// append==false, overwrite.
     /// Includes fallback attempts and logs FileAccess.GetOpenError() when open fails.
     /// </summary>
     public string WriteTextFile(SaveFolder folder, string fileName, string content, bool append = false)

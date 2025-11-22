@@ -14,4 +14,9 @@ public static class PlatformCheck
     {
         return OsName == "android" || OsName == "ios";
     }
+
+    public static bool IsExport()
+    {
+        return OS.HasFeature("standalone");
+    }
 }
