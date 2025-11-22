@@ -5,7 +5,7 @@
 
 <h1 align="center">Sandboxnator</h1>
 <p align="center">
-  <b>A very experimental multiplayer sandbox game.</b>
+  <b>A very experimental 3d LAN multiplayer sandbox game.</b>
 </p>
 
 <p align="center">
@@ -44,7 +44,7 @@ git clone https://github.com/TheGBO/SandboxnatorReinassanceGodot.git
 ```
 - License TLDR; do anything you want as long as you credit me and it's not commercial.
 
-## Legacy Version (R.I.P)
+## Legacy Version (R.I.P) [2022-2022]
 - First ever multiplayer sandboxnator game whose source code was lost ~~but~~ even to God. (absolute lost media, I f---ed up so bad before learning git to backup my stuff :C )
 The tech stack was: Unity, C# and Mirror
 <img src="Assets/Screenshots/screenshot_sandboxnator_legacy_unity.png">
