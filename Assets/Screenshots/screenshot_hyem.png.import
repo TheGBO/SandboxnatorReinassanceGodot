@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bnrthu2i47mm3"
-path="res://.godot/imported/screenshot_hyem.webp-87c4595f370467b6c35a5a7c05caf6bd.ctex"
+uid="uid://8xxhtlekr7gj"
+path="res://.godot/imported/screenshot_hyem.png-55e77da38f9569bbd12f5a51e172642f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Screenshots/screenshot_hyem.webp"
-dest_files=["res://.godot/imported/screenshot_hyem.webp-87c4595f370467b6c35a5a7c05caf6bd.ctex"]
+source_file="res://Assets/Screenshots/screenshot_hyem.png"
+dest_files=["res://.godot/imported/screenshot_hyem.png-55e77da38f9569bbd12f5a51e172642f.ctex"]
 
 [params]
 

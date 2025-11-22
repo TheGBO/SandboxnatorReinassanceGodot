@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://jx75e5n0k5ld"
-path="res://.godot/imported/screenshot_multiplayer_test_faces.webp-c71cec16c147cfef5bee00264ad11c96.ctex"
+uid="uid://vuihs34p5wk3"
+path="res://.godot/imported/screenshot_multiplayer_test_8_players.png-59b8e42ad08b90f7d2e22062216ae481.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Screenshots/screenshot_multiplayer_test_faces.webp"
-dest_files=["res://.godot/imported/screenshot_multiplayer_test_faces.webp-c71cec16c147cfef5bee00264ad11c96.ctex"]
+source_file="res://Assets/Screenshots/screenshot_multiplayer_test_8_players.png"
+dest_files=["res://.godot/imported/screenshot_multiplayer_test_8_players.png-59b8e42ad08b90f7d2e22062216ae481.ctex"]
 
 [params]
 
