@@ -30,9 +30,9 @@
 
 ## Screenshots
 <p align="center">
-  <img src="Assets/Screenshots/screenshot_multiplayer_test_8_players.webp" width="600" alt="Gameplay">
-  <img src="Assets/Screenshots/screenshot_multiplayer_test_faces.webp" width="600" alt="Gameplay">
-  <img src="Assets/Screenshots/screenshot_hyem.webp" width="600" alt="Gameplay">
+  <img src="Assets/Screenshots/screenshot_multiplayer_test_8_players.png" width="600" alt="Gameplay">
+  <img src="Assets/Screenshots/screenshot_multiplayer_test_faces.png" width="600" alt="Gameplay">
+  <img src="Assets/Screenshots/screenshot_hyem.png" width="600" alt="Gameplay">
 </p>
 
 
