@@ -49,7 +49,6 @@ public partial class PaintBubble : BaseItem
 
     private void CycleColor()
     {
-        NcLogger.Warn("not implemented yet god damn it");
         colorIndex = (colorIndex + 1) % _colors.Length;
         UpdateVisual();
     }
