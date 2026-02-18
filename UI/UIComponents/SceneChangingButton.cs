@@ -8,18 +8,19 @@ namespace NullCyan.Sandboxnator.UI;
 /// </summary>
 public partial class SceneChangingButton : Button
 {
-    [Export] private PackedScene targetScene;
+    [Export(PropertyHint.File, "*.tscn")]
+    public string targetScene;
 
     public override void _Ready()
     {
         Pressed += () =>
         {
-            if (targetScene == null)
+            if (targetScene == null || string.IsNullOrEmpty(targetScene))
             {
                 NcLogger.Error("Error: null target scene.");
                 return;
             }
-            GetTree().ChangeSceneToPacked(targetScene);
+            GetTree().ChangeSceneToFile(targetScene);
         };
     }
 }

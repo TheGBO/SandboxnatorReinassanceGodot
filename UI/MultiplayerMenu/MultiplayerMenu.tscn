@@ -1,9 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://dowhshkw35fbv"]
+[gd_scene load_steps=4 format=3 uid="uid://dowhshkw35fbv"]
 
 [ext_resource type="Script" uid="uid://41bay46uwyf4" path="res://UI/MultiplayerMenu/MultiplayerMenu.cs" id="1_t2st1"]
 [ext_resource type="Script" uid="uid://co22epydu1y4p" path="res://UI/MultiplayerMenu/ServerBrowser.cs" id="2_kkaxb"]
 [ext_resource type="PackedScene" uid="uid://drkyst4xf3w5h" path="res://UI/MultiplayerMenu/ServerInfoContainer.tscn" id="2_q01po"]
-[ext_resource type="Theme" uid="uid://dbnnr7gglht1m" path="res://legacyTheme.tres" id="2_tttxr"]
 
 [node name="MultiplayerMenu" type="Control" node_paths=PackedStringArray("portInput", "ipAddressInput")]
 z_index = 1
@@ -13,7 +12,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("2_tttxr")
 script = ExtResource("1_t2st1")
 portInput = NodePath("PanelContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/PortInput")
 ipAddressInput = NodePath("PanelContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/IpInput")
@@ -25,11 +23,9 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("2_tttxr")
 
 [node name="MarginContainer" type="MarginContainer" parent="PanelContainer"]
 layout_mode = 2
-theme = ExtResource("2_tttxr")
 theme_override_constants/margin_left = 50
 theme_override_constants/margin_top = 50
 theme_override_constants/margin_right = 50
@@ -37,7 +33,6 @@ theme_override_constants/margin_bottom = 50
 
 [node name="Panel" type="Panel" parent="PanelContainer/MarginContainer"]
 layout_mode = 2
-theme = ExtResource("2_tttxr")
 
 [node name="MarginContainer" type="MarginContainer" parent="PanelContainer/MarginContainer/Panel"]
 layout_mode = 1
@@ -46,7 +41,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("2_tttxr")
 theme_override_constants/margin_left = 25
 theme_override_constants/margin_top = 25
 theme_override_constants/margin_right = 25
@@ -54,14 +48,12 @@ theme_override_constants/margin_bottom = 25
 
 [node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer/Panel/MarginContainer"]
 layout_mode = 2
-theme = ExtResource("2_tttxr")
 
 [node name="ServerBrowser" type="Panel" parent="PanelContainer/MarginContainer/Panel/MarginContainer/HBoxContainer"]
 visible = false
 custom_minimum_size = Vector2(600, 0)
 layout_mode = 2
 size_flags_vertical = 3
-theme = ExtResource("2_tttxr")
 script = ExtResource("2_kkaxb")
 
 [node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/ServerBrowser"]
@@ -72,46 +64,38 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("2_tttxr")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/ServerBrowser/ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme = ExtResource("2_tttxr")
 
 [node name="ServerInfoContainer" parent="PanelContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/ServerBrowser/ScrollContainer/VBoxContainer" instance=ExtResource("2_q01po")]
 layout_mode = 2
-theme = ExtResource("2_tttxr")
 
 [node name="Spacer" type="Control" parent="PanelContainer/MarginContainer/Panel/MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.13
-theme = ExtResource("2_tttxr")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/Panel/MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme = ExtResource("2_tttxr")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-theme = ExtResource("2_tttxr")
 
 [node name="Label" type="Label" parent="PanelContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme = ExtResource("2_tttxr")
 text = "Network port: "
 
 [node name="PortInput" type="SpinBox" parent="PanelContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme = ExtResource("2_tttxr")
 min_value = 1024.0
 max_value = 65535.0
 value = 49200.0
@@ -120,19 +104,16 @@ alignment = 1
 [node name="HBoxContainer2" type="HBoxContainer" parent="PanelContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-theme = ExtResource("2_tttxr")
 
 [node name="Label" type="Label" parent="PanelContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme = ExtResource("2_tttxr")
 text = "Network IP: "
 
 [node name="IpInput" type="LineEdit" parent="PanelContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme = ExtResource("2_tttxr")
 text = "127.0.0.1"
 placeholder_text = "ip address"
 alignment = 1
@@ -141,12 +122,10 @@ alignment = 1
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.25
-theme = ExtResource("2_tttxr")
 
 [node name="JoinBtn" type="Button" parent="PanelContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-theme = ExtResource("2_tttxr")
 theme_override_font_sizes/font_size = 32
 text = "Join Game"
 
@@ -154,12 +133,10 @@ text = "Join Game"
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.25
-theme = ExtResource("2_tttxr")
 
 [node name="HostBtn" type="Button" parent="PanelContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-theme = ExtResource("2_tttxr")
 theme_override_font_sizes/font_size = 32
 text = "Host Game"
 
@@ -167,12 +144,10 @@ text = "Host Game"
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.25
-theme = ExtResource("2_tttxr")
 
 [node name="MainMenuBtn" type="Button" parent="PanelContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-theme = ExtResource("2_tttxr")
 theme_override_font_sizes/font_size = 32
 text = "Return to main menu"
 

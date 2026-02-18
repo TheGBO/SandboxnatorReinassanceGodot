@@ -69,7 +69,8 @@ folder_colors={
 
 [gui]
 
-theme/custom="res://UI/Theme/Theme.tres"
+theme/custom="uid://dbnnr7gglht1m"
+theme/custom_font="uid://byx34uye6i18w"
 
 [input]
 
