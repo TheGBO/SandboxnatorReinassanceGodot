@@ -13,23 +13,6 @@ public partial class MainMenu : Control
 		UiSoundManager.Instance.TryInstallSounds();
 	}
 
-
-	public void _on_play_btn_pressed()
-	{
-		GetTree().ChangeSceneToPacked(ScenesBank.Instance.worldScene);
-	}
-
-	public void _on_customization_btn_pressed()
-	{
-		GetTree().ChangeSceneToPacked(ScenesBank.Instance.profileScene);
-	}
-
-	public void _on_settings_btn_pressed()
-	{
-		ShowNotImplentedPopup();
-
-	}
-
 	public void _on_exit_btn_pressed()
 	{
 		exitDialog.Popup();
