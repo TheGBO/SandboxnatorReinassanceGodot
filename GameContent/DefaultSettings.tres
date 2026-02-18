@@ -4,4 +4,5 @@
 
 [resource]
 script = ExtResource("1_gdefa")
+Sensitivity = 256.0
 metadata/_custom_type_script = "uid://dnuf77hkcgnw1"

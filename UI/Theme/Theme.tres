@@ -1,13 +1,15 @@
-[gd_resource type="Theme" load_steps=45 format=4 uid="uid://dbnnr7gglht1m"]
+[gd_resource type="Theme" load_steps=47 format=4 uid="uid://dbnnr7gglht1m"]
 
 [ext_resource type="StyleBox" uid="uid://cmc0i7gx40scn" path="res://UI/Theme/button_hover.tres" id="1_8e4vc"]
 [ext_resource type="StyleBox" uid="uid://bev12bp6itq0r" path="res://UI/Theme/button_normal.tres" id="1_ld20s"]
 [ext_resource type="StyleBox" uid="uid://chl6ipbgexnbg" path="res://UI/Theme/button_pressed.tres" id="3_65krj"]
 [ext_resource type="StyleBox" uid="uid://3mt1fuarieub" path="res://UI/Theme/edit_normal.tres" id="5_0tdkt"]
 [ext_resource type="StyleBox" uid="uid://dic0lheokcs5d" path="res://UI/Theme/edit_focus.tres" id="5_e7yyn"]
-[ext_resource type="Texture2D" uid="uid://bglesdqd1oqd1" path="res://Assets/Textures/CrossHair.png" id="5_eb53w"]
+[ext_resource type="Texture2D" uid="uid://rxh0sh04tng7" path="res://UI/Theme/UI_Textures/knob16_capsule.png" id="5_i8br2"]
+[ext_resource type="StyleBox" uid="uid://do6ucx4ebapms" path="res://UI/Theme/hslider_grabber_area.tres" id="6_i8br2"]
 [ext_resource type="FontFile" uid="uid://byx34uye6i18w" path="res://Assets/Font/Inter-VariableFont_opsz,wght.ttf" id="6_pwydw"]
 [ext_resource type="StyleBox" uid="uid://bddxegatkbsqu" path="res://UI/Theme/edit_disabled.tres" id="7_3fjlm"]
+[ext_resource type="StyleBox" uid="uid://61ng1nesw7aq" path="res://UI/Theme/hslider_grabber_bg.tres" id="7_vb6e3"]
 [ext_resource type="StyleBox" uid="uid://bpesnfn4u44dq" path="res://UI/Theme/style_box.tres" id="8_7alr0"]
 [ext_resource type="StyleBox" uid="uid://cb80wvshajdit" path="res://UI/Theme/panel_style_box.tres" id="9_0hkvl"]
 [ext_resource type="StyleBox" uid="uid://52hrctnotqgd" path="res://UI/Theme/style_box_bg.tres" id="9_b3ktw"]
@@ -2767,10 +2769,12 @@ Button/styles/pressed = ExtResource("3_65krj")
 HScrollBar/styles/grabber = ExtResource("8_7alr0")
 HScrollBar/styles/grabber_highlight = ExtResource("8_7alr0")
 HScrollBar/styles/grabber_pressed = ExtResource("8_7alr0")
-HSlider/icons/grabber = ExtResource("5_eb53w")
-HSlider/icons/grabber_highlight = ExtResource("5_eb53w")
-HSlider/styles/grabber_area = ExtResource("8_7alr0")
-HSlider/styles/grabber_area_highlight = ExtResource("8_7alr0")
+HSlider/icons/grabber = ExtResource("5_i8br2")
+HSlider/icons/grabber_disabled = ExtResource("5_i8br2")
+HSlider/icons/grabber_highlight = ExtResource("5_i8br2")
+HSlider/styles/grabber_area = ExtResource("6_i8br2")
+HSlider/styles/grabber_area_highlight = ExtResource("6_i8br2")
+HSlider/styles/slider = ExtResource("7_vb6e3")
 Label/fonts/font = ExtResource("6_pwydw")
 LineEdit/styles/focus = ExtResource("5_e7yyn")
 LineEdit/styles/normal = ExtResource("5_0tdkt")
