@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://c4budmkq1sg7n"]
+[gd_scene format=3 uid="uid://c4budmkq1sg7n"]
 
 [ext_resource type="Script" uid="uid://dqcj2eps8s47d" path="res://World/World.cs" id="1_53ob6"]
 [ext_resource type="Material" uid="uid://dni3mk5x6hn4f" path="res://Assets/Materials/GreenTile.tres" id="2_2i86a"]
@@ -21,53 +21,53 @@ plane = Plane(0, 0, -1, 0)
 material = ExtResource("2_2i86a")
 size = Vector2(4096, 4096)
 
-[node name="World" type="Node3D" node_paths=PackedStringArray("networkedEntities", "multiplayerSpawner")]
+[node name="World" type="Node3D" unique_id=290800096 node_paths=PackedStringArray("networkedEntities", "multiplayerSpawner")]
 script = ExtResource("1_53ob6")
 networkedEntities = NodePath("NetworkedEntities")
 multiplayerSpawner = NodePath("MultiplayerSpawner")
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=742065893]
 environment = ExtResource("2_cf1t6")
 
-[node name="Sun" type="DirectionalLight3D" parent="."]
+[node name="Sun" type="DirectionalLight3D" parent="." unique_id=1487001894]
 transform = Transform3D(-4.37114e-08, 0.866025, -0.5, 0, 0.5, 0.866025, 1, 3.78552e-08, -2.18557e-08, 0, 500, 0)
 light_energy = 0.5
 shadow_enabled = true
 
-[node name="Ground" type="StaticBody3D" parent="."]
+[node name="Ground" type="StaticBody3D" parent="." unique_id=836969328]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 
-[node name="GroundCollider" type="CollisionShape3D" parent="Ground"]
+[node name="GroundCollider" type="CollisionShape3D" parent="Ground" unique_id=1358890336]
 shape = SubResource("WorldBoundaryShape3D_umnpi")
 
-[node name="NorthCollider" type="CollisionShape3D" parent="Ground"]
+[node name="NorthCollider" type="CollisionShape3D" parent="Ground" unique_id=847444262]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2048)
 shape = SubResource("WorldBoundaryShape3D_45d1s")
 
-[node name="SouthCollider" type="CollisionShape3D" parent="Ground"]
+[node name="SouthCollider" type="CollisionShape3D" parent="Ground" unique_id=1832303356]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2048)
 shape = SubResource("WorldBoundaryShape3D_y7y61")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground" unique_id=1789145498]
 mesh = SubResource("PlaneMesh_qu3fq")
 skeleton = NodePath("../..")
 
-[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="." unique_id=1319398547]
 _spawnable_scenes = PackedStringArray("uid://1hsnhm80nlng")
 spawn_path = NodePath("../NetworkedEntities")
 
-[node name="NetworkedEntities" type="Node3D" parent="."]
+[node name="NetworkedEntities" type="Node3D" parent="." unique_id=1549338156]
 
-[node name="NetworkManager" parent="." instance=ExtResource("4_kc546")]
+[node name="NetworkManager" parent="." unique_id=1038511083 instance=ExtResource("4_kc546")]
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1529727226]
 
-[node name="MultiplayerMenu" parent="CanvasLayer" instance=ExtResource("4_ssyfj")]
+[node name="MultiplayerMenu" parent="CanvasLayer" unique_id=706467303 instance=ExtResource("4_ssyfj")]
 
-[node name="ChatManager" type="Node3D" parent="."]
+[node name="ChatManager" type="Node3D" parent="." unique_id=857003785]
 script = ExtResource("6_sbbat")
 
-[node name="PlayerManager" type="Node3D" parent="."]
+[node name="PlayerManager" type="Node3D" parent="." unique_id=806909296]
 script = ExtResource("7_cf1t6")
 playerScene = ExtResource("8_cf1t6")
 rangeOfRandomPos = Vector2(15, 15)
