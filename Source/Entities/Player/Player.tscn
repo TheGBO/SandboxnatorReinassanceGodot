@@ -18,7 +18,7 @@
 [ext_resource type="PackedScene" uid="uid://bvk2qsd5vogiv" path="res://Source/Entities/Player/PlayerModel.tscn" id="15_7hef5"]
 
 [sub_resource type="InputEventAction" id="InputEventAction_jynvv"]
-action = &"ui_enter"
+action = &"sb_ui_enter"
 
 [sub_resource type="Shortcut" id="Shortcut_lmeus"]
 events = [SubResource("InputEventAction_jynvv")]

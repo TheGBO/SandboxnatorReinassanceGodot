@@ -48,13 +48,13 @@ public partial class PlayerInput : AbstractComponent<Player>
 
     private void HandleUserInterfaceInput()
     {
-        if (Input.IsActionJustPressed("ui_show_chat"))
+        if (Input.IsActionJustPressed("sb_ui_show_chat"))
         {
             OnShowChat?.Invoke();
             Input.MouseMode = Input.MouseModeEnum.Visible;
         }
 
-        if (Input.IsActionJustPressed("ui_escape"))
+        if (Input.IsActionJustPressed("sb_ui_escape"))
         {
             OnUiEscape?.Invoke();
         }

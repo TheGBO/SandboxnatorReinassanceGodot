@@ -1,7 +1,9 @@
 using Godot;
+using Godot.Collections;
 using NullCyan.Sandboxnator.Registry;
 using NullCyan.Util.IO;
-using System;
+using NathanHoad;
+using NullCyan.Util.Log;
 namespace NullCyan.UI;
 
 public partial class SettingsMenu : Control
@@ -12,6 +14,29 @@ public partial class SettingsMenu : Control
     public override void _EnterTree()
     {
         UIFromSettings();
+        InputActionsDebug();
+    }
+
+    //TODO: Keybind remapping system.
+    private void InputActionsDebug()
+    {
+        Array<StringName> actions = InputMap.GetActions();
+        foreach (StringName action in actions)
+        {
+            string actionName = action.ToString();
+            if (actionName.StartsWith("ui_"))
+            {
+                continue;
+            }
+            Array<InputEvent> eventsForAction = InputHelper.GetKeyboardInputsForAction(action);
+            foreach (var e in eventsForAction)
+            {
+                string eventName = e.AsText();
+
+                GD.PrintRich($"{action} :: {e.AsText()}");
+
+            }
+        }
     }
 
     public void SettingsFromUI()
