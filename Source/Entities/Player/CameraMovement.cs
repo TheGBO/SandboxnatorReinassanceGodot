@@ -47,6 +47,6 @@ public partial class CameraMovement : AbstractComponent<Player>, ISettingsLoader
 
 	public void UpdateSettingsData()
 	{
-		_sensitivity = GameRegistries.Instance.SettingsData.Sensitivity / SENSITIVITY_DENOMINATOR;
+		_sensitivity = (float)(GameRegistries.Instance.SettingsData.LookSensitivity / SENSITIVITY_DENOMINATOR);
 	}
 }

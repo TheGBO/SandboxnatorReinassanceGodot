@@ -193,4 +193,32 @@ public partial class SaveLoader : Singleton<SaveLoader>
     }
 
     #endregion
+
+    #region Resource Helpers
+
+    public Error WriteResource(SaveFolder folder, string fileName, Resource resource)
+    {
+        if (!fileName.EndsWith(".tres")) fileName += ".tres";
+
+        string path = $"{GetFolderPath(folder)}/{fileName}";
+
+        Error err = ResourceSaver.Save(resource, path);
+        if (err != Error.Ok)
+        {
+            NcLogger.Log($"Failed to save resource to {path}: {err}", NcLogger.LogType.Error);
+        }
+        return err;
+    }
+
+    public T ReadResource<T>(SaveFolder folder, string fileName) where T : Resource
+    {
+        if (!fileName.EndsWith(".tres")) fileName += ".tres";
+        string path = $"{GetFolderPath(folder)}/{fileName}";
+
+        if (!FileAccess.FileExists(path)) return null;
+
+        return ResourceLoader.Load<T>(path);
+    }
+
+    #endregion
 }

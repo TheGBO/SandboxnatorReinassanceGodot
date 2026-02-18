@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://ddpxqpot2m7a2"]
+[gd_scene format=3 uid="uid://ddpxqpot2m7a2"]
 
 [ext_resource type="Texture2D" uid="uid://7bm83u8ekalo" path="res://UI/SBlogo.png" id="1_m3wq5"]
 [ext_resource type="Script" uid="uid://bcm1pork7vl08" path="res://UI/MainMenu/MainMenu.cs" id="1_n530s"]
@@ -8,7 +8,7 @@
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tltye"]
 bg_color = Color(0.137255, 0.137255, 0.137255, 1)
 
-[node name="MainMenu" type="Control" node_paths=PackedStringArray("notImplementedDialog", "exitDialog")]
+[node name="MainMenu" type="Control" unique_id=498379860 node_paths=PackedStringArray("notImplementedDialog", "exitDialog")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -19,7 +19,7 @@ script = ExtResource("1_n530s")
 notImplementedDialog = NodePath("NotImplementedDialog")
 exitDialog = NodePath("ExitDialog")
 
-[node name="RootPanel" type="Panel" parent="."]
+[node name="RootPanel" type="Panel" parent="." unique_id=107203621]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -28,7 +28,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_tltye")
 
-[node name="Panel" type="Panel" parent="RootPanel"]
+[node name="Panel" type="Panel" parent="RootPanel" unique_id=1395392079]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -42,7 +42,7 @@ offset_bottom = 290.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="RootPanel/Panel"]
+[node name="MarginContainer" type="MarginContainer" parent="RootPanel/Panel" unique_id=4611626]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -54,30 +54,30 @@ theme_override_constants/margin_top = 55
 theme_override_constants/margin_right = 55
 theme_override_constants/margin_bottom = 55
 
-[node name="VBoxContainer" type="VBoxContainer" parent="RootPanel/Panel/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="RootPanel/Panel/MarginContainer" unique_id=1924741998]
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="RootPanel/Panel/MarginContainer/VBoxContainer"]
+[node name="TextureRect" type="TextureRect" parent="RootPanel/Panel/MarginContainer/VBoxContainer" unique_id=1699526046]
 layout_mode = 2
 size_flags_vertical = 3
 texture = ExtResource("1_m3wq5")
 expand_mode = 5
 
-[node name="PlayBtn" type="Button" parent="RootPanel/Panel/MarginContainer/VBoxContainer"]
+[node name="PlayBtn" type="Button" parent="RootPanel/Panel/MarginContainer/VBoxContainer" unique_id=1437062652]
 layout_mode = 2
 size_flags_vertical = 3
 text = "Play"
 script = ExtResource("3_4elqj")
 targetScene = "uid://c4budmkq1sg7n"
 
-[node name="ProfileBtn" type="Button" parent="RootPanel/Panel/MarginContainer/VBoxContainer"]
+[node name="ProfileBtn" type="Button" parent="RootPanel/Panel/MarginContainer/VBoxContainer" unique_id=256094980]
 layout_mode = 2
 size_flags_vertical = 3
 text = "Profile"
 script = ExtResource("3_4elqj")
 targetScene = "uid://cu2vloh7mq55n"
 
-[node name="SettingsBtn" type="Button" parent="RootPanel/Panel/MarginContainer/VBoxContainer"]
+[node name="SettingsBtn" type="Button" parent="RootPanel/Panel/MarginContainer/VBoxContainer" unique_id=2116046903]
 layout_mode = 2
 size_flags_vertical = 3
 text = "Settings
@@ -85,23 +85,26 @@ text = "Settings
 script = ExtResource("3_4elqj")
 targetScene = "uid://crgfsh58w8e8c"
 
-[node name="ExitBtn" type="Button" parent="RootPanel/Panel/MarginContainer/VBoxContainer"]
+[node name="ExitBtn" type="Button" parent="RootPanel/Panel/MarginContainer/VBoxContainer" unique_id=1093046211]
 layout_mode = 2
 size_flags_vertical = 3
 text = "Exit
 "
 
-[node name="NotImplementedDialog" type="AcceptDialog" parent="."]
+[node name="NotImplementedDialog" type="AcceptDialog" parent="." unique_id=606237250]
+oversampling_override = 1.0
 title = "warning"
 position = Vector2i(395, 135)
 size = Vector2i(721, 100)
 theme = ExtResource("5_4elqj")
 dialog_text = "Feature described on the pressed button is not implemented"
 
-[node name="ExitDialog" type="ConfirmationDialog" parent="."]
+[node name="ExitDialog" type="ConfirmationDialog" parent="." unique_id=1159059010]
+oversampling_override = 1.0
 title = "confirm."
-position = Vector2i(350, 170)
+initial_position = 1
 size = Vector2i(437, 100)
+theme = ExtResource("5_4elqj")
 ok_button_text = "yes"
 dialog_text = "Do you want to quit the game?"
 cancel_button_text = "no"

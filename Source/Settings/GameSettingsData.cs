@@ -11,7 +11,8 @@ namespace NullCyan.Sandboxnator.Settings;
 public partial class GameSettingsData : Resource
 {
     [ExportCategory("Controls")]
-    [Export] public float Sensitivity { get; set; } = 100;
-    [Export] public float FieldOfView { get; set; } = 75;
-    //[ExportCategory("Graphics")]
+    [Export] public double FieldOfView { get; set; } = 75;
+    [Export] public double LookSensitivity { get; set; } = 100;
+    [ExportCategory("Graphics")]
+    [Export] public bool AmbientOcclusion = false;
 }

@@ -50,7 +50,7 @@ public partial class PlayerMovement : AbstractComponent<Player>, ISettingsLoader
 		if (!ComponentParent.IsMultiplayerAuthority() || movementCBody == null)
 			return;
 
-		camera.Fov = GameRegistries.Instance.SettingsData.FieldOfView;
+		camera.Fov = (float)GameRegistries.Instance.SettingsData.FieldOfView;
 		_velocity = movementCBody.Velocity;
 
 		// Add the gravity.
@@ -154,6 +154,6 @@ public partial class PlayerMovement : AbstractComponent<Player>, ISettingsLoader
 
 	public void UpdateSettingsData()
 	{
-		_fov = GameRegistries.Instance.SettingsData.FieldOfView;
+		_fov = (float)GameRegistries.Instance.SettingsData.FieldOfView;
 	}
 }

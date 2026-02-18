@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://crgfsh58w8e8c"]
+[gd_scene format=3 uid="uid://crgfsh58w8e8c"]
 
 [ext_resource type="Theme" uid="uid://dbnnr7gglht1m" path="res://UI/Theme/Theme.tres" id="1_fc8s3"]
 [ext_resource type="Script" uid="uid://cip2ifw6h88lb" path="res://UI/UIComponents/SceneChangingButton.cs" id="2_fc8s3"]
@@ -6,7 +6,7 @@
 [ext_resource type="Script" uid="uid://vbbgilmnwckl" path="res://UI/UIComponents/ValueLabel.cs" id="3_cgddo"]
 [ext_resource type="FontFile" uid="uid://byx34uye6i18w" path="res://Assets/Font/Inter-VariableFont_opsz,wght.ttf" id="10_2t4x0"]
 
-[node name="SettingsMenu" type="Control"]
+[node name="SettingsMenu" type="Control" unique_id=1881731858 node_paths=PackedStringArray("FovSlider", "LookSensitivitySlider")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -15,8 +15,10 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_fc8s3")
 script = ExtResource("2_glqfu")
+FovSlider = NodePath("RootPanel/MarginContainer/VBoxContainer/Panel/TabContainer/Controls/VBoxContainer/FovProperty/hbox/Slider")
+LookSensitivitySlider = NodePath("RootPanel/MarginContainer/VBoxContainer/Panel/TabContainer/Controls/VBoxContainer/SensitivityProperty/hbox/Slider")
 
-[node name="RootPanel" type="Panel" parent="."]
+[node name="RootPanel" type="Panel" parent="." unique_id=1474105256]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -25,7 +27,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_fc8s3")
 
-[node name="MarginContainer" type="MarginContainer" parent="RootPanel"]
+[node name="MarginContainer" type="MarginContainer" parent="RootPanel" unique_id=1787638494]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -38,16 +40,16 @@ theme_override_constants/margin_top = 32
 theme_override_constants/margin_right = 32
 theme_override_constants/margin_bottom = 32
 
-[node name="VBoxContainer" type="VBoxContainer" parent="RootPanel/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="RootPanel/MarginContainer" unique_id=340619141]
 layout_mode = 2
 theme = ExtResource("1_fc8s3")
 
-[node name="Panel" type="Panel" parent="RootPanel/MarginContainer/VBoxContainer"]
+[node name="Panel" type="Panel" parent="RootPanel/MarginContainer/VBoxContainer" unique_id=2104494212]
 layout_mode = 2
 size_flags_vertical = 3
 theme = ExtResource("1_fc8s3")
 
-[node name="TabContainer" type="TabContainer" parent="RootPanel/MarginContainer/VBoxContainer/Panel"]
+[node name="TabContainer" type="TabContainer" parent="RootPanel/MarginContainer/VBoxContainer/Panel" unique_id=2132356365]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -58,12 +60,12 @@ theme = ExtResource("1_fc8s3")
 theme_override_fonts/font = ExtResource("10_2t4x0")
 current_tab = 0
 
-[node name="Controls" type="TabBar" parent="RootPanel/MarginContainer/VBoxContainer/Panel/TabContainer"]
+[node name="Controls" type="TabBar" parent="RootPanel/MarginContainer/VBoxContainer/Panel/TabContainer" unique_id=1961109128]
 layout_mode = 2
 theme = ExtResource("1_fc8s3")
 metadata/_tab_index = 0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="RootPanel/MarginContainer/VBoxContainer/Panel/TabContainer/Controls"]
+[node name="VBoxContainer" type="VBoxContainer" parent="RootPanel/MarginContainer/VBoxContainer/Panel/TabContainer/Controls" unique_id=297803790]
 layout_mode = 0
 offset_right = 1088.0
 offset_bottom = 459.0
@@ -71,25 +73,25 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 theme = ExtResource("1_fc8s3")
 
-[node name="FovProperty" type="MarginContainer" parent="RootPanel/MarginContainer/VBoxContainer/Panel/TabContainer/Controls/VBoxContainer"]
+[node name="FovProperty" type="MarginContainer" parent="RootPanel/MarginContainer/VBoxContainer/Panel/TabContainer/Controls/VBoxContainer" unique_id=1124201030]
 layout_mode = 2
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
-[node name="hbox" type="HBoxContainer" parent="RootPanel/MarginContainer/VBoxContainer/Panel/TabContainer/Controls/VBoxContainer/FovProperty"]
+[node name="hbox" type="HBoxContainer" parent="RootPanel/MarginContainer/VBoxContainer/Panel/TabContainer/Controls/VBoxContainer/FovProperty" unique_id=1642441681]
 layout_mode = 2
 theme = ExtResource("1_fc8s3")
 theme_override_constants/separation = 16
 
-[node name="Label" type="Label" parent="RootPanel/MarginContainer/VBoxContainer/Panel/TabContainer/Controls/VBoxContainer/FovProperty/hbox"]
+[node name="Label" type="Label" parent="RootPanel/MarginContainer/VBoxContainer/Panel/TabContainer/Controls/VBoxContainer/FovProperty/hbox" unique_id=928704713]
 layout_mode = 2
 theme = ExtResource("1_fc8s3")
 theme_override_fonts/font = ExtResource("10_2t4x0")
 text = "Field Of view"
 
-[node name="Slider" type="HSlider" parent="RootPanel/MarginContainer/VBoxContainer/Panel/TabContainer/Controls/VBoxContainer/FovProperty/hbox"]
+[node name="Slider" type="HSlider" parent="RootPanel/MarginContainer/VBoxContainer/Panel/TabContainer/Controls/VBoxContainer/FovProperty/hbox" unique_id=983554810]
 layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("1_fc8s3")
@@ -97,7 +99,7 @@ min_value = 25.0
 max_value = 120.0
 value = 25.0
 
-[node name="ValueLabel" type="Label" parent="RootPanel/MarginContainer/VBoxContainer/Panel/TabContainer/Controls/VBoxContainer/FovProperty/hbox" node_paths=PackedStringArray("displayValue")]
+[node name="ValueLabel" type="Label" parent="RootPanel/MarginContainer/VBoxContainer/Panel/TabContainer/Controls/VBoxContainer/FovProperty/hbox" unique_id=1569865131 node_paths=PackedStringArray("displayValue")]
 layout_mode = 2
 theme = ExtResource("1_fc8s3")
 theme_override_fonts/font = ExtResource("10_2t4x0")
@@ -106,25 +108,25 @@ script = ExtResource("3_cgddo")
 displayValue = NodePath("../Slider")
 displayPrefix = "= "
 
-[node name="SensitivityProperty" type="MarginContainer" parent="RootPanel/MarginContainer/VBoxContainer/Panel/TabContainer/Controls/VBoxContainer"]
+[node name="SensitivityProperty" type="MarginContainer" parent="RootPanel/MarginContainer/VBoxContainer/Panel/TabContainer/Controls/VBoxContainer" unique_id=692162451]
 layout_mode = 2
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
-[node name="hbox" type="HBoxContainer" parent="RootPanel/MarginContainer/VBoxContainer/Panel/TabContainer/Controls/VBoxContainer/SensitivityProperty"]
+[node name="hbox" type="HBoxContainer" parent="RootPanel/MarginContainer/VBoxContainer/Panel/TabContainer/Controls/VBoxContainer/SensitivityProperty" unique_id=1315275543]
 layout_mode = 2
 theme = ExtResource("1_fc8s3")
 theme_override_constants/separation = 16
 
-[node name="Label" type="Label" parent="RootPanel/MarginContainer/VBoxContainer/Panel/TabContainer/Controls/VBoxContainer/SensitivityProperty/hbox"]
+[node name="Label" type="Label" parent="RootPanel/MarginContainer/VBoxContainer/Panel/TabContainer/Controls/VBoxContainer/SensitivityProperty/hbox" unique_id=481824226]
 layout_mode = 2
 theme = ExtResource("1_fc8s3")
 theme_override_fonts/font = ExtResource("10_2t4x0")
 text = "Look sensitivity"
 
-[node name="Slider" type="HSlider" parent="RootPanel/MarginContainer/VBoxContainer/Panel/TabContainer/Controls/VBoxContainer/SensitivityProperty/hbox"]
+[node name="Slider" type="HSlider" parent="RootPanel/MarginContainer/VBoxContainer/Panel/TabContainer/Controls/VBoxContainer/SensitivityProperty/hbox" unique_id=2101525264]
 layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("1_fc8s3")
@@ -132,7 +134,7 @@ min_value = 16.0
 max_value = 255.0
 value = 16.0
 
-[node name="ValueLabel" type="Label" parent="RootPanel/MarginContainer/VBoxContainer/Panel/TabContainer/Controls/VBoxContainer/SensitivityProperty/hbox" node_paths=PackedStringArray("displayValue")]
+[node name="ValueLabel" type="Label" parent="RootPanel/MarginContainer/VBoxContainer/Panel/TabContainer/Controls/VBoxContainer/SensitivityProperty/hbox" unique_id=750954489 node_paths=PackedStringArray("displayValue")]
 layout_mode = 2
 theme = ExtResource("1_fc8s3")
 theme_override_fonts/font = ExtResource("10_2t4x0")
@@ -141,19 +143,19 @@ script = ExtResource("3_cgddo")
 displayValue = NodePath("../Slider")
 displayPrefix = "= "
 
-[node name="Graphics" type="TabBar" parent="RootPanel/MarginContainer/VBoxContainer/Panel/TabContainer"]
+[node name="Graphics" type="TabBar" parent="RootPanel/MarginContainer/VBoxContainer/Panel/TabContainer" unique_id=328691987]
 visible = false
 layout_mode = 2
 theme = ExtResource("1_fc8s3")
 metadata/_tab_index = 1
 
-[node name="Audio" type="TabBar" parent="RootPanel/MarginContainer/VBoxContainer/Panel/TabContainer"]
+[node name="Audio" type="TabBar" parent="RootPanel/MarginContainer/VBoxContainer/Panel/TabContainer" unique_id=1249424627]
 visible = false
 layout_mode = 2
 theme = ExtResource("1_fc8s3")
 metadata/_tab_index = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="RootPanel/MarginContainer/VBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="RootPanel/MarginContainer/VBoxContainer" unique_id=1667002416]
 layout_mode = 2
 theme = ExtResource("1_fc8s3")
 theme_override_constants/margin_left = 8
@@ -161,11 +163,11 @@ theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
-[node name="HBoxContainer" type="HBoxContainer" parent="RootPanel/MarginContainer/VBoxContainer/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="RootPanel/MarginContainer/VBoxContainer/MarginContainer" unique_id=1125373584]
 layout_mode = 2
 theme = ExtResource("1_fc8s3")
 
-[node name="AcceptBtn" type="Button" parent="RootPanel/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer"]
+[node name="AcceptBtn" type="Button" parent="RootPanel/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer" unique_id=810330844]
 custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -174,9 +176,11 @@ text = "Apply and return"
 script = ExtResource("2_fc8s3")
 targetScene = "uid://ddpxqpot2m7a2"
 
-[node name="Button2" type="Button" parent="RootPanel/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer"]
+[node name="Button2" type="Button" parent="RootPanel/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer" unique_id=100178937]
 custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("1_fc8s3")
 text = "Reset defaults"
+
+[connection signal="pressed" from="RootPanel/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer/AcceptBtn" to="." method="_on_accept_btn_pressed"]

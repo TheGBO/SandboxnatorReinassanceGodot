@@ -132,7 +132,7 @@ public partial class PlayerInput : AbstractComponent<Player>
             // The default (raw) mouse sensitivity is 100, the default joypad sensitivity is 5.
             // in order to turn 100 into 5 in a proportional way, (5 * sens)/100
             // TOTEST: this needs further testing
-            LookVector = joypadLookVector * (5 * GameRegistries.Instance.SettingsData.Sensitivity) / JOYPAD_SENSITIVITY_DENOMINATOR;
+            LookVector = joypadLookVector * (5 * (float)GameRegistries.Instance.SettingsData.LookSensitivity) / JOYPAD_SENSITIVITY_DENOMINATOR;
             // This action name is slightly misleading but gets the job done.
             OnMouseMovement?.Invoke();
         }

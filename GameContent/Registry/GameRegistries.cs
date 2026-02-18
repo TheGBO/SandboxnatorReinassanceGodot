@@ -7,6 +7,7 @@ using NullCyan.Util;
 using NullCyan.Util.Log;
 using NullCyan.Util.GodotHelpers;
 using NullCyan.Sandboxnator.Entity.PlayerCosmetics;
+using NullCyan.Util.IO;
 namespace NullCyan.Sandboxnator.Registry;
 
 /// <summary>
@@ -20,6 +21,7 @@ public partial class GameRegistries : Singleton<GameRegistries>
     public Registry<ChatCommand> CommandRegistry { get; set; } = new();
     public Registry<PackedScene> BuildingRegistry { get; set; } = new();
     public GameSettingsData SettingsData { get; set; } = new();
+    public string UserSettingsName { get; private set; } = "UserSettings.tres";
 
     [Export]
     public Texture2D BuildingPallete;
@@ -35,8 +37,15 @@ public partial class GameRegistries : Singleton<GameRegistries>
     public override void _Ready()
     {
         NcLogger.Log("GAME REGISTRIES INITIALIZED", NcLogger.LogType.Register);
-        //To avoid null reference exceptions.
-        LoadDefaultSettings();
+        try
+        {
+            LoadUserSettings();
+        }
+        catch (System.IO.FileNotFoundException)
+        {
+            //To avoid null reference exceptions.
+            LoadDefaultSettings();
+        }
         InitializeRegistries();
     }
 
@@ -52,6 +61,19 @@ public partial class GameRegistries : Singleton<GameRegistries>
         {
             SettingsData = settings;
         }
+        OnSettingsSaved?.Invoke();
+    }
+
+    private void LoadUserSettings()
+    {
+        var settings = SaveLoader.Instance.ReadResource<GameSettingsData>(SaveFolder.Config, UserSettingsName);
+        if (settings == null)
+        {
+            NcLogger.Error("User settings do not exist yet");
+            throw new System.IO.FileNotFoundException();
+        }
+        NcLogger.Info("User settings do in fact exist.");
+        SettingsData = settings;
         OnSettingsSaved?.Invoke();
     }
 
