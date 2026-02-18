@@ -18,6 +18,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("4_al8mg")
 script = ExtResource("1_n530s")
 notImplementedDialog = NodePath("NotImplementedDialog")
 exitDialog = NodePath("ExitDialog")
@@ -29,6 +30,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("4_al8mg")
 theme_override_styles/panel = SubResource("StyleBoxFlat_tltye")
 
 [node name="Panel" type="Panel" parent="RootPanel"]
@@ -44,6 +46,7 @@ offset_right = 459.0
 offset_bottom = 290.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("4_al8mg")
 
 [node name="MarginContainer" type="MarginContainer" parent="RootPanel/Panel"]
 layout_mode = 1
@@ -52,6 +55,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("4_al8mg")
 theme_override_constants/margin_left = 55
 theme_override_constants/margin_top = 55
 theme_override_constants/margin_right = 55
@@ -59,16 +63,19 @@ theme_override_constants/margin_bottom = 55
 
 [node name="VBoxContainer" type="VBoxContainer" parent="RootPanel/Panel/MarginContainer"]
 layout_mode = 2
+theme = ExtResource("4_al8mg")
 
 [node name="TextureRect" type="TextureRect" parent="RootPanel/Panel/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
+theme = ExtResource("4_al8mg")
 texture = ExtResource("1_m3wq5")
 expand_mode = 5
 
 [node name="PlayBtn" type="Button" parent="RootPanel/Panel/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
+theme = ExtResource("4_al8mg")
 text = "Play"
 script = ExtResource("3_4elqj")
 targetScene = ExtResource("4_a712v")
@@ -76,6 +83,7 @@ targetScene = ExtResource("4_a712v")
 [node name="ProfileBtn" type="Button" parent="RootPanel/Panel/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
+theme = ExtResource("4_al8mg")
 text = "Profile"
 script = ExtResource("3_4elqj")
 targetScene = ExtResource("5_1dhmk")
@@ -83,6 +91,7 @@ targetScene = ExtResource("5_1dhmk")
 [node name="SettingsBtn" type="Button" parent="RootPanel/Panel/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
+theme = ExtResource("4_al8mg")
 text = "Settings
 "
 script = ExtResource("3_4elqj")
@@ -91,6 +100,7 @@ targetScene = ExtResource("4_ri767")
 [node name="ExitBtn" type="Button" parent="RootPanel/Panel/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
+theme = ExtResource("4_al8mg")
 text = "Exit
 "
 

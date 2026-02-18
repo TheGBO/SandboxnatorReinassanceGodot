@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://cu2vloh7mq55n"]
+[gd_scene load_steps=6 format=3 uid="uid://cu2vloh7mq55n"]
 
 [ext_resource type="Script" uid="uid://dfcphkg5bitd8" path="res://UI/Profile/ProfileEditingMenu.cs" id="1_4fqg0"]
+[ext_resource type="Theme" uid="uid://dbnnr7gglht1m" path="res://UI/Theme/Theme.tres" id="1_tnmhm"]
 [ext_resource type="Texture2D" uid="uid://c02jivmdni2ip" path="res://Assets/Textures/Components/component.png" id="3_xmniq"]
 [ext_resource type="PackedScene" uid="uid://bvk2qsd5vogiv" path="res://Source/Entities/Player/PlayerModel.tscn" id="4_4fqg0"]
 
@@ -15,6 +16,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("1_tnmhm")
 script = ExtResource("1_4fqg0")
 nameEdit = NodePath("RootPanel/Panel/ContainerContainer/VBoxContainer/NameContaner/NameEdit")
 playerModelPreview = NodePath("RootPanel/Panel/ContainerContainer/MarginContainer/SubViewportContainer/SubViewport/PlayerModelPreviewingScene/PlayerModel")
@@ -30,6 +32,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("1_tnmhm")
 
 [node name="Panel" type="Panel" parent="RootPanel"]
 layout_mode = 1
@@ -42,6 +45,7 @@ offset_right = -67.0
 offset_bottom = -44.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("1_tnmhm")
 
 [node name="ContainerContainer" type="HBoxContainer" parent="RootPanel/Panel"]
 layout_mode = 1
@@ -50,33 +54,41 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("1_tnmhm")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="RootPanel/Panel/ContainerContainer"]
 layout_mode = 2
+theme = ExtResource("1_tnmhm")
 
 [node name="NameContaner" type="HBoxContainer" parent="RootPanel/Panel/ContainerContainer/VBoxContainer"]
 layout_mode = 2
+theme = ExtResource("1_tnmhm")
 
 [node name="Label" type="Label" parent="RootPanel/Panel/ContainerContainer/VBoxContainer/NameContaner"]
 layout_mode = 2
+theme = ExtResource("1_tnmhm")
 text = "Name:"
 
 [node name="NameEdit" type="LineEdit" parent="RootPanel/Panel/ContainerContainer/VBoxContainer/NameContaner"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme = ExtResource("1_tnmhm")
 placeholder_text = "Name (max. 32 char.)"
 max_length = 48
 
 [node name="ColorContainer" type="HBoxContainer" parent="RootPanel/Panel/ContainerContainer/VBoxContainer"]
 layout_mode = 2
+theme = ExtResource("1_tnmhm")
 
 [node name="Color" type="Label" parent="RootPanel/Panel/ContainerContainer/VBoxContainer/ColorContainer"]
 layout_mode = 2
+theme = ExtResource("1_tnmhm")
 text = "Color:"
 
 [node name="ColorPicker" type="ColorPicker" parent="RootPanel/Panel/ContainerContainer/VBoxContainer/ColorContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme = ExtResource("1_tnmhm")
 edit_alpha = false
 sampler_visible = false
 color_modes_visible = false
@@ -86,18 +98,22 @@ presets_visible = false
 [node name="PlayerFaceListContainer" type="HBoxContainer" parent="RootPanel/Panel/ContainerContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
+theme = ExtResource("1_tnmhm")
 
 [node name="ItemList" type="ItemList" parent="RootPanel/Panel/ContainerContainer/VBoxContainer/PlayerFaceListContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme = ExtResource("1_tnmhm")
 
 [node name="SaveAndReturnBtn" type="Button" parent="RootPanel/Panel/ContainerContainer/VBoxContainer"]
 layout_mode = 2
+theme = ExtResource("1_tnmhm")
 text = "Save and return to main menu"
 
 [node name="MarginContainer" type="MarginContainer" parent="RootPanel/Panel/ContainerContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme = ExtResource("1_tnmhm")
 theme_override_constants/margin_left = 15
 theme_override_constants/margin_top = 15
 theme_override_constants/margin_right = 15
@@ -105,6 +121,7 @@ theme_override_constants/margin_bottom = 15
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="RootPanel/Panel/ContainerContainer/MarginContainer"]
 layout_mode = 2
+theme = ExtResource("1_tnmhm")
 stretch = true
 
 [node name="SubViewport" type="SubViewport" parent="RootPanel/Panel/ContainerContainer/MarginContainer/SubViewportContainer"]
