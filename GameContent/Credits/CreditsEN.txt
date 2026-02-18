@@ -1,8 +1,10 @@
 Sandboxnator
 
-NullCyan:
+NullCyan/Garel/TheGBO:
 - Everything except for the external content listed below:
 
 Coqito5
 - gatonator.png player skin
 
+www.kenney.nl assets: (CC0 License)
+    - Input prompts

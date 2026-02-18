@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://1hsnhm80nlng"]
+[gd_scene format=3 uid="uid://1hsnhm80nlng"]
 
 [ext_resource type="Script" uid="uid://mr7xahsxhr7w" path="res://Source/Entities/Player/PlayerMovement.cs" id="1_fmfn4"]
 [ext_resource type="Script" uid="uid://dt013s8d7ysto" path="res://Source/Entities/Player/Player.cs" id="1_kjmmx"]
@@ -197,7 +197,7 @@ properties/8/path = NodePath("PlayerModel/Node/Hands/right_H/Hand_R:scale")
 properties/8/spawn = true
 properties/8/replication_mode = 2
 
-[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("componentHolder", "characterBody", "playerMovement", "cameraMovement", "playerItemUse", "playerItemSync", "playerInput", "chatHud", "visuals", "playerHud", "camera", "hud")]
+[node name="Player" type="CharacterBody3D" unique_id=277325947 node_paths=PackedStringArray("componentHolder", "characterBody", "playerMovement", "cameraMovement", "playerItemUse", "playerItemSync", "playerInput", "chatHud", "visuals", "playerHud", "camera", "hud")]
 floor_stop_on_slope = false
 platform_on_leave = 2
 script = ExtResource("1_kjmmx")
@@ -214,7 +214,7 @@ playerHud = NodePath("ComponentHolder/PlayerHUD")
 camera = NodePath("Neck/Camera3D")
 hud = NodePath("HUD")
 
-[node name="HUD" type="Control" parent="."]
+[node name="HUD" type="Control" parent="." unique_id=1874811525]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -222,7 +222,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="CrossHair" type="TextureRect" parent="HUD"]
+[node name="CrossHair" type="TextureRect" parent="HUD" unique_id=1692655378]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -236,7 +236,7 @@ grow_vertical = 2
 scale = Vector2(2, 2)
 texture = ExtResource("8_2c07k")
 
-[node name="HotBar" type="Control" parent="HUD" node_paths=PackedStringArray("playerItemUse", "activeItemIcon")]
+[node name="HotBar" type="Control" parent="HUD" unique_id=1154890998 node_paths=PackedStringArray("playerItemUse", "activeItemIcon")]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -251,7 +251,7 @@ script = ExtResource("3_a5byf")
 playerItemUse = NodePath("../../ComponentHolder/PlayerItemUse")
 activeItemIcon = NodePath("MarginContainer/Items/ActiveItemContainer/ItemIconContainer/ItemIconTexture")
 
-[node name="MarginContainer" type="MarginContainer" parent="HUD/HotBar"]
+[node name="MarginContainer" type="MarginContainer" parent="HUD/HotBar" unique_id=922137773]
 layout_mode = 1
 anchors_preset = 14
 anchor_top = 0.5
@@ -266,15 +266,15 @@ theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
-[node name="Items" type="HBoxContainer" parent="HUD/HotBar/MarginContainer"]
+[node name="Items" type="HBoxContainer" parent="HUD/HotBar/MarginContainer" unique_id=1210702844]
 layout_mode = 2
 alignment = 1
 
-[node name="ActiveItemContainer" type="Panel" parent="HUD/HotBar/MarginContainer/Items"]
+[node name="ActiveItemContainer" type="Panel" parent="HUD/HotBar/MarginContainer/Items" unique_id=1686822511]
 custom_minimum_size = Vector2(56, 56)
 layout_mode = 2
 
-[node name="ItemIconContainer" type="MarginContainer" parent="HUD/HotBar/MarginContainer/Items/ActiveItemContainer"]
+[node name="ItemIconContainer" type="MarginContainer" parent="HUD/HotBar/MarginContainer/Items/ActiveItemContainer" unique_id=680105924]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -286,11 +286,11 @@ theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
-[node name="ItemIconTexture" type="TextureRect" parent="HUD/HotBar/MarginContainer/Items/ActiveItemContainer/ItemIconContainer"]
+[node name="ItemIconTexture" type="TextureRect" parent="HUD/HotBar/MarginContainer/Items/ActiveItemContainer/ItemIconContainer" unique_id=921180231]
 layout_mode = 2
 texture = ExtResource("4_lmeus")
 
-[node name="ChatRoot" type="MarginContainer" parent="HUD"]
+[node name="ChatRoot" type="MarginContainer" parent="HUD" unique_id=2109954114]
 visible = false
 layout_mode = 1
 anchors_preset = 15
@@ -303,11 +303,11 @@ theme_override_constants/margin_top = 12
 theme_override_constants/margin_right = 12
 theme_override_constants/margin_bottom = 12
 
-[node name="ChatBox" type="Panel" parent="HUD/ChatRoot"]
+[node name="ChatBox" type="Panel" parent="HUD/ChatRoot" unique_id=1877882665]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HUD/ChatRoot/ChatBox"]
+[node name="VBoxContainer" type="VBoxContainer" parent="HUD/ChatRoot/ChatBox" unique_id=363273274]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -315,7 +315,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="HUD/ChatRoot/ChatBox/VBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="HUD/ChatRoot/ChatBox/VBoxContainer" unique_id=992638822]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/margin_left = 12
@@ -323,7 +323,7 @@ theme_override_constants/margin_top = 12
 theme_override_constants/margin_right = 12
 theme_override_constants/margin_bottom = 12
 
-[node name="MessagesContainer" type="RichTextLabel" parent="HUD/ChatRoot/ChatBox/VBoxContainer/MarginContainer"]
+[node name="MessagesContainer" type="RichTextLabel" parent="HUD/ChatRoot/ChatBox/VBoxContainer/MarginContainer" unique_id=412863184]
 layout_mode = 2
 size_flags_vertical = 3
 bbcode_enabled = true
@@ -331,29 +331,29 @@ text = "
 "
 scroll_following = true
 
-[node name="Input" type="HBoxContainer" parent="HUD/ChatRoot/ChatBox/VBoxContainer"]
+[node name="Input" type="HBoxContainer" parent="HUD/ChatRoot/ChatBox/VBoxContainer" unique_id=1526908093]
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.1
 
-[node name="MessageEdit" type="LineEdit" parent="HUD/ChatRoot/ChatBox/VBoxContainer/Input"]
+[node name="MessageEdit" type="LineEdit" parent="HUD/ChatRoot/ChatBox/VBoxContainer/Input" unique_id=917697921]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 22
 placeholder_text = "Press ESC to exit chat mode, enter to send message/command."
 
-[node name="SendBtn" type="Button" parent="HUD/ChatRoot/ChatBox/VBoxContainer/Input"]
+[node name="SendBtn" type="Button" parent="HUD/ChatRoot/ChatBox/VBoxContainer/Input" unique_id=690191599]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.25
 shortcut = SubResource("Shortcut_lmeus")
 text = "Send"
 
-[node name="NotificationSound" type="AudioStreamPlayer" parent="HUD/ChatRoot"]
+[node name="NotificationSound" type="AudioStreamPlayer" parent="HUD/ChatRoot" unique_id=1972623562]
 stream = ExtResource("3_bxpi0")
 volume_db = -12.0
 
-[node name="EscMenu" type="Panel" parent="HUD"]
+[node name="EscMenu" type="Panel" parent="HUD" unique_id=80394971]
 visible = false
 layout_mode = 1
 anchors_preset = 9
@@ -361,7 +361,7 @@ anchor_bottom = 1.0
 offset_right = 298.0
 grow_vertical = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="HUD/EscMenu"]
+[node name="MarginContainer" type="MarginContainer" parent="HUD/EscMenu" unique_id=1633681762]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -375,53 +375,51 @@ theme_override_constants/margin_top = 15
 theme_override_constants/margin_right = 15
 theme_override_constants/margin_bottom = 15
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HUD/EscMenu/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="HUD/EscMenu/MarginContainer" unique_id=1715437962]
 layout_mode = 2
 
-[node name="LeaveGameBtn" type="Button" parent="HUD/EscMenu/MarginContainer/VBoxContainer"]
+[node name="LeaveGameBtn" type="Button" parent="HUD/EscMenu/MarginContainer/VBoxContainer" unique_id=1668321799]
 layout_mode = 2
 size_flags_vertical = 3
 text = "LEAVE GAME"
 
-[node name="SettingsBtn" type="Button" parent="HUD/EscMenu/MarginContainer/VBoxContainer"]
+[node name="SettingsBtn" type="Button" parent="HUD/EscMenu/MarginContainer/VBoxContainer" unique_id=1235187851]
 layout_mode = 2
 size_flags_vertical = 3
 text = "Settings"
 
-[node name="SaveWorldBtn" type="Button" parent="HUD/EscMenu/MarginContainer/VBoxContainer"]
+[node name="SaveWorldBtn" type="Button" parent="HUD/EscMenu/MarginContainer/VBoxContainer" unique_id=2125453413]
 layout_mode = 2
 size_flags_vertical = 3
 disabled = true
 text = "secret future feature"
 
-[node name="Neck" type="Node3D" parent="."]
+[node name="Neck" type="Node3D" parent="." unique_id=1084325418]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0)
 
-[node name="Camera3D" type="Camera3D" parent="Neck"]
+[node name="Camera3D" type="Camera3D" parent="Neck" unique_id=2115371593]
 current = true
 
-[node name="FovEffectsAnimator" type="AnimationPlayer" parent="Neck/Camera3D"]
-libraries = {
-&"": SubResource("AnimationLibrary_a7qbv")
-}
+[node name="FovEffectsAnimator" type="AnimationPlayer" parent="Neck/Camera3D" unique_id=1963191732]
+libraries/ = SubResource("AnimationLibrary_a7qbv")
 
-[node name="Ears" type="AudioListener3D" parent="Neck/Camera3D"]
+[node name="Ears" type="AudioListener3D" parent="Neck/Camera3D" unique_id=1633436188]
 
-[node name="WARNING_NOT_IMPLEMENTED" type="Node" parent="Neck/Camera3D/Ears"]
+[node name="WARNING_NOT_IMPLEMENTED" type="Node" parent="Neck/Camera3D/Ears" unique_id=1597343543]
 
-[node name="MAKE_CURRENT_IF_USED" type="Node" parent="Neck/Camera3D/Ears"]
+[node name="MAKE_CURRENT_IF_USED" type="Node" parent="Neck/Camera3D/Ears" unique_id=119419740]
 
-[node name="RayCast3D" type="RayCast3D" parent="Neck"]
+[node name="RayCast3D" type="RayCast3D" parent="Neck" unique_id=651556328]
 target_position = Vector3(0, 0, -8)
 
-[node name="PhysicsHitbox" type="CollisionShape3D" parent="."]
+[node name="PhysicsHitbox" type="CollisionShape3D" parent="." unique_id=727258776]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.935, 0)
 shape = SubResource("CapsuleShape3D_7hef5")
 
-[node name="ComponentHolder" type="Node" parent="."]
+[node name="ComponentHolder" type="Node" parent="." unique_id=1298016837]
 script = ExtResource("7_kauam")
 
-[node name="PlayerMovement" type="Node3D" parent="ComponentHolder" node_paths=PackedStringArray("movementCBody", "camera")]
+[node name="PlayerMovement" type="Node3D" parent="ComponentHolder" unique_id=88819430 node_paths=PackedStringArray("movementCBody", "camera")]
 script = ExtResource("1_fmfn4")
 movementCBody = NodePath("../..")
 walkSpeed = 4.0
@@ -430,33 +428,31 @@ jumpVelocity = 8.0
 camera = NodePath("../../Neck/Camera3D")
 sprintEffectTime = 0.125
 
-[node name="CameraMovement" type="Node3D" parent="ComponentHolder" node_paths=PackedStringArray("neck", "body")]
+[node name="CameraMovement" type="Node3D" parent="ComponentHolder" unique_id=20787505 node_paths=PackedStringArray("neck", "body")]
 script = ExtResource("3_bvtsg")
 neck = NodePath("../../Neck")
 body = NodePath("../..")
 
-[node name="PlayerItemUse" type="Node3D" parent="ComponentHolder" node_paths=PackedStringArray("rayCast", "hand", "handAnimator")]
+[node name="PlayerItemUse" type="Node3D" parent="ComponentHolder" unique_id=1205825359 node_paths=PackedStringArray("rayCast", "hand", "handAnimator")]
 script = ExtResource("9_rtpsh")
 rayCast = NodePath("../../Neck/RayCast3D")
 hand = NodePath("../../PlayerModel/Node/Hands/right_H/Hand_R/HoldingPoint/Hand")
 handAnimator = NodePath("HandAnimator")
 inventory = Array[String](["Hammer", "Cube", "Cone", "PaintBubble"])
 
-[node name="HandAnimator" type="AnimationPlayer" parent="ComponentHolder/PlayerItemUse"]
-libraries = {
-&"": SubResource("AnimationLibrary_0sei0")
-}
+[node name="HandAnimator" type="AnimationPlayer" parent="ComponentHolder/PlayerItemUse" unique_id=617608191]
+libraries/ = SubResource("AnimationLibrary_0sei0")
 
-[node name="PlayerInput" type="Node3D" parent="ComponentHolder"]
+[node name="PlayerInput" type="Node3D" parent="ComponentHolder" unique_id=757712919]
 script = ExtResource("10_xk60u")
 
-[node name="PlayerChatHUD" type="Node3D" parent="ComponentHolder" node_paths=PackedStringArray("messageEdit", "messageBox", "notificationSound")]
+[node name="PlayerChatHUD" type="Node3D" parent="ComponentHolder" unique_id=995031727 node_paths=PackedStringArray("messageEdit", "messageBox", "notificationSound")]
 script = ExtResource("10_np6ov")
 messageEdit = NodePath("../../HUD/ChatRoot/ChatBox/VBoxContainer/Input/MessageEdit")
 messageBox = NodePath("../../HUD/ChatRoot/ChatBox/VBoxContainer/MarginContainer/MessagesContainer")
 notificationSound = NodePath("../../HUD/ChatRoot/NotificationSound")
 
-[node name="HandSway" type="Node3D" parent="ComponentHolder" node_paths=PackedStringArray("hand")]
+[node name="HandSway" type="Node3D" parent="ComponentHolder" unique_id=675638470 node_paths=PackedStringArray("hand")]
 script = ExtResource("11_v2xwv")
 swaySpeed = 3.0
 hand = NodePath("../../PlayerModel/Node/Hands/right_H/Hand_R/HoldingPoint/Hand")
@@ -464,7 +460,7 @@ rightSway = Vector3(0, 0.56, 0)
 leftSway = Vector3(0, -0.56, 0)
 swayThreshold = 5.0
 
-[node name="VisualSync" type="Node3D" parent="ComponentHolder" node_paths=PackedStringArray("elementsToHideAsFirstPerson", "logicalNeck", "itemHoldingPoint", "logicalHand", "headHolder", "handsHolder", "neckAnimator", "modelAnimator", "playerModel", "nameTag")]
+[node name="VisualSync" type="Node3D" parent="ComponentHolder" unique_id=1823580024 node_paths=PackedStringArray("elementsToHideAsFirstPerson", "logicalNeck", "itemHoldingPoint", "logicalHand", "headHolder", "handsHolder", "neckAnimator", "modelAnimator", "playerModel", "nameTag")]
 script = ExtResource("14_3e0s0")
 elementsToHideAsFirstPerson = [NodePath("../../PlayerModel/Node/HeadHolder/Head"), NodePath("../../NameTagHolder"), NodePath("../../PlayerModel/Node/HeadHolder/Face")]
 logicalNeck = NodePath("../../Neck")
@@ -482,31 +478,34 @@ modelAnimator = NodePath("../../PlayerModel/ModelAnimator")
 playerModel = NodePath("../../PlayerModel")
 nameTag = NodePath("../../NameTagHolder/NameTag")
 
-[node name="PlayerHUD" type="Node3D" parent="ComponentHolder" node_paths=PackedStringArray("chatRoot", "escMenu", "hotBar")]
+[node name="PlayerHUD" type="Node3D" parent="ComponentHolder" unique_id=736340043 node_paths=PackedStringArray("chatRoot", "escMenu", "hotBar")]
 script = ExtResource("13_7hef5")
 chatRoot = NodePath("../../HUD/ChatRoot")
 escMenu = NodePath("../../HUD/EscMenu")
 hotBar = NodePath("../../HUD/HotBar")
 
-[node name="PlayerItemSync" type="Node3D" parent="ComponentHolder"]
+[node name="PlayerItemSync" type="Node3D" parent="ComponentHolder" unique_id=2081320656]
 script = ExtResource("14_a5byf")
 
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=41916486]
 replication_config = SubResource("SceneReplicationConfig_bglb2")
 
-[node name="NameTagHolder" type="Marker3D" parent="."]
+[node name="NameTagHolder" type="Marker3D" parent="." unique_id=2079946833]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2, 0)
 
-[node name="NameTag" type="Label3D" parent="NameTagHolder"]
+[node name="NameTag" type="Label3D" parent="NameTagHolder" unique_id=1469179986]
 billboard = 1
 text = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 outline_size = 7
 autowrap_mode = 1
 
-[node name="PlayerModel" parent="." instance=ExtResource("15_7hef5")]
+[node name="PlayerModel" parent="." unique_id=1713642264 instance=ExtResource("15_7hef5")]
 
 [node name="right_H" parent="PlayerModel/Node/Hands" index="1"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.30626476, -0.03124994, 0)
+
+[node name="ModelAnimator" parent="PlayerModel" index="1"]
+autoplay = &"IdleAndHold"
 
 [connection signal="pressed" from="HUD/ChatRoot/ChatBox/VBoxContainer/Input/SendBtn" to="ComponentHolder/PlayerChatHUD" method="_on_send_btn_pressed"]
 [connection signal="pressed" from="HUD/EscMenu/MarginContainer/VBoxContainer/LeaveGameBtn" to="ComponentHolder/PlayerHUD" method="_on_leave_game_btn_pressed"]

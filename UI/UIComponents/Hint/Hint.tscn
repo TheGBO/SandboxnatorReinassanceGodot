@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://b632tnhhj00lh"]
+
+[ext_resource type="Script" uid="uid://bh1sk4ncyth5y" path="res://UI/UIComponents/Hint/hint.gd" id="1_vjbra"]
+[ext_resource type="AudioStream" uid="uid://bdgt3nix7eaib" path="res://Assets/Sounds/ui_hint.mp3" id="2_gh58f"]
+
+[node name="Hint" type="Control" unique_id=371644030 node_paths=PackedStringArray("hintLabel")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_vjbra")
+hintLabel = NodePath("Panel/HintLabel")
+
+[node name="UiHint" type="AudioStreamPlayer" parent="." unique_id=275074050]
+stream = ExtResource("2_gh58f")
+autoplay = true
+
+[node name="Panel" type="Panel" parent="." unique_id=735078928]
+layout_mode = 0
+offset_right = 359.0
+offset_bottom = 91.0
+
+[node name="HintLabel" type="RichTextLabel" parent="Panel" unique_id=315863246]
+layout_mode = 0
+offset_right = 70.0
+offset_bottom = 30.0
+text = "Press "

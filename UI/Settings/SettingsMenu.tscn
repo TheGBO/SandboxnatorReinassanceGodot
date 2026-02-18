@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://crgfsh58w8e8c"]
 
 [ext_resource type="Theme" uid="uid://dbnnr7gglht1m" path="res://UI/Theme/Theme.tres" id="1_fc8s3"]
-[ext_resource type="Script" uid="uid://cip2ifw6h88lb" path="res://UI/UIComponents/SceneChangingButton.cs" id="2_fc8s3"]
+[ext_resource type="Script" uid="uid://cip2ifw6h88lb" path="res://UI/UIComponents/Scripts/SceneChangingButton.cs" id="2_fc8s3"]
 [ext_resource type="Script" uid="uid://cugg058t0t6u7" path="res://UI/Settings/SettingsMenu.cs" id="2_glqfu"]
-[ext_resource type="Script" uid="uid://vbbgilmnwckl" path="res://UI/UIComponents/ValueLabel.cs" id="3_cgddo"]
+[ext_resource type="Script" uid="uid://vbbgilmnwckl" path="res://UI/UIComponents/Scripts/ValueLabel.cs" id="3_cgddo"]
 [ext_resource type="FontFile" uid="uid://byx34uye6i18w" path="res://Assets/Font/Inter-VariableFont_opsz,wght.ttf" id="10_2t4x0"]
 
 [node name="SettingsMenu" type="Control" unique_id=1881731858 node_paths=PackedStringArray("FovSlider", "LookSensitivitySlider")]
