@@ -4,7 +4,7 @@
 [ext_resource type="Material" uid="uid://cwqjolp2w3bto" path="res://Assets/Materials/tileMaterial.tres" id="2_tomxc"]
 [ext_resource type="PackedScene" uid="uid://dt7f7iern17j1" path="res://Source/Entities/Buildings/Snapper.tscn" id="3_jxyuh"]
 [ext_resource type="Script" uid="uid://e34gkmm62lfj" path="res://Source/Common/ComponentSystem/ComponentHolder.cs" id="4_peig7"]
-[ext_resource type="AudioStream" uid="uid://cvrfvcka0lx73" path="res://_ThirdParty/KenneyImpactSounds/Audio/impactMining_000.ogg" id="5_a23ll"]
+[ext_resource type="AudioStream" uid="uid://bfnax01a1tji8" path="res://_ThirdParty/KenneyImpactSounds/Audio/footstep_carpet_000.ogg" id="5_a23ll"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_0od6p"]
 properties/0/path = NodePath(".:position")
