@@ -14,17 +14,8 @@ public partial class Placeable : RigidBody3D
         QueueFree();
     }
 
-    /// <summary>
-    /// Called on the server side when the building is placed!!!
-    /// </summary>
-    public void S_OnPlaced()
+    public override void _Ready()
     {
-        Rpc(nameof(S2C_OnPlaced));
-    }
-
-    [Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
-    public void S2C_OnPlaced()
-    {
-        placedSound?.Play();
+        placedSound.Play();
     }
 }

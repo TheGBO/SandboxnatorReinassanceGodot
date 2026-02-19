@@ -43,15 +43,10 @@ public partial class PlacingItem : BaseItem
 		Node3D building = (Node3D)buildingScene.Instantiate();
 		building.Name = Guid.NewGuid().GetHashCode().ToString();
 		building.Position = GetSnappedPosition(args.Position, args.Normal, _isGrid);
+
 		building.Rotation = args.DesiredRotation;
 		World.Instance.networkedEntities.CallDeferred("add_child", building);
-		if (building is Placeable)
-		{
-			Placeable placedBuilding = (Placeable)building;
-			GD.Print("bonk!");
-			placedBuilding.S_OnPlaced();
-			//call placing sound
-		}
+
 	}
 
 	private Vector3 GetSnappedPosition(Vector3 collisionPoint, Vector3 collisionNormal, bool hasGrid)
