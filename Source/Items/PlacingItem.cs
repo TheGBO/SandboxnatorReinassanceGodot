@@ -2,6 +2,7 @@ using Godot;
 using System;
 using NullCyan.Util;
 using NullCyan.Sandboxnator.WorldAndScenes;
+using NullCyan.Sandboxnator.Building;
 namespace NullCyan.Sandboxnator.Item;
 
 [GlobalClass]
@@ -42,10 +43,15 @@ public partial class PlacingItem : BaseItem
 		Node3D building = (Node3D)buildingScene.Instantiate();
 		building.Name = Guid.NewGuid().GetHashCode().ToString();
 		building.Position = GetSnappedPosition(args.Position, args.Normal, _isGrid);
-		// CONSIDER: desiredRotation could be an element of ItemUsageArgs too.
 		building.Rotation = args.DesiredRotation;
 		World.Instance.networkedEntities.CallDeferred("add_child", building);
-
+		if (building is Placeable)
+		{
+			Placeable placedBuilding = (Placeable)building;
+			GD.Print("bonk!");
+			placedBuilding.S_OnPlaced();
+			//call placing sound
+		}
 	}
 
 	private Vector3 GetSnappedPosition(Vector3 collisionPoint, Vector3 collisionNormal, bool hasGrid)

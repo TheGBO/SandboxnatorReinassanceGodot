@@ -4,6 +4,7 @@ using NullCyan.Sandboxnator.Registry;
 using NullCyan.Util.IO;
 using NathanHoad;
 using NullCyan.Util.Log;
+using NullCyan.Sandboxnator.UI;
 namespace NullCyan.UI;
 
 public partial class SettingsMenu : Control
@@ -13,6 +14,7 @@ public partial class SettingsMenu : Control
 
     public override void _EnterTree()
     {
+        UiSoundManager.Instance.TryInstallSounds();
         UIFromSettings();
         InputActionsDebug();
     }
