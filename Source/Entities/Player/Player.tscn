@@ -16,6 +16,13 @@
 [ext_resource type="Script" uid="uid://1r4uikdke5pe" path="res://Source/Entities/Player/PlayerVisualSync.cs" id="14_3e0s0"]
 [ext_resource type="Script" uid="uid://dfhgyr0xk8nju" path="res://Source/Entities/Player/PlayerItemSync.cs" id="14_a5byf"]
 [ext_resource type="PackedScene" uid="uid://bvk2qsd5vogiv" path="res://Source/Entities/Player/PlayerModel.tscn" id="15_7hef5"]
+[ext_resource type="Script" uid="uid://c7cntnqvgc1tj" path="res://Source/Entities/Player/PlayerSounds.cs" id="16_ckclx"]
+[ext_resource type="AudioStream" uid="uid://drcyqysa48vv4" path="res://_ThirdParty/KenneyImpactSounds/Audio/footstep_concrete_000.ogg" id="17_l24fo"]
+[ext_resource type="AudioStream" uid="uid://cgibi3vg7rv5q" path="res://_ThirdParty/KenneyImpactSounds/Audio/footstep_concrete_001.ogg" id="18_a7eri"]
+[ext_resource type="AudioStream" uid="uid://cc75lx73p3qu8" path="res://_ThirdParty/KenneyImpactSounds/Audio/footstep_concrete_002.ogg" id="19_251ni"]
+[ext_resource type="AudioStream" uid="uid://dxpst4nlv02if" path="res://_ThirdParty/KenneyImpactSounds/Audio/footstep_concrete_003.ogg" id="20_f17go"]
+[ext_resource type="AudioStream" uid="uid://c747vquocilw2" path="res://_ThirdParty/KenneyImpactSounds/Audio/footstep_concrete_004.ogg" id="21_2nyvo"]
+[ext_resource type="AudioStream" uid="uid://dsla1gjda3sih" path="res://_ThirdParty/KenneyImpactSounds/Audio/footstep_grass_000.ogg" id="22_2nyvo"]
 
 [sub_resource type="InputEventAction" id="InputEventAction_jynvv"]
 action = &"sb_ui_enter"
@@ -197,7 +204,7 @@ properties/8/path = NodePath("PlayerModel/Node/Hands/right_H/Hand_R:scale")
 properties/8/spawn = true
 properties/8/replication_mode = 2
 
-[node name="Player" type="CharacterBody3D" unique_id=277325947 node_paths=PackedStringArray("componentHolder", "characterBody", "playerMovement", "cameraMovement", "playerItemUse", "playerItemSync", "playerInput", "chatHud", "visuals", "playerHud", "camera", "hud")]
+[node name="Player" type="CharacterBody3D" unique_id=277325947 node_paths=PackedStringArray("componentHolder", "characterBody", "playerMovement", "cameraMovement", "playerItemUse", "playerItemSync", "playerInput", "chatHud", "visuals", "playerHud", "camera", "hud", "playerSounds")]
 floor_stop_on_slope = false
 platform_on_leave = 2
 script = ExtResource("1_kjmmx")
@@ -213,6 +220,7 @@ visuals = NodePath("ComponentHolder/VisualSync")
 playerHud = NodePath("ComponentHolder/PlayerHUD")
 camera = NodePath("Neck/Camera3D")
 hud = NodePath("HUD")
+playerSounds = NodePath("ComponentHolder/PlayerSounds")
 
 [node name="HUD" type="Control" parent="." unique_id=1874811525]
 layout_mode = 3
@@ -422,8 +430,8 @@ script = ExtResource("7_kauam")
 [node name="PlayerMovement" type="Node3D" parent="ComponentHolder" unique_id=88819430 node_paths=PackedStringArray("movementCBody", "camera")]
 script = ExtResource("1_fmfn4")
 movementCBody = NodePath("../..")
-walkSpeed = 4.0
-sprintSpeed = 7.0
+walkSpeed = 2.8
+sprintSpeed = 7.23
 jumpVelocity = 8.0
 camera = NodePath("../../Neck/Camera3D")
 sprintEffectTime = 0.125
@@ -486,6 +494,14 @@ hotBar = NodePath("../../HUD/HotBar")
 
 [node name="PlayerItemSync" type="Node3D" parent="ComponentHolder" unique_id=2081320656]
 script = ExtResource("14_a5byf")
+
+[node name="PlayerSounds" type="Node3D" parent="ComponentHolder" unique_id=1285901011 node_paths=PackedStringArray("streamPlayer")]
+script = ExtResource("16_ckclx")
+streamPlayer = NodePath("AudioStreamPlayer3D")
+genericFootsteps = Array[AudioStream]([ExtResource("17_l24fo"), ExtResource("18_a7eri"), ExtResource("19_251ni"), ExtResource("20_f17go"), ExtResource("21_2nyvo"), ExtResource("22_2nyvo")])
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="ComponentHolder/PlayerSounds" unique_id=1116531485]
+attenuation_model = 3
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=41916486]
 replication_config = SubResource("SceneReplicationConfig_bglb2")

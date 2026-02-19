@@ -15,7 +15,15 @@ public partial class PlayerMovement : AbstractComponent<Player>, ISettingsLoader
 	[Export] public float sprintSpeed;
 	[Export] public float jumpVelocity;
 	private Vector3 _velocity;
-
+	private bool isMoving;
+	private bool isSprinting;
+	public float HorizontalSpeed
+	{
+		get
+		{
+			return new Vector3(_velocity.X, 0, _velocity.Z).Length();
+		}
+	}
 	//rigid body interaction
 	// [Export] public float mass = 5f;
 	// [Export] public float pushForceScalar = 2f;
@@ -43,14 +51,18 @@ public partial class PlayerMovement : AbstractComponent<Player>, ISettingsLoader
 	}
 
 
-
-	//TODO: Separate input from movement
 	public override void _PhysicsProcess(double delta)
 	{
-		if (!ComponentParent.IsMultiplayerAuthority() || movementCBody == null)
-			return;
+		if (movementCBody == null) return;
+		SoundEffectProcess();
 
+		if (!ComponentParent.IsMultiplayerAuthority()) return;
 		camera.Fov = (float)GameRegistries.Instance.SettingsData.FieldOfView;
+		MovementProcess(delta);
+	}
+
+	private void MovementProcess(double delta)
+	{
 		_velocity = movementCBody.Velocity;
 
 		// Add the gravity.
@@ -64,17 +76,15 @@ public partial class PlayerMovement : AbstractComponent<Player>, ISettingsLoader
 			_velocity.Y = jumpVelocity;
 		}
 
-		// Get the input direction and handle the movement/deceleration.
-		// As good practice, you should replace UI actions with custom gameplay actions.
 		Vector3 forward = movementCBody.GlobalTransform.Basis.Z;
 		Vector3 right = movementCBody.GlobalTransform.Basis.X;
 
 		Vector2 inputDir = ComponentParent.playerInput.MovementVector;
 		Vector3 direction = (forward * inputDir.Y + right * inputDir.X).Normalized();
-		bool isMoving = inputDir != Vector2.Zero;
+		isMoving = inputDir != Vector2.Zero;
 
 		//check for sprint
-		bool isSprinting = ComponentParent.playerInput.IsSprinting;
+		isSprinting = ComponentParent.playerInput.IsSprinting;
 		if (isSprinting)
 		{
 			MovementType = PlayerMovementType.Sprint;
@@ -102,7 +112,15 @@ public partial class PlayerMovement : AbstractComponent<Player>, ISettingsLoader
 
 		movementCBody.Velocity = _velocity;
 		movementCBody.MoveAndSlide();
+	}
 
+	private void SoundEffectProcess()
+	{
+		if (isMoving && movementCBody.IsOnFloor())
+		{
+			float footstepDelay = isSprinting ? 0.1f : 0.25f;
+			ComponentParent.playerSounds.PlayGenericFootstep(footstepDelay);
+		}
 	}
 
 	//not my code, adapted version from https://www.youtube.com/watch?v=Uh9PSOORMmA

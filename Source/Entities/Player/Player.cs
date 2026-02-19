@@ -30,6 +30,8 @@ public partial class Player : CharacterBody3D
 	[Export] public Camera3D camera;
 	[Export] public Node hud;
 
+	[Export] public PlayerSounds playerSounds;
+
 	public override void _EnterTree()
 	{
 		componentHolder.entityId = int.Parse(Name);
