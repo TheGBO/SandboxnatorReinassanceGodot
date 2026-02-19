@@ -1,0 +1,213 @@
+[gd_scene format=3 uid="uid://dcjmu7qxa1y4m"]
+
+[ext_resource type="AudioStream" uid="uid://bdgt3nix7eaib" path="res://Assets/Sounds/ui_hint.mp3" id="1_omir7"]
+[ext_resource type="Theme" uid="uid://dbnnr7gglht1m" path="res://UI/Theme/Theme.tres" id="1_x53qb"]
+
+[sub_resource type="Animation" id="Animation_x53qb"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Panel/MarginContainer/SelectTutorial:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AudioStreamPlayer:playing")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Panel/MarginContainer/PlaceableTutorial:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Panel/MarginContainer/HammerTutorial:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Panel/MarginContainer/PaintBubbleTutorial:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_bacs6"]
+resource_name = "TutorialAnimation"
+length = 30.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Panel/MarginContainer/SelectTutorial:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1, 6.5333333),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [false, true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AudioStreamPlayer:playing")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.76666665, 6.5, 12.145786, 17.509993),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [false, true, true, true, true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Panel/MarginContainer/PlaceableTutorial:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 6.5333333, 12.145786),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [false, true, false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Panel/MarginContainer/HammerTutorial:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 12.152248, 17.509993),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [false, true, false]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Panel/MarginContainer/PaintBubbleTutorial:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 17.509993),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_sg5jr"]
+_data = {
+&"RESET": SubResource("Animation_x53qb"),
+&"TutorialAnimation": SubResource("Animation_bacs6")
+}
+
+[node name="Tutorial" type="Control" unique_id=1846861813]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=644631120]
+stream = ExtResource("1_omir7")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1984114809]
+libraries/ = SubResource("AnimationLibrary_sg5jr")
+
+[node name="Panel" type="Panel" parent="." unique_id=1909999064]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Panel" unique_id=351037845]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 24
+
+[node name="SelectTutorial" type="RichTextLabel" parent="Panel/MarginContainer" unique_id=1686716282]
+visible = false
+layout_mode = 2
+theme = ExtResource("1_x53qb")
+theme_override_font_sizes/bold_font_size = 32
+bbcode_enabled = true
+text = "[b]Item navigation[/b]
+[img=64]res://_ThirdParty/KenneyInputPrompts/Keyboard & Mouse/Default/mouse_scroll_down.png[/img] and [img]res://_ThirdParty/KenneyInputPrompts/Keyboard & Mouse/Default/mouse_scroll_up.png[/img] to cycle between items"
+
+[node name="PlaceableTutorial" type="RichTextLabel" parent="Panel/MarginContainer" unique_id=1306235970]
+visible = false
+layout_mode = 2
+theme = ExtResource("1_x53qb")
+theme_override_font_sizes/bold_font_size = 44
+bbcode_enabled = true
+text = "[b]with[/b] [img=64]uid://jm1mq53ol7ei[/img] (or any placeable) [b]in hand[/b]
+[img]uid://bmnifd4ykbx8x[/img] To rotate clockwise
+[img]uid://fahviot1oj1f[/img] To rotate counter-clockwise
+[img]uid://cvcubyhvbgdxu[/img] To place them
+"
+
+[node name="HammerTutorial" type="RichTextLabel" parent="Panel/MarginContainer" unique_id=275581359]
+visible = false
+layout_mode = 2
+theme = ExtResource("1_x53qb")
+theme_override_font_sizes/bold_font_size = 44
+bbcode_enabled = true
+text = "[b]with[/b] [img=64]uid://bvrby5xk2pk1j[/img] [b]in hand[/b]
+[img]uid://cvcubyhvbgdxu[/img] To break the target building
+[img][/img]"
+
+[node name="PaintBubbleTutorial" type="RichTextLabel" parent="Panel/MarginContainer" unique_id=604760395]
+visible = false
+layout_mode = 2
+theme = ExtResource("1_x53qb")
+theme_override_font_sizes/bold_font_size = 44
+bbcode_enabled = true
+text = "[b]with[/b] [img=64]uid://bhncfyiqm2nju[/img] [b]in hand[/b]
+[img]uid://ck6fyiuc8jw2b[/img] To select a color
+[img]uid://cvcubyhvbgdxu[/img] To paint the target building
+"
