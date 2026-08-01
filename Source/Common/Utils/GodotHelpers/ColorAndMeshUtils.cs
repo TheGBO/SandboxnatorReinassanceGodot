@@ -34,16 +34,25 @@ class ColorAndMeshUtils
 
 	public static void ChangeMeshColor(MeshInstance3D model, Color color)
 	{
-		//Change the active model 0
-		var currentMaterial = model.GetActiveMaterial(0);
-		if (currentMaterial is StandardMaterial3D stdMat)
+		if (model.Mesh == null) return;
+
+		int surfaceCount = model.Mesh.GetSurfaceCount();
+
+		for (int i = 0; i < surfaceCount; i++)
 		{
-			stdMat = (StandardMaterial3D)stdMat.Duplicate();
-			stdMat.AlbedoColor = color;
-			model.MaterialOverride = stdMat;
+			var currentMaterial = model.GetActiveMaterial(i);
+
+			if (currentMaterial is StandardMaterial3D stdMat)
+			{
+
+				var newMat = (StandardMaterial3D)stdMat.Duplicate();
+				newMat.AlbedoColor = color;
+
+
+				model.SetSurfaceOverrideMaterial(i, newMat);
+			}
 		}
 	}
-
 	public static void ChangeMeshTexture(MeshInstance3D model, Texture2D texture)
 	{
 		//Change the active model 0
