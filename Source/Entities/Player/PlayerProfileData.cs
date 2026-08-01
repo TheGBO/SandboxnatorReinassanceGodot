@@ -1,24 +1,91 @@
 using Godot;
-using Godot.Collections;
-using System;
-using MessagePack;
-using MessagePackGodot;
-using NullCyan.Util;
 using NullCyan.Util.Log;
 using NullCyan.Sandboxnator.Registry;
+using NullCyan.Util;
+using Godot.Collections;
+
 namespace NullCyan.Sandboxnator.Entity;
 
-[MessagePackObject(true)]
-public partial class PlayerProfileData
+[GlobalClass]
+public partial class PlayerProfileData : Resource
 {
-    [Key(0)]
-    public string PlayerName { get; set; } = $"DEFAULT_PLAYER";
+    private string _playerName = "DEFAULT_PLAYER";
+    [Export]
+    public string PlayerName
+    {
+        get => _playerName;
+        set => _playerName = value;
+    }
 
-    [Key(1)]
-    public Color PlayerColor { get; set; } = Colors.White;
+    private Color _playerColor = Colors.White;
+    [Export]
+    public Color PlayerColor
+    {
+        get => _playerColor;
+        set => _playerColor = value;
+    }
 
-    [Key(2)]
-    public string PlayerFaceId { get; set; } = "TinySmile";
+    private string _playerFaceId = "TinySmile";
+    [Export]
+    public string PlayerFaceId
+    {
+        get => _playerFaceId;
+        set => _playerFaceId = value;
+    }
+
+    public PlayerProfileData() { }
+
+    public PlayerProfileData(string name, Color color, string faceId)
+    {
+        PlayerName = name;
+        PlayerColor = color;
+        PlayerFaceId = faceId;
+    }
+
+    public void RandomizeProfile()
+    {
+        GD.Randomize();
+        PlayerName = FillNameField();
+        PlayerColor = new Color(GD.Randf(), GD.Randf(), GD.Randf());
+        PlayerFaceId = GameRegistries.Instance.PlayerFaceRegistry.GetRandomEntry().Value.playerFaceId;
+    }
+
+    private string FillNameField()
+    {
+        NameGenerator nameGen = NameGenerator.Create();
+        if (GD.Randf() <= 0.7f) nameGen.UseDictedPatterns();
+        else nameGen.UseSimplePatterns();
+
+        string name = nameGen.GenerateName();
+        return char.ToUpper(name[0]) + name.Substring(1);
+    }
+
+    public Dictionary ToDictionary()
+    {
+        return new()
+        {
+            {"Name", _playerName},
+            {"Color", _playerColor},
+            {"FaceId", _playerFaceId}
+        };
+    }
+
+    public static PlayerProfileData FromDictionary(Dictionary dict)
+    {
+        var profile = new PlayerProfileData();
+        if (dict == null) return profile;
+
+        if (dict.TryGetValue("Name", out var name))
+            profile.PlayerName = (string)name;
+
+        if (dict.TryGetValue("Color", out var color))
+            profile.PlayerColor = (Color)color;
+
+        if (dict.TryGetValue("FaceId", out var faceId))
+            profile.PlayerFaceId = (string)faceId;
+
+        return profile;
+    }
 
     public override string ToString()
     {
@@ -33,26 +100,4 @@ public partial class PlayerProfileData
         // GD.Print("Raw bytes: ", BitConverter.ToString(binaryData).ToLower().Replace("-", ""));
         // GD.Print($"when packed as a byte array, this has {binaryData.Length} bytes");
     }
-
-    public void RandomizeProfile()
-    {
-        GD.Randomize();
-        PlayerName = FillNameField();
-        PlayerColor = new(GD.Randf(), GD.Randf(), GD.Randf());
-        PlayerFaceId = GameRegistries.Instance.PlayerFaceRegistry.GetRandomEntry().Value.playerFaceId;
-
-    }
-
-    private string FillNameField()
-    {
-        NameGenerator nameGen = NameGenerator.Create();
-        if (GD.Randf() <= 0.7) nameGen.UseDictedPatterns();
-        else nameGen.UseSimplePatterns();
-
-        string name = nameGen.GenerateName();
-        string nameCorrected = char.ToUpper(name[0]) + name.Substring(1);
-        NcLogger.Log($"Randomly generated name: {nameCorrected}");
-        return nameCorrected;
-    }
 }
-

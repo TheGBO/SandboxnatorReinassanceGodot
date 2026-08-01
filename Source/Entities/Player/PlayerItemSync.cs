@@ -1,37 +1,37 @@
 using Godot;
-using NullCyan.Sandboxnator.WorldAndScenes;
 using NullCyan.Util.ComponentSystem;
 
 namespace NullCyan.Sandboxnator.Entity;
-//TODO: Make a basic abstract synchronize class to handle stuff
+
 public partial class PlayerItemSync : AbstractComponent<Player>
 {
-    public override void _Ready()
+    private string _currentItemId = string.Empty;
+
+    /// <summary>
+    /// Now this thing is synced automatically across peers via MultiplayerSynchronizer.
+    /// </summary>
+    [Export]
+    public string CurrentItemId
     {
-        if (Multiplayer.IsServer() && World.HasInstance())
+        get => _currentItemId;
+        set
         {
-            World.Instance.OnPlayerJoin += _ =>
-            {
-                ServerForceSync(ComponentParent.playerItemUse.CurrentItemID);
-            };
+            _currentItemId = value;
+            OnItemIdChanged(_currentItemId);
         }
     }
 
-    /// <summary>
-    /// Called only by the server to push item state to all clients.
-    /// </summary>
-    public void ServerForceSync(string itemId)
+    public void SetEquippedItem(string itemId)
     {
-        //broadcast the item id and trigger update
-        Rpc(nameof(S2C_SetItem), itemId);
+        CurrentItemId = itemId;
     }
 
-    [Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
-    private void S2C_SetItem(string itemId)
+    private void OnItemIdChanged(string itemId)
     {
-        //GD.Print(itemId);
-        var itemUse = ComponentParent.playerItemUse;
+        var itemUse = ComponentParent?.playerItemUse;
         if (itemUse != null)
+        {
             itemUse.SetItemFromNetwork(itemId);
+        }
     }
 }

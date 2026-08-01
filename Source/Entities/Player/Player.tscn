@@ -194,15 +194,12 @@ properties/4/replication_mode = 2
 properties/5/path = NodePath("ComponentHolder/PlayerMovement:MovementType")
 properties/5/spawn = true
 properties/5/replication_mode = 2
-properties/6/path = NodePath("PlayerModel/Node/Hands/right_H/Hand_R:position")
+properties/6/path = NodePath("ComponentHolder/VisualSync:ProfileDataDict")
 properties/6/spawn = true
 properties/6/replication_mode = 2
-properties/7/path = NodePath("PlayerModel/Node/Hands/right_H/Hand_R:rotation")
+properties/7/path = NodePath("ComponentHolder/PlayerItemSync:CurrentItemId")
 properties/7/spawn = true
 properties/7/replication_mode = 2
-properties/8/path = NodePath("PlayerModel/Node/Hands/right_H/Hand_R:scale")
-properties/8/spawn = true
-properties/8/replication_mode = 2
 
 [node name="Player" type="CharacterBody3D" unique_id=277325947 node_paths=PackedStringArray("componentHolder", "characterBody", "playerMovement", "cameraMovement", "playerItemUse", "playerItemSync", "playerInput", "chatHud", "visuals", "playerHud", "camera", "hud", "playerSounds")]
 floor_stop_on_slope = false
@@ -468,21 +465,9 @@ rightSway = Vector3(0, 0.56, 0)
 leftSway = Vector3(0, -0.56, 0)
 swayThreshold = 5.0
 
-[node name="VisualSync" type="Node3D" parent="ComponentHolder" unique_id=1823580024 node_paths=PackedStringArray("elementsToHideAsFirstPerson", "logicalNeck", "itemHoldingPoint", "logicalHand", "headHolder", "handsHolder", "neckAnimator", "modelAnimator", "playerModel", "nameTag")]
+[node name="VisualSync" type="Node3D" parent="ComponentHolder" unique_id=1823580024 node_paths=PackedStringArray("elementsToHideAsFirstPerson", "playerModel", "nameTag")]
 script = ExtResource("14_3e0s0")
-elementsToHideAsFirstPerson = [NodePath("../../PlayerModel/Node/HeadHolder/Head"), NodePath("../../NameTagHolder"), NodePath("../../PlayerModel/Node/HeadHolder/Face")]
-logicalNeck = NodePath("../../Neck")
-itemHoldingPoint = NodePath("../../PlayerModel/Node/Hands/right_H/Hand_R/HoldingPoint")
-logicalHand = NodePath("../../PlayerModel/Node/Hands/right_H/Hand_R/HoldingPoint/Hand")
-headHolder = NodePath("../../PlayerModel/Node/HeadHolder")
-handsHolder = NodePath("../../PlayerModel/Node/Hands")
-movementTypeAnimation = Dictionary[int, String]({
-0: "IdleAndHold",
-1: "WalkAndHold",
-2: "WalkAndHold"
-})
-neckAnimator = NodePath("../../Neck/Camera3D/FovEffectsAnimator")
-modelAnimator = NodePath("../../PlayerModel/ModelAnimator")
+elementsToHideAsFirstPerson = [NodePath("../../PlayerModel/Node/HeadHolder"), NodePath("../../NameTagHolder/NameTag")]
 playerModel = NodePath("../../PlayerModel")
 nameTag = NodePath("../../NameTagHolder/NameTag")
 

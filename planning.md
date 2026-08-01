@@ -5,7 +5,7 @@
 - [ ] - Currently, RGBall is a monolithic magic dye that paints anything that can be painted, this should not persist in newer versions, instead, each colour should be its own item, for instance "Red paint bucket", "Magenta paint bucket"[...] instead of a single all-in-one.
 ---
 ## Technical aspects:
-- [ ] - Have an organized way to synchronize data via godot's multiplayersynchronizer.
+- [x] - Have an organized way to synchronize data via godot's multiplayersynchronizer.
 - [ ] - Server authoritative movement with client-side prediction. This is nuts, I don't know if I'm able to implement this.
 - [ ] - A way to serialize every single aspect of the world state, that is: buildings, player positions, other entities... This is to allow to do the follwing things:
     - Save worlds to disk

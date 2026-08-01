@@ -1,86 +1,102 @@
 using Godot;
 using System;
-using Godot.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using NullCyan.Util;
-using NullCyan.Util.IO;
 using NullCyan.Sandboxnator.Network;
 using NullCyan.Sandboxnator.WorldAndScenes;
 using NullCyan.Sandboxnator.Entity;
 using NullCyan.Sandboxnator.Commands;
-using NullCyan.Util.GodotHelpers;
 using NullCyan.Util.Log;
-namespace NullCyan.Sandboxnator.Chat;
+using NullCyan.Util.GodotHelpers;
 
+namespace NullCyan.Sandboxnator.Chat;
 
 /// <summary>
 /// Singleton responsible for sending, receiving, parsing and handling chat messages and commands.
 /// </summary>
 public partial class ChatManager : Singleton<ChatManager>
 {
-    public List<ChatMessage> messages;
     public Action<ChatMessage, PlayerProfileData> OnMessageReceived;
 
-    //called on client
+    /// <summary>
+    /// Called on client to request sending a message to the server.
+    /// </summary>
     public void RequestSendMessageToServer(string msg)
     {
-        ChatMessage message = new(msg, NetworkManager.Instance.peer.GetUniqueId());
-        RpcId(1, nameof(C2S_HandleMessage), MPacker.Pack(message));
+        if (string.IsNullOrWhiteSpace(msg)) return;
+
+        RpcId(1, nameof(C2S_HandleMessage), msg);
     }
 
-    [Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
-    private void C2S_HandleMessage(byte[] messageBytes)
+    [Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = false)]
+    private void C2S_HandleMessage(string content)
     {
-        ChatMessage message = MPacker.Unpack<ChatMessage>(messageBytes);
-        NcLogger.Log($"[AS SERVER] message received:{message.Content.Replace("\n", "|CR+LF|")} from {message.PlayerId}");
-        Player sender = World.Instance.GetPlayerById(message.PlayerId);
+        if (!Multiplayer.IsServer()) return;
+
+        long senderPeerId = Multiplayer.GetRemoteSenderId();
+        Player sender = World.Instance.GetPlayerById((int)senderPeerId);
+
+        if (sender == null)
+        {
+            NcLogger.Log($"[SERVER] Chat message rejected: Peer {senderPeerId} not found.");
+            return;
+        }
+
+        NcLogger.Log($"[AS SERVER] message received: {content.Replace("\n", "|CR+LF|")} from {senderPeerId}");
 
         // Pass message to command system first
-        if (!CommandRegistryManager.ExecuteCommand(sender, message.Content))
+        if (!CommandRegistryManager.ExecuteCommand(sender, content))
         {
-            // If not a command, broadcast the message normally
-            Rpc(nameof(S2C_ReceiveMessage), MPacker.Pack(message), MPacker.Pack(World.Instance.GetPlayerById(message.PlayerId).ProfileData));
+            // If not a command, broadcast to all clients with the sender's peer ID
+            Rpc(nameof(S2C_ReceiveMessage), content, (int)senderPeerId);
         }
     }
 
-    [Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
-    private void S2C_ReceiveMessage(byte[] messageBytes, byte[] profileBytes)
+    [Rpc(MultiplayerApi.RpcMode.Authority, CallLocal = true)]
+    private void S2C_ReceiveMessage(string content, int senderPeerId)
     {
-        ChatMessage message = MPacker.Unpack<ChatMessage>(messageBytes);
-        PlayerProfileData senderData = MPacker.Unpack<PlayerProfileData>(profileBytes);
-        OnMessageReceived?.Invoke(message, senderData);
+        ChatMessage message = new(content, senderPeerId);
+        PlayerProfileData senderProfile = null;
+
+        if (senderPeerId == -1)
+        {
+            senderProfile = new PlayerProfileData() 
+            { 
+                PlayerName = "SERVER", 
+                PlayerColor = Color.FromHtml("#ffff00ff") 
+            };
+        }
+        else
+        {
+            Player sender = World.Instance.GetPlayerById(senderPeerId);
+            if (sender != null)
+            {
+                senderProfile = sender.ProfileData;
+            }
+        }
+
+        OnMessageReceived?.Invoke(message, senderProfile);
     }
 
     /// <summary>
-    /// SERVER SIDE: send message from server to client without attached player
+    /// SERVER SIDE: send message from server to all clients without an attached player.
     /// </summary>
     public void BroadcastPlayerlessMessage(string msg)
     {
         if (!Multiplayer.IsServer())
-        {
-            throw new InvalidOperationException("This operation can not be called on the client.");
-        }
-        //-1 playerless
-        ChatMessage message = new(msg, -1);
-        Rpc(nameof(S2C_ReceiveMessage), MPacker.Pack(message), MPacker.Pack(new PlayerProfileData()));
+            throw new InvalidOperationException("This operation can only be called on the server.");
+
+        Rpc(nameof(S2C_ReceiveMessage), msg, -1);
     }
 
     /// <summary>
-    /// SERVER SIDE: Sends a private message to a single player without attached player
+    /// SERVER SIDE: Sends a private message to a single player without an attached player.
     /// </summary>
-    /// <param name="msg">content</param>
-    /// <param name="playerId">player</param>
-    /// <exception cref="InvalidOperationException"></exception>
-    public void SendPlayerlessMessage(string msg, int playerId)
+    public void SendPlayerlessMessage(string msg, int recipientPeerId)
     {
         if (!Multiplayer.IsServer())
-        {
-            throw new InvalidOperationException("This operation can not be called on the client.");
-        }
-        //-1 playerless
-        ChatMessage message = new(msg, -1);
-        PlayerProfileData serverSystemData = new() { PlayerName = "SERVER", PlayerColor = Color.FromHtml("#ffff00ff") };
-        RpcId(playerId, nameof(S2C_ReceiveMessage), MPacker.Pack(message), MPacker.Pack(serverSystemData));
+            throw new InvalidOperationException("This operation can only be called on the server.");
+
+        RpcId(recipientPeerId, nameof(S2C_ReceiveMessage), msg, -1);
     }
 }

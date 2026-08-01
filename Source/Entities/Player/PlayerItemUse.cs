@@ -39,8 +39,6 @@ public partial class PlayerItemUse : AbstractComponent<Player>
 		UpdateItemModelAndData();
 		OnItemChanged?.Invoke(_currentItemID);
 		OnItemChanged += UpdateRaycastRange;
-
-		// When a player joins, server enforces the correct item
 	}
 
 	private void UpdateRaycastRange(string _)
@@ -65,31 +63,28 @@ public partial class PlayerItemUse : AbstractComponent<Player>
 		ComponentParent.playerInput.UseDecrement += () => RequestCycleItem(-1);
 	}
 
-	/// <summary>
-	/// Instead of changing immediately, client asks server for item switch.
-	/// </summary>
 	private void RequestCycleItem(int increment)
 	{
 		RpcId(1, nameof(C2S_RequestCycleItem), increment);
 	}
 
-	// Set from client to run in the server.
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
 	private void C2S_RequestCycleItem(int increment)
 	{
-		// Server validation
+		if (!Multiplayer.IsServer()) return;
 		if (inventory.Count == 0) return;
 
 		_inventoryIndex += increment;
-		_currentItemID = inventory[Mathf.Abs(_inventoryIndex % inventory.Count)];
-		OnItemChanged?.Invoke(_currentItemID);
+		string nextItemId = inventory[Mathf.Abs(_inventoryIndex % inventory.Count)];
+		SetItemFromNetwork(nextItemId);
 
+		Rpc(nameof(S2C_ConfirmItemChange), nextItemId);
+	}
 
-		// Update server-side
-		UpdateItemModelAndData();
-
-		// Tell all clients
-		ComponentParent.playerItemSync.ServerForceSync(_currentItemID);
+	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
+	private void S2C_ConfirmItemChange(string itemId)
+	{
+		SetItemFromNetwork(itemId);
 	}
 
 	public void ClientUsePrimary() => ClientUse(true);
