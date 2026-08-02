@@ -37,6 +37,7 @@ InputHelper="*uid://cholww48njaeh"
 
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
+window/handheld/orientation=4
 
 [dotnet]
 

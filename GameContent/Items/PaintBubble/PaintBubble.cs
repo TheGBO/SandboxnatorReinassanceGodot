@@ -17,7 +17,7 @@ public partial class PaintBubble : BaseItem
 
     public override void _EnterTree()
     {
-        UpdateVisual();
+        UpdateVisualLocal();
     }
 
     public override void UseItem(ItemUsageArgs args)
@@ -50,10 +50,24 @@ public partial class PaintBubble : BaseItem
     private void CycleColor()
     {
         colorIndex = (colorIndex + 1) % _colors.Length;
-        UpdateVisual();
+        //Since UseItem is server side, a rpc is required to also update the colour for the client.
+        Rpc(nameof(S2C_UpdateVisual), colorIndex);
     }
 
-    private void UpdateVisual()
+
+    [Rpc(MultiplayerApi.RpcMode.Authority, CallLocal = true)]
+    private void S2C_UpdateVisual(int index)
+    {
+        //set the colorIndex on the client to the 'index" received via network.
+        colorIndex = index;
+        UpdateVisualLocal();
+    }
+
+    /// <summary>
+    /// Called to locally update the visual based on the current colorIndex, not necessarily
+    /// network dependent as seen in the _EnterTree usage.
+    /// </summary>
+    private void UpdateVisualLocal()
     {
         ColorAndMeshUtils.ChangeMeshColor(bubble, _colors[colorIndex]);
     }

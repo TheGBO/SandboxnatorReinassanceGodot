@@ -21,6 +21,16 @@ public partial class PlayerItemSync : AbstractComponent<Player>
         }
     }
 
+    public override void _Ready()
+    {
+        base._Ready();
+        // If a value was already synchronized before _Ready ran, apply it immediately.
+        if (!string.IsNullOrEmpty(_currentItemId))
+        {
+            OnItemIdChanged(_currentItemId);
+        }
+    }
+
     public void SetEquippedItem(string itemId)
     {
         CurrentItemId = itemId;
@@ -34,4 +44,6 @@ public partial class PlayerItemSync : AbstractComponent<Player>
             itemUse.SetItemFromNetwork(itemId);
         }
     }
+
+
 }

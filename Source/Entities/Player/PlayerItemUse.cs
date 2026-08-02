@@ -34,7 +34,6 @@ public partial class PlayerItemUse : AbstractComponent<Player>
 
 	public override void _Ready()
 	{
-		_currentItemID = inventory.Count > 0 ? inventory[0] : "";
 		SetupInput();
 		UpdateItemModelAndData();
 		OnItemChanged?.Invoke(_currentItemID);
@@ -130,13 +129,17 @@ public partial class PlayerItemUse : AbstractComponent<Player>
 	public void UpdateItemModelAndData()
 	{
 		foreach (var model in hand.GetChildren())
+		{
+			hand.RemoveChild(model);
 			model.QueueFree();
+		}
 
 		if (string.IsNullOrEmpty(_currentItemID))
 			return;
 
 		ItemData itemResource = GameRegistries.Instance.ItemRegistry.Get(_currentItemID);
 		_item = itemResource.itemScene.Instantiate<BaseItem>();
+		_item.Name = "EquippedItem";
 		_item.ItemUser = this;
 		hand.AddChild(_item);
 	}
@@ -146,5 +149,11 @@ public partial class PlayerItemUse : AbstractComponent<Player>
 		_currentItemID = itemId;
 		OnItemChanged?.Invoke(_currentItemID);
 		UpdateItemModelAndData();
+	}
+
+	[Rpc(MultiplayerApi.RpcMode.Authority, CallLocal = false)]
+	private void S2C_SyncInitialItem(string itemId)
+	{
+		SetItemFromNetwork(itemId);
 	}
 }

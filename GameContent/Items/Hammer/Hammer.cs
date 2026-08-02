@@ -9,10 +9,9 @@ public partial class Hammer : BaseItem
 	public override void UseItem(ItemUsageArgs args)
 	{
 		var hitObject = ItemUser.rayCast.GetCollider();
-		if (hitObject is Placeable)
-		{
-			Placeable hitPlaceable = (Placeable)hitObject;
-			hitPlaceable.Destroy();
-		}
-	}
+        if (hitObject is Placeable hitPlaceable)
+        {
+            hitPlaceable.Destroy();
+        }
+    }
 }

@@ -5,6 +5,9 @@ using NullCyan.Util.GodotHelpers;
 
 namespace NullCyan.Sandboxnator.Entity;
 
+/// <summary>
+/// A component responsible for the cosmetics and profile synchronization.
+/// </summary>
 public partial class PlayerVisualSync : AbstractComponent<Player>
 {
 	[ExportGroup("In-Game")]
@@ -18,6 +21,9 @@ public partial class PlayerVisualSync : AbstractComponent<Player>
 	private PlayerProfileData _profileData = new();
 	private Dictionary _profileDataDict;
 
+	/// <summary>
+	/// This dictionary is directly synced by <see cref="MultiplayerSynchronizer"/>
+	/// </summary>
 	[Export]
 	public Dictionary ProfileDataDict
 	{
@@ -46,6 +52,10 @@ public partial class PlayerVisualSync : AbstractComponent<Player>
 		}
 	}
 
+	/// <summary>
+	/// This method is responsible for turning the profile data into visual information in-game.
+	/// </summary>
+	/// <param name="profile"></param>
 	public void ApplyProfile(PlayerProfileData profile)
 	{
 		if (profile == null) return;
