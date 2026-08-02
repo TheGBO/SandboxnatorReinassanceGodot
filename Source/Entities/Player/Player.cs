@@ -23,6 +23,7 @@ public partial class Player : CharacterBody3D
 	[Export] public PlayerChatHud chatHud;
 	[Export] public PlayerVisualSync visuals;
 	[Export] public PlayerHUD playerHud;
+	[Export] public PlayerItemVisuals playerItemVisuals;
 	public PlayerProfileData ProfileData { get; set; }
 
 
@@ -51,7 +52,7 @@ public partial class Player : CharacterBody3D
 		}
 
 	}
-	
+
 	public override void _ExitTree()
 	{
 		//PlayerManager.Instance.RemovePlayer(componentHolder.entityId); // Clean up references

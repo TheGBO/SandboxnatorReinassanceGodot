@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="ItemData" load_steps=4 format=3 uid="uid://c0t13n4pt80h4"]
+[gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://c0t13n4pt80h4"]
 
 [ext_resource type="Texture2D" uid="uid://yrruh6e45gkt" path="res://GameContent/Items/Cone/IconCone.png" id="1_2dho3"]
 [ext_resource type="Script" uid="uid://dcb81xxw3xywm" path="res://Source/Items/ItemData.cs" id="1_sildr"]

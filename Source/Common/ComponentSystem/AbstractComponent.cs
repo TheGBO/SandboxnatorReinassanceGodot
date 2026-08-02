@@ -2,7 +2,6 @@ using Godot;
 using NullCyan.Util.Log;
 namespace NullCyan.Util.ComponentSystem;
 
-
 [GodotClassName(nameof(AbstractComponent<T>))]
 [Icon("res://Assets/Textures/Components/component.png")]
 public abstract partial class AbstractComponent<T> : Node3D, IComponent where T : Node

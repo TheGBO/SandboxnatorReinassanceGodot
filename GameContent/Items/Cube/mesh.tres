@@ -1,4 +1,4 @@
-[gd_resource type="BoxMesh" load_steps=3 format=3 uid="uid://catxv1ai3nedn"]
+[gd_resource type="BoxMesh" format=3 uid="uid://catxv1ai3nedn"]
 
 [ext_resource type="Texture2D" uid="uid://ojo0i4sevmr2" path="res://GameContent/Buildings/Cube/Tile.png" id="1_sjv6n"]
 

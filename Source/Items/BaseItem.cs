@@ -26,4 +26,12 @@ public partial class BaseItem : Node3D
 	{
 
 	}
+
+	/// <summary>
+	/// Called when the server broadcasts a state update for this specific item.
+	/// TODO: using a byte array is provisory btw. maybe some DTO class based on godot's dictionary?
+	/// </summary>
+	public virtual void ReceiveItemState(byte[] stateData)
+	{
+	}
 }

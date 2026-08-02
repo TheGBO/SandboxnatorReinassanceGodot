@@ -1,4 +1,4 @@
-[gd_resource type="ArrayMesh" load_steps=5 format=3 uid="uid://ytmryq6ofimr"]
+[gd_resource type="ArrayMesh" format=3 uid="uid://ytmryq6ofimr"]
 
 [ext_resource type="Texture2D" uid="uid://b07dgedjbkepk" path="res://GameContent/Buildings/Cone/cone_0.png" id="1_vb4wv"]
 

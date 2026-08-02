@@ -6,13 +6,13 @@ namespace NullCyan.Sandboxnator.Entity;
 
 public partial class PlayerHotBar : Control
 {
-    [Export] private PlayerItemUse playerItemUse;
+    [Export] private PlayerItemSync playerItemSync;
     [Export] private TextureRect activeItemIcon;
 
     public override void _Ready()
     {
         if (!IsMultiplayerAuthority()) return;
-        playerItemUse.OnItemChanged += UpdateActiveItemIcon;
+        playerItemSync.OnItemEquipped += UpdateActiveItemIcon;
     }
 
 

@@ -46,7 +46,6 @@ public partial class PlacingItem : BaseItem
 
 		building.Rotation = args.DesiredRotation;
 		World.Instance.networkedEntities.CallDeferred("add_child", building);
-
 	}
 
 	private Vector3 GetSnappedPosition(Vector3 collisionPoint, Vector3 collisionNormal, bool hasGrid)
