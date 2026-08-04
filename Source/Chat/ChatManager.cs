@@ -28,7 +28,7 @@ public partial class ChatManager : Singleton<ChatManager>
         RpcId(1, nameof(C2S_HandleMessage), msg);
     }
 
-    [Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = false)]
+    [Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
     private void C2S_HandleMessage(string content)
     {
         if (!Multiplayer.IsServer()) return;
@@ -60,10 +60,10 @@ public partial class ChatManager : Singleton<ChatManager>
 
         if (senderPeerId == -1)
         {
-            senderProfile = new PlayerProfileData() 
-            { 
-                PlayerName = "SERVER", 
-                PlayerColor = Color.FromHtml("#ffff00ff") 
+            senderProfile = new PlayerProfileData()
+            {
+                PlayerName = "SERVER",
+                PlayerColor = Color.FromHtml("#ffff00ff")
             };
         }
         else

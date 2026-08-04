@@ -59,34 +59,6 @@ public partial class PlayerProfileData : Resource
         string name = nameGen.GenerateName();
         return char.ToUpper(name[0]) + name.Substring(1);
     }
-
-    public Dictionary ToDictionary()
-    {
-        return new()
-        {
-            {"Name", _playerName},
-            {"Color", _playerColor},
-            {"FaceId", _playerFaceId}
-        };
-    }
-
-    public static PlayerProfileData FromDictionary(Dictionary dict)
-    {
-        var profile = new PlayerProfileData();
-        if (dict == null) return profile;
-
-        if (dict.TryGetValue("Name", out var name))
-            profile.PlayerName = (string)name;
-
-        if (dict.TryGetValue("Color", out var color))
-            profile.PlayerColor = (Color)color;
-
-        if (dict.TryGetValue("FaceId", out var faceId))
-            profile.PlayerFaceId = (string)faceId;
-
-        return profile;
-    }
-
     public override string ToString()
     {
         return $"[color={PlayerColor.ToHtml()}] name:{PlayerName} colour:{PlayerColor.ToHtml()}[/color] faceID:{PlayerFaceId}";
@@ -94,10 +66,6 @@ public partial class PlayerProfileData : Resource
 
     public void PrintProperties(string message = "")
     {
-        //using the british spelling on debug logs to avoid rich text conflict lol
         NcLogger.Log($"{message} : {ToString()}");
-        // byte[] binaryData = MPacker.Pack(this);
-        // GD.Print("Raw bytes: ", BitConverter.ToString(binaryData).ToLower().Replace("-", ""));
-        // GD.Print($"when packed as a byte array, this has {binaryData.Length} bytes");
     }
 }

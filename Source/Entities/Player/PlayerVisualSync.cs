@@ -33,7 +33,7 @@ public partial class PlayerVisualSync : AbstractComponent<Player>
 			_profileDataDict = value;
 			if (value != null && value.Count > 0)
 			{
-				_profileData = PlayerProfileData.FromDictionary(value);
+				_profileData = DictPack.Deserialize<PlayerProfileData>(value);
 				ApplyProfile(_profileData);
 			}
 		}
@@ -47,7 +47,7 @@ public partial class PlayerVisualSync : AbstractComponent<Player>
 		{
 			foreach (Node3D element in elementsToHideAsFirstPerson)
 				element.Visible = false;
-			ProfileDataDict = PlayerProfileManager.Instance.CurrentProfile.ToDictionary();
+			ProfileDataDict = DictPack.Serialize(PlayerProfileManager.Instance.CurrentProfile);
 			ColorAndMeshUtils.SetMeshClip(playerModel.handMesh, true);
 		}
 	}
