@@ -32,10 +32,12 @@ public partial class PlayerInput : AbstractComponent<Player>
 
     private const float JOYPAD_SENSITIVITY_DENOMINATOR = 100.0f;
 
+    #region Overrides
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(double delta)
     {
         if (!IsMultiplayerAuthority()) return;
+
         if (!ComponentParent.playerHud.IsHudBeingUsed)
         {
             HandleMovementInput();
@@ -43,25 +45,58 @@ public partial class PlayerInput : AbstractComponent<Player>
             HandleUsageInput();
             HandleJoypadRstickInput();
         }
-        HandleUserInterfaceInput();
+        HandleGeneralUserInterfaceInput();
     }
 
-    private void HandleUserInterfaceInput()
+    public override void _Input(InputEvent _event)
     {
-        if (Input.IsActionJustPressed("sb_ui_show_chat"))
+        if (!IsMultiplayerAuthority())
+            return;
+
+        if (_event is InputEventMouseMotion mouseMotion && Input.MouseMode == Input.MouseModeEnum.Captured)
         {
-            OnShowChat?.Invoke();
-            Input.MouseMode = Input.MouseModeEnum.Visible;
+            Vector2 mouseLookVector = new(mouseMotion.Relative.X, mouseMotion.Relative.Y);
+            LookVector = mouseLookVector;
+            OnMouseMovement?.Invoke();
         }
+    }
+
+    public override void _UnhandledInput(InputEvent @event)
+    {
+        UnhandledUserInterfaceInput(@event);
+    }
+    #endregion
+
+
+    #region Handlers
+    private void HandleGeneralUserInterfaceInput()
+    {
 
         if (Input.IsActionJustPressed("sb_ui_escape"))
         {
             OnUiEscape?.Invoke();
         }
 
-        if (Input.IsActionJustPressed("toggle_capture"))
+    }
+
+    //To be used with those keys that could trigger unwanted behaviour when inside other menus
+    // so for instance, if toggle_capture is bound to the key "C", when you type "Mick MacGuire"
+    // in the chat, the mouse cursor won't be toggled.
+    private void UnhandledUserInterfaceInput(InputEvent @event)
+    {
+        if (@event.IsEcho()) return;
+
+        if (@event.IsActionPressed("sb_ui_show_chat"))
+        {
+            OnShowChat?.Invoke();
+            Input.MouseMode = Input.MouseModeEnum.Visible;
+            GetViewport().SetInputAsHandled();
+        }
+
+        if (@event.IsActionPressed("toggle_capture"))
         {
             OnToggleCursorCapture?.Invoke();
+            GetViewport().SetInputAsHandled();
         }
     }
 
@@ -138,22 +173,6 @@ public partial class PlayerInput : AbstractComponent<Player>
         }
     }
 
-    public override void _Input(InputEvent _event)
-    {
-        if (ComponentParent.IsMultiplayerAuthority())
-        {
-            if (ComponentParent == null)
-            {
-                NcLogger.Log("NULL COMPONENT PARENT WARNING", NcLogger.LogType.Warn);
-            }
-            if (_event is InputEventMouseMotion mouseMotion && Input.MouseMode == Input.MouseModeEnum.Captured)
-            {
-                Vector2 mouseLookVector = new(mouseMotion.Relative.X, mouseMotion.Relative.Y);
-                LookVector = mouseLookVector;
-                OnMouseMovement?.Invoke();
-            }
+    #endregion
 
-
-        }
-    }
 }

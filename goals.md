@@ -1,13 +1,31 @@
-### In spite of the fact that using obsidian markdown gives more control over organization, I still want to keep a todo list here. But a small short term one, not an actual planning.
+# Short-term TODO list
+
 ---
-## Gameplay aspects:
-- [ ] - Fix the sound system of entity placement, sounds should NOT be intrinsecal(intrinsincal?) to the instantiation of a block, this leads to new players to get ear-"abused" whenever they join a world full of buildings that have sounds for their placement.
-- [ ] - Currently, RGBall is a monolithic magic dye that paints anything that can be painted, this should not persist in newer versions, instead, each colour should be its own item, for instance "Red paint bucket", "Magenta paint bucket"[...] instead of a single all-in-one.
-- [ ] - Implement an inventory system. The idea I had was not to have an inventory system as a grid like minecraft of terraria does, instead, the inventory system would be merely a list of limited size, like 32 item stacks. A stack would be just a data type containg : Item id, Item amount. the max amount a stack could hold would be 128 items (if stackable) and 1 item (if non stackable). There would not be a fixed hotbar like minecraft, instead, a hotbar would be a "bookmarks system" from existing items in the inventory. This inventory approach, besides being mobile-friendly and easier to code right away, would also make client side inventory organization trivial, the graphical interface would have built-in buttons to "sort by name", "sort by id", "sort by quantity"... The inventory GUI display could look like a "grocery list" (column and 32 rows) or a "spreadsheet" (4 columns and 8 rows). This item on my checklist is massive because it's brainstorming besides just a mere goal. I still have to find a way to deal with a "creative mode(currently the default)", I was thinking of making a "cherrypick menu": one where you could select any Item available in the whole game item registry and send it to your inventory.
+
+## Gameplay aspects
+
+- [ ] - **Fix entity placement sounds:** Decouple audio from block instantiation so joining players don't get their ears abused by all existing world blocks play placement sounds when loading.
+- [ ] - **Split RGBall into individual dyes:** Replace the monolithic RGBall item with individual color items (e.g., "Red Paint Bucket", "Magenta Paint Bucket").
+  - **Helper for registering dyes:** It would also be nice to add a custom way to add dyes via `GameRegistries` so each dye would receive their respective items, procedurally generated textures and colors.
+
+- [ ] - **Implement inventory system:**
+  - **Structure:** 32-slot list of item stacks (Data: `ItemID`, `Amount`). Max stack: 128 (stackable), 1 (non-stackable).
+  - **Hotbar:** Acts as a "bookmarks" system referencing inventory slots rather than a fixed grid.
+  - **UI/UX:** Grocery-list layout (1x32) or spreadsheet layout (4x8) with built-in sorting (Name, ID, Quantity). Mobile-friendly.
+  - **Creative Mode:** Add a item picker menu to select any item from the registry and inject it into the inventory. Works similarly to that old minecraft too many items mod.
+
 ---
-## Technical aspects:
-- [x] - Have an organized way to synchronize data via godot's multiplayersynchronizer.
-- [ ] - Server authoritative movement with client-side prediction. This is nuts, I don't know if I'm able to implement this.
-- [ ] - A way to serialize every single aspect of the world state, that is: buildings, player positions, other entities... This is to allow to do the follwing things:
-    - Save worlds to disk
-    - Share world between players, maybe?
+
+## Technical aspects
+
+- [x] - Have an organized way to synchronize data via Godot's `MultiplayerSynchronizer`.
+- [ ] - Implement server-authoritative movement with client-side prediction. (or maybe not)
+- [ ] - Implement full world state serialization (buildings, players, entities, items) to support saving and sharing world files.
+- [ ] - Implement the ability for items to store their own custom data that goes beyond just its ID.
+
+---
+
+## UI aspects
+
+- [ ] - Finish the settings menu.
+- [ ] - Add a persistent "recent chat messages" overlay so opening the full chat isn't required to read messages.
