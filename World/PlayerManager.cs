@@ -12,6 +12,12 @@ public partial class PlayerManager : Singleton<PlayerManager>
 	[Export] private PackedScene playerScene;
 	[Export] private Vector2 rangeOfRandomPos;
 
+	public override void _Ready()
+	{
+		// this component should be authority of the server.
+		SetMultiplayerAuthority(1);
+	}
+
 	public void AddPlayer(long id = 1)
 	{
 
@@ -52,7 +58,7 @@ public partial class PlayerManager : Singleton<PlayerManager>
 			else
 			{
 				//send a RPC to the player who connected to set their position
-				RpcId(id, nameof(S2C_SetInitialPosition), desiredPosition, player.Name);
+				RpcId(id, nameof(ClientBoundSetInitialPosition), desiredPosition, player.Name);
 			}
 
 			ChatManager.Instance.BroadcastPlayerlessMessage($"[color=(1,1,0)]{id}[/color] joined the game :3");
@@ -69,8 +75,8 @@ public partial class PlayerManager : Singleton<PlayerManager>
 	}
 
 
-	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
-	private void S2C_SetInitialPosition(Vector3 position, string playerId)
+	[Rpc(MultiplayerApi.RpcMode.Authority, CallLocal = true)]
+	private void ClientBoundSetInitialPosition(Vector3 position, string playerId)
 	{
 		if (!Multiplayer.IsServer())
 		{
@@ -78,18 +84,18 @@ public partial class PlayerManager : Singleton<PlayerManager>
 			if (playerInstance == null)
 			{
 				NcLogger.Log("Player instance is lagging behind, delaying position change", NcLogger.LogType.Warn);
-				CallDeferred(nameof(S2C_SetInitialPosition), position, playerId);
+				CallDeferred(nameof(ClientBoundSetInitialPosition), position, playerId);
 				return;
 			}
 			playerInstance.Position = position;
-			RpcId(1, nameof(C2S_PositionCheck), position, playerId);
+			RpcId(1, nameof(ServerBoundPositionCheck), position, playerId);
 		}
 	}
 
 	// Call from a client to run on server to check if player position is synchronized
 	// I have no idea why this has to be AnyPeer but whatever.
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
-	private void C2S_PositionCheck(Vector3 position, string playerId)
+	private void ServerBoundPositionCheck(Vector3 position, string playerId)
 	{
 		NcLogger.Log($"Server placed the remote player of ID:{playerId} placed on XYZ {position} via RPC");
 	}

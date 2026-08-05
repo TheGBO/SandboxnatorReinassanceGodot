@@ -29,7 +29,8 @@ public partial class PlayerItemSync : AbstractComponent<Player>
 
     public override void _Ready()
     {
-        base._Ready();
+        // this component should be authority of the server.
+        SetMultiplayerAuthority(1);
         if (!string.IsNullOrEmpty(_currentItemId))
         {
             NcLogger.Log($"NOTHING EVER HAPPENS? {_currentItemId}");
@@ -43,11 +44,11 @@ public partial class PlayerItemSync : AbstractComponent<Player>
 
     public void RequestCycleItem(int increment)
     {
-        RpcId(1, nameof(C2S_RequestCycleItem), increment);
+        RpcId(1, nameof(ServerBoundRequestCycleItem), increment);
     }
 
     [Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
-    private void C2S_RequestCycleItem(int increment)
+    private void ServerBoundRequestCycleItem(int increment)
     {
         if (!Multiplayer.IsServer() || inventory.Count == 0) return;
 
@@ -55,11 +56,11 @@ public partial class PlayerItemSync : AbstractComponent<Player>
         string nextItemId = inventory[Mathf.Abs(_inventoryIndex % inventory.Count)];
 
         CurrentItemId = nextItemId;
-        Rpc(nameof(S2C_ConfirmItemChange), nextItemId);
+        Rpc(nameof(ClientBoundConfirmItemChange), nextItemId);
     }
 
-    [Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
-    private void S2C_ConfirmItemChange(string itemId)
+    [Rpc(MultiplayerApi.RpcMode.Authority, CallLocal = true)]
+    private void ClientBoundConfirmItemChange(string itemId)
     {
         CurrentItemId = itemId;
     }

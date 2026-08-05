@@ -23,6 +23,8 @@ public partial class PlayerItemUse : AbstractComponent<Player>
 
 	public override void _Ready()
 	{
+		// this component should be authority of the server.
+		SetMultiplayerAuthority(1);
 		SetupInput();
 	}
 
@@ -51,7 +53,7 @@ public partial class PlayerItemUse : AbstractComponent<Player>
 			IsPrimaryUse = primaryUsage
 		};
 
-		RpcId(1, nameof(C2S_Use), MPacker.Pack(args));
+		RpcId(1, nameof(ServerBoundUse), MPacker.Pack(args));
 
 		if (_item.animateHand)
 		{
@@ -61,7 +63,7 @@ public partial class PlayerItemUse : AbstractComponent<Player>
 	}
 
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
-	private void C2S_Use(byte[] usageArgsBytes)
+	private void ServerBoundUse(byte[] usageArgsBytes)
 	{
 		if (_canUseItem && _item != null)
 		{
@@ -72,7 +74,7 @@ public partial class PlayerItemUse : AbstractComponent<Player>
 			coolDownTimer.Timeout += () => _canUseItem = true;
 		}
 	}
-	
+
 	/// <summary>
 	/// Receives the active item instance from PlayerItemVisuals.
 	/// </summary>
@@ -92,12 +94,12 @@ public partial class PlayerItemUse : AbstractComponent<Player>
 	{
 		if (Multiplayer.IsServer())
 		{
-			Rpc(nameof(S2C_SyncItemState), stateData);
+			Rpc(nameof(ClientBoundSyncItemState), stateData);
 		}
 	}
 
-	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
-	private void S2C_SyncItemState(byte[] stateData)
+	[Rpc(MultiplayerApi.RpcMode.Authority, CallLocal = true)]
+	private void ClientBoundSyncItemState(byte[] stateData)
 	{
 		_item?.ReceiveItemState(stateData);
 	}

@@ -11,12 +11,18 @@ public partial class Paintable : AbstractComponent<Placeable>
     [Export] private Array<MeshInstance3D> targetMeshes;
     private Color currentColor = new(1, 1, 1); //default white
 
+    public override void _Ready()
+    {
+        // this component should be authority of the server.
+        SetMultiplayerAuthority(1);
+    }
+
     public void TriggerPaint(Color color)
     {
         if (Multiplayer.IsServer())
-            Rpc(nameof(S2C_ReceivePaint), color);
+            Rpc(nameof(ClientBoundReceivePaint), color);
         else
-            RpcId(1, nameof(C2S_RequestPaint), color);
+            RpcId(1, nameof(ServerBoundRequestPaint), color);
 
         ApplyColor(color);
     }
@@ -29,16 +35,16 @@ public partial class Paintable : AbstractComponent<Placeable>
     }
 
     #region SYNC
-    [Rpc(CallLocal = true)]
-    private void S2C_ReceivePaint(Color color)
+    [Rpc(MultiplayerApi.RpcMode.Authority, CallLocal = true)]
+    private void ClientBoundReceivePaint(Color color)
     {
         ApplyColor(color);
     }
 
     [Rpc(MultiplayerApi.RpcMode.AnyPeer)]
-    private void C2S_RequestPaint(Color color)
+    private void ServerBoundRequestPaint(Color color)
     {
-        Rpc(nameof(S2C_ReceivePaint), color);
+        Rpc(nameof(ClientBoundReceivePaint), color);
     }
     //if this is instanced, even on a client, the client will ask the server to trigger a sync, manual but works i guess xd;
     // TODO: I should probably make a proper abstract sync (OR SYNC COMPONENT :3) before this gets out of hand

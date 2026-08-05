@@ -18,6 +18,12 @@ public partial class ChatManager : Singleton<ChatManager>
 {
     public Action<ChatMessage, PlayerProfileData> OnMessageReceived;
 
+    public override void _Ready()
+    {
+        // this component should be authority of the server.
+        SetMultiplayerAuthority(1);
+    }
+
     /// <summary>
     /// Called on client to request sending a message to the server.
     /// </summary>
@@ -25,11 +31,15 @@ public partial class ChatManager : Singleton<ChatManager>
     {
         if (string.IsNullOrWhiteSpace(msg)) return;
 
-        RpcId(1, nameof(C2S_HandleMessage), msg);
+        RpcId(1, nameof(ServerBoundChatMessage), msg);
     }
 
+    /// <summary>
+    /// RPC sent from a client to the server to process a chat message.
+    /// </summary>
+    /// <param name="content"></param>
     [Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
-    private void C2S_HandleMessage(string content)
+    private void ServerBoundChatMessage(string content)
     {
         if (!Multiplayer.IsServer()) return;
 
@@ -48,12 +58,12 @@ public partial class ChatManager : Singleton<ChatManager>
         if (!CommandRegistryManager.ExecuteCommand(sender, content))
         {
             // If not a command, broadcast to all clients with the sender's peer ID
-            Rpc(nameof(S2C_ReceiveMessage), content, (int)senderPeerId);
+            Rpc(nameof(ClientBoundChatMessage), content, (int)senderPeerId);
         }
     }
 
     [Rpc(MultiplayerApi.RpcMode.Authority, CallLocal = true)]
-    private void S2C_ReceiveMessage(string content, int senderPeerId)
+    private void ClientBoundChatMessage(string content, int senderPeerId)
     {
         ChatMessage message = new(content, senderPeerId);
         PlayerProfileData senderProfile = null;
@@ -86,7 +96,7 @@ public partial class ChatManager : Singleton<ChatManager>
         if (!Multiplayer.IsServer())
             throw new InvalidOperationException("This operation can only be called on the server.");
 
-        Rpc(nameof(S2C_ReceiveMessage), msg, -1);
+        Rpc(nameof(ClientBoundChatMessage), msg, -1);
     }
 
     /// <summary>
@@ -97,6 +107,6 @@ public partial class ChatManager : Singleton<ChatManager>
         if (!Multiplayer.IsServer())
             throw new InvalidOperationException("This operation can only be called on the server.");
 
-        RpcId(recipientPeerId, nameof(S2C_ReceiveMessage), msg, -1);
+        RpcId(recipientPeerId, nameof(ClientBoundChatMessage), msg, -1);
     }
 }

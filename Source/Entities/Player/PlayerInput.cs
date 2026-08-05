@@ -44,6 +44,7 @@ public partial class PlayerInput : AbstractComponent<Player>
             HandleBuildingInput();
             HandleUsageInput();
             HandleJoypadRstickInput();
+            HandleTopLevelUiInput();
         }
         HandleGeneralUserInterfaceInput();
     }
@@ -60,11 +61,6 @@ public partial class PlayerInput : AbstractComponent<Player>
             OnMouseMovement?.Invoke();
         }
     }
-
-    public override void _UnhandledInput(InputEvent @event)
-    {
-        UnhandledUserInterfaceInput(@event);
-    }
     #endregion
 
 
@@ -79,26 +75,25 @@ public partial class PlayerInput : AbstractComponent<Player>
 
     }
 
-    //To be used with those keys that could trigger unwanted behaviour when inside other menus
-    // so for instance, if toggle_capture is bound to the key "C", when you type "Mick MacGuire"
-    // in the chat, the mouse cursor won't be toggled.
-    private void UnhandledUserInterfaceInput(InputEvent @event)
+    /// <summary>
+    /// Top-Level UI Input refers to UI related commands that are supposed to run
+    /// when no UI menu is active.
+    /// </summary>
+    private void HandleTopLevelUiInput()
     {
-        if (@event.IsEcho()) return;
-
-        if (@event.IsActionPressed("sb_ui_show_chat"))
+        if (Input.IsActionJustPressed("toggle_capture"))
+        {
+            OnToggleCursorCapture?.Invoke();
+            GetViewport().SetInputAsHandled();
+        }
+        if (Input.IsActionPressed("sb_ui_show_chat"))
         {
             OnShowChat?.Invoke();
             Input.MouseMode = Input.MouseModeEnum.Visible;
             GetViewport().SetInputAsHandled();
         }
-
-        if (@event.IsActionPressed("toggle_capture"))
-        {
-            OnToggleCursorCapture?.Invoke();
-            GetViewport().SetInputAsHandled();
-        }
     }
+
 
     private void HandleMovementInput()
     {
