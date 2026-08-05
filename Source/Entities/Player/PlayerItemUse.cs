@@ -12,9 +12,8 @@ public partial class PlayerItemUse : AbstractComponent<Player>
 {
 	[Export] public RayCast3D rayCast;
 	[Export] public Node3D hand;
-	[Export] private AnimationPlayer handAnimator;
 	[Export] public bool isUseValid = false;
-
+	[Export] public PlayerItemVisuals itemVisual;
 	public Vector3 desiredRotation = new();
 
 	private bool _canUseItem = true;
@@ -55,11 +54,7 @@ public partial class PlayerItemUse : AbstractComponent<Player>
 
 		RpcId(1, nameof(ServerBoundUse), MPacker.Pack(args));
 
-		if (_item.animateHand)
-		{
-			handAnimator.Stop();
-			handAnimator.Play("HandUse");
-		}
+		itemVisual.PlayUseAnimation();
 	}
 
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]

@@ -6,7 +6,7 @@ using NullCyan.Util.GodotHelpers;
 namespace NullCyan.Sandboxnator.Entity;
 
 /// <summary>
-/// A component responsible for the cosmetics and profile synchronization.
+/// A component responsible for the cosmetics, animations and profile synchronization.
 /// </summary>
 public partial class PlayerVisualSync : AbstractComponent<Player>
 {
@@ -77,4 +77,5 @@ public partial class PlayerVisualSync : AbstractComponent<Player>
 			playerModel.UpdateVisual(profile);
 		}
 	}
+
 }

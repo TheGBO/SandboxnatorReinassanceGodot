@@ -440,11 +440,11 @@ script = ExtResource("3_bvtsg")
 neck = NodePath("../../Neck")
 body = NodePath("../..")
 
-[node name="PlayerItemUse" type="Node3D" parent="ComponentHolder" unique_id=1205825359 node_paths=PackedStringArray("rayCast", "hand", "handAnimator")]
+[node name="PlayerItemUse" type="Node3D" parent="ComponentHolder" unique_id=1205825359 node_paths=PackedStringArray("rayCast", "hand", "itemVisual")]
 script = ExtResource("9_rtpsh")
 rayCast = NodePath("../../Neck/RayCast3D")
 hand = NodePath("../../PlayerModel/Node/Hands/right_H/Hand_R/HoldingPoint/Hand")
-handAnimator = NodePath("HandAnimator")
+itemVisual = NodePath("../PlayerItemVisuals")
 
 [node name="HandAnimator" type="AnimationPlayer" parent="ComponentHolder/PlayerItemUse" unique_id=617608191]
 libraries/ = SubResource("AnimationLibrary_0sei0")
@@ -510,8 +510,14 @@ autowrap_mode = 1
 
 [node name="PlayerModel" parent="." unique_id=1713642264 instance=ExtResource("15_7hef5")]
 
+[node name="HeadHolder" parent="PlayerModel/Node" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6875, 0)
+
 [node name="right_H" parent="PlayerModel/Node/Hands" index="1"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.30626476, -0.03124994, 0)
+
+[node name="Feet" parent="PlayerModel/Node" index="2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.125, 0.03125, 0)
 
 [node name="ModelAnimator" parent="PlayerModel" index="1"]
 autoplay = &"IdleAndHold"

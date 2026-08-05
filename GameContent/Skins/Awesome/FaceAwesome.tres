@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="PlayerFaceData" load_steps=3 format=3 uid="uid://ddp350884qc02"]
+[gd_resource type="Resource" script_class="PlayerFaceData" format=3 uid="uid://ddp350884qc02"]
 
 [ext_resource type="Texture2D" uid="uid://bjf3c23grcn6y" path="res://GameContent/Skins/_Textures/face_awesome.png" id="1_lgrnh"]
 [ext_resource type="Script" uid="uid://bjd33ah1roj1c" path="res://Source/Entities/Player/PlayerFaceData.cs" id="1_p00ka"]
