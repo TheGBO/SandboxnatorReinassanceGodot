@@ -30,7 +30,6 @@ public partial class PlayerMovement : AbstractComponent<Player>, ISettingsLoader
 
 	//visual effects
 	[Export] public Camera3D camera;
-	//TODO: fov able to be tweaked in settings.
 	[Export] public float sprintEffectTime = 0.75f;
 	private float _fov = 75;
 	/// <summary>
