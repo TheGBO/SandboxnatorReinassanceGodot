@@ -22,9 +22,17 @@
 - [ ] - Implement full world state serialization (buildings, players, entities, items) to support saving and sharing world files.
 - [ ] - Implement the ability for items to store their own custom data that goes beyond just its ID.
 - [ ] - Build a custom tool to allow for easier creation of PlacingItems, currently, you need to define three different assets in order to add a single new building item to the game:
+**currently, the basics are:**
   - `PlaceableItemData` : `ItemData` : `Resource` - the item that will be in the registry.
-  - `_BasePlaced` : `PackedScene` - the actual in-world placed entity
   - `PlacingItem` : `BaseItem` - The model and item that will be held by the player's hand.
+  - `_BasePlaced` : `PackedScene` - the actual in-world placed entity
+**so just to add a cube, I had to do this**:
+  - `Cube.tres` : `PlaceableItemData` - the data that inherits ItemData that inherits godot's resource.
+  - `ItemCube.tscn` : `BasePlacingItem` contains:
+    - HandItem(MeshInstance3D) - the 3d model shown in the player's hands
+    - PreviewMesh(MeshInstance3D) - the "ghost" that shows where the building will be placed
+    - PreviewCollider(Area3D) `PreviewCollider.cs` - to check whether or not the building is overlapping and should or not be placed.
+  - `PlacedCube.tscn` `_BasePlaced`
 
 ---
 
