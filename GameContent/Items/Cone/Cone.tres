@@ -1,13 +1,15 @@
-[gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://c0t13n4pt80h4"]
+[gd_resource type="Resource" script_class="PlaceableItemData" format=3 uid="uid://fk8aqjl4qdhd"]
 
 [ext_resource type="Texture2D" uid="uid://yrruh6e45gkt" path="res://GameContent/Items/Cone/IconCone.png" id="1_2dho3"]
-[ext_resource type="Script" uid="uid://dcb81xxw3xywm" path="res://Source/Items/ItemData.cs" id="1_sildr"]
+[ext_resource type="AudioStream" uid="uid://drcyqysa48vv4" path="res://_ThirdParty/KenneyImpactSounds/Audio/footstep_concrete_000.ogg" id="1_qje77"]
+[ext_resource type="Script" uid="uid://cnb6qwfwd4ofm" path="res://Source/Items/PlaceableItemData.cs" id="1_sildr"]
 [ext_resource type="PackedScene" uid="uid://wgea4e2y5142" path="res://GameContent/Items/Cone/ItemCone.tscn" id="2_2dho3"]
 
 [resource]
 script = ExtResource("1_sildr")
+placementSound = ExtResource("1_qje77")
 itemScene = ExtResource("2_2dho3")
 itemID = "Cone"
 itemIcon = ExtResource("1_2dho3")
 itemName = "Cone"
-metadata/_custom_type_script = "uid://dcb81xxw3xywm"
+metadata/_custom_type_script = "uid://cnb6qwfwd4ofm"

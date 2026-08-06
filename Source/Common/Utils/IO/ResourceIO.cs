@@ -41,7 +41,7 @@ public class ResourceIO
             {
                 string resPath = path + "/" + loadFileName;
                 Resource loadedRes = GD.Load<Resource>(resPath);
-                if (loadedRes.GetType() == typeof(T))
+                if (loadedRes is T)
                 {
                     resources.Add(loadedRes);
                 }

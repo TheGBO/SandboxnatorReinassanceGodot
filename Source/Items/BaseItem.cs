@@ -17,6 +17,7 @@ public partial class BaseItem : Node3D
 
 	[Export] public bool animateHand;
 	[Export] public float usageCooldown;
+	[Export] public ItemData itemData;
 
 	/// <summary>
 	/// Called on the server-side to validate and process item usage.

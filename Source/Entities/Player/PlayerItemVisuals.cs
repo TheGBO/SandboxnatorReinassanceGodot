@@ -36,6 +36,7 @@ public partial class PlayerItemVisuals : AbstractComponent<Player>
 
 		ItemData itemResource = GameRegistries.Instance.ItemRegistry.Get(itemId);
 		_activeItemNode = itemResource.itemScene.Instantiate<BaseItem>();
+		_activeItemNode.itemData = itemResource;
 		_activeItemNode.Name = "EquippedItem";
 		_activeItemNode.ItemUser = ComponentParent.playerItemUse;
 		ComponentParent.playerItemUse.SetActiveItem(_activeItemNode);

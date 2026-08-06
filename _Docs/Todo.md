@@ -4,7 +4,7 @@
 
 ## Gameplay aspects
 
-- [ ] - **Fix entity placement sounds:** Decouple audio from block instantiation so joining players don't get their ears abused by all existing world blocks play placement sounds when loading.
+- [x] - **Fix entity placement sounds:** Decouple audio from block instantiation so joining players don't get their ears abused by all existing world blocks play placement sounds when loading.
 - [ ] - **Split RGBall into individual dyes:** Replace the monolithic RGBall item with individual color items (e.g., "Red Paint Bucket", "Magenta Paint Bucket").
   - **Helper for registering dyes:** It would also be nice to add a custom way to add dyes via `GameRegistries` so each dye would receive their respective items, procedurally generated textures and colors.
 
@@ -19,9 +19,12 @@
 ## Technical aspects
 
 - [x] - Have an organized way to synchronize data via Godot's `MultiplayerSynchronizer`.
-- [ ] - Implement server-authoritative movement with client-side prediction. (or maybe not)
 - [ ] - Implement full world state serialization (buildings, players, entities, items) to support saving and sharing world files.
 - [ ] - Implement the ability for items to store their own custom data that goes beyond just its ID.
+- [ ] - Build a custom tool to allow for easier creation of PlacingItems, currently, you need to define three different assets in order to add a single new building item to the game:
+  - `PlaceableItemData` : `ItemData` : `Resource` - the item that will be in the registry.
+  - `_BasePlaced` : `PackedScene` - the actual in-world placed entity
+  - `PlacingItem` : `BaseItem` - The model and item that will be held by the player's hand.
 
 ---
 

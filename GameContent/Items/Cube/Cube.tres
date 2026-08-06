@@ -1,12 +1,15 @@
-[gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://bjp4lg0per821"]
+[gd_resource type="Resource" script_class="PlaceableItemData" format=3 uid="uid://dh73faomdiebo"]
 
-[ext_resource type="Texture2D" uid="uid://jm1mq53ol7ei" path="res://GameContent/Items/Cube/CubeIcon.png" id="1_7un7m"]
-[ext_resource type="Script" uid="uid://dcb81xxw3xywm" path="res://Source/Items/ItemData.cs" id="1_w4p4d"]
-[ext_resource type="PackedScene" uid="uid://djqekcjdmn1te" path="res://GameContent/Items/Cube/ItemCube.tscn" id="2_7un7m"]
+[ext_resource type="Script" uid="uid://cnb6qwfwd4ofm" path="res://Source/Items/PlaceableItemData.cs" id="1_erext"]
+[ext_resource type="Texture2D" uid="uid://jm1mq53ol7ei" path="res://GameContent/Items/Cube/CubeIcon.png" id="1_fd4ks"]
+[ext_resource type="PackedScene" uid="uid://djqekcjdmn1te" path="res://GameContent/Items/Cube/ItemCube.tscn" id="2_3xcjv"]
+[ext_resource type="AudioStream" uid="uid://drcyqysa48vv4" path="res://_ThirdParty/KenneyImpactSounds/Audio/footstep_concrete_000.ogg" id="3_a1pq7"]
 
 [resource]
-script = ExtResource("1_w4p4d")
-itemScene = ExtResource("2_7un7m")
+script = ExtResource("1_erext")
+placementSound = ExtResource("3_a1pq7")
+itemScene = ExtResource("2_3xcjv")
 itemID = "Cube"
-itemIcon = ExtResource("1_7un7m")
+itemIcon = ExtResource("1_fd4ks")
 itemName = "Cube"
+metadata/_custom_type_script = "uid://cnb6qwfwd4ofm"

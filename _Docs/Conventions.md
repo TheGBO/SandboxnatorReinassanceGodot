@@ -3,7 +3,7 @@
 ## Naming conventions
 
 - ```PascalCase``` Classes, properties, methods, files and folder names, enums, structs, registry entries (IDs).
-- ```camelCase``` Private fields with the Export attribute, method arguments and local variables.
+- ```camelCase``` Public fields and private fields with the Export attribute, method arguments and local variables.
 - ```_underscoreCamelCase``` Truly private fields without external references
 - ```snake_case``` files that have a prefix/suffix such as ui_hover.mp3, ui_interact.mp3, PlayerModel_0
 

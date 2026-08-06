@@ -3,6 +3,7 @@ using System;
 using NullCyan.Util;
 using NullCyan.Sandboxnator.WorldAndScenes;
 using NullCyan.Sandboxnator.Building;
+using NullCyan.Sandboxnator.Audio;
 namespace NullCyan.Sandboxnator.Item;
 
 [GlobalClass]
@@ -46,6 +47,13 @@ public partial class PlacingItem : BaseItem
 
 		building.Rotation = args.DesiredRotation;
 		World.Instance.networkedEntities.CallDeferred("add_child", building);
+		PlayPlacingSound(building.Position);
+	}
+
+	private void PlayPlacingSound(Vector3 placementPosition)
+	{
+		// When building logic places an object:
+		WorldAudioManager.Instance.PlaySoundAt(((PlaceableItemData)itemData).placementSound, placementPosition);
 	}
 
 	private Vector3 GetSnappedPosition(Vector3 collisionPoint, Vector3 collisionNormal, bool hasGrid)

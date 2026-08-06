@@ -29,6 +29,8 @@ public partial class ItemRegistryManager : IRegistryManager
 		{
 			NcLogger.Log($"Valid item resource is {res.itemID}, registering...", NcLogger.LogType.Register);
 			BaseItem itemScene = res.itemScene.Instantiate<BaseItem>();
+			//inject item data into the scene too!!!
+			itemScene.itemData = res;
 			if (itemScene is PlacingItem item)
 			{
 				NcLogger.Log($"({res.itemID}) is a placeable building, adding to building registry as well.", NcLogger.LogType.Register);

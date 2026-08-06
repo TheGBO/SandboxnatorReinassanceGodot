@@ -4,7 +4,6 @@
 [ext_resource type="Material" uid="uid://cwqjolp2w3bto" path="res://Assets/Materials/tileMaterial.tres" id="2_tomxc"]
 [ext_resource type="PackedScene" uid="uid://dt7f7iern17j1" path="res://Source/Entities/Buildings/Snapper.tscn" id="3_jxyuh"]
 [ext_resource type="Script" uid="uid://e34gkmm62lfj" path="res://Source/Common/ComponentSystem/ComponentHolder.cs" id="4_peig7"]
-[ext_resource type="AudioStream" uid="uid://bfnax01a1tji8" path="res://_ThirdParty/KenneyImpactSounds/Audio/footstep_carpet_000.ogg" id="5_a23ll"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_0od6p"]
 properties/0/path = NodePath(".:position")
@@ -23,7 +22,7 @@ material = ExtResource("2_tomxc")
 freeze = true
 script = ExtResource("1_lrkqx")
 componentHolder = NodePath("ComponentHolder")
-placedSound = NodePath("PlacedSound")
+placedSound = NodePath("")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=999469991]
 replication_config = SubResource("SceneReplicationConfig_0od6p")
@@ -56,6 +55,3 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
 
 [node name="ComponentHolder" type="Node" parent="." unique_id=1442099316]
 script = ExtResource("4_peig7")
-
-[node name="PlacedSound" type="AudioStreamPlayer3D" parent="." unique_id=980612157]
-stream = ExtResource("5_a23ll")

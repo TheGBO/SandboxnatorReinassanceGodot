@@ -8,6 +8,7 @@
 [ext_resource type="Script" uid="uid://jw73htruigdm" path="res://Source/Chat/ChatManager.cs" id="6_sbbat"]
 [ext_resource type="Script" uid="uid://c2kiihybgeyab" path="res://World/PlayerManager.cs" id="7_cf1t6"]
 [ext_resource type="PackedScene" uid="uid://1hsnhm80nlng" path="res://Source/Entities/Player/Player.tscn" id="8_cf1t6"]
+[ext_resource type="Script" uid="uid://nbia3v54iixi" path="res://Source/Audio/WorldAudioManager.cs" id="9_4sj48"]
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_umnpi"]
 
@@ -71,3 +72,6 @@ script = ExtResource("6_sbbat")
 script = ExtResource("7_cf1t6")
 playerScene = ExtResource("8_cf1t6")
 rangeOfRandomPos = Vector2(15, 15)
+
+[node name="WorldAudioManager" type="Node3D" parent="." unique_id=973766687]
+script = ExtResource("9_4sj48")
