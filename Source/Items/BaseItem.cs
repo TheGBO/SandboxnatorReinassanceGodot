@@ -1,4 +1,5 @@
 using Godot;
+using Godot.Collections;
 using NullCyan.Sandboxnator.Entity;
 using System;
 namespace NullCyan.Sandboxnator.Item;
@@ -30,9 +31,14 @@ public partial class BaseItem : Node3D
 
 	/// <summary>
 	/// Called when the server broadcasts a state update for this specific item.
-	/// TODO: using a byte array is provisory btw. maybe some DTO class based on godot's dictionary?
+	/// I should ellaborate on what an item state data is.
 	/// </summary>
-	public virtual void ReceiveItemState(byte[] stateData)
+	public virtual void ReceiveItemState(Dictionary stateData)
 	{
+	}
+
+	public virtual Dictionary GetItemState()
+	{
+		return new Dictionary { { "key", "value" } };
 	}
 }

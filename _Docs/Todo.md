@@ -21,7 +21,7 @@
 - [x] - Have an organized way to synchronize data via Godot's `MultiplayerSynchronizer`.
 - [ ] - Implement full world state serialization (buildings, players, entities, items) to support saving and sharing world files.
 - [ ] - Implement the ability for items to store their own custom data that goes beyond just its ID.
-- [ ] - Build a custom tool to allow for easier creation of PlacingItems, currently, you need to define three different assets in order to add a single new building item to the game:
+- [ ] - Build a data-driven system to allow for easier creation of PlacingItems, currently, you need to define three different assets in order to add a single new building item to the game:
 **currently, the basics are:**
   - `PlaceableItemData` : `ItemData` : `Resource` - the item that will be in the registry.
   - `PlacingItem` : `BaseItem` - The model and item that will be held by the player's hand.

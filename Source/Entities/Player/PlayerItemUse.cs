@@ -1,5 +1,6 @@
 // PlayerItemUse.cs
 using Godot;
+using Godot.Collections;
 using NullCyan.Sandboxnator.Item;
 using NullCyan.Sandboxnator.Registry;
 using NullCyan.Util.ComponentSystem;
@@ -85,7 +86,7 @@ public partial class PlayerItemUse : AbstractComponent<Player>
 	/// <summary>
 	/// broadcast state changes to clients.
 	/// </summary>
-	public void BroadcastItemState(byte[] stateData)
+	public void BroadcastItemState(Dictionary stateData)
 	{
 		if (Multiplayer.IsServer())
 		{
@@ -94,7 +95,7 @@ public partial class PlayerItemUse : AbstractComponent<Player>
 	}
 
 	[Rpc(MultiplayerApi.RpcMode.Authority, CallLocal = true)]
-	private void ClientBoundSyncItemState(byte[] stateData)
+	private void ClientBoundSyncItemState(Dictionary stateData)
 	{
 		_item?.ReceiveItemState(stateData);
 	}
