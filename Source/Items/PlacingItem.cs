@@ -15,7 +15,7 @@ public partial class PlacingItem : BaseItem
 	[Export] private PreviewCollider previewCollider;
 	[Export] private float snapRange;
 	[Export] private float normalOffset = 1;
-	private bool _isGrid = false;
+	private bool _isGrid = true;
 
 
 	public override void _PhysicsProcess(double delta)

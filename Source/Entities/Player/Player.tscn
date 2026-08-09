@@ -480,7 +480,7 @@ hotBar = NodePath("../../HUD/HotBar")
 
 [node name="PlayerItemSync" type="Node3D" parent="ComponentHolder" unique_id=2081320656]
 script = ExtResource("14_a5byf")
-inventory = Array[String](["Hammer", "Cube", "Cone", "PaintBubble"])
+inventory = Array[String](["Hammer", "Cube", "Cone", "PaintBubble", "Compass"])
 CurrentItemId = "Hammer"
 
 [node name="PlayerSounds" type="Node3D" parent="ComponentHolder" unique_id=1285901011 node_paths=PackedStringArray("streamPlayer")]
