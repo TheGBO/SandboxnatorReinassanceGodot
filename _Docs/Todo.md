@@ -5,14 +5,15 @@
 ## Gameplay aspects
 
 - [x] - **Fix entity placement sounds:** Decouple audio from block instantiation so joining players don't get their ears abused by all existing world blocks play placement sounds when loading.
+  - [ ] - Note: sound still need to be synced via network\*
 - [ ] - **Split RGBall into individual dyes:** Replace the monolithic RGBall item with individual color items (e.g., "Red Paint Bucket", "Magenta Paint Bucket").
-  - **Helper for registering dyes:** It would also be nice to add a custom way to add dyes via `GameRegistries` so each dye would receive their respective items, procedurally generated textures and colors.
+  - [ ] - **Helper for registering dyes:** It would also be nice to add a custom way to add dyes via `GameRegistries` so each dye would receive their respective items, procedurally generated textures and colors.
 
 - [ ] - **Implement inventory system:**
-  - **Structure:** 32-slot list of item stacks (Data: `ItemID`, `Amount`). Max stack: 128 (stackable), 1 (non-stackable).
-  - **Hotbar:** Acts as a "bookmarks" system referencing inventory slots rather than a fixed grid.
-  - **UI/UX:** Grocery-list layout (1x32) or spreadsheet layout (4x8) with built-in sorting (Name, ID, Quantity). Mobile-friendly.
-  - **Creative Mode:** Add a item picker menu to select any item from the registry and inject it into the inventory. Works similarly to that old minecraft too many items mod.
+  - [ ] - **Structure:** 32-slot list of item stacks (Data: `ItemID`, `Amount`). Max stack: 128 (stackable), 1 (non-stackable).
+  - [ ] - **Hotbar:** Acts as a "bookmarks" system referencing inventory slots rather than a fixed grid.
+  - [ ] - **UI/UX:** Grocery-list layout (1x32) or spreadsheet layout (4x8) with built-in sorting (Name, ID, Quantity). Mobile-friendly.
+  - [ ] - **Creative Mode:** Add a item picker menu to select any item from the registry and inject it into the inventory. Works similarly to that old minecraft too many items mod.
 
 ---
 
