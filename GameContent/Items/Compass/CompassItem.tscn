@@ -135,9 +135,10 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_ygo1p")
 
-[node name="CompassItem" unique_id=75738956 node_paths=PackedStringArray("CompassPointer") instance=ExtResource("1_25j3i")]
+[node name="CompassItem" unique_id=75738956 node_paths=PackedStringArray("CompassPointer", "CoordinateLabel") instance=ExtResource("1_25j3i")]
 script = ExtResource("2_4jb7k")
 CompassPointer = NodePath("Compass3d/CompassPointer")
+CoordinateLabel = NodePath("Compass3d/Label3D")
 animateHand = false
 
 [node name="Compass3d" type="Node3D" parent="." index="0" unique_id=41123890]
@@ -156,3 +157,9 @@ skeleton = NodePath("")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
 mesh = SubResource("ArrayMesh_5sm13")
 skeleton = NodePath("")
+
+[node name="Label3D" type="Label3D" parent="Compass3d" index="3" unique_id=1163754195]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.24319118, 0)
+billboard = 1
+text = "0N ; 0E "
+font_size = 24
