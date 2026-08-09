@@ -7,7 +7,7 @@ class ColorAndMeshUtils
 {
 	public static Array<Color> PixelsOfImage(Image img)
 	{
-		Array<Color> result = new();
+		Array<Color> result = [];
 
 		if (img.IsCompressed()) img.Decompress();
 
@@ -70,13 +70,13 @@ class ColorAndMeshUtils
 	/// </summary>
 	/// <param name="model"></param>
 	/// <param name="clip"></param>
-	public static void SetMeshClip(MeshInstance3D model, bool clip)
+	public static void SetMeshClip(MeshInstance3D model, bool clip = true)
 	{
 		var handMaterial = model.GetActiveMaterial(0);
 		if (handMaterial is StandardMaterial3D stdMat)
 		{
 			stdMat = (StandardMaterial3D)stdMat.Duplicate();
-			stdMat.UseZClipScale = true;
+			stdMat.UseZClipScale = clip;
 			model.MaterialOverride = stdMat;
 		}
 	}

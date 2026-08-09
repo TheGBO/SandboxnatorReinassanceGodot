@@ -6,6 +6,9 @@ using NullCyan.Util.Log;
 
 namespace NullCyan.Sandboxnator.Entity;
 
+/// <summary>
+/// Responsible for handling the item visuals and instantiating the proper item scene.
+/// </summary>
 public partial class PlayerItemVisuals : AbstractComponent<Player>
 {
 	[Export] public Node3D hand;

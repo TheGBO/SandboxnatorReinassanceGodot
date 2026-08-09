@@ -4,6 +4,7 @@ using Godot.Collections;
 using NullCyan.Sandboxnator.Item;
 using NullCyan.Sandboxnator.Registry;
 using NullCyan.Util.ComponentSystem;
+using NullCyan.Util.GodotHelpers;
 using NullCyan.Util.IO;
 using System;
 
@@ -21,6 +22,16 @@ public partial class PlayerItemUse : AbstractComponent<Player>
 	private float _rotationIncrement = 45f;
 	private BaseItem _item;
 
+	public BaseItem Item
+	{
+		get => _item;
+		set
+		{
+			_item = value;
+		}
+	}
+
+
 	public override void _Ready()
 	{
 		// this component should be authority of the server.
@@ -28,10 +39,11 @@ public partial class PlayerItemUse : AbstractComponent<Player>
 		SetupInput();
 	}
 
+
 	private void SetupInput()
 	{
-		ComponentParent.playerInput.RotateCCW += () => desiredRotation.Y -= _rotationIncrement * (Mathf.Pi / 180);
-		ComponentParent.playerInput.RotateCW += () => desiredRotation.Y += _rotationIncrement * (Mathf.Pi / 180);
+		ComponentParent.playerInput.RotateCCW += () => desiredRotation.Y -= Mathf.DegToRad(_rotationIncrement);
+		ComponentParent.playerInput.RotateCW += () => desiredRotation.Y += Mathf.DegToRad(_rotationIncrement);
 
 		ComponentParent.playerInput.UsePrimary += () => ClientUse(true);
 		ComponentParent.playerInput.UseSecondary += () => ClientUse(false);
@@ -53,17 +65,17 @@ public partial class PlayerItemUse : AbstractComponent<Player>
 			IsPrimaryUse = primaryUsage
 		};
 
-		RpcId(1, nameof(ServerBoundUse), MPacker.Pack(args));
+		RpcId(1, nameof(ServerBoundUse), DictPack.Serialize(args));
 
 		itemVisual.PlayUseAnimation();
 	}
 
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
-	private void ServerBoundUse(byte[] usageArgsBytes)
+	private void ServerBoundUse(Dictionary usageArgsDict)
 	{
 		if (_canUseItem && _item != null)
 		{
-			_item.UseItem(MPacker.Unpack<ItemUsageArgs>(usageArgsBytes));
+			_item.UseItem(DictPack.Deserialize<ItemUsageArgs>(usageArgsDict));
 			_canUseItem = false;
 
 			SceneTreeTimer coolDownTimer = GetTree().CreateTimer(_item.usageCooldown);
@@ -83,20 +95,4 @@ public partial class PlayerItemUse : AbstractComponent<Player>
 		}
 	}
 
-	/// <summary>
-	/// broadcast state changes to clients.
-	/// </summary>
-	public void BroadcastItemState(Dictionary stateData)
-	{
-		if (Multiplayer.IsServer())
-		{
-			Rpc(nameof(ClientBoundSyncItemState), stateData);
-		}
-	}
-
-	[Rpc(MultiplayerApi.RpcMode.Authority, CallLocal = true)]
-	private void ClientBoundSyncItemState(Dictionary stateData)
-	{
-		_item?.ReceiveItemState(stateData);
-	}
 }

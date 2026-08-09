@@ -1,19 +1,21 @@
+using System;
 using Godot;
+using Godot.Collections;
 using NullCyan.Util.ComponentSystem;
 using NullCyan.Util.Log;
-using System;
 
 namespace NullCyan.Sandboxnator.Entity;
 
+/// <summary>
+/// Component responsible for item synchronization and inventory logic
+/// </summary>
 public partial class PlayerItemSync : AbstractComponent<Player>
 {
-    [Export] private Godot.Collections.Array<string> inventory = [];
-
-    private string _currentItemId = string.Empty;
+    [Export] private Array<string> inventory = [];
     private int _inventoryIndex;
-
     public event Action<string> OnItemEquipped;
 
+    private string _currentItemId = string.Empty;
     [Export]
     public string CurrentItemId
     {
@@ -27,19 +29,41 @@ public partial class PlayerItemSync : AbstractComponent<Player>
         }
     }
 
+    private Dictionary _activeItemState;
+    public Dictionary ActiveItemState
+    {
+        get => _activeItemState;
+        set
+        {
+            if (_activeItemState == value) return;
+            _activeItemState = value;
+        }
+    }
+
     public override void _Ready()
     {
         // this component should be authority of the server.
         SetMultiplayerAuthority(1);
+
         if (!string.IsNullOrEmpty(_currentItemId))
         {
-            NcLogger.Log($"NOTHING EVER HAPPENS? {_currentItemId}");
             OnItemEquipped?.Invoke(_currentItemId);
         }
         else if (Multiplayer.IsServer() && inventory.Count > 0)
         {
             CurrentItemId = inventory[0];
         }
+
+        if (Multiplayer.IsServer())
+        {
+            // address the late joiner issue I suppose
+            Multiplayer.PeerConnected += OnPeerConnected;
+        }
+    }
+
+    private void OnPeerConnected(long id)
+    {
+        BroadcastItemState(ActiveItemState);
     }
 
     public void RequestCycleItem(int increment)
@@ -63,5 +87,24 @@ public partial class PlayerItemSync : AbstractComponent<Player>
     private void ClientBoundConfirmItemChange(string itemId)
     {
         CurrentItemId = itemId;
+    }
+
+    /// <summary>
+    /// broadcast state changes to clients.
+    /// </summary>
+    public void BroadcastItemState(Dictionary stateData)
+    {
+        if (Multiplayer.IsServer())
+        {
+            ActiveItemState = stateData;
+            Rpc(nameof(ClientBoundSyncItemState), stateData);
+        }
+    }
+
+    [Rpc(MultiplayerApi.RpcMode.Authority, CallLocal = true)]
+    private void ClientBoundSyncItemState(Dictionary stateData)
+    {
+        ActiveItemState = stateData;
+        ComponentParent.playerItemUse.Item?.ReceiveItemState(ActiveItemState);
     }
 }
