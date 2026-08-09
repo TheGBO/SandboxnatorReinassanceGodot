@@ -23,7 +23,7 @@ public static class NcLogger
         ShouldSave = 2,
     }
 
-    public const LogFlags DEFAULT_LOG_FLAGS = LogFlags.ShouldSave | LogFlags.UseDateTime;
+    public const LogFlags DEFAULT_LOG_FLAGS = LogFlags.UseDateTime;
 
     // Map log types to their default color and header
     private static readonly (Color Color, string Header)[] LogTypeMap =
