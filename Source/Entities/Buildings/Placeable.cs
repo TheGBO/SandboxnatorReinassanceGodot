@@ -1,7 +1,7 @@
 using Godot;
-using NullCyan.Util.ComponentSystem;
+using NullGarel.Util.ComponentSystem;
 using System;
-namespace NullCyan.Sandboxnator.Building;
+namespace NullGarel.Sandboxnator.Building;
 
 public partial class Placeable : RigidBody3D
 {

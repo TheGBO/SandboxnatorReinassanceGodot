@@ -1,8 +1,8 @@
-using NullCyan.Sandboxnator.Entity;
-using NullCyan.Sandboxnator.Registry;
-using NullCyan.Sandboxnator.WorldAndScenes;
+using NullGarel.Sandboxnator.Entity;
+using NullGarel.Sandboxnator.Registry;
+using NullGarel.Sandboxnator.WorldAndScenes;
 
-namespace NullCyan.Sandboxnator.Commands;
+namespace NullGarel.Sandboxnator.Commands;
 
 public class CommandGetPos : ChatCommand, IChatCommand
 {

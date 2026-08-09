@@ -1,5 +1,5 @@
 using Godot;
-namespace NullCyan.Util.GodotHelpers;
+namespace NullGarel.Util.GodotHelpers;
 
 public static class PlatformCheck
 {

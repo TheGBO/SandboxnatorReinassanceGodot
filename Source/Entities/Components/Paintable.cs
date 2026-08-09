@@ -1,10 +1,10 @@
 using Godot;
 using Godot.Collections;
-using NullCyan.Util.ComponentSystem;
-using NullCyan.Util.GodotHelpers;
+using NullGarel.Util.ComponentSystem;
+using NullGarel.Util.GodotHelpers;
 using System;
 
-namespace NullCyan.Sandboxnator.Building;
+namespace NullGarel.Sandboxnator.Building;
 
 public partial class Paintable : AbstractComponent<Placeable>
 {

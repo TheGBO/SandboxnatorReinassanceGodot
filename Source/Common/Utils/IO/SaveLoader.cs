@@ -1,9 +1,9 @@
 using Godot;
-using NullCyan.Sandboxnator.Registry;
-using NullCyan.Util.Log;
-using NullCyan.Util.GodotHelpers;
+using NullGarel.Sandboxnator.Registry;
+using NullGarel.Util.Log;
+using NullGarel.Util.GodotHelpers;
 using System;
-namespace NullCyan.Util.IO;
+namespace NullGarel.Util.IO;
 
 /// <summary>
 /// A monolithic file IO class.

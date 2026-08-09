@@ -1,14 +1,14 @@
 using Godot;
 using Godot.Collections;
-using NullCyan.Util;
+using NullGarel.Util;
 using System;
-using NullCyan.Sandboxnator.Entity;
-using NullCyan.Util.Log;
-using NullCyan.Util.GodotHelpers;
-using NullCyan.Sandboxnator.Item;
-using NullCyan.Sandboxnator.Entity.PlayerCosmetics;
-using NullCyan.Sandboxnator.Registry;
-namespace NullCyan.Sandboxnator.UI;
+using NullGarel.Sandboxnator.Entity;
+using NullGarel.Util.Log;
+using NullGarel.Util.GodotHelpers;
+using NullGarel.Sandboxnator.Item;
+using NullGarel.Sandboxnator.Entity.PlayerCosmetics;
+using NullGarel.Sandboxnator.Registry;
+namespace NullGarel.Sandboxnator.UI;
 
 
 public partial class ProfileEditingMenu : Control

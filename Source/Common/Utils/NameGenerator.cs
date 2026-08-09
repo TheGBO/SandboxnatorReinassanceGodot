@@ -1,7 +1,7 @@
 using System;
 using Godot;
 using Godot.Collections;
-namespace NullCyan.Util;
+namespace NullGarel.Util;
 
 public class NameGenerator
 {

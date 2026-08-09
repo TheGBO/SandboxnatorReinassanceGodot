@@ -1,12 +1,12 @@
 using Godot;
 using System;
-using NullCyan.Sandboxnator.Chat;
-using NullCyan.Util.ComponentSystem;
-namespace NullCyan.Sandboxnator.Entity;
+using NullGarel.Sandboxnator.Chat;
+using NullGarel.Util.ComponentSystem;
+namespace NullGarel.Sandboxnator.Entity;
 
 public partial class PlayerChatHud : AbstractComponent<Player>
 {
-    
+
     [Export] public LineEdit messageEdit;
     [Export] public RichTextLabel messageBox;
     [Export] public AudioStreamPlayer notificationSound;

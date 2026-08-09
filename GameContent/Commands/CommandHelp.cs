@@ -1,6 +1,6 @@
-using NullCyan.Sandboxnator.Registry;
+using NullGarel.Sandboxnator.Registry;
 
-namespace NullCyan.Sandboxnator.Commands;
+namespace NullGarel.Sandboxnator.Commands;
 
 public class CommandHelp : ChatCommand, IChatCommand
 {

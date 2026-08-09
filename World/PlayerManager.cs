@@ -1,11 +1,11 @@
 using Godot;
 using System;
-using NullCyan.Util;
-using NullCyan.Util.GodotHelpers;
-using NullCyan.Sandboxnator.Chat;
-using NullCyan.Sandboxnator.Entity;
-using NullCyan.Util.Log;
-namespace NullCyan.Sandboxnator.WorldAndScenes;
+using NullGarel.Util;
+using NullGarel.Util.GodotHelpers;
+using NullGarel.Sandboxnator.Chat;
+using NullGarel.Sandboxnator.Entity;
+using NullGarel.Util.Log;
+namespace NullGarel.Sandboxnator.WorldAndScenes;
 
 public partial class PlayerManager : Singleton<PlayerManager>
 {

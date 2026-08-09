@@ -1,6 +1,6 @@
 using Godot;
 using System;
-namespace NullCyan.Sandboxnator.Item;
+namespace NullGarel.Sandboxnator.Item;
 
 public partial class PreviewCollider : Area3D
 {

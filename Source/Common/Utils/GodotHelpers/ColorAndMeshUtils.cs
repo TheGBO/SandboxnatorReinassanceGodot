@@ -1,7 +1,7 @@
 using Godot;
 using Godot.Collections;
 using System;
-namespace NullCyan.Util.GodotHelpers;
+namespace NullGarel.Util.GodotHelpers;
 
 class ColorAndMeshUtils
 {

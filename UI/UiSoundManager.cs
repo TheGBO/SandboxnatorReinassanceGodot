@@ -1,9 +1,9 @@
 using Godot;
 using System;
 using System.Collections.Generic;
-using NullCyan.Util;
-using NullCyan.Util.GodotHelpers;
-namespace NullCyan.Sandboxnator.UI;
+using NullGarel.Util;
+using NullGarel.Util.GodotHelpers;
+namespace NullGarel.Sandboxnator.UI;
 
 public partial class UiSoundManager : Singleton<UiSoundManager>
 {

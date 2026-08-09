@@ -1,8 +1,8 @@
 using Godot;
 using Godot.Collections;
-using NullCyan.Sandboxnator.Entity;
+using NullGarel.Sandboxnator.Entity;
 using System;
-namespace NullCyan.Sandboxnator.Item;
+namespace NullGarel.Sandboxnator.Item;
 
 /// <summary>
 /// Not to be confused with <see cref="ItemData"/> as this is a physical representation of a held item in-world.

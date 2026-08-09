@@ -1,8 +1,8 @@
 using Godot;
 using System;
-using NullCyan.Sandboxnator.WorldAndScenes;
-using NullCyan.Util;
-namespace NullCyan.Sandboxnator.Building;
+using NullGarel.Sandboxnator.WorldAndScenes;
+using NullGarel.Util;
+namespace NullGarel.Sandboxnator.Building;
 
 public partial class Snapper : Node3D
 {

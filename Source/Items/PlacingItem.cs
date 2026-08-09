@@ -1,10 +1,10 @@
 using Godot;
 using System;
-using NullCyan.Util;
-using NullCyan.Sandboxnator.WorldAndScenes;
-using NullCyan.Sandboxnator.Building;
-using NullCyan.Sandboxnator.Audio;
-namespace NullCyan.Sandboxnator.Item;
+using NullGarel.Util;
+using NullGarel.Sandboxnator.WorldAndScenes;
+using NullGarel.Sandboxnator.Building;
+using NullGarel.Sandboxnator.Audio;
+namespace NullGarel.Sandboxnator.Item;
 
 [GlobalClass]
 [GodotClassName("PlacingItem")]

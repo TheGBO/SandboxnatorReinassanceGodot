@@ -1,12 +1,12 @@
-using NullCyan.Util;
+using NullGarel.Util;
 using Godot;
 using System;
 using System.Collections.Generic;
-using NullCyan.Sandboxnator.Registry;
-using NullCyan.Util.Log;
-using NullCyan.Util.IO;
+using NullGarel.Sandboxnator.Registry;
+using NullGarel.Util.Log;
+using NullGarel.Util.IO;
 using System.Linq;
-namespace NullCyan.Sandboxnator.Item;
+namespace NullGarel.Sandboxnator.Item;
 
 /// <summary>
 /// A class that holds the data for the tools, useful for adding and synchronizing tools.

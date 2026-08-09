@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using Godot;
-namespace NullCyan.Util.GodotHelpers;
+namespace NullGarel.Util.GodotHelpers;
 
 public class NodeUtils
 {

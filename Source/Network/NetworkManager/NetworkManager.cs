@@ -1,12 +1,12 @@
 using Godot;
 using System;
 using System.Linq;
-using NullCyan.Util;
-using NullCyan.Util.GodotHelpers;
-using NullCyan.Sandboxnator.WorldAndScenes;
-using NullCyan.Util.Log;
+using NullGarel.Util;
+using NullGarel.Util.GodotHelpers;
+using NullGarel.Sandboxnator.WorldAndScenes;
+using NullGarel.Util.Log;
 
-namespace NullCyan.Sandboxnator.Network
+namespace NullGarel.Sandboxnator.Network
 {
 	public partial class NetworkManager : Singleton<NetworkManager>
 	{
@@ -23,7 +23,7 @@ namespace NullCyan.Sandboxnator.Network
 		}
 
 		private void InitializeNetworkManager()
-        {
+		{
 			NcLogger.Log("Sandboxnator multiplayer protocol initialized");
 
 			// Dedicated server boot check
@@ -35,7 +35,7 @@ namespace NullCyan.Sandboxnator.Network
 			{
 				HostGame(1077, true);
 			}
-        }
+		}
 
 		public override void _Process(double delta)
 		{

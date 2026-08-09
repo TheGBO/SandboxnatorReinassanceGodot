@@ -1,7 +1,7 @@
 using Godot;
 using System;
-using NullCyan.Util.ComponentSystem;
-namespace NullCyan.Sandboxnator.Entity;
+using NullGarel.Util.ComponentSystem;
+namespace NullGarel.Sandboxnator.Entity;
 
 public partial class HandSway : AbstractComponent<Player>
 {

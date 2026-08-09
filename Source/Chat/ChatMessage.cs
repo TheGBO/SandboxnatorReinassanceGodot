@@ -1,4 +1,4 @@
-namespace NullCyan.Sandboxnator.Chat;
+namespace NullGarel.Sandboxnator.Chat;
 
 
 public class ChatMessage

@@ -1,4 +1,4 @@
-namespace NullCyan.Util.ComponentSystem;
+namespace NullGarel.Util.ComponentSystem;
 
 public interface IComponent
 {

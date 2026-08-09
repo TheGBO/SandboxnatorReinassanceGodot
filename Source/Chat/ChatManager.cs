@@ -1,15 +1,15 @@
 using Godot;
 using System;
 using System.Collections.Generic;
-using NullCyan.Util;
-using NullCyan.Sandboxnator.Network;
-using NullCyan.Sandboxnator.WorldAndScenes;
-using NullCyan.Sandboxnator.Entity;
-using NullCyan.Sandboxnator.Commands;
-using NullCyan.Util.Log;
-using NullCyan.Util.GodotHelpers;
+using NullGarel.Util;
+using NullGarel.Sandboxnator.Network;
+using NullGarel.Sandboxnator.WorldAndScenes;
+using NullGarel.Sandboxnator.Entity;
+using NullGarel.Sandboxnator.Commands;
+using NullGarel.Util.Log;
+using NullGarel.Util.GodotHelpers;
 
-namespace NullCyan.Sandboxnator.Chat;
+namespace NullGarel.Sandboxnator.Chat;
 
 /// <summary>
 /// Singleton responsible for sending, receiving, parsing and handling chat messages and commands.

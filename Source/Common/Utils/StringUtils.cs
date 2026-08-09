@@ -1,4 +1,4 @@
-namespace NullCyan.Util;
+namespace NullGarel.Util;
 
 
 public static class StringUtils

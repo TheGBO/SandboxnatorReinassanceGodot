@@ -1,10 +1,10 @@
 using System;
 using Godot;
 using Godot.Collections;
-using NullCyan.Util.ComponentSystem;
-using NullCyan.Util.Log;
+using NullGarel.Util.ComponentSystem;
+using NullGarel.Util.Log;
 
-namespace NullCyan.Sandboxnator.Entity;
+namespace NullGarel.Sandboxnator.Entity;
 
 /// <summary>
 /// Component responsible for item synchronization and inventory logic

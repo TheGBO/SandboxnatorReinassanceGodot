@@ -1,10 +1,10 @@
 using System;
 using Godot;
-using NullCyan.Util.IO;
-namespace NullCyan.Util.Log;
+using NullGarel.Util.IO;
+namespace NullGarel.Util.Log;
 
 /// <summary>
-/// NullCyan logger
+/// NullGarel logger
 /// </summary>
 public static class NcLogger
 {

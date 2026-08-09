@@ -1,7 +1,7 @@
 using Godot;
 using Godot.Collections;
 using MessagePack;
-namespace NullCyan.Sandboxnator.Item;
+namespace NullGarel.Sandboxnator.Item;
 
 /// <summary>
 /// A Data Transfer Object (DTO) regarding the usage of items from players.

@@ -1,6 +1,6 @@
 using Godot;
 
-namespace NullCyan.Sandboxnator.Entity;
+namespace NullGarel.Sandboxnator.Entity;
 
 public enum PlayerMovementType : uint
 {

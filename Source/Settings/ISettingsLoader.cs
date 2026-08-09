@@ -1,6 +1,6 @@
-using NullCyan.Sandboxnator.Registry;
+using NullGarel.Sandboxnator.Registry;
 
-namespace NullCyan.Sandboxnator.Settings;
+namespace NullGarel.Sandboxnator.Settings;
 
 public interface ISettingsLoader
 {

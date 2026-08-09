@@ -1,4 +1,4 @@
-namespace NullCyan.Util.IO;
+namespace NullGarel.Util.IO;
 
 public enum SaveFolder
 {

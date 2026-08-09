@@ -1,9 +1,9 @@
 using Godot;
 using System;
-using NullCyan.Util.ComponentSystem;
-using NullCyan.Sandboxnator.Registry;
-using NullCyan.Util.Log;
-namespace NullCyan.Sandboxnator.Entity;
+using NullGarel.Util.ComponentSystem;
+using NullGarel.Sandboxnator.Registry;
+using NullGarel.Util.Log;
+namespace NullGarel.Sandboxnator.Entity;
 
 public partial class PlayerInput : AbstractComponent<Player>
 {

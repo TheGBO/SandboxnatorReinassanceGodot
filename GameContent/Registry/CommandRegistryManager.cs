@@ -1,14 +1,14 @@
 using System.Linq;
 using Godot;
-using NullCyan.Sandboxnator.Chat;
-using NullCyan.Sandboxnator.Entity;
-using NullCyan.Sandboxnator.Network;
-using NullCyan.Sandboxnator.Registry;
-using NullCyan.Sandboxnator.WorldAndScenes;
-using NullCyan.Util;
-using NullCyan.Util.Log;
+using NullGarel.Sandboxnator.Chat;
+using NullGarel.Sandboxnator.Entity;
+using NullGarel.Sandboxnator.Network;
+using NullGarel.Sandboxnator.Registry;
+using NullGarel.Sandboxnator.WorldAndScenes;
+using NullGarel.Util;
+using NullGarel.Util.Log;
 
-namespace NullCyan.Sandboxnator.Commands;
+namespace NullGarel.Sandboxnator.Commands;
 
 public class CommandRegistryManager : IRegistryManager
 {

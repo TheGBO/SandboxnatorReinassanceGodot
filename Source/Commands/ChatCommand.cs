@@ -1,6 +1,6 @@
 using System;
 
-namespace NullCyan.Sandboxnator.Commands;
+namespace NullGarel.Sandboxnator.Commands;
 
 public class ChatCommand()
 {

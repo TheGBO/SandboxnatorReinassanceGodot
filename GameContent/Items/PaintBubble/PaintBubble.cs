@@ -1,13 +1,13 @@
 using Godot;
-using NullCyan.Sandboxnator.Building;
-using NullCyan.Sandboxnator.Registry;
-using NullCyan.Util.GodotHelpers;
-using NullCyan.Util.Log;
+using NullGarel.Sandboxnator.Building;
+using NullGarel.Sandboxnator.Registry;
+using NullGarel.Util.GodotHelpers;
+using NullGarel.Util.Log;
 using System;
 using Godot.Collections;
 using System.Linq;
 
-namespace NullCyan.Sandboxnator.Item;
+namespace NullGarel.Sandboxnator.Item;
 
 //TODO: There's something really important to be done: store data in this item persistently.
 // For instance, if you change the color and scroll to another item and scroll back to this

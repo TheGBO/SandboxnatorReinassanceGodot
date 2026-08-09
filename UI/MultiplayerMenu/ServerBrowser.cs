@@ -1,9 +1,9 @@
 using Godot;
-using NullCyan.Sandboxnator.Network;
-using NullCyan.Util.Log;
+using NullGarel.Sandboxnator.Network;
+using NullGarel.Util.Log;
 using System;
 
-namespace NullCyan.Sandboxnator.UI;
+namespace NullGarel.Sandboxnator.UI;
 
 public partial class ServerBrowser : Panel
 {

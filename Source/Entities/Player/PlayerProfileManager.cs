@@ -1,10 +1,10 @@
 using Godot;
 using System.Collections.Generic;
 using System;
-using NullCyan.Util;
-using NullCyan.Util.Log;
-using NullCyan.Util.GodotHelpers;
-namespace NullCyan.Sandboxnator.Entity;
+using NullGarel.Util;
+using NullGarel.Util.Log;
+using NullGarel.Util.GodotHelpers;
+namespace NullGarel.Sandboxnator.Entity;
 
 
 //This class will manage the player profiles, it will hold a list of player profiles and will be able to add, remove and edit them.

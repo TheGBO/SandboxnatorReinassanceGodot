@@ -1,4 +1,4 @@
-namespace NullCyan.Sandboxnator.Commands;
+namespace NullGarel.Sandboxnator.Commands;
 
 public interface IChatCommand
 {

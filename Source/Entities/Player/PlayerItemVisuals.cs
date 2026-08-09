@@ -1,10 +1,10 @@
 using Godot;
-using NullCyan.Sandboxnator.Item;
-using NullCyan.Sandboxnator.Registry;
-using NullCyan.Util.ComponentSystem;
-using NullCyan.Util.Log;
+using NullGarel.Sandboxnator.Item;
+using NullGarel.Sandboxnator.Registry;
+using NullGarel.Util.ComponentSystem;
+using NullGarel.Util.Log;
 
-namespace NullCyan.Sandboxnator.Entity;
+namespace NullGarel.Sandboxnator.Entity;
 
 /// <summary>
 /// Responsible for handling the item visuals and instantiating the proper item scene.

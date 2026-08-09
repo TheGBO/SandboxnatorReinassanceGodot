@@ -1,9 +1,9 @@
 using Godot;
-using NullCyan.Sandboxnator.Registry;
-using NullCyan.Sandboxnator.Settings;
-using NullCyan.Util.ComponentSystem;
+using NullGarel.Sandboxnator.Registry;
+using NullGarel.Sandboxnator.Settings;
+using NullGarel.Util.ComponentSystem;
 using System;
-namespace NullCyan.Sandboxnator.Entity;
+namespace NullGarel.Sandboxnator.Entity;
 
 [GodotClassName("PlayerMovement")]
 public partial class PlayerMovement : AbstractComponent<Player>, ISettingsLoader

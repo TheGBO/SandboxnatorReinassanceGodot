@@ -1,4 +1,4 @@
-namespace NullCyan.Sandboxnator.UI;
+namespace NullGarel.Sandboxnator.UI;
 
 public enum UiSoundType
 {

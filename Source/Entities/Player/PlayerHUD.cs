@@ -1,8 +1,8 @@
 using Godot;
-using NullCyan.Sandboxnator.Network;
-using NullCyan.Util.ComponentSystem;
+using NullGarel.Sandboxnator.Network;
+using NullGarel.Util.ComponentSystem;
 using System;
-namespace NullCyan.Sandboxnator.Entity;
+namespace NullGarel.Sandboxnator.Entity;
 
 /// <summary>
 /// Centralized component of Graphical User Interface to a player

@@ -1,7 +1,7 @@
-namespace NullCyan.Util;
+namespace NullGarel.Util;
 
 public interface IRegistryManager
-{  
+{
     /// <summary>
     /// Register the elements of whoever implements this interface
     /// </summary>

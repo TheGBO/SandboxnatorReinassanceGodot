@@ -1,9 +1,9 @@
 using Godot;
 using Godot.Collections;
-using NullCyan.Sandboxnator.Entity.PlayerCosmetics;
-using NullCyan.Util.GodotHelpers;
+using NullGarel.Sandboxnator.Entity.PlayerCosmetics;
+using NullGarel.Util.GodotHelpers;
 using System;
-namespace NullCyan.Sandboxnator.Entity;
+namespace NullGarel.Sandboxnator.Entity;
 
 /// <summary>
 /// A class that holds shared info about the player model,

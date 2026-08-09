@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using Godot;
-using NullCyan.Sandboxnator.Registry;
-using NullCyan.Util.Log;
+using NullGarel.Sandboxnator.Registry;
+using NullGarel.Util.Log;
 
-namespace NullCyan.Util.IO;
+namespace NullGarel.Util.IO;
 
 public class ResourceIO
 {

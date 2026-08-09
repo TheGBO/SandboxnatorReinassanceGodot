@@ -1,6 +1,6 @@
 using Godot;
 
-namespace NullCyan.Sandboxnator.Settings;
+namespace NullGarel.Sandboxnator.Settings;
 
 /// <summary>
 /// [DTO] Game settings such as FOV;

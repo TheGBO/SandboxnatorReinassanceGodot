@@ -1,7 +1,7 @@
 using Godot;
-using NullCyan.Sandboxnator.Network;
+using NullGarel.Sandboxnator.Network;
 using System;
-namespace NullCyan.Sandboxnator.UI;
+namespace NullGarel.Sandboxnator.UI;
 
 public partial class MultiplayerMenu : Control
 {

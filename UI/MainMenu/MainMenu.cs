@@ -1,6 +1,6 @@
 using Godot;
 using System;
-namespace NullCyan.Sandboxnator.UI;
+namespace NullGarel.Sandboxnator.UI;
 
 
 public partial class MainMenu : Control

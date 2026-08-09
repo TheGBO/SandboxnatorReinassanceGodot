@@ -1,9 +1,9 @@
 using Godot;
 using System;
-using NullCyan.Util.ComponentSystem;
-using NullCyan.Sandboxnator.Registry;
-using NullCyan.Sandboxnator.Settings;
-namespace NullCyan.Sandboxnator.Entity;
+using NullGarel.Util.ComponentSystem;
+using NullGarel.Sandboxnator.Registry;
+using NullGarel.Sandboxnator.Settings;
+namespace NullGarel.Sandboxnator.Entity;
 
 public partial class CameraMovement : AbstractComponent<Player>, ISettingsLoader
 {

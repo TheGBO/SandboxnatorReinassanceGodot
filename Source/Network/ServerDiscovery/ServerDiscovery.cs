@@ -1,12 +1,12 @@
 using System;
 using Godot;
-using NullCyan.Sandboxnator.Entity;
-using NullCyan.Sandboxnator.Registry;
-using NullCyan.Util.GodotHelpers;
-using NullCyan.Util.IO;
-using NullCyan.Util.Log;
+using NullGarel.Sandboxnator.Entity;
+using NullGarel.Sandboxnator.Registry;
+using NullGarel.Util.GodotHelpers;
+using NullGarel.Util.IO;
+using NullGarel.Util.Log;
 
-namespace NullCyan.Sandboxnator.Network;
+namespace NullGarel.Sandboxnator.Network;
 
 //TODO: This doesn't work and it pisses me off lol.
 /// <summary>

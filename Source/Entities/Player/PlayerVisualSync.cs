@@ -1,9 +1,9 @@
 using Godot;
 using Godot.Collections;
-using NullCyan.Util.ComponentSystem;
-using NullCyan.Util.GodotHelpers;
+using NullGarel.Util.ComponentSystem;
+using NullGarel.Util.GodotHelpers;
 
-namespace NullCyan.Sandboxnator.Entity;
+namespace NullGarel.Sandboxnator.Entity;
 
 /// <summary>
 /// A component responsible for the cosmetics, animations and profile synchronization.

@@ -1,6 +1,6 @@
 Sandboxnator
 
-NullCyan/Garel/TheGBO:
+NullGarel/Garel/TheGBO:
 - Everything except for the external content listed below:
 
 Coqito5

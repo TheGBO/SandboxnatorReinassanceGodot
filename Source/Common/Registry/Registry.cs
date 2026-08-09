@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-namespace NullCyan.Util;
+namespace NullGarel.Util;
 
 public class Registry<T>
 {

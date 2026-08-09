@@ -1,14 +1,14 @@
 // PlayerItemUse.cs
 using Godot;
 using Godot.Collections;
-using NullCyan.Sandboxnator.Item;
-using NullCyan.Sandboxnator.Registry;
-using NullCyan.Util.ComponentSystem;
-using NullCyan.Util.GodotHelpers;
-using NullCyan.Util.IO;
+using NullGarel.Sandboxnator.Item;
+using NullGarel.Sandboxnator.Registry;
+using NullGarel.Util.ComponentSystem;
+using NullGarel.Util.GodotHelpers;
+using NullGarel.Util.IO;
 using System;
 
-namespace NullCyan.Sandboxnator.Entity;
+namespace NullGarel.Sandboxnator.Entity;
 
 public partial class PlayerItemUse : AbstractComponent<Player>
 {

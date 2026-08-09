@@ -1,13 +1,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
-using NullCyan.Sandboxnator.Item;
-using NullCyan.Sandboxnator.Registry;
-using NullCyan.Util;
-using NullCyan.Util.IO;
-using NullCyan.Util.Log;
+using NullGarel.Sandboxnator.Item;
+using NullGarel.Sandboxnator.Registry;
+using NullGarel.Util;
+using NullGarel.Util.IO;
+using NullGarel.Util.Log;
 
-namespace NullCyan.Sandboxnator.Entity.PlayerCosmetics;
+namespace NullGarel.Sandboxnator.Entity.PlayerCosmetics;
 
 public class PlayerFaceRegistryManager : IRegistryManager
 {

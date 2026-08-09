@@ -1,4 +1,4 @@
-namespace NullCyan.Sandboxnator.Commands;
+namespace NullGarel.Sandboxnator.Commands;
 
 /// <summary>
 /// TEMPORARILY DEPRECATED : FOR NOW, ASSUME ALL COMMANDS ARE SERVER SIDED.

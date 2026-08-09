@@ -1,8 +1,8 @@
 using Godot;
-using NullCyan.Sandboxnator.Entity;
-using NullCyan.Sandboxnator.Registry;
+using NullGarel.Sandboxnator.Entity;
+using NullGarel.Sandboxnator.Registry;
 using System;
-namespace NullCyan.Sandboxnator.Entity;
+namespace NullGarel.Sandboxnator.Entity;
 
 public partial class PlayerHotBar : Control
 {

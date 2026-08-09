@@ -1,14 +1,14 @@
 using Godot;
 using System;
-using NullCyan.Sandboxnator.Commands;
-using NullCyan.Sandboxnator.Item;
-using NullCyan.Sandboxnator.Settings;
-using NullCyan.Util;
-using NullCyan.Util.Log;
-using NullCyan.Util.GodotHelpers;
-using NullCyan.Sandboxnator.Entity.PlayerCosmetics;
-using NullCyan.Util.IO;
-namespace NullCyan.Sandboxnator.Registry;
+using NullGarel.Sandboxnator.Commands;
+using NullGarel.Sandboxnator.Item;
+using NullGarel.Sandboxnator.Settings;
+using NullGarel.Util;
+using NullGarel.Util.Log;
+using NullGarel.Util.GodotHelpers;
+using NullGarel.Sandboxnator.Entity.PlayerCosmetics;
+using NullGarel.Util.IO;
+namespace NullGarel.Sandboxnator.Registry;
 
 /// <summary>
 /// Monolithic class for game-wide data

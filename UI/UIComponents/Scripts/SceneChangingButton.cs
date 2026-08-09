@@ -1,7 +1,7 @@
 using Godot;
-using NullCyan.Util.Log;
+using NullGarel.Util.Log;
 using System;
-namespace NullCyan.Sandboxnator.UI;
+namespace NullGarel.Sandboxnator.UI;
 
 /// <summary>
 /// A button that changes the current scene to another, this is intended for use in menus, not the in-world.

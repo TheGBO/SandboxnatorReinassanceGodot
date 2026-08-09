@@ -1,6 +1,6 @@
 using Godot;
-using NullCyan.Util.Log;
-namespace NullCyan.Util.ComponentSystem;
+using NullGarel.Util.Log;
+namespace NullGarel.Util.ComponentSystem;
 
 [GodotClassName(nameof(AbstractComponent<T>))]
 [Icon("res://Assets/Textures/Components/component.png")]

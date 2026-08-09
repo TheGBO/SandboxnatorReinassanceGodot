@@ -1,6 +1,6 @@
 using Godot;
 using MessagePack;
-namespace NullCyan.Sandboxnator.Network;
+namespace NullGarel.Sandboxnator.Network;
 
 [MessagePackObject]
 public class ServerInfoData

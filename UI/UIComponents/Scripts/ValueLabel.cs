@@ -1,5 +1,5 @@
 using Godot;
-namespace NullCyan.Sandboxnator.UI;
+namespace NullGarel.Sandboxnator.UI;
 
 public partial class ValueLabel : Label
 {

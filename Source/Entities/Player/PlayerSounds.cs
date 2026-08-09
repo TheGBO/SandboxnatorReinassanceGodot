@@ -1,7 +1,7 @@
 using Godot;
 using Godot.Collections;
-using NullCyan.Sandboxnator.Entity;
-using NullCyan.Util.ComponentSystem;
+using NullGarel.Sandboxnator.Entity;
+using NullGarel.Util.ComponentSystem;
 
 public partial class PlayerSounds : AbstractComponent<Player>
 {

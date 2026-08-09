@@ -1,6 +1,6 @@
 using Godot;
 using System;
-namespace NullCyan.Sandboxnator.Item;
+namespace NullGarel.Sandboxnator.Item;
 
 /// <summary>
 /// The data representation of an item in areas such as the inventory(as an ID) or the game registry in general.

@@ -1,10 +1,10 @@
 using Godot;
-using NullCyan.Util.Log;
-using NullCyan.Sandboxnator.Registry;
-using NullCyan.Util;
+using NullGarel.Util.Log;
+using NullGarel.Sandboxnator.Registry;
+using NullGarel.Util;
 using Godot.Collections;
 
-namespace NullCyan.Sandboxnator.Entity;
+namespace NullGarel.Sandboxnator.Entity;
 
 [GlobalClass]
 public partial class PlayerProfileData : Resource

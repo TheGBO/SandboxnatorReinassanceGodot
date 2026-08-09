@@ -1,11 +1,11 @@
 using Godot;
 using Godot.Collections;
-using NullCyan.Sandboxnator.Registry;
-using NullCyan.Util.IO;
+using NullGarel.Sandboxnator.Registry;
+using NullGarel.Util.IO;
 using NathanHoad;
-using NullCyan.Util.Log;
-using NullCyan.Sandboxnator.UI;
-namespace NullCyan.UI;
+using NullGarel.Util.Log;
+using NullGarel.Sandboxnator.UI;
+namespace NullGarel.UI;
 
 public partial class SettingsMenu : Control
 {

@@ -1,5 +1,5 @@
 using Godot;
-using NullCyan.Sandboxnator.Item;
+using NullGarel.Sandboxnator.Item;
 using System;
 
 public partial class Compass : BaseItem

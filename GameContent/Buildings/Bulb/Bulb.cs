@@ -1,6 +1,6 @@
 using Godot;
 using System;
-namespace NullCyan.Sandboxnator.Building;
+namespace NullGarel.Sandboxnator.Building;
 
 public partial class Bulb : Placeable
 {

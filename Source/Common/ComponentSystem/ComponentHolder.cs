@@ -1,5 +1,5 @@
 using Godot;
-namespace NullCyan.Util.ComponentSystem;
+namespace NullGarel.Util.ComponentSystem;
 
 /// <summary>
 /// Acts as a representation of an entity, it should be a direct child of a node that is to be considered an entity in this

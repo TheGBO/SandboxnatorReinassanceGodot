@@ -1,9 +1,9 @@
 using Godot;
 using Godot.Collections;
-using NullCyan.Util.ComponentSystem;
-using NullCyan.Util.GodotHelpers;
+using NullGarel.Util.ComponentSystem;
+using NullGarel.Util.GodotHelpers;
 using System;
-namespace NullCyan.Sandboxnator.Audio;
+namespace NullGarel.Sandboxnator.Audio;
 
 public partial class WorldAudioManager : Singleton<WorldAudioManager>
 {

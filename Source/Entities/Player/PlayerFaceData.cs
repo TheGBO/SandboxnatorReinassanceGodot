@@ -1,6 +1,6 @@
 using Godot;
 using System;
-namespace NullCyan.Sandboxnator.Entity.PlayerCosmetics;
+namespace NullGarel.Sandboxnator.Entity.PlayerCosmetics;
 
 //TODO: Make PlayerFaceData and ItemData inherit a common resource called "SandboxnatorAssetData"
 [GlobalClass]

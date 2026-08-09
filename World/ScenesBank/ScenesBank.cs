@@ -1,9 +1,9 @@
 using Godot;
-using NullCyan.Sandboxnator.UI;
-using NullCyan.Util.GodotHelpers;
-using NullCyan.Util;
+using NullGarel.Sandboxnator.UI;
+using NullGarel.Util.GodotHelpers;
+using NullGarel.Util;
 using System;
-namespace NullCyan.Sandboxnator;
+namespace NullGarel.Sandboxnator;
 
 public partial class ScenesBank : Singleton<ScenesBank>
 {

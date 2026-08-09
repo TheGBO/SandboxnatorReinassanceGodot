@@ -1,14 +1,14 @@
 using Godot;
 using Godot.Collections;
-using NullCyan.Sandboxnator.Building;
-using NullCyan.Util;
+using NullGarel.Sandboxnator.Building;
+using NullGarel.Util;
 using System;
 using System.Collections.Generic;
-using NullCyan.Sandboxnator.Entity;
-using NullCyan.Sandboxnator.Registry;
-using NullCyan.Util.Log;
-using NullCyan.Util.GodotHelpers;
-namespace NullCyan.Sandboxnator.WorldAndScenes;
+using NullGarel.Sandboxnator.Entity;
+using NullGarel.Sandboxnator.Registry;
+using NullGarel.Util.Log;
+using NullGarel.Util.GodotHelpers;
+namespace NullGarel.Sandboxnator.WorldAndScenes;
 
 /// <summary>
 /// Class that holds the world scene data

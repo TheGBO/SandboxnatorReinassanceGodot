@@ -3,7 +3,7 @@ using MessagePack;
 using MessagePack.Resolvers;
 using MessagePackGodot;
 
-namespace NullCyan.Util.IO;
+namespace NullGarel.Util.IO;
 
 
 /// <summary>

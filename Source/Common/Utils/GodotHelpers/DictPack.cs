@@ -3,7 +3,7 @@ using System.Reflection;
 using Godot;
 using Godot.Collections;
 
-namespace NullCyan.Util.GodotHelpers;
+namespace NullGarel.Util.GodotHelpers;
 
 /// <summary>
 /// This class is intended to replace the old legacy msgpack approach <see cref="IO.MPacker"/>
