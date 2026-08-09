@@ -1,9 +1,15 @@
+using System;
 using MessagePack;
 using MessagePack.Resolvers;
 using MessagePackGodot;
 
 namespace NullCyan.Util.IO;
 
+
+/// <summary>
+/// DEPRECATED. Use <see cref="GodotHelpers.DictPack"/>
+/// </summary>
+[Obsolete("Use DictPack")]
 public static class MPacker
 {
     //Had to use AI for this one, the MessagePackGodot is great but it has no god damn documentation.
