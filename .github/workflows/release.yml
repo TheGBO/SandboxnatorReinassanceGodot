@@ -53,9 +53,11 @@ jobs:
           dotnet-version: "8.0.x"
 
       - name: Setup Blender
-        uses: bradyjoslin/blender-action@v1
-        with:
-          version: "4.5.3"
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y blender
+
+          blender --version
 
       - name: Restore .NET dependencies
         run: dotnet restore
