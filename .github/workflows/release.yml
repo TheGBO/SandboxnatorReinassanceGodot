@@ -61,7 +61,7 @@ jobs:
 
           godot --headless \
             --path . \
-            --export-release "Linux/X11" \
+            --export-release "Linux" \
             "builds/linux/SandboxnatorLinux_${{ steps.version.outputs.version }}.x86_64"
 
       - name: Build Windows
