@@ -62,12 +62,31 @@ jobs:
       - name: Restore .NET dependencies
         run: dotnet restore
 
+      - name: Check C# project
+        run: |
+          dotnet build "Sandboxnator Reinassance Godot.csproj"
+
       - name: Import Godot project
         run: |
           godot --headless \
             --path . \
-            --editor \
-            --quit-after 10
+            --import
+
+      - name: Verify imported resources
+        run: |
+          echo "Checking required imported resources..."
+
+          if [ ! -f ".godot/imported/knob16_capsule.png-ab3df30e535eeb73fe53a90310bd8879.ctex" ]; then
+            echo "ERROR: knob16_capsule.png was not imported."
+            exit 1
+          fi
+
+          if [ ! -f ".godot/imported/Inter-VariableFont_opsz,wght.ttf-6910359199db2dee3344d081a289f7d3.fontdata" ]; then
+            echo "ERROR: Inter font was not imported."
+            exit 1
+          fi
+
+          echo "Required resources imported successfully."
 
       - name: Build Linux
         run: |
