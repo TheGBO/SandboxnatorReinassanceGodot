@@ -10,16 +10,21 @@ public partial class MultiplayerMenu : Control
 	[Export] private Control connectionMenu;
 	[Export] private Control loadingScreen;
 	[Export] private ProgressBar timeoutProgress;
+	[Export] private Button cancelConnectionBtn;
 
 	public override void _Ready()
 	{
 		UiSoundManager.Instance.TryInstallSounds();
-		timeoutProgress.MaxValue = NetworkManager.Instance.ConnectionTimeoutLimit;
+		timeoutProgress.MaxValue = NetworkManager.ConnectionTimeoutLimit;
+		cancelConnectionBtn.Pressed += () =>
+		{
+			NetworkManager.Instance.QuitConnection();
+		};
 	}
 
 	public override void _Process(double delta)
 	{
-		timeoutProgress.Value = NetworkManager.Instance.ConnectionTimeoutLimit - NetworkManager.Instance.ElapsedConnectionTime;
+		timeoutProgress.Value = NetworkManager.ConnectionTimeoutLimit - NetworkManager.Instance.ElapsedConnectionTime;
 		loadingScreen.Visible = NetworkManager.Instance.IsConnecting;
 		bool showMenu = true;
 

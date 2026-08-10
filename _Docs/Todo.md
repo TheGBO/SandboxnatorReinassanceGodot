@@ -19,7 +19,7 @@
 
 ## Technical aspects
 
-- [ ] - Fix player instance race condition on join XXXXXX \*seems to be fixed; still happens but it's rarer
+- [x] - Fix player instance race condition on join XXXXXX \*seems to be fixed, needs further stress testing.
 - [x] - Have an organized way to synchronize data via Godot's `MultiplayerSynchronizer`.
 - [ ] - Implement full world state serialization (buildings, players, entities, items) to support saving and sharing world files.
 - [ ] - Implement the ability for items to store their own custom data that goes beyond just its ID.

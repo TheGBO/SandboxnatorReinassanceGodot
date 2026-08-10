@@ -33,9 +33,15 @@ public partial class PlayerManager : Singleton<PlayerManager>
 	{
 
 		Node3D player = (Node3D)playerScene.Instantiate();
+		if (player == null)
+		{
+			NcLogger.Log("Failed to instantiate player.", NcLogger.LogType.Error);
+			return;
+		}
 		player.SetMultiplayerAuthority((int)id);
 		player.Name = id.ToString();
-		//set player position
+
+		//handling those stupid ass exceptions
 		if (World.Instance == null)
 		{
 			NcLogger.Log("World.Instance is null!", NcLogger.LogType.Error);
@@ -44,13 +50,9 @@ public partial class PlayerManager : Singleton<PlayerManager>
 		{
 			NcLogger.Log("World.Instance.networkedEntities is null!", NcLogger.LogType.Error);
 		}
-		else if (player == null)
-		{
-			NcLogger.Log("player is null!", NcLogger.LogType.Error);
-		}
 		else
 		{
-			World.Instance.networkedEntities.CallDeferred("add_child", player);
+			World.Instance.networkedEntities.AddChild(player);
 		}
 
 		World.Instance.OnPlayerJoin?.Invoke(id);
@@ -70,57 +72,123 @@ public partial class PlayerManager : Singleton<PlayerManager>
 				//send a RPC to the player who connected to set their position
 				RpcId(id, nameof(ClientBoundSetInitialPosition), desiredPosition, player.Name);
 			}
-
-
 		}
-
-
 	}
 
 	public void RemovePlayer(long id)
 	{
-		if (World.Instance == null)
+		if (!Multiplayer.IsServer())
+			return;
+
+		World world = World.Instance;
+
+		if (world == null)
 		{
 			NcLogger.Log(
-				$"RemovePlayer({id}): World.Instance is null.",
+				$"RemovePlayer({id}): World.Instance is null. Ignoring disconnect cleanup.",
 				NcLogger.LogType.Warn);
+
 			return;
 		}
 
-		PlayerProfileData pData = World.Instance.GetPlayerProfileDataByID(id);
+		Node networkedEntities = world.networkedEntities;
+
+		if (networkedEntities == null ||
+			!IsInstanceValid(networkedEntities))
+		{
+			NcLogger.Log(
+				$"RemovePlayer({id}): networkedEntities is unavailable. Ignoring disconnect cleanup.",
+				NcLogger.LogType.Warn);
+
+			return;
+		}
+
+		//announce the departure
+		PlayerProfileData pData = world.GetPlayerProfileDataByID(id);
 
 		if (pData != null)
 		{
-			if (ChatManager.Instance != null)
-			{
-				ChatManager.Instance.BroadcastPlayerlessMessage(
-					$"[color={pData.PlayerColor.ToHtml()}]{pData.PlayerName}[/color] left the game :C");
-			}
+			ChatManager.Instance?.BroadcastPlayerlessMessage($"[color={pData.PlayerColor.ToHtml()}]{pData.PlayerName}[/color] left the game :C");
 		}
 		else
 		{
-			NcLogger.Log(
-				$"RemovePlayer({id}): Player profile not found. It may already be cleaned up.",
+			ChatManager.Instance?.BroadcastPlayerlessMessage($"[color=red]{id}[/color] left the game, he left so fast we couldn't even find his name :C");
+
+			NcLogger.Log($"RemovePlayer({id}): Player profile not found.",
 				NcLogger.LogType.Warn);
 		}
 
-		if (World.Instance.networkedEntities != null)
-		{
-			Node player = World.Instance.networkedEntities.GetNodeOrNull(id.ToString());
+		Node player = networkedEntities.GetNodeOrNull(id.ToString());
 
-			if (player != null)
-			{
-				player.QueueFree();
-			}
-			else
-			{
-				NcLogger.Log(
-					$"RemovePlayer({id}): Player node not found. It may already be freed.",
-					NcLogger.LogType.Warn);
-			}
+		if (player == null || !IsInstanceValid(player))
+		{
+			NcLogger.Log(
+				$"RemovePlayer({id}): Player node does not exist or has already been freed.",
+				NcLogger.LogType.Warn);
+
+			return;
+		}
+
+		DisableProcessingRecursive(player);
+
+		if (player.IsQueuedForDeletion())
+		{
+			NcLogger.Log(
+				$"RemovePlayer({id}): Player is already queued for deletion.",
+				NcLogger.LogType.Warn);
+
+			return;
+		}
+
+		NcLogger.Log(
+			$"RemovePlayer({id}): Removing player node.");
+
+		player.QueueFree();
+	}
+
+	/// <summary>
+	/// Cleans networked entities on disconnection...........
+	/// </summary>
+	public void PrepareForDisconnect()
+	{
+		Node networkedEntities = World.Instance?.networkedEntities;
+
+		if (networkedEntities == null || !IsInstanceValid(networkedEntities))
+		{
+			return;
+		}
+
+		foreach (Node child in networkedEntities.GetChildren())
+		{
+			if (!IsInstanceValid(child))
+				continue;
+
+			DisableProcessingRecursive(child);
+
+			if (child.IsQueuedForDeletion())
+				continue;
+
+			child.QueueFree();
 		}
 	}
 
+	/// <summary>
+	/// Disables a node to avoid those absolutely fucking disgusting bloody shit errors that are pissing the hell out of me at this point... >:(((
+	/// </summary>
+	/// <param name="node">do I need to explain?</param>
+	private void DisableProcessingRecursive(Node node)
+	{
+		node.SetProcess(false);
+		node.SetPhysicsProcess(false);
+		node.SetProcessInput(false);
+		node.SetProcessUnhandledInput(false);
+		node.SetProcessUnhandledKeyInput(false);
+
+		foreach (Node child in node.GetChildren())
+			DisableProcessingRecursive(child);
+	}
+
+	#region Handshake RPCS
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer)]
 	private void ServerBoundHandshake(Dictionary profileDict)
 	{
@@ -145,6 +213,7 @@ public partial class PlayerManager : Singleton<PlayerManager>
 		NcLogger.Log("Handshake acknowledged on client");
 		NetworkManager.Instance.NotifyConnectionEstablished();
 	}
+	#endregion
 
 
 	[Rpc(MultiplayerApi.RpcMode.Authority, CallLocal = true)]

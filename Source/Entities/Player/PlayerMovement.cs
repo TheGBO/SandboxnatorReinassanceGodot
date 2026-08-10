@@ -52,11 +52,12 @@ public partial class PlayerMovement : AbstractComponent<Player>, ISettingsLoader
 
 	public override void _PhysicsProcess(double delta)
 	{
+		if (!Multiplayer.HasMultiplayerPeer()) return;
 		if (movementCBody == null) return;
-		SoundEffectProcess();
-
 		if (!ComponentParent.IsMultiplayerAuthority()) return;
+		
 		camera.Fov = (float)GameRegistries.Instance.SettingsData.FieldOfView;
+		SoundEffectProcess();
 		MovementProcess(delta);
 	}
 
