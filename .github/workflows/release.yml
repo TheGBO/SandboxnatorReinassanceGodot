@@ -55,6 +55,10 @@ jobs:
       - name: Restore .NET dependencies
         run: dotnet restore
 
+      - name: Import Godot project
+        run: |
+          godot --headless --path . --editor --quit
+
       - name: Build Linux
         run: |
           mkdir -p builds/linux
