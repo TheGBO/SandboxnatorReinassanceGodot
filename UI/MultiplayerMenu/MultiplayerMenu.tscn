@@ -1,10 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://dowhshkw35fbv"]
+[gd_scene format=3 uid="uid://dowhshkw35fbv"]
 
 [ext_resource type="Script" uid="uid://41bay46uwyf4" path="res://UI/MultiplayerMenu/MultiplayerMenu.cs" id="1_t2st1"]
 [ext_resource type="Script" uid="uid://co22epydu1y4p" path="res://UI/MultiplayerMenu/ServerBrowser.cs" id="2_kkaxb"]
 [ext_resource type="PackedScene" uid="uid://drkyst4xf3w5h" path="res://UI/MultiplayerMenu/ServerInfoContainer.tscn" id="2_q01po"]
 
-[node name="MultiplayerMenu" type="Control" node_paths=PackedStringArray("portInput", "ipAddressInput")]
+[node name="MultiplayerMenu" type="Control" unique_id=765594653 node_paths=PackedStringArray("portInput", "ipAddressInput", "connectionMenu", "loadingScreen")]
 z_index = 1
 layout_mode = 3
 anchors_preset = 15
@@ -12,11 +12,14 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 script = ExtResource("1_t2st1")
 portInput = NodePath("PanelContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/PortInput")
 ipAddressInput = NodePath("PanelContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/IpInput")
+connectionMenu = NodePath("PanelContainer")
+loadingScreen = NodePath("LoadingScreen")
 
-[node name="PanelContainer" type="PanelContainer" parent="."]
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=1034873086]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -24,17 +27,17 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="PanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer" unique_id=203787682]
 layout_mode = 2
 theme_override_constants/margin_left = 50
 theme_override_constants/margin_top = 50
 theme_override_constants/margin_right = 50
 theme_override_constants/margin_bottom = 50
 
-[node name="Panel" type="Panel" parent="PanelContainer/MarginContainer"]
+[node name="Panel" type="Panel" parent="PanelContainer/MarginContainer" unique_id=186536517]
 layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="PanelContainer/MarginContainer/Panel"]
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer/MarginContainer/Panel" unique_id=1674541934]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -46,17 +49,17 @@ theme_override_constants/margin_top = 25
 theme_override_constants/margin_right = 25
 theme_override_constants/margin_bottom = 25
 
-[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer/Panel/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer/Panel/MarginContainer" unique_id=932838477]
 layout_mode = 2
 
-[node name="ServerBrowser" type="Panel" parent="PanelContainer/MarginContainer/Panel/MarginContainer/HBoxContainer"]
+[node name="ServerBrowser" type="Panel" parent="PanelContainer/MarginContainer/Panel/MarginContainer/HBoxContainer" unique_id=1574578744]
 visible = false
 custom_minimum_size = Vector2(600, 0)
 layout_mode = 2
 size_flags_vertical = 3
 script = ExtResource("2_kkaxb")
 
-[node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/ServerBrowser"]
+[node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/ServerBrowser" unique_id=60504663]
 visible = false
 layout_mode = 1
 anchors_preset = 15
@@ -65,34 +68,34 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/ServerBrowser/ScrollContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/ServerBrowser/ScrollContainer" unique_id=599514071]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="ServerInfoContainer" parent="PanelContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/ServerBrowser/ScrollContainer/VBoxContainer" instance=ExtResource("2_q01po")]
+[node name="ServerInfoContainer" parent="PanelContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/ServerBrowser/ScrollContainer/VBoxContainer" unique_id=432785747 instance=ExtResource("2_q01po")]
 layout_mode = 2
 
-[node name="Spacer" type="Control" parent="PanelContainer/MarginContainer/Panel/MarginContainer/HBoxContainer"]
+[node name="Spacer" type="Control" parent="PanelContainer/MarginContainer/Panel/MarginContainer/HBoxContainer" unique_id=1080513555]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.13
 
-[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/Panel/MarginContainer/HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/Panel/MarginContainer/HBoxContainer" unique_id=1453889920]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer" unique_id=914869326]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Label" type="Label" parent="PanelContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="PanelContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer" unique_id=1067200744]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Network port: "
 
-[node name="PortInput" type="SpinBox" parent="PanelContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="PortInput" type="SpinBox" parent="PanelContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer" unique_id=1001259281]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -101,16 +104,16 @@ max_value = 65535.0
 value = 49200.0
 alignment = 1
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="PanelContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="PanelContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer" unique_id=1776173255]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Label" type="Label" parent="PanelContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
+[node name="Label" type="Label" parent="PanelContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2" unique_id=798599298]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Network IP: "
 
-[node name="IpInput" type="LineEdit" parent="PanelContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
+[node name="IpInput" type="LineEdit" parent="PanelContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2" unique_id=59907400]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -118,38 +121,65 @@ text = "127.0.0.1"
 placeholder_text = "ip address"
 alignment = 1
 
-[node name="Spacer3" type="Control" parent="PanelContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer"]
+[node name="Spacer3" type="Control" parent="PanelContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer" unique_id=913605268]
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.25
 
-[node name="JoinBtn" type="Button" parent="PanelContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer"]
+[node name="JoinBtn" type="Button" parent="PanelContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer" unique_id=1821050191]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_font_sizes/font_size = 32
 text = "Join Game"
 
-[node name="Spacer2" type="Control" parent="PanelContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer"]
+[node name="Spacer2" type="Control" parent="PanelContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer" unique_id=318456550]
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.25
 
-[node name="HostBtn" type="Button" parent="PanelContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer"]
+[node name="HostBtn" type="Button" parent="PanelContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer" unique_id=305635549]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_font_sizes/font_size = 32
 text = "Host Game"
 
-[node name="Spacer" type="Control" parent="PanelContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer"]
+[node name="Spacer" type="Control" parent="PanelContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer" unique_id=675220076]
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.25
 
-[node name="MainMenuBtn" type="Button" parent="PanelContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer"]
+[node name="MainMenuBtn" type="Button" parent="PanelContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer" unique_id=823543517]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_font_sizes/font_size = 32
 text = "Return to main menu"
+
+[node name="LoadingScreen" type="PanelContainer" parent="." unique_id=1039863375]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="LoadingScreen" unique_id=1475380465]
+layout_mode = 2
+
+[node name="LoadingScreenStatus" type="RichTextLabel" parent="LoadingScreen/Panel" unique_id=1288086712]
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -200.0
+offset_top = 54.0
+offset_right = 200.0
+offset_bottom = 95.0
+grow_horizontal = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Loading: attempting connection"
 
 [connection signal="pressed" from="PanelContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer/JoinBtn" to="." method="_on_join_btn_pressed"]
 [connection signal="pressed" from="PanelContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer/HostBtn" to="." method="_on_host_btn_pressed"]

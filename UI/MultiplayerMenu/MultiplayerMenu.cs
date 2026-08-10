@@ -7,14 +7,18 @@ public partial class MultiplayerMenu : Control
 {
 	[Export] private SpinBox portInput;
 	[Export] private LineEdit ipAddressInput;
+	[Export] private Control connectionMenu;
+	[Export] private Control loadingScreen;
 
 	public override void _Ready()
 	{
 		UiSoundManager.Instance.TryInstallSounds();
+
 	}
 
 	public override void _Process(double delta)
 	{
+		loadingScreen.Visible = NetworkManager.Instance.IsConnecting;
 		bool showMenu = true;
 
 		if (NetworkManager.Instance.peer != null)
@@ -24,7 +28,8 @@ public partial class MultiplayerMenu : Control
 					status != MultiplayerPeer.ConnectionStatus.Connecting;
 		}
 
-		Visible = showMenu;
+		connectionMenu.Visible = showMenu;
+		//TODO: add timeout message
 	}
 
 	public void _on_host_btn_pressed()
