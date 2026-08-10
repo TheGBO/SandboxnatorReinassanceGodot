@@ -62,9 +62,6 @@ jobs:
       - name: Restore .NET dependencies
         run: dotnet restore
 
-      - name: Build C# project
-        run: dotnet build --configuration Release --no-restore
-
       - name: Import Godot project
         run: |
           godot --headless \
