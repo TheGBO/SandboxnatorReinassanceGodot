@@ -137,7 +137,7 @@ public partial class PlayerManager : Singleton<PlayerManager>
 		RpcId(remoteId, nameof(ClientBoundHandshake));
 	}
 
-	[Rpc(MultiplayerApi.RpcMode.Authority)]
+	[Rpc(MultiplayerApi.RpcMode.Authority, TransferMode = MultiplayerPeer.TransferModeEnum.Reliable)]
 	private void ClientBoundHandshake()
 	{
 		if (Multiplayer.IsServer()) return;

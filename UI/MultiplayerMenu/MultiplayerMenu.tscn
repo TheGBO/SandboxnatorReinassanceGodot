@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://co22epydu1y4p" path="res://UI/MultiplayerMenu/ServerBrowser.cs" id="2_kkaxb"]
 [ext_resource type="PackedScene" uid="uid://drkyst4xf3w5h" path="res://UI/MultiplayerMenu/ServerInfoContainer.tscn" id="2_q01po"]
 
-[node name="MultiplayerMenu" type="Control" unique_id=765594653 node_paths=PackedStringArray("portInput", "ipAddressInput", "connectionMenu", "loadingScreen")]
+[node name="MultiplayerMenu" type="Control" unique_id=765594653 node_paths=PackedStringArray("portInput", "ipAddressInput", "connectionMenu", "loadingScreen", "timeoutProgress")]
 z_index = 1
 layout_mode = 3
 anchors_preset = 15
@@ -18,8 +18,10 @@ portInput = NodePath("PanelContainer/MarginContainer/Panel/MarginContainer/HBoxC
 ipAddressInput = NodePath("PanelContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/IpInput")
 connectionMenu = NodePath("PanelContainer")
 loadingScreen = NodePath("LoadingScreen")
+timeoutProgress = NodePath("LoadingScreen/Panel/ProgressBar")
 
 [node name="PanelContainer" type="PanelContainer" parent="." unique_id=1034873086]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -101,7 +103,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 min_value = 1024.0
 max_value = 65535.0
-value = 49200.0
+value = 61288.0
 alignment = 1
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="PanelContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer" unique_id=1776173255]
@@ -166,20 +168,42 @@ grow_vertical = 2
 [node name="Panel" type="Panel" parent="LoadingScreen" unique_id=1475380465]
 layout_mode = 2
 
-[node name="LoadingScreenStatus" type="RichTextLabel" parent="LoadingScreen/Panel" unique_id=1288086712]
+[node name="Panel" type="Panel" parent="LoadingScreen/Panel" unique_id=1513746293]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 108.0
+grow_horizontal = 2
+
+[node name="LoadingScreenStatus" type="RichTextLabel" parent="LoadingScreen/Panel/Panel" unique_id=1288086712]
 custom_minimum_size = Vector2(400, 0)
 layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -200.0
-offset_top = 54.0
-offset_right = 200.0
-offset_bottom = 95.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
+grow_vertical = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-text = "Loading: attempting connection"
+theme_override_font_sizes/normal_font_size = 40
+text = "Aye, hold up..."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ProgressBar" type="ProgressBar" parent="LoadingScreen/Panel" unique_id=325652637]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -196.0
+offset_top = -32.0
+offset_right = 214.0
+offset_bottom = 32.0
+grow_horizontal = 2
+grow_vertical = 2
+show_percentage = false
 
 [connection signal="pressed" from="PanelContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer/JoinBtn" to="." method="_on_join_btn_pressed"]
 [connection signal="pressed" from="PanelContainer/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer/HostBtn" to="." method="_on_host_btn_pressed"]

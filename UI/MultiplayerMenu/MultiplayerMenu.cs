@@ -9,15 +9,17 @@ public partial class MultiplayerMenu : Control
 	[Export] private LineEdit ipAddressInput;
 	[Export] private Control connectionMenu;
 	[Export] private Control loadingScreen;
+	[Export] private ProgressBar timeoutProgress;
 
 	public override void _Ready()
 	{
 		UiSoundManager.Instance.TryInstallSounds();
-
+		timeoutProgress.MaxValue = NetworkManager.Instance.ConnectionTimeoutLimit;
 	}
 
 	public override void _Process(double delta)
 	{
+		timeoutProgress.Value = NetworkManager.Instance.ConnectionTimeoutLimit - NetworkManager.Instance.ElapsedConnectionTime;
 		loadingScreen.Visible = NetworkManager.Instance.IsConnecting;
 		bool showMenu = true;
 

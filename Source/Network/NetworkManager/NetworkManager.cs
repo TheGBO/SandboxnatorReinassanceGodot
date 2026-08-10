@@ -13,7 +13,8 @@ namespace NullGarel.Sandboxnator.Network
 		public ENetMultiplayerPeer peer;
 
 		private float _connectionStartTime = 0f;
-		private const float ConnectionTimeout = 16f;
+		[Export]
+		public float ConnectionTimeoutLimit { get; set; } = 32f;
 		private float _elapsed;
 		public float ElapsedConnectionTime => _elapsed;
 		private bool _waitingForConnection = false;
@@ -61,12 +62,12 @@ namespace NullGarel.Sandboxnator.Network
 				(Time.GetTicksMsec() / 1000f) -
 				_connectionStartTime;
 
-			if (_elapsed >= ConnectionTimeout &&
+			if (_elapsed >= ConnectionTimeoutLimit &&
 				peer.GetConnectionStatus() ==
 				MultiplayerPeer.ConnectionStatus.Connecting)
 			{
 				NcLogger.Log(
-					$"[!] Connection timed out after {ConnectionTimeout} seconds.",
+					$"[!] Connection timed out after {ConnectionTimeoutLimit} seconds.",
 					NcLogger.LogType.Warn);
 
 				OnConnectionFailed();
