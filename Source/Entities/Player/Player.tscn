@@ -201,6 +201,9 @@ properties/6/replication_mode = 2
 properties/7/path = NodePath("ComponentHolder/PlayerVisualSync:ProfileDataDict")
 properties/7/spawn = true
 properties/7/replication_mode = 2
+properties/8/path = NodePath("ComponentHolder/PlayerItemUse:DesiredRotation")
+properties/8/spawn = true
+properties/8/replication_mode = 2
 
 [node name="Player" type="CharacterBody3D" unique_id=277325947 node_paths=PackedStringArray("componentHolder", "characterBody", "playerMovement", "cameraMovement", "playerItemUse", "playerItemSync", "playerInput", "chatHud", "visuals", "playerHud", "playerItemVisuals", "camera", "hud", "playerSounds")]
 floor_stop_on_slope = false

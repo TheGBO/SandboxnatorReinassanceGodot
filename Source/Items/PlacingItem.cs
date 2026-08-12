@@ -31,7 +31,7 @@ public partial class PlacingItem : BaseItem
 
 		previewMesh.Visible = ItemUser.rayCast.IsColliding() && ItemUser.isUseValid;
 		previewMesh.GlobalPosition = GetSnappedPosition(ItemUser.rayCast.GetCollisionPoint(), ItemUser.rayCast.GetCollisionNormal(), _isGrid);
-		previewMesh.GlobalRotation = ItemUser.desiredRotation;
+		previewMesh.GlobalRotation = ItemUser.DesiredRotation;
 		previewCollider.GlobalPosition = previewMesh.GlobalPosition;
 		previewCollider.GlobalRotation = previewMesh.GlobalRotation;
 
