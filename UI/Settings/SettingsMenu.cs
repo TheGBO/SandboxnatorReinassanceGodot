@@ -48,7 +48,7 @@ public partial class SettingsMenu : Control
         greg.SettingsData.FieldOfView = FovSlider.Value;
         greg.SettingsData.LookSensitivity = LookSensitivitySlider.Value;
 
-        SaveLoader.Instance.WriteResource(SaveFolder.Config, greg.UserSettingsName, greg.SettingsData);
+        SaveLoader.WriteResource(SaveFolder.Config, greg.UserSettingsName, greg.SettingsData);
         greg.OnSettingsSaved?.Invoke();
     }
 

@@ -70,7 +70,7 @@ public partial class GameRegistries : Singleton<GameRegistries>
 
     private void LoadUserSettings()
     {
-        var settings = SaveLoader.Instance.ReadResource<GameSettingsData>(SaveFolder.Config, UserSettingsName);
+        var settings = SaveLoader.ReadResource<GameSettingsData>(SaveFolder.Config, UserSettingsName);
         if (settings == null)
         {
             NcLogger.Error("User settings do not exist yet");

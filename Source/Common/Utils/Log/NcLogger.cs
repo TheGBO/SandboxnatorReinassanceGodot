@@ -61,7 +61,7 @@ public static class NcLogger
         GD.PrintRich($"[color={color.ToHtml()}]{header}[/color] :: {msg}");
 
         if (logFlags.HasFlag(LogFlags.ShouldSave))
-            SaveLoader.Instance.SaveToLog($"({header}) :: {msg}");
+            SaveLoader.SaveToLog($"({header}) :: {msg}");
     }
 
     /// <summary>
@@ -75,6 +75,6 @@ public static class NcLogger
         GD.PrintRich($"[color={color.ToHtml()}]{header}[/color] :: {msg}");
 
         if (logFlags.HasFlag(LogFlags.ShouldSave))
-            SaveLoader.Instance.SaveToLog($"({header}) :: {msg}");
+            SaveLoader.SaveToLog($"({header}) :: {msg}");
     }
 }
