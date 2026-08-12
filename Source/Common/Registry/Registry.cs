@@ -30,6 +30,14 @@ public class Registry<T>
     }
 
     /// <summary>
+    /// dispose of the registry
+    /// </summary>
+    public void Clear()
+    {
+        _entries.Clear();
+    }
+
+    /// <summary>
     /// Gets a random entry from this registry
     /// </summary>
     /// <returns></returns>

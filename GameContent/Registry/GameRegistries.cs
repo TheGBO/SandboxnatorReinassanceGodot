@@ -90,4 +90,5 @@ public partial class GameRegistries : Singleton<GameRegistries>
         PlayerFaceRegistryManager playerFaceRegistryManager = new();
         playerFaceRegistryManager.Register();
     }
+
 }

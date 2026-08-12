@@ -1,4 +1,5 @@
 using Godot;
+using NullGarel.Sandboxnator.Registry;
 using NullGarel.Util.Log;
 using System;
 namespace NullGarel.Sandboxnator;
