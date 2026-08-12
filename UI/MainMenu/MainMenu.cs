@@ -21,6 +21,7 @@ public partial class MainMenu : Control
 
 	public void _on_exit_dialog_confirmed()
 	{
+		ApplicationManager.Instance.OnCloseRequested();
 		GetTree().Quit();
 	}
 
