@@ -11,18 +11,16 @@ namespace NullGarel.Sandboxnator.Entity.PlayerCosmetics;
 
 public class PlayerFaceRegistryManager : IRegistryManager
 {
-    private readonly string itemContentsPath = "res://GameContent/Skins";
 
     public void Register()
     {
-        //GD.Print("REGISTAREN FECESFWOGHWAERG)");
-        List<Resource> faceResources = ResourceIO.GetResources<PlayerFaceData>(itemContentsPath);
-        //GD.Print(faceResources.Count);
-        foreach (PlayerFaceData res in faceResources.Cast<PlayerFaceData>())
+        foreach (PlayerFaceData face in GameRegistries.Instance.ContentDatabase.PlayerFaces)
         {
-            NcLogger.Log($"Valid playerFace resource is {res.playerFaceId}, registering...", NcLogger.LogType.Register);
-            //Register the item via resource
-            GameRegistries.Instance.PlayerFaceRegistry.Register(res.playerFaceId, res);
+            GameRegistries.Instance.PlayerFaceRegistry.Register
+            (
+                face.playerFaceId,
+                face
+            );
         }
     }
 

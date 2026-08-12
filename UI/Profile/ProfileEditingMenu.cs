@@ -109,9 +109,7 @@ public partial class ProfileEditingMenu : Control
 		playerFaceList.Clear();
 		foreach (PlayerFaceData face in GameRegistries.Instance.PlayerFaceRegistry.GetAllValues())
 		{
-			NcLogger.Log($"Found a face: id={face.playerFaceId}");
 			playerFaceList.AddItem(face.playerFaceId, face.faceTexture);
-
 		}
 	}
 

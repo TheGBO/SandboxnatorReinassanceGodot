@@ -1,48 +1,46 @@
-using NullGarel.Util;
 using Godot;
-using System;
-using System.Collections.Generic;
 using NullGarel.Sandboxnator.Registry;
+using NullGarel.Util;
 using NullGarel.Util.Log;
-using NullGarel.Util.IO;
-using System.Linq;
+
 namespace NullGarel.Sandboxnator.Item;
 
 /// <summary>
-/// A class that holds the data for the tools, useful for adding and synchronizing tools.
-/// As a manager, this is supposed to be a singleton, however, instead of being a global autoload
-/// it is only relevant in the World scene.
+/// Registers item data from the game's content database.
 /// </summary>
-
 public partial class ItemRegistryManager : IRegistryManager
 {
-	/// TODO:PROGRESS: Make these functionalities for loading and auto registering game assets generic and type agnostic
-	private readonly string itemContentsPath = "res://GameContent/Items";
-
-	/// <summary>
-	/// This function is responsible for loading the item data and registering them in-game.
-	/// </summary>
 	public void Register()
 	{
-		List<Resource> itemResources = ResourceIO.GetResources<ItemData>(itemContentsPath);
-		foreach (ItemData res in itemResources.Cast<ItemData>())
+		foreach (ItemData item in GameRegistries.Instance.ContentDatabase.Items)
 		{
-			NcLogger.Log($"Valid item resource is {res.itemID}, registering...", NcLogger.LogType.Register);
-			BaseItem itemScene = res.itemScene.Instantiate<BaseItem>();
-			//inject item data into the scene too!!!
-			itemScene.itemData = res;
-			if (itemScene is PlacingItem item)
+			NcLogger.Log(
+				$"Valid item resource is {item.itemID}, registering...",
+				NcLogger.LogType.Register
+			);
+
+			BaseItem itemScene = item.itemScene.Instantiate<BaseItem>();
+
+			// Inject item data into the item scene.
+			itemScene.itemData = item;
+
+			if (itemScene is PlacingItem placingItem)
 			{
-				NcLogger.Log($"({res.itemID}) is a placeable building, adding to building registry as well.", NcLogger.LogType.Register);
-				GameRegistries.Instance.BuildingRegistry.Register(res.itemID, item.buildingScene);
+				NcLogger.Log(
+					$"({item.itemID}) is a placeable building, adding to building registry as well.",
+					NcLogger.LogType.Register
+				);
+
+				GameRegistries.Instance.BuildingRegistry.Register(
+					item.itemID,
+					placingItem.buildingScene
+				);
 			}
 
-			//Register the item via resource
-			GameRegistries.Instance.ItemRegistry.Register(res.itemID, res);
+			GameRegistries.Instance.ItemRegistry.Register(
+				item.itemID,
+				item
+			);
 		}
 	}
-
-
-
-
 }

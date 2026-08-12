@@ -1,0 +1,32 @@
+[gd_resource type="Resource" script_class="GameContentDatabase" format=3 uid="uid://cll5td8127cuj"]
+
+[ext_resource type="Texture2D" uid="uid://ejjv6hmc4fqq" path="res://Assets/Pallete.png" id="1_b3pls"]
+[ext_resource type="Script" uid="uid://b8gc7u5tdfw7l" path="res://GameContent/Registry/GameContentDatabase.cs" id="1_i7gde"]
+[ext_resource type="Resource" uid="uid://dh73faomdiebo" path="res://GameContent/Items/Cube/Cube.tres" id="2_ok7yr"]
+[ext_resource type="Resource" uid="uid://fk8aqjl4qdhd" path="res://GameContent/Items/Cone/Cone.tres" id="3_5qsg6"]
+[ext_resource type="Resource" uid="uid://m8hs8m2w4g77" path="res://GameContent/Items/Compass/Compass.tres" id="4_ic885"]
+[ext_resource type="Resource" uid="uid://cj7744x5cwyjg" path="res://GameContent/Items/PaintBubble/PaintBubble.tres" id="5_c2x75"]
+[ext_resource type="Resource" uid="uid://ceqeoy6wmv2fe" path="res://GameContent/Items/Hammer/Hammer.tres" id="6_pnv4a"]
+[ext_resource type="Resource" uid="uid://ddp350884qc02" path="res://GameContent/PlayerFaces/FaceAwesome.tres" id="7_bp3aw"]
+[ext_resource type="Resource" uid="uid://dluky1fepbie8" path="res://GameContent/PlayerFaces/FaceAww.tres" id="8_qs834"]
+[ext_resource type="Resource" uid="uid://b1qj6tntt5t55" path="res://GameContent/PlayerFaces/FaceBreh.tres" id="9_dfwm2"]
+[ext_resource type="Resource" uid="uid://c7s8dh7h2jwh4" path="res://GameContent/PlayerFaces/FaceColonThree.tres" id="10_onrk6"]
+[ext_resource type="Resource" uid="uid://bxbk8v55ptqqb" path="res://GameContent/PlayerFaces/FaceEepy.tres" id="11_83xwl"]
+[ext_resource type="Resource" uid="uid://ivvcpgxulw1s" path="res://GameContent/PlayerFaces/FaceFalky.tres" id="12_8yqrn"]
+[ext_resource type="Resource" uid="uid://b6ghb2ihn45ea" path="res://GameContent/PlayerFaces/FaceFlushed.tres" id="13_fcjrp"]
+[ext_resource type="Resource" uid="uid://dwyar4wgwwcgv" path="res://GameContent/PlayerFaces/FaceGatonator.tres" id="14_f4tcm"]
+[ext_resource type="Resource" uid="uid://k5alu2uevta8" path="res://GameContent/PlayerFaces/FaceMammal01.tres" id="15_lkfmy"]
+[ext_resource type="Resource" uid="uid://c15382j7uu52i" path="res://GameContent/PlayerFaces/FaceMan.tres" id="16_r1l6l"]
+[ext_resource type="Resource" uid="uid://k30631c011gj" path="res://GameContent/PlayerFaces/FaceShocked.tres" id="17_8gas4"]
+[ext_resource type="Resource" uid="uid://nq7tuvy2kv7x" path="res://GameContent/PlayerFaces/FaceTheSixtyFour.tres" id="18_1apib"]
+[ext_resource type="Resource" uid="uid://d06ttcpl3yi7s" path="res://GameContent/PlayerFaces/FaceUwU.tres" id="19_m23jq"]
+[ext_resource type="Resource" uid="uid://clswvg7oreavv" path="res://GameContent/PlayerFaces/Silly.tres" id="20_w3dxi"]
+[ext_resource type="Resource" uid="uid://bhhavqy72ixdl" path="res://GameContent/PlayerFaces/TinySmile.tres" id="21_70y55"]
+[ext_resource type="Resource" uid="uid://wpbf1biyu6o2" path="res://GameContent/PlayerFaces/Troll.tres" id="22_6kju4"]
+
+[resource]
+script = ExtResource("1_i7gde")
+Items = Array[Object]([ExtResource("2_ok7yr"), ExtResource("3_5qsg6"), ExtResource("4_ic885"), ExtResource("5_c2x75"), ExtResource("6_pnv4a")])
+PlayerFaces = Array[Object]([ExtResource("7_bp3aw"), ExtResource("8_qs834"), ExtResource("9_dfwm2"), ExtResource("10_onrk6"), ExtResource("11_83xwl"), ExtResource("12_8yqrn"), ExtResource("13_fcjrp"), ExtResource("14_f4tcm"), ExtResource("15_lkfmy"), ExtResource("16_r1l6l"), ExtResource("17_8gas4"), ExtResource("18_1apib"), ExtResource("19_m23jq"), ExtResource("20_w3dxi"), ExtResource("21_70y55"), ExtResource("22_6kju4")])
+BuildingPallete = ExtResource("1_b3pls")
+metadata/_custom_type_script = "uid://b8gc7u5tdfw7l"

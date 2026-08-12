@@ -5,7 +5,6 @@
 [ext_resource type="PackedScene" uid="uid://fhg3quattdqn" path="res://GameContent/Items/Hammer/ItemHammer.tscn" id="1_f6c81"]
 
 [resource]
-resource_name = "tool_hammer"
 script = ExtResource("1_e88rv")
 itemScene = ExtResource("1_f6c81")
 itemID = "Hammer"

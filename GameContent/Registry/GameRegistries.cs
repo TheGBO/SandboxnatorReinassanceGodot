@@ -15,16 +15,20 @@ namespace NullGarel.Sandboxnator.Registry;
 /// </summary>
 public partial class GameRegistries : Singleton<GameRegistries>
 {
-    //DATA SECTION
+    // Database
+    [Export] public GameContentDatabase ContentDatabase { get; private set; }
+
+    //Registries
     public Registry<ItemData> ItemRegistry { get; set; } = new();
     public Registry<PlayerFaceData> PlayerFaceRegistry { get; set; } = new();
     public Registry<ChatCommand> CommandRegistry { get; set; } = new();
     public Registry<PackedScene> BuildingRegistry { get; set; } = new();
+
+    //ingame settings
     public GameSettingsData SettingsData { get; set; } = new();
     public string UserSettingsName { get; private set; } = "UserSettings.tres";
 
-    [Export]
-    public Texture2D BuildingPallete;
+
 
     public static string GetGameVersion => ProjectSettings.GetSetting("application/config/version").ToString();
 

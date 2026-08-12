@@ -1,8 +1,8 @@
-[gd_scene load_steps=21 format=4 uid="uid://bvk2qsd5vogiv"]
+[gd_scene format=4 uid="uid://bvk2qsd5vogiv"]
 
 [ext_resource type="Texture2D" uid="uid://6aop4rk3parb" path="res://Source/Entities/Player/Assets/NewPlayerModel/player_texture_0.png" id="1_lhs73"]
 [ext_resource type="Script" uid="uid://beqcvnx7lff85" path="res://Source/Entities/Player/PlayerModel.cs" id="1_m762l"]
-[ext_resource type="Texture2D" uid="uid://bwynw0jew518v" path="res://GameContent/Skins/_Textures/uwu.png" id="2_m762l"]
+[ext_resource type="Texture2D" uid="uid://bwynw0jew518v" path="res://GameContent/PlayerFaces/_Textures/uwu.png" id="2_m762l"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6ch65"]
 resource_name = "material_0"

@@ -28,7 +28,6 @@ public partial class PlayerItemVisuals : AbstractComponent<Player>
 
 	private void UpdateItemModel(string itemId)
 	{
-		NcLogger.Log($"{nameof(PlayerItemVisuals)} :: SHOULD update as {itemId}");
 		foreach (var model in hand.GetChildren())
 		{
 			hand.RemoveChild(model);

@@ -33,7 +33,7 @@ public partial class PaintBubble : BaseItem
     [Export] private MeshInstance3D bubble;
     [Export] private int colorIndex = 0;
 
-    private Color[] _colors = ColorAndMeshUtils.PixelsOfImage(GameRegistries.Instance.BuildingPallete.GetImage()).ToArray();
+    private Color[] _colors = [.. ColorAndMeshUtils.PixelsOfImage(GameRegistries.Instance.ContentDatabase.BuildingPallete.GetImage())];
 
     public override void _EnterTree()
     {
