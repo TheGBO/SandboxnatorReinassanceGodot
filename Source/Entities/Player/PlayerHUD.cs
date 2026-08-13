@@ -12,9 +12,15 @@ namespace NullGarel.Sandboxnator.Entity;
 [GodotClassName(nameof(PlayerHUD))]
 public partial class PlayerHUD : AbstractComponent<Player>
 {
+    [ExportCategory("Main Controls")]
     [Export] public Control chatRoot;
-    [Export] private Control escMenu;
-    [Export] private Control hotBar;
+    [Export] private Control _escMenu;
+    [Export] private Control _hotBar;
+
+    [ExportCategory("Grid vs snapper information")]
+    [Export] private TextureRect _alignmentInformationIcon;
+    [Export] private Texture2D _gridIcon;
+    [Export] private Texture2D _snapperIcon;
 
     public bool IsChatOpen { get; set; }
     public bool IsHudBeingUsed { get; private set; }
@@ -24,14 +30,21 @@ public partial class PlayerHUD : AbstractComponent<Player>
         if (!IsMultiplayerAuthority())
             return;
 
-        ComponentParent.playerInput.OnUiEscape += () =>
+        var playerInput = ComponentParent.playerInput;
+
+        playerInput.OnUiEscape += () =>
         {
             if (IsChatOpen) return;
             //force mouse cursor to show up if it's not there
             if (Input.MouseMode == Input.MouseModeEnum.Captured)
                 Input.MouseMode = Input.MouseModeEnum.Visible;
 
-            escMenu.Visible = !escMenu.Visible;
+            _escMenu.Visible = !_escMenu.Visible;
+        };
+
+        playerInput.ChangeSnapMode += (bool isGrid) =>
+        {
+            _alignmentInformationIcon.Texture = isGrid ? _gridIcon : _snapperIcon;
         };
     }
 
@@ -45,6 +58,6 @@ public partial class PlayerHUD : AbstractComponent<Player>
     {
         if (!IsMultiplayerAuthority()) return;
 
-        IsHudBeingUsed = IsChatOpen || escMenu.Visible;
+        IsHudBeingUsed = IsChatOpen || _escMenu.Visible;
     }
 }

@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://b0sc20fvjjujb" path="res://Source/Entities/Player/CameraMovement.cs" id="3_bvtsg"]
 [ext_resource type="AudioStream" uid="uid://b8xbjq5ide70f" path="res://Assets/Sounds/ui_message_received.mp3" id="3_bxpi0"]
 [ext_resource type="Texture2D" uid="uid://bvrby5xk2pk1j" path="res://GameContent/Items/Hammer/HammerIcon.png" id="4_lmeus"]
+[ext_resource type="Texture2D" uid="uid://1iu221gkwyp" path="res://Assets/Textures/Icons/icon_alignment_grid.png" id="6_f17go"]
 [ext_resource type="Script" uid="uid://e34gkmm62lfj" path="res://Source/Common/ComponentSystem/ComponentHolder.cs" id="7_kauam"]
 [ext_resource type="Texture2D" uid="uid://bglesdqd1oqd1" path="res://Assets/Textures/CrossHair.png" id="8_2c07k"]
 [ext_resource type="Script" uid="uid://b48urjcts4ei0" path="res://Source/Entities/Player/PlayerItemUse.cs" id="9_rtpsh"]
@@ -16,6 +17,7 @@
 [ext_resource type="Script" uid="uid://1r4uikdke5pe" path="res://Source/Entities/Player/PlayerVisualSync.cs" id="14_3e0s0"]
 [ext_resource type="Script" uid="uid://dfhgyr0xk8nju" path="res://Source/Entities/Player/PlayerItemSync.cs" id="14_a5byf"]
 [ext_resource type="PackedScene" uid="uid://bvk2qsd5vogiv" path="res://Source/Entities/Player/PlayerModel.tscn" id="15_7hef5"]
+[ext_resource type="Texture2D" uid="uid://cynkqshultlao" path="res://Assets/Textures/Icons/icon_alignment_snapper.png" id="16_2nyvo"]
 [ext_resource type="Script" uid="uid://c7cntnqvgc1tj" path="res://Source/Entities/Player/PlayerSounds.cs" id="16_ckclx"]
 [ext_resource type="AudioStream" uid="uid://drcyqysa48vv4" path="res://_ThirdParty/KenneyImpactSounds/Audio/footstep_concrete_000.ogg" id="17_l24fo"]
 [ext_resource type="AudioStream" uid="uid://cgibi3vg7rv5q" path="res://_ThirdParty/KenneyImpactSounds/Audio/footstep_concrete_001.ogg" id="18_a7eri"]
@@ -204,6 +206,9 @@ properties/7/replication_mode = 2
 properties/8/path = NodePath("ComponentHolder/PlayerItemUse:DesiredRotation")
 properties/8/spawn = true
 properties/8/replication_mode = 2
+properties/9/path = NodePath("ComponentHolder/PlayerInput:IsGridSnapMode")
+properties/9/spawn = true
+properties/9/replication_mode = 2
 
 [node name="Player" type="CharacterBody3D" unique_id=277325947 node_paths=PackedStringArray("componentHolder", "characterBody", "playerMovement", "cameraMovement", "playerItemUse", "playerItemSync", "playerInput", "chatHud", "visuals", "playerHud", "playerItemVisuals", "camera", "hud", "playerSounds")]
 floor_stop_on_slope = false
@@ -404,6 +409,23 @@ size_flags_vertical = 3
 disabled = true
 text = "secret future feature"
 
+[node name="BuildingInfoContainer" type="MarginContainer" parent="HUD" unique_id=1591564126]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -66.0
+offset_bottom = 66.0
+grow_horizontal = 0
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="AlignmentInfoIcon" type="TextureRect" parent="HUD/BuildingInfoContainer" unique_id=897649653]
+layout_mode = 2
+texture = ExtResource("6_f17go")
+
 [node name="Neck" type="Node3D" parent="." unique_id=1084325418]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0)
 
@@ -475,11 +497,14 @@ elementsToHideAsFirstPerson = [NodePath("../../PlayerModel/Node/HeadHolder"), No
 playerModel = NodePath("../../PlayerModel")
 nameTag = NodePath("../../NameTagHolder/NameTag")
 
-[node name="PlayerHUD" type="Node3D" parent="ComponentHolder" unique_id=736340043 node_paths=PackedStringArray("chatRoot", "escMenu", "hotBar")]
+[node name="PlayerHUD" type="Node3D" parent="ComponentHolder" unique_id=736340043 node_paths=PackedStringArray("chatRoot", "_escMenu", "_hotBar", "_alignmentInformationIcon")]
 script = ExtResource("13_7hef5")
 chatRoot = NodePath("../../HUD/ChatRoot")
-escMenu = NodePath("../../HUD/EscMenu")
-hotBar = NodePath("../../HUD/HotBar")
+_escMenu = NodePath("../../HUD/EscMenu")
+_hotBar = NodePath("../../HUD/HotBar")
+_alignmentInformationIcon = NodePath("../../HUD/BuildingInfoContainer/AlignmentInfoIcon")
+_gridIcon = ExtResource("6_f17go")
+_snapperIcon = ExtResource("16_2nyvo")
 
 [node name="PlayerItemSync" type="Node3D" parent="ComponentHolder" unique_id=2081320656]
 script = ExtResource("14_a5byf")

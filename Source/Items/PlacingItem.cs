@@ -13,10 +13,27 @@ public partial class PlacingItem : BaseItem
 	[Export] public PackedScene buildingScene;
 	[Export] private MeshInstance3D previewMesh;
 	[Export] private PreviewCollider previewCollider;
-	[Export] private float snapRange;
+	[Export] private float snapRange = 0.5f;
 	[Export] private float normalOffset = 1;
-	private bool _isGrid = true;
+	[Export] private Vector3 gridSize = new(0.5f, 0.5f, 0.5f);
+	/// <summary>
+	/// _isGrid defines if the building mode will be grid-based or snap-based
+	/// true=grid
+	/// false=snapper
+	/// 
+	/// if I ever need more flexibility, I'll make an enum.
+	/// </summary>
 
+	public override void _Ready()
+	{
+		if (!IsMultiplayerAuthority()) return;
+
+	}
+
+	public override void _ExitTree()
+	{
+		if (!IsMultiplayerAuthority()) return;
+	}
 
 	public override void _PhysicsProcess(double delta)
 	{
@@ -30,7 +47,11 @@ public partial class PlacingItem : BaseItem
 		ItemUser.isUseValid = !previewCollider.IsColliding;
 
 		previewMesh.Visible = ItemUser.rayCast.IsColliding() && ItemUser.isUseValid;
-		previewMesh.GlobalPosition = GetSnappedPosition(ItemUser.rayCast.GetCollisionPoint(), ItemUser.rayCast.GetCollisionNormal(), _isGrid);
+		previewMesh.GlobalPosition = GetSnappedPosition(
+			ItemUser.rayCast.GetCollisionPoint(),
+			ItemUser.rayCast.GetCollisionNormal(),
+			ItemUser.ComponentParent.playerInput.IsGridSnapMode
+			);
 		previewMesh.GlobalRotation = ItemUser.DesiredRotation;
 		previewCollider.GlobalPosition = previewMesh.GlobalPosition;
 		previewCollider.GlobalRotation = previewMesh.GlobalRotation;
@@ -43,7 +64,11 @@ public partial class PlacingItem : BaseItem
 		if (!ItemUser.isUseValid) return;
 		Node3D building = (Node3D)buildingScene.Instantiate();
 		building.Name = Guid.NewGuid().GetHashCode().ToString();
-		building.Position = GetSnappedPosition(args.Position, args.Normal, _isGrid);
+		building.Position = GetSnappedPosition(
+			args.Position,
+			args.Normal,
+			ItemUser.ComponentParent.playerInput.IsGridSnapMode
+			);
 
 		building.Rotation = args.DesiredRotation;
 		World.Instance.networkedEntities.CallDeferred("add_child", building);
@@ -65,9 +90,9 @@ public partial class PlacingItem : BaseItem
 		//else if has a grid
 		Vector3 snapped = new
 		(
-			Mathf.Floor(offsetPos.X + 0.5f),
-			Mathf.Floor(offsetPos.Y + 0.5f),
-			Mathf.Floor(offsetPos.Z + 0.5f)
+			Mathf.Floor(offsetPos.X + gridSize.X),
+			Mathf.Floor(offsetPos.Y +  gridSize.Y),
+			Mathf.Floor(offsetPos.Z +  gridSize.Z)
 		);
 		return snapped;
 	}

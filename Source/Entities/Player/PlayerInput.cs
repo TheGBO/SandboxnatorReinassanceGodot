@@ -11,26 +11,62 @@ public partial class PlayerInput : AbstractComponent<Player>
     public Vector2 MovementVector { get; private set; }
     public bool IsSprinting { get; private set; }
     public bool IsJumping { get; private set; }
-    public Action OnStopSprint;
+    public event Action OnStopSprint;
     //user interface
 
-    public Action OnShowChat;
-    public Action OnUiEscape;
-    //Camera
-    public Action OnToggleCursorCapture;
+    public event Action OnShowChat;
+    public event Action OnUiEscape;
+    //Camerevent a
+    public event Action OnToggleCursorCapture;
     public Vector2 LookVector { get; private set; }
 
-    public Action OnMouseMovement;
+    public event Action OnMouseMovement;
     //Building
-    public Action RotateCW;
-    public Action RotateCCW;
+    public event Action RotateCW;
+    public event Action RotateCCW;
+    public event Action<bool> ChangeSnapMode;
+    //has to be exported because synchronizerisms....
+    [Export] public bool IsGridSnapMode { get; private set; } = true;
     //usage
-    public Action UsePrimary;
-    public Action UseSecondary;
-    public Action UseIncrement;
-    public Action UseDecrement;
+    public event Action UsePrimary;
+    public event Action UseSecondary;
+    public event Action UseIncrement;
+    public event Action UseDecrement;
 
-    private const float JOYPAD_SENSITIVITY_DENOMINATOR = 100.0f;
+    #region "magic strings" and constants
+    private const float JoypadSensitivityDenominator = 100.0f;
+
+    private const string ToggleCaptureAction = "toggle_capture";
+    private const string UiEscapeAction = "sb_ui_escape";
+    private const string ShowChatAction = "sb_ui_show_chat";
+
+    private const string MvJumpAction = "mv_jump";
+    private const string SprintAction = "mv_sprint";
+    private const string MvLeftAction = "mv_left";
+    private const string MvRightAction = "mv_right";
+    private const string MvForwardAction = "mv_forward";
+    private const string MvBackwardAction = "mv_backward";
+    private const string MvSprintAction = "mv_sprint";
+
+    private const string BuildRotateClockwiseAction = "build_rotate_cw";
+    private const string BuildRotateCounterClockwiseAction = "build_rotate_ccw";
+    private const string BuildChangeSnapAction = "build_change_snap";
+
+    private const string UsePrimaryAction = "use_primary";
+    private const string UseSecondaryAction = "use_secondary";
+    private const string UseIncrementAction = "use_increment";
+    private const string UseDecrementString = "use_decrement";
+
+    private const string LookLeftAction = "look_left";
+    private const string LookRightAction = "look_right";
+    private const string LookUpAction = "look_up";
+    private const string LookDownAction = "look_down";
+    #endregion
+
+
+
+
+
 
     #region Overrides
     // Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -68,7 +104,7 @@ public partial class PlayerInput : AbstractComponent<Player>
     private void HandleGeneralUserInterfaceInput()
     {
 
-        if (Input.IsActionJustPressed("sb_ui_escape"))
+        if (Input.IsActionJustPressed(UiEscapeAction))
         {
             OnUiEscape?.Invoke();
         }
@@ -81,12 +117,12 @@ public partial class PlayerInput : AbstractComponent<Player>
     /// </summary>
     private void HandleTopLevelUiInput()
     {
-        if (Input.IsActionJustPressed("toggle_capture"))
+        if (Input.IsActionJustPressed(ToggleCaptureAction))
         {
             OnToggleCursorCapture?.Invoke();
             GetViewport().SetInputAsHandled();
         }
-        if (Input.IsActionPressed("sb_ui_show_chat"))
+        if (Input.IsActionPressed(ShowChatAction))
         {
             OnShowChat?.Invoke();
             Input.MouseMode = Input.MouseModeEnum.Visible;
@@ -98,56 +134,62 @@ public partial class PlayerInput : AbstractComponent<Player>
     private void HandleMovementInput()
     {
 
-        if (Input.IsActionJustPressed("mv_jump"))
+        if (Input.IsActionJustPressed(MvJumpAction))
         {
             IsJumping = true;
         }
 
-        if (Input.IsActionJustReleased("mv_jump"))
+        if (Input.IsActionJustReleased(MvJumpAction))
         {
             IsJumping = false;
         }
 
-        if (Input.IsActionJustReleased("mv_sprint"))
+        if (Input.IsActionJustReleased(SprintAction))
         {
             OnStopSprint?.Invoke();
         }
 
-        MovementVector = Input.GetVector("mv_left", "mv_right", "mv_forward", "mv_backward");
-        IsSprinting = Input.IsActionPressed("mv_sprint");
+        MovementVector = Input.GetVector(MvLeftAction, MvRightAction, MvForwardAction, MvBackwardAction);
+        IsSprinting = Input.IsActionPressed(MvSprintAction);
     }
 
     private void HandleBuildingInput()
     {
-        if (Input.IsActionJustPressed("build_rotate_cw"))
+        if (Input.IsActionJustPressed(BuildRotateClockwiseAction))
         {
             RotateCW?.Invoke();
         }
 
-        if (Input.IsActionJustPressed("build_rotate_ccw"))
+        if (Input.IsActionJustPressed(BuildRotateCounterClockwiseAction))
         {
             RotateCCW?.Invoke();
+        }
+
+        if (Input.IsActionJustPressed(BuildChangeSnapAction))
+        {
+            IsGridSnapMode = !IsGridSnapMode;
+            ChangeSnapMode?.Invoke(IsGridSnapMode);
         }
     }
 
     private void HandleUsageInput()
     {
-        if (Input.IsActionJustPressed("use_primary"))
+        if (Input.IsActionJustPressed(UsePrimaryAction))
         {
             UsePrimary?.Invoke();
         }
 
-        if (Input.IsActionJustPressed("use_secondary"))
+        if (Input.IsActionJustPressed(UseSecondaryAction))
         {
             UseSecondary?.Invoke();
         }
 
-        if (Input.IsActionJustPressed("use_increment"))
+        if (Input.IsActionJustPressed(UseIncrementAction))
         {
             UseIncrement?.Invoke();
         }
 
-        if (Input.IsActionJustPressed("use_decrement"))
+        if (Input.IsActionJustPressed(UseDecrementString))
         {
             UseDecrement?.Invoke();
         }
@@ -155,14 +197,14 @@ public partial class PlayerInput : AbstractComponent<Player>
 
     private void HandleJoypadRstickInput()
     {
-        Vector2 joypadLookVector = new(Input.GetAxis("look_left", "look_right"), Input.GetAxis("look_up", "look_down"));
+        Vector2 joypadLookVector = new(Input.GetAxis(LookLeftAction, LookRightAction), Input.GetAxis(LookUpAction, LookDownAction));
         if (joypadLookVector.Length() > 0.1f)
         {
             // There is a proportion matter when it comes to this.
             // The default (raw) mouse sensitivity is 100, the default joypad sensitivity is 5.
             // in order to turn 100 into 5 in a proportional way, (5 * sens)/100
             // TOTEST: this needs further testing
-            LookVector = joypadLookVector * (5 * (float)GameRegistries.Instance.SettingsData.LookSensitivity) / JOYPAD_SENSITIVITY_DENOMINATOR;
+            LookVector = joypadLookVector * (5 * (float)GameRegistries.Instance.SettingsData.LookSensitivity) / JoypadSensitivityDenominator;
             // This action name is slightly misleading but gets the job done.
             OnMouseMovement?.Invoke();
         }
