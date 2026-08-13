@@ -7,9 +7,23 @@ namespace NullGarel.Sandboxnator.Entity;
 public partial class PlayerChatHud : AbstractComponent<Player>
 {
 
-    [Export] public LineEdit messageEdit;
-    [Export] public RichTextLabel messageBox;
-    [Export] public AudioStreamPlayer notificationSound;
+    [ExportCategory("Full chat menu")]
+    [Export] private LineEdit _messageEdit;
+    [Export] private RichTextLabel _messageBox;
+    [ExportCategory("Notification")]
+    [Export] private AudioStreamPlayer _notificationSound;
+    [ExportCategory("Latest message")]
+    [Export] private RichTextLabel _quickMessageBox;
+    private string _latestMessage = "";
+    public string LatestMessage
+    {
+        get => _latestMessage;
+        set
+        {
+            _latestMessage = value;
+            _quickMessageBox.Text = _latestMessage;
+        }
+    }
 
     public override void _Ready()
     {
@@ -41,8 +55,8 @@ public partial class PlayerChatHud : AbstractComponent<Player>
     private void ShowChat()
     {
         ComponentParent.playerHud.chatRoot.Visible = true;
-        messageEdit.FocusMode = Control.FocusModeEnum.All;
-        messageEdit.CallDeferred(Control.MethodName.GrabFocus);
+        _messageEdit.FocusMode = Control.FocusModeEnum.All;
+        _messageEdit.CallDeferred(Control.MethodName.GrabFocus);
     }
 
     private void HideChat()
@@ -55,25 +69,28 @@ public partial class PlayerChatHud : AbstractComponent<Player>
         //-1: System notifications
         if (message.PlayerId != -1)
         {
-            messageBox.Text += $"[color={senderData.PlayerColor.ToHtml()}](@{senderData.PlayerName}) [/color] : {message.Content}\n";
+            string computedText = $"[color={senderData.PlayerColor.ToHtml()}](@{senderData.PlayerName}) [/color] : {message.Content}\n";
+            _messageBox.Text += computedText;
+            LatestMessage = computedText;
         }
         else
         {
-            messageBox.Text += $"[color=yellow][System]:[/color]{message.Content}\n";
+            string computedText = $"[color=yellow][System]:[/color]{message.Content}\n";
+            _messageBox.Text += computedText;
         }
-        notificationSound.Play();
+        _notificationSound.Play();
     }
 
     private void SendMessage()
     {
-        string msg = messageEdit.Text;
-        if (!string.IsNullOrEmpty(msg) && !string.IsNullOrWhiteSpace(messageEdit.Text) && ComponentParent.playerHud.chatRoot.Visible)
+        string msg = _messageEdit.Text;
+        if (!string.IsNullOrEmpty(msg) && !string.IsNullOrWhiteSpace(_messageEdit.Text) && ComponentParent.playerHud.chatRoot.Visible)
         {
             ChatManager.Instance.RequestSendMessageToServer(msg);
-            messageEdit.Text = "";
+            _messageEdit.Text = "";
         }
-        messageEdit.FocusMode = Control.FocusModeEnum.All;
-        messageEdit.CallDeferred(Control.MethodName.GrabFocus);
+        _messageEdit.FocusMode = Control.FocusModeEnum.All;
+        _messageEdit.CallDeferred(Control.MethodName.GrabFocus);
     }
 
     public void _on_send_btn_pressed()

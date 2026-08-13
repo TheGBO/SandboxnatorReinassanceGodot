@@ -41,4 +41,5 @@
 ## UI aspects
 
 - [ ] - Finish the settings menu.
-- [ ] - Add a persistent "recent chat messages" overlay so opening the full chat isn't required to read messages.
+- [x] - Add a persistent "recent chat messages" overlay so opening the full chat isn't required to read messages.
+  - [ ] - Make the most recent message fade after some time in function of the length of the message

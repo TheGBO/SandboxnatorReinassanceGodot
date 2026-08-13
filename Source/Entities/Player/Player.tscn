@@ -305,6 +305,24 @@ theme_override_constants/margin_bottom = 4
 layout_mode = 2
 texture = ExtResource("4_lmeus")
 
+[node name="QuickChatContainer" type="MarginContainer" parent="HUD" unique_id=912504337]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -107.0
+offset_right = 511.0
+grow_vertical = 0
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="QuickMessageBox" type="RichTextLabel" parent="HUD/QuickChatContainer" unique_id=1546558539]
+layout_mode = 2
+mouse_filter = 2
+bbcode_enabled = true
+
 [node name="ChatRoot" type="MarginContainer" parent="HUD" unique_id=2109954114]
 visible = false
 layout_mode = 1
@@ -477,11 +495,12 @@ libraries/ = SubResource("AnimationLibrary_0sei0")
 [node name="PlayerInput" type="Node3D" parent="ComponentHolder" unique_id=757712919]
 script = ExtResource("10_xk60u")
 
-[node name="PlayerChatHUD" type="Node3D" parent="ComponentHolder" unique_id=995031727 node_paths=PackedStringArray("messageEdit", "messageBox", "notificationSound")]
+[node name="PlayerChatHUD" type="Node3D" parent="ComponentHolder" unique_id=995031727 node_paths=PackedStringArray("_messageEdit", "_messageBox", "_notificationSound", "_quickMessageBox")]
 script = ExtResource("10_np6ov")
-messageEdit = NodePath("../../HUD/ChatRoot/ChatBox/VBoxContainer/Input/MessageEdit")
-messageBox = NodePath("../../HUD/ChatRoot/ChatBox/VBoxContainer/MarginContainer/MessagesContainer")
-notificationSound = NodePath("../../HUD/ChatRoot/NotificationSound")
+_messageEdit = NodePath("../../HUD/ChatRoot/ChatBox/VBoxContainer/Input/MessageEdit")
+_messageBox = NodePath("../../HUD/ChatRoot/ChatBox/VBoxContainer/MarginContainer/MessagesContainer")
+_notificationSound = NodePath("../../HUD/ChatRoot/NotificationSound")
+_quickMessageBox = NodePath("../../HUD/QuickChatContainer/QuickMessageBox")
 
 [node name="HandSway" type="Node3D" parent="ComponentHolder" unique_id=675638470 node_paths=PackedStringArray("hand")]
 script = ExtResource("11_v2xwv")
