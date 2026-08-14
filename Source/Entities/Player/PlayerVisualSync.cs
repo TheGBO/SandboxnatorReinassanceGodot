@@ -16,6 +16,8 @@ public partial class PlayerVisualSync : AbstractComponent<Player>
 	[ExportGroup("Player model")]
 	[Export] private PlayerModel _playerModel;
 	[Export] public Label3D _nameTag;
+	[Export] private Array<Node3D> _rotateAlongNeck;
+	[Export] private Node3D _neck;
 
 	//Serialization
 	private PlayerProfileData _profileData = new();
@@ -49,6 +51,14 @@ public partial class PlayerVisualSync : AbstractComponent<Player>
 				element.Visible = false;
 			ProfileDataDict = DictPack.Serialize(PlayerProfileManager.Instance.CurrentProfile);
 			ColorAndMeshUtils.SetMeshClip(_playerModel.handMesh, true);
+		}
+	}
+
+	public override void _Process(double delta)
+	{
+		foreach (Node3D target in _rotateAlongNeck)
+		{
+			target.GlobalRotation = _neck.GlobalRotation;
 		}
 	}
 
