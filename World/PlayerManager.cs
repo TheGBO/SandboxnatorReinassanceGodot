@@ -11,8 +11,8 @@ namespace NullGarel.Sandboxnator.WorldAndScenes;
 
 public partial class PlayerManager : Singleton<PlayerManager>
 {
-	[Export] private PackedScene playerScene;
-	[Export] private Vector2 rangeOfRandomPos;
+	[Export] private PackedScene _playerScene;
+	[Export] private Vector2 _rangeOfRandomPos;
 
 	public override void _Ready()
 	{
@@ -32,7 +32,7 @@ public partial class PlayerManager : Singleton<PlayerManager>
 	public void AddPlayer(long id = 1)
 	{
 
-		Node3D player = (Node3D)playerScene.Instantiate();
+		Node3D player = (Node3D)_playerScene.Instantiate();
 		if (player == null)
 		{
 			NcLogger.Log("Failed to instantiate player.", NcLogger.LogType.Error);
@@ -60,7 +60,7 @@ public partial class PlayerManager : Singleton<PlayerManager>
 		if (Multiplayer.IsServer())
 		{
 			GD.Seed((ulong)Time.GetUnixTimeFromSystem());
-			Vector2 randPos = new(GD.Randi() % rangeOfRandomPos.X, GD.Randi() % rangeOfRandomPos.Y);
+			Vector2 randPos = new(GD.Randi() % _rangeOfRandomPos.X, GD.Randi() % _rangeOfRandomPos.Y);
 			Vector3 desiredPosition = new(randPos.X, 20, randPos.Y);
 			if (Multiplayer.GetUniqueId() == id)
 			{

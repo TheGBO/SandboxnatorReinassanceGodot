@@ -30,8 +30,8 @@ namespace NullGarel.Sandboxnator.Item;
 /// </summary>
 public partial class PaintBubble : BaseItem
 {
-    [Export] private MeshInstance3D bubble;
-    [Export] private int colorIndex = 0;
+    [Export] private MeshInstance3D _bubble;
+    [Export] private int _colorIndex = 0;
 
     private Color[] _colors = [.. ColorAndMeshUtils.PixelsOfImage(GameRegistries.Instance.ContentDatabase.BuildingPallete.GetImage())];
 
@@ -59,7 +59,7 @@ public partial class PaintBubble : BaseItem
                 return;
             }
 
-            paintable.TriggerPaint(_colors[colorIndex]);
+            paintable.TriggerPaint(_colors[_colorIndex]);
         }
         else
         {
@@ -69,7 +69,7 @@ public partial class PaintBubble : BaseItem
 
     private void CycleColor()
     {
-        colorIndex = (colorIndex + 1) % _colors.Length;
+        _colorIndex = (_colorIndex + 1) % _colors.Length;
         ItemUser.ComponentParent.playerItemSync.BroadcastItemState(GetItemState());
     }
 
@@ -78,18 +78,18 @@ public partial class PaintBubble : BaseItem
     {
         if (stateData.TryGetValue("ColorIndex", out var variantColor))
         {
-            colorIndex = variantColor.AsInt32();
+            _colorIndex = variantColor.AsInt32();
             UpdateVisualLocal();
         }
     }
 
     public override Dictionary GetItemState()
     {
-        return new Dictionary { { "ColorIndex", colorIndex } };
+        return new Dictionary { { "ColorIndex", _colorIndex } };
     }
 
     private void UpdateVisualLocal()
     {
-        ColorAndMeshUtils.ChangeMeshColor(bubble, _colors[colorIndex]);
+        ColorAndMeshUtils.ChangeMeshColor(_bubble, _colors[_colorIndex]);
     }
 }

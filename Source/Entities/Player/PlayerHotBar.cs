@@ -6,18 +6,18 @@ namespace NullGarel.Sandboxnator.Entity;
 
 public partial class PlayerHotBar : Control
 {
-    [Export] private PlayerItemSync playerItemSync;
-    [Export] private TextureRect activeItemIcon;
+    [Export] private PlayerItemSync _playerItemSync;
+    [Export] private TextureRect _activeItemIcon;
 
     public override void _Ready()
     {
         if (!IsMultiplayerAuthority()) return;
-        playerItemSync.OnItemEquipped += UpdateActiveItemIcon;
+        _playerItemSync.OnItemEquipped += UpdateActiveItemIcon;
     }
 
 
     private void UpdateActiveItemIcon(string itemID)
     {
-        activeItemIcon.Texture = GameRegistries.Instance.ItemRegistry.Get(itemID).itemIcon;
+        _activeItemIcon.Texture = GameRegistries.Instance.ItemRegistry.Get(itemID).itemIcon;
     }
 }

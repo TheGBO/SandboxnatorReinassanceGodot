@@ -19,13 +19,13 @@ public partial class ServerDiscovery : Singleton<ServerDiscovery>
     private PacketPeerUdp _broadcaster = new();
     private PacketPeerUdp _listener = new();
     // The broadcast service host runs on this port.
-    [Export] private int broadcastHostPort = 49201;
+    [Export] private int _broadcastHostPort = 49201;
     // The target is this port, since the host doesn't care much (255.255.255.255), it is slightly randomized to avoid collisions when testing on the same machine.
-    [Export] private int broadcastListenPort = 49202;
+    [Export] private int _broadcastListenPort = 49202;
     // I think this is some sort of magic number to send packets to everyone.
-    [Export] private string broadcastAddress = "255.255.255.255";
+    [Export] private string _broadcastAddress = "255.255.255.255";
     // Timeout is a bit misleading, maybe broadcastDelay would be a better name
-    [Export] private double broadcastTimeout = 5;
+    [Export] private double _broadcastTimeout = 5;
     // keep track of time //TODO: maybe move this to a singleton called "ClientTimeTracker"
     private double _elapsedTime = 0;
     public Action<ServerInfoData> OnBroadcastReceived;
@@ -39,7 +39,7 @@ public partial class ServerDiscovery : Singleton<ServerDiscovery>
     public void _DoNot_Process(double delta)
     {
         _elapsedTime += delta;
-        if (_elapsedTime < broadcastTimeout)
+        if (_elapsedTime < _broadcastTimeout)
             return;
 
         _elapsedTime = 0;
@@ -83,7 +83,7 @@ public partial class ServerDiscovery : Singleton<ServerDiscovery>
 
         _broadcaster.SetBroadcastEnabled(true);
         //servers broadcast to the *shared* listening port
-        _broadcaster.SetDestAddress(broadcastAddress, broadcastListenPort);
+        _broadcaster.SetDestAddress(_broadcastAddress, _broadcastListenPort);
 
         //random free local port to make the operating system stop bitching aroond
         var ok = _broadcaster.Bind(0);
@@ -91,7 +91,7 @@ public partial class ServerDiscovery : Singleton<ServerDiscovery>
         if (ok == Error.Ok)
         {
             NcLogger.Log(
-                $"Broadcast service initialized (random bind) targeting {broadcastAddress}:{broadcastListenPort}",
+                $"Broadcast service initialized (random bind) targeting {_broadcastAddress}:{_broadcastListenPort}",
                 NcLogger.LogType.Info,
                 NcLogger.LogFlags.UseDateTime | NcLogger.LogFlags.ShouldSave
             );

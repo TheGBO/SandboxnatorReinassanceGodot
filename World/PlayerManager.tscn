@@ -5,5 +5,5 @@
 
 [node name="PlayerManager" type="Node3D" unique_id=1796557689]
 script = ExtResource("1_di4po")
-playerScene = ExtResource("2_rwxnr")
-rangeOfRandomPos = Vector2(15, 15)
+_playerScene = ExtResource("2_rwxnr")
+_rangeOfRandomPos = Vector2(16, 16)

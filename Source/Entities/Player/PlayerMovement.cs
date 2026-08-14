@@ -9,14 +9,16 @@ namespace NullGarel.Sandboxnator.Entity;
 public partial class PlayerMovement : AbstractComponent<Player>, ISettingsLoader
 {
 	//movement
-	[Export] private CharacterBody3D movementCBody;
+	[ExportCategory("Components")]
+	[Export] private CharacterBody3D _cbody;
 	private float _currentSpeed;
+	[ExportCategory("Movement parameters")]
 	[Export] public float walkSpeed;
 	[Export] public float sprintSpeed;
 	[Export] public float jumpVelocity;
 	private Vector3 _velocity;
-	private bool isMoving;
-	private bool isSprinting;
+	private bool _isMoving;
+	private bool _isSprinting;
 	public float HorizontalSpeed
 	{
 		get
@@ -29,6 +31,7 @@ public partial class PlayerMovement : AbstractComponent<Player>, ISettingsLoader
 	// [Export] public float pushForceScalar = 2f;
 
 	//visual effects
+	[ExportCategory("Visual effects")]
 	[Export] public Camera3D camera;
 	[Export] public float sprintEffectTime = 0.75f;
 	private float _fov = 75;
@@ -53,7 +56,7 @@ public partial class PlayerMovement : AbstractComponent<Player>, ISettingsLoader
 	public override void _PhysicsProcess(double delta)
 	{
 		if (!Multiplayer.HasMultiplayerPeer()) return;
-		if (movementCBody == null) return;
+		if (_cbody == null) return;
 		if (!ComponentParent.IsMultiplayerAuthority()) return;
 		
 		camera.Fov = (float)GameRegistries.Instance.SettingsData.FieldOfView;
@@ -63,38 +66,38 @@ public partial class PlayerMovement : AbstractComponent<Player>, ISettingsLoader
 
 	private void MovementProcess(double delta)
 	{
-		_velocity = movementCBody.Velocity;
+		_velocity = _cbody.Velocity;
 
 		// Add the gravity.
-		if (!movementCBody.IsOnFloor())
+		if (!_cbody.IsOnFloor())
 		{
-			_velocity += movementCBody.GetGravity() * (float)delta;
+			_velocity += _cbody.GetGravity() * (float)delta;
 		}
 
-		if (movementCBody.IsOnFloor() && ComponentParent.playerInput.IsJumping)
+		if (_cbody.IsOnFloor() && ComponentParent.playerInput.IsJumping)
 		{
 			_velocity.Y = jumpVelocity;
 		}
 
-		Vector3 forward = movementCBody.GlobalTransform.Basis.Z;
-		Vector3 right = movementCBody.GlobalTransform.Basis.X;
+		Vector3 forward = _cbody.GlobalTransform.Basis.Z;
+		Vector3 right = _cbody.GlobalTransform.Basis.X;
 
 		Vector2 inputDir = ComponentParent.playerInput.MovementVector;
 		Vector3 direction = (forward * inputDir.Y + right * inputDir.X).Normalized();
-		isMoving = inputDir != Vector2.Zero;
+		_isMoving = inputDir != Vector2.Zero;
 
 		//check for sprint
-		isSprinting = ComponentParent.playerInput.IsSprinting;
-		if (isSprinting)
+		_isSprinting = ComponentParent.playerInput.IsSprinting;
+		if (_isSprinting)
 		{
 			MovementType = PlayerMovementType.Sprint;
 			Sprint(true);
 		}
-		if (isMoving && !isSprinting)
+		if (_isMoving && !_isSprinting)
 		{
 			MovementType = PlayerMovementType.Walk;
 		}
-		if (!isMoving && !isSprinting)
+		if (!_isMoving && !_isSprinting)
 		{
 			MovementType = PlayerMovementType.Idle;
 		}
@@ -106,19 +109,19 @@ public partial class PlayerMovement : AbstractComponent<Player>, ISettingsLoader
 		}
 		else
 		{
-			_velocity.X = Mathf.MoveToward(movementCBody.Velocity.X, 0, _currentSpeed);
-			_velocity.Z = Mathf.MoveToward(movementCBody.Velocity.Z, 0, _currentSpeed);
+			_velocity.X = Mathf.MoveToward(_cbody.Velocity.X, 0, _currentSpeed);
+			_velocity.Z = Mathf.MoveToward(_cbody.Velocity.Z, 0, _currentSpeed);
 		}
 
-		movementCBody.Velocity = _velocity;
-		movementCBody.MoveAndSlide();
+		_cbody.Velocity = _velocity;
+		_cbody.MoveAndSlide();
 	}
 
 	private void SoundEffectProcess()
 	{
-		if (isMoving && movementCBody.IsOnFloor())
+		if (_isMoving && _cbody.IsOnFloor())
 		{
-			float footstepDelay = isSprinting ? 0.1f : 0.25f;
+			float footstepDelay = _isSprinting ? 0.1f : 0.25f;
 			ComponentParent.playerSounds.PlayGenericFootstep(footstepDelay);
 		}
 	}

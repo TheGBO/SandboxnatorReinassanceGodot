@@ -7,9 +7,9 @@
 [node name="ItemCone" unique_id=1583310942 instance=ExtResource("1_13c64")]
 buildingScene = ExtResource("2_x31gy")
 
-[node name="HandItem" parent="." index="0"]
+[node name="HandItem" parent="." index="0" unique_id=348518840]
 transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0.2, 0)
 mesh = ExtResource("3_76muv")
 
-[node name="PreviewMesh" parent="." index="1"]
+[node name="PreviewMesh" parent="." index="1" unique_id=1177653492]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.8054051, -0.23916125, 1.1351775)

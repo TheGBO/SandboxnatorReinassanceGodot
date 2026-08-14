@@ -7,14 +7,14 @@ namespace NullGarel.Sandboxnator.Audio;
 
 public partial class WorldAudioManager : Singleton<WorldAudioManager>
 {
-	[Export] private int poolSize = 32;
+	[Export] private int _poolSize = 32;
 	private Array<AudioStreamPlayer3D> _streamPlayerPool = new();
 	private int _nextPoolIndex = 0;
 
 	public override void _Ready()
 	{
 		Instance = this;
-		for (int i = 0; i < poolSize; i++)
+		for (int i = 0; i < _poolSize; i++)
 		{
 			var streamPlayer = new AudioStreamPlayer3D
 			{
@@ -35,7 +35,7 @@ public partial class WorldAudioManager : Singleton<WorldAudioManager>
 		if (stream == null) return;
 
 		var streamPlayer = _streamPlayerPool[_nextPoolIndex];
-		_nextPoolIndex = (_nextPoolIndex + 1) % poolSize;
+		_nextPoolIndex = (_nextPoolIndex + 1) % _poolSize;
 
 		streamPlayer.Stop();
 		streamPlayer.GlobalPosition = globalPosition;

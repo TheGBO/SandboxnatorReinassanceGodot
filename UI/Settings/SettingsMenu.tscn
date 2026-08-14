@@ -105,14 +105,13 @@ min_value = 25.0
 max_value = 120.0
 value = 25.0
 
-[node name="ValueLabel" type="Label" parent="RootPanel/MarginContainer/VBoxContainer/Panel/TabContainer/Controls/VBoxContainer/FovProperty/hbox" unique_id=1569865131 node_paths=PackedStringArray("displayValue")]
+[node name="FovValueLabel" type="Label" parent="RootPanel/MarginContainer/VBoxContainer/Panel/TabContainer/Controls/VBoxContainer/FovProperty/hbox" unique_id=1569865131 node_paths=PackedStringArray("_displayValue")]
 layout_mode = 2
 theme = ExtResource("1_fc8s3")
 theme_override_fonts/font = ExtResource("10_2t4x0")
 text = "0"
 script = ExtResource("3_cgddo")
-displayValue = NodePath("../FovSlider")
-displayPrefix = "= "
+_displayValue = NodePath("../FovSlider")
 
 [node name="SensitivityProperty" type="MarginContainer" parent="RootPanel/MarginContainer/VBoxContainer/Panel/TabContainer/Controls/VBoxContainer" unique_id=692162451]
 layout_mode = 2
@@ -140,14 +139,13 @@ min_value = 16.0
 max_value = 255.0
 value = 16.0
 
-[node name="ValueLabel" type="Label" parent="RootPanel/MarginContainer/VBoxContainer/Panel/TabContainer/Controls/VBoxContainer/SensitivityProperty/hbox" unique_id=750954489 node_paths=PackedStringArray("displayValue")]
+[node name="SensValueLabel" type="Label" parent="RootPanel/MarginContainer/VBoxContainer/Panel/TabContainer/Controls/VBoxContainer/SensitivityProperty/hbox" unique_id=750954489 node_paths=PackedStringArray("_displayValue")]
 layout_mode = 2
 theme = ExtResource("1_fc8s3")
 theme_override_fonts/font = ExtResource("10_2t4x0")
 text = "0"
 script = ExtResource("3_cgddo")
-displayValue = NodePath("../SensitivitySlider")
-displayPrefix = "= "
+_displayValue = NodePath("../SensitivitySlider")
 
 [node name="Graphics" type="TabBar" parent="RootPanel/MarginContainer/VBoxContainer/Panel/TabContainer" unique_id=328691987]
 visible = false

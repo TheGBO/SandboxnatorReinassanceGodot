@@ -5,6 +5,6 @@
 
 [node name="PlacedCube" unique_id=1333239392 instance=ExtResource("1_1uskk")]
 
-[node name="Paintable" type="Node3D" parent="ComponentHolder" parent_id_path=PackedInt32Array(1442099316) index="0" unique_id=1874341437 node_paths=PackedStringArray("targetMeshes")]
+[node name="Paintable" type="Node3D" parent="ComponentHolder" parent_id_path=PackedInt32Array(1442099316) index="0" unique_id=1874341437 node_paths=PackedStringArray("_targetMeshes")]
 script = ExtResource("2_o6dq1")
-targetMeshes = [NodePath("../../MeshInstance3D")]
+_targetMeshes = [NodePath("../../MeshInstance3D")]

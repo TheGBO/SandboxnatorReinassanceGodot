@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://brra32kqxyt3m"]
+[gd_scene format=3 uid="uid://brra32kqxyt3m"]
 
 [ext_resource type="Script" uid="uid://dlgpemynsx233" path="res://Source/Items/PlacingItem.cs" id="1_wv8dl"]
 [ext_resource type="Material" uid="uid://b8qe5ox5smlkp" path="res://Assets/Materials/Preview.tres" id="2_a2mfg"]
@@ -10,25 +10,24 @@ material = ExtResource("2_a2mfg")
 [sub_resource type="BoxShape3D" id="BoxShape3D_pcbtr"]
 size = Vector3(0.95, 0.95, 0.95)
 
-[node name="BasePlacingItem" type="Node3D" node_paths=PackedStringArray("previewMesh", "previewCollider")]
+[node name="BasePlacingItem" type="Node3D" unique_id=1913946057 node_paths=PackedStringArray("_previewMesh", "_previewCollider")]
 script = ExtResource("1_wv8dl")
-previewMesh = NodePath("PreviewMesh")
-previewCollider = NodePath("PreviewCollider")
-snapRange = 0.5
+_previewMesh = NodePath("PreviewMesh")
+_previewCollider = NodePath("PreviewCollider")
 animateHand = true
 usageCooldown = 0.2
 
-[node name="HandItem" type="MeshInstance3D" parent="."]
+[node name="HandItem" type="MeshInstance3D" parent="." unique_id=348518840]
 transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0, 0, 0)
 
-[node name="PreviewMesh" type="MeshInstance3D" parent="."]
+[node name="PreviewMesh" type="MeshInstance3D" parent="." unique_id=1177653492]
 top_level = true
 visible = false
 mesh = SubResource("BoxMesh_caru3")
 
-[node name="PreviewCollider" type="Area3D" parent="."]
+[node name="PreviewCollider" type="Area3D" parent="." unique_id=1593557762]
 top_level = true
 script = ExtResource("3_a2mfg")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="PreviewCollider"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PreviewCollider" unique_id=1322786859]
 shape = SubResource("BoxShape3D_pcbtr")

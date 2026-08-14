@@ -11,8 +11,8 @@ namespace NullGarel.Sandboxnator.Entity;
 /// </summary>
 public partial class PlayerItemVisuals : AbstractComponent<Player>
 {
-	[Export] public Node3D hand;
-	[Export] private AnimationPlayer handAnimator;
+	[Export] private Node3D _hand;
+	[Export] private AnimationPlayer _handAnimator;
 
 	private BaseItem _activeItemNode;
 
@@ -28,9 +28,9 @@ public partial class PlayerItemVisuals : AbstractComponent<Player>
 
 	private void UpdateItemModel(string itemId)
 	{
-		foreach (var model in hand.GetChildren())
+		foreach (var model in _hand.GetChildren())
 		{
-			hand.RemoveChild(model);
+			_hand.RemoveChild(model);
 			model.QueueFree();
 		}
 
@@ -42,15 +42,15 @@ public partial class PlayerItemVisuals : AbstractComponent<Player>
 		_activeItemNode.Name = "EquippedItem";
 		_activeItemNode.ItemUser = ComponentParent.playerItemUse;
 		ComponentParent.playerItemUse.SetActiveItem(_activeItemNode);
-		hand.AddChild(_activeItemNode);
+		_hand.AddChild(_activeItemNode);
 	}
 
 	public void PlayUseAnimation()
 	{
 		if (_activeItemNode != null && _activeItemNode.animateHand)
 		{
-			handAnimator.Stop();
-			handAnimator.Play("HandUse");
+			_handAnimator.Stop();
+			_handAnimator.Play("HandUse");
 		}
 	}
 }

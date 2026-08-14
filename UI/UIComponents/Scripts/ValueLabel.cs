@@ -3,8 +3,8 @@ namespace NullGarel.Sandboxnator.UI;
 
 public partial class ValueLabel : Label
 {
-	[Export] private Range displayValue;
-	[Export] private string displayPrefix = "";
+	[Export] private Range _displayValue;
+	[Export] private string _displayPrefix = "";
 
 	public override void _Process(double delta)
 	{
@@ -13,6 +13,6 @@ public partial class ValueLabel : Label
 
 	private void LabelDisplayValue()
 	{
-		Text = $"{displayPrefix}{displayValue.Value}";
+		Text = $"{_displayPrefix}{_displayValue.Value}";
 	}
 }

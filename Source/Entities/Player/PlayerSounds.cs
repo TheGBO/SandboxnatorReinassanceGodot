@@ -5,20 +5,20 @@ using NullGarel.Util.ComponentSystem;
 
 public partial class PlayerSounds : AbstractComponent<Player>
 {
-    [Export] private AudioStreamPlayer3D streamPlayer;
+    [Export] private AudioStreamPlayer3D _streamPlayer;
 
     [ExportGroup("Footsteps")]
-    [Export] private Array<AudioStream> genericFootsteps;
+    [Export] private Array<AudioStream> _genericFootsteps;
 
     public void PlayGenericFootstep(float footstepDelay = 0.25f)
     {
-        if (streamPlayer.Playing) return;
+        if (_streamPlayer.Playing) return;
 
         SceneTreeTimer footstepSoundTimer = GetTree().CreateTimer(footstepDelay);
         footstepSoundTimer.Timeout += () =>
         {
-            streamPlayer.Stream = genericFootsteps.PickRandom();
-            streamPlayer.Play();
+            _streamPlayer.Stream = _genericFootsteps.PickRandom();
+            _streamPlayer.Play();
         };
 
     }

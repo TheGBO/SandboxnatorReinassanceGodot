@@ -12,10 +12,10 @@ height = 0.5
 radial_segments = 8
 rings = 8
 
-[node name="PaintBubble" unique_id=739710040 node_paths=PackedStringArray("bubble") instance=ExtResource("1_3sn1u")]
+[node name="PaintBubble" unique_id=739710040 node_paths=PackedStringArray("_bubble") instance=ExtResource("1_3sn1u")]
 script = ExtResource("2_q3ce8")
-bubble = NodePath("MeshInstance3D")
-colorIndex = 0
+_bubble = NodePath("MeshInstance3D")
+_colorIndex = 0
 RaycastRangeOverride = 32.0
 animateHand = false
 

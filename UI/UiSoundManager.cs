@@ -7,9 +7,9 @@ namespace NullGarel.Sandboxnator.UI;
 
 public partial class UiSoundManager : Singleton<UiSoundManager>
 {
-	[Export] private AudioStreamPlayer hoverSound;
-	[Export] private AudioStreamPlayer interactSound;
-	[Export] private AudioStreamPlayer popUpSound;
+	[Export] private AudioStreamPlayer _hoverSound;
+	[Export] private AudioStreamPlayer _interactSound;
+	[Export] private AudioStreamPlayer _popUpSound;
 
 	/// <summary>
 	/// Called to set up InstallSounds
@@ -55,14 +55,14 @@ public partial class UiSoundManager : Singleton<UiSoundManager>
 		switch (soundType)
 		{
 			case UiSoundType.Hover:
-				hoverSound.PitchScale = 1f + (float)GD.RandRange(-0.25, 0.25);
-				hoverSound.Play();
+				_hoverSound.PitchScale = 1f + (float)GD.RandRange(-0.25, 0.25);
+				_hoverSound.Play();
 				break;
 			case UiSoundType.Interact:
-				interactSound.Play();
+				_interactSound.Play();
 				break;
 			case UiSoundType.PopUp:
-				popUpSound.Play();
+				_popUpSound.Play();
 				break;
 
 		}

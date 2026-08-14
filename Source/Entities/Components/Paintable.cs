@@ -8,7 +8,7 @@ namespace NullGarel.Sandboxnator.Building;
 
 public partial class Paintable : AbstractComponent<Placeable>
 {
-	[Export] private Array<MeshInstance3D> targetMeshes;
+	[Export] private Array<MeshInstance3D> _targetMeshes;
 	private Color currentColor = new(1, 1, 1); //default white
 
 	public override void _Ready()
@@ -30,7 +30,7 @@ public partial class Paintable : AbstractComponent<Placeable>
 	private void ApplyColor(Color color)
 	{
 		currentColor = color;
-		foreach (var mesh in targetMeshes)
+		foreach (var mesh in _targetMeshes)
 			ColorAndMeshUtils.ChangeMeshColor(mesh, color);
 	}
 

@@ -11,11 +11,11 @@ namespace NullGarel.Sandboxnator.Entity;
 public partial class PlayerVisualSync : AbstractComponent<Player>
 {
 	[ExportGroup("In-Game")]
-	[Export] private Array<Node3D> elementsToHideAsFirstPerson;
+	[Export] private Array<Node3D> _elementsToHideAsFirstPerson;
 
 	[ExportGroup("Player model")]
-	[Export] private PlayerModel playerModel;
-	[Export] public Label3D nameTag;
+	[Export] private PlayerModel _playerModel;
+	[Export] public Label3D _nameTag;
 
 	//Serialization
 	private PlayerProfileData _profileData = new();
@@ -45,10 +45,10 @@ public partial class PlayerVisualSync : AbstractComponent<Player>
 	{
 		if (IsMultiplayerAuthority())
 		{
-			foreach (Node3D element in elementsToHideAsFirstPerson)
+			foreach (Node3D element in _elementsToHideAsFirstPerson)
 				element.Visible = false;
 			ProfileDataDict = DictPack.Serialize(PlayerProfileManager.Instance.CurrentProfile);
-			ColorAndMeshUtils.SetMeshClip(playerModel.handMesh, true);
+			ColorAndMeshUtils.SetMeshClip(_playerModel.handMesh, true);
 		}
 	}
 
@@ -65,16 +65,16 @@ public partial class PlayerVisualSync : AbstractComponent<Player>
 			ComponentParent.ProfileData = _profileData;
 		}
 
-		if (IsInstanceValid(nameTag))
+		if (IsInstanceValid(_nameTag))
 		{
-			nameTag.Text = profile.PlayerName;
-			nameTag.Modulate = profile.PlayerColor;
-			nameTag.OutlineModulate = ColorAndMeshUtils.InvertColor(profile.PlayerColor);
+			_nameTag.Text = profile.PlayerName;
+			_nameTag.Modulate = profile.PlayerColor;
+			_nameTag.OutlineModulate = ColorAndMeshUtils.InvertColor(profile.PlayerColor);
 		}
 
-		if (IsInstanceValid(playerModel))
+		if (IsInstanceValid(_playerModel))
 		{
-			playerModel.UpdateVisual(profile);
+			_playerModel.UpdateVisual(profile);
 		}
 	}
 

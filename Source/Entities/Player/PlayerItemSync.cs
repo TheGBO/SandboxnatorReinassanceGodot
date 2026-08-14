@@ -11,7 +11,7 @@ namespace NullGarel.Sandboxnator.Entity;
 /// </summary>
 public partial class PlayerItemSync : AbstractComponent<Player>
 {
-    [Export] private Array<string> inventory = [];
+    [Export] private Array<string> _inventory = [];
     private int _inventoryIndex;
     public event Action<string> OnItemEquipped;
 
@@ -49,9 +49,9 @@ public partial class PlayerItemSync : AbstractComponent<Player>
         {
             OnItemEquipped?.Invoke(_currentItemId);
         }
-        else if (Multiplayer.IsServer() && inventory.Count > 0)
+        else if (Multiplayer.IsServer() && _inventory.Count > 0)
         {
-            CurrentItemId = inventory[0];
+            CurrentItemId = _inventory[0];
         }
 
         if (Multiplayer.IsServer())
@@ -74,10 +74,10 @@ public partial class PlayerItemSync : AbstractComponent<Player>
     [Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
     private void ServerBoundRequestCycleItem(int increment)
     {
-        if (!Multiplayer.IsServer() || inventory.Count == 0) return;
+        if (!Multiplayer.IsServer() || _inventory.Count == 0) return;
 
         _inventoryIndex += increment;
-        string nextItemId = inventory[Mathf.Abs(_inventoryIndex % inventory.Count)];
+        string nextItemId = _inventory[Mathf.Abs(_inventoryIndex % _inventory.Count)];
 
         CurrentItemId = nextItemId;
         Rpc(nameof(ClientBoundConfirmItemChange), nextItemId);

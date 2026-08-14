@@ -11,11 +11,11 @@ namespace NullGarel.Sandboxnator.Item;
 public partial class PlacingItem : BaseItem
 {
 	[Export] public PackedScene buildingScene;
-	[Export] private MeshInstance3D previewMesh;
-	[Export] private PreviewCollider previewCollider;
-	[Export] private float snapRange = 0.5f;
-	[Export] private float normalOffset = 1;
-	[Export] private Vector3 gridSize = new(0.5f, 0.5f, 0.5f);
+	[Export] private MeshInstance3D _previewMesh;
+	[Export] private PreviewCollider _previewCollider;
+	[Export] private float _snapRange = 0.5f;
+	[Export] private float _normalOffset = 1;
+	[Export] private Vector3 _gridSize = new(0.5f, 0.5f, 0.5f);
 	/// <summary>
 	/// _isGrid defines if the building mode will be grid-based or snap-based
 	/// true=grid
@@ -39,17 +39,17 @@ public partial class PlacingItem : BaseItem
 	//Client Side
 	private void GeneratePreviewMesh()
 	{
-		ItemUser.isUseValid = !previewCollider.IsColliding;
+		ItemUser.isUseValid = !_previewCollider.IsColliding;
 
-		previewMesh.Visible = ItemUser.rayCast.IsColliding() && ItemUser.isUseValid;
-		previewMesh.GlobalPosition = GetSnappedPosition(
+		_previewMesh.Visible = ItemUser.rayCast.IsColliding() && ItemUser.isUseValid;
+		_previewMesh.GlobalPosition = GetSnappedPosition(
 			ItemUser.rayCast.GetCollisionPoint(),
 			ItemUser.rayCast.GetCollisionNormal(),
 			ItemUser.ComponentParent.playerInput.IsGridSnapMode
 			);
-		previewMesh.GlobalRotation = ItemUser.DesiredRotation;
-		previewCollider.GlobalPosition = previewMesh.GlobalPosition;
-		previewCollider.GlobalRotation = previewMesh.GlobalRotation;
+		_previewMesh.GlobalRotation = ItemUser.DesiredRotation;
+		_previewCollider.GlobalPosition = _previewMesh.GlobalPosition;
+		_previewCollider.GlobalRotation = _previewMesh.GlobalRotation;
 
 	}
 
@@ -80,14 +80,14 @@ public partial class PlacingItem : BaseItem
 	{
 		Vector3 offsetPos = collisionPoint + (collisionNormal * 0.5f);
 		if (!hasGrid)
-			return SandboxnatorMain.World.GetNearestSnapper(offsetPos, snapRange);
+			return SandboxnatorMain.World.GetNearestSnapper(offsetPos, _snapRange);
 
 		//else if has a grid
 		Vector3 snapped = new
 		(
-			Mathf.Floor(offsetPos.X + gridSize.X),
-			Mathf.Floor(offsetPos.Y + gridSize.Y),
-			Mathf.Floor(offsetPos.Z + gridSize.Z)
+			Mathf.Floor(offsetPos.X + _gridSize.X),
+			Mathf.Floor(offsetPos.Y + _gridSize.Y),
+			Mathf.Floor(offsetPos.Z + _gridSize.Z)
 		);
 		return snapped;
 	}

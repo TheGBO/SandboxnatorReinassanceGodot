@@ -251,7 +251,7 @@ grow_vertical = 2
 scale = Vector2(2, 2)
 texture = ExtResource("8_2c07k")
 
-[node name="HotBar" type="Control" parent="HUD" unique_id=1154890998 node_paths=PackedStringArray("playerItemSync", "activeItemIcon")]
+[node name="HotBar" type="Control" parent="HUD" unique_id=1154890998 node_paths=PackedStringArray("_playerItemSync", "_activeItemIcon")]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -263,8 +263,8 @@ offset_bottom = -60.0
 grow_horizontal = 2
 grow_vertical = 0
 script = ExtResource("3_a5byf")
-playerItemSync = NodePath("../../ComponentHolder/PlayerItemSync")
-activeItemIcon = NodePath("MarginContainer/Items/ActiveItemContainer/ItemIconContainer/ItemIconTexture")
+_playerItemSync = NodePath("../../ComponentHolder/PlayerItemSync")
+_activeItemIcon = NodePath("MarginContainer/Items/ActiveItemContainer/ItemIconContainer/ItemIconTexture")
 
 [node name="MarginContainer" type="MarginContainer" parent="HUD/HotBar" unique_id=922137773]
 layout_mode = 1
@@ -471,9 +471,9 @@ shape = SubResource("CapsuleShape3D_7hef5")
 [node name="ComponentHolder" type="Node" parent="." unique_id=1298016837]
 script = ExtResource("7_kauam")
 
-[node name="PlayerMovement" type="Node3D" parent="ComponentHolder" unique_id=88819430 node_paths=PackedStringArray("movementCBody", "camera")]
+[node name="PlayerMovement" type="Node3D" parent="ComponentHolder" unique_id=88819430 node_paths=PackedStringArray("_cbody", "camera")]
 script = ExtResource("1_fmfn4")
-movementCBody = NodePath("../..")
+_cbody = NodePath("../..")
 walkSpeed = 2.8
 sprintSpeed = 7.23
 jumpVelocity = 8.0
@@ -507,19 +507,16 @@ _messageFadeOutTimer = NodePath("MessageFadeOutTimer")
 
 [node name="MessageFadeOutTimer" type="Timer" parent="ComponentHolder/PlayerChatHUD" unique_id=373599928]
 
-[node name="HandSway" type="Node3D" parent="ComponentHolder" unique_id=675638470 node_paths=PackedStringArray("hand")]
+[node name="HandSway" type="Node3D" parent="ComponentHolder" unique_id=675638470 node_paths=PackedStringArray("_hand")]
 script = ExtResource("11_v2xwv")
-swaySpeed = 3.0
-hand = NodePath("../../PlayerModel/Node/Hands/right_H/Hand_R/HoldingPoint/Hand")
-rightSway = Vector3(0, 0.56, 0)
-leftSway = Vector3(0, -0.56, 0)
-swayThreshold = 5.0
+_hand = NodePath("../../PlayerModel/Node/Hands/right_H/Hand_R/HoldingPoint/Hand")
 
-[node name="PlayerVisualSync" type="Node3D" parent="ComponentHolder" unique_id=1823580024 node_paths=PackedStringArray("elementsToHideAsFirstPerson", "playerModel", "nameTag")]
+[node name="PlayerVisualSync" type="Node3D" parent="ComponentHolder" unique_id=1823580024 node_paths=PackedStringArray("_elementsToHideAsFirstPerson", "_playerModel", "_nameTag")]
 script = ExtResource("14_3e0s0")
-elementsToHideAsFirstPerson = [NodePath("../../PlayerModel/Node/HeadHolder"), NodePath("../../NameTagHolder/NameTag")]
-playerModel = NodePath("../../PlayerModel")
-nameTag = NodePath("../../NameTagHolder/NameTag")
+_elementsToHideAsFirstPerson = [NodePath("../../PlayerModel/Node/HeadHolder"), NodePath("../../NameTagHolder/NameTag")]
+_playerModel = NodePath("../../PlayerModel")
+_nameTag = NodePath("../../NameTagHolder/NameTag")
+ProfileDataDict = {}
 
 [node name="PlayerHUD" type="Node3D" parent="ComponentHolder" unique_id=736340043 node_paths=PackedStringArray("chatRoot", "_hotBar", "_escMenu", "_leaveGameBtn", "_settingsBtn", "_alignmentInformationIcon")]
 script = ExtResource("13_7hef5")
@@ -534,21 +531,21 @@ _snapperIcon = ExtResource("16_2nyvo")
 
 [node name="PlayerItemSync" type="Node3D" parent="ComponentHolder" unique_id=2081320656]
 script = ExtResource("14_a5byf")
-inventory = Array[String](["Hammer", "Cube", "Cone", "PaintBubble", "Compass"])
+_inventory = Array[String](["Hammer", "PaintBubble", "Compass", "Cone", "Cube"])
 CurrentItemId = "Hammer"
 
-[node name="PlayerSounds" type="Node3D" parent="ComponentHolder" unique_id=1285901011 node_paths=PackedStringArray("streamPlayer")]
+[node name="PlayerSounds" type="Node3D" parent="ComponentHolder" unique_id=1285901011 node_paths=PackedStringArray("_streamPlayer")]
 script = ExtResource("16_ckclx")
-streamPlayer = NodePath("AudioStreamPlayer3D")
-genericFootsteps = Array[AudioStream]([ExtResource("17_l24fo"), ExtResource("18_a7eri"), ExtResource("19_251ni"), ExtResource("20_f17go"), ExtResource("21_2nyvo"), ExtResource("22_2nyvo")])
+_streamPlayer = NodePath("AudioStreamPlayer3D")
+_genericFootsteps = Array[AudioStream]([ExtResource("17_l24fo"), ExtResource("18_a7eri"), ExtResource("19_251ni"), ExtResource("20_f17go"), ExtResource("21_2nyvo"), ExtResource("22_2nyvo")])
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="ComponentHolder/PlayerSounds" unique_id=1116531485]
 attenuation_model = 3
 
-[node name="PlayerItemVisuals" type="Node3D" parent="ComponentHolder" unique_id=235495478 node_paths=PackedStringArray("hand", "handAnimator")]
+[node name="PlayerItemVisuals" type="Node3D" parent="ComponentHolder" unique_id=235495478 node_paths=PackedStringArray("_hand", "_handAnimator")]
 script = ExtResource("23_a7eri")
-hand = NodePath("../../PlayerModel/Node/Hands/right_H/Hand_R/HoldingPoint/Hand")
-handAnimator = NodePath("../PlayerItemUse/HandAnimator")
+_hand = NodePath("../../PlayerModel/Node/Hands/right_H/Hand_R/HoldingPoint/Hand")
+_handAnimator = NodePath("../PlayerItemUse/HandAnimator")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=41916486]
 replication_config = SubResource("SceneReplicationConfig_bglb2")
