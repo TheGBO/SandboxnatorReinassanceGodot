@@ -1,21 +1,24 @@
 using Godot;
 using NullGarel.Sandboxnator.Network;
+using NullGarel.Sandboxnator.UI;
 using NullGarel.Util.ComponentSystem;
+using NullGarel.Util.Log;
 using System;
 namespace NullGarel.Sandboxnator.Entity;
 
 /// <summary>
 /// Centralized component of Graphical User Interface to a player
-/// TODO: Centralize other HUD elements to be held by this class instead of scattered through other scripts.
-/// ? What hud elements exactly? i need to ellaborate this further xd
 /// </summary>
 [GodotClassName(nameof(PlayerHUD))]
-public partial class PlayerHUD : AbstractComponent<Player>
+public partial class PlayerHUD : AbstractComponent<Player>, IUiSignalLoader
 {
     [ExportCategory("Main Controls")]
     [Export] public Control chatRoot;
-    [Export] private Control _escMenu;
     [Export] private Control _hotBar;
+    [ExportCategory("ESC Menu")]
+    [Export] private Control _escMenu;
+    [Export] private Button _leaveGameBtn;
+    [Export] private Button _settingsBtn;
 
     [ExportCategory("Grid vs snapper information")]
     [Export] private TextureRect _alignmentInformationIcon;
@@ -30,6 +33,8 @@ public partial class PlayerHUD : AbstractComponent<Player>
         if (!IsMultiplayerAuthority())
             return;
 
+        ConnectUISignals();
+
         var playerInput = ComponentParent.playerInput;
 
         playerInput.OnUiEscape += () =>
@@ -42,16 +47,10 @@ public partial class PlayerHUD : AbstractComponent<Player>
             _escMenu.Visible = !_escMenu.Visible;
         };
 
-        playerInput.ChangeSnapMode += (bool isGrid) =>
+        playerInput.OnChangeSnapMode += isGrid =>
         {
             _alignmentInformationIcon.Texture = isGrid ? _gridIcon : _snapperIcon;
         };
-    }
-
-    public void _on_leave_game_btn_pressed()
-    {
-        NetworkManager.Instance.QuitConnection();
-        GetTree().ReloadCurrentScene();
     }
 
     public override void _Process(double delta)
@@ -59,5 +58,15 @@ public partial class PlayerHUD : AbstractComponent<Player>
         if (!IsMultiplayerAuthority()) return;
 
         IsHudBeingUsed = IsChatOpen || _escMenu.Visible;
+    }
+
+    public void ConnectUISignals()
+    {
+        //TODO: inject information onto the settings menu on whether return to world or to main menu
+        _settingsBtn.Pressed += () => { NcLogger.Log("NOT IMPLEMENTED XD"); };
+        _leaveGameBtn.Pressed += () =>
+        {
+            SandboxnatorMain.Instance.LeaveWorld();
+        };
     }
 }

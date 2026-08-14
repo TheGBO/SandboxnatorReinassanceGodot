@@ -44,7 +44,7 @@ public partial class ChatManager : Singleton<ChatManager>
         if (!Multiplayer.IsServer()) return;
 
         long senderPeerId = Multiplayer.GetRemoteSenderId();
-        Player sender = World.Instance.GetPlayerById((int)senderPeerId);
+        Player sender = SandboxnatorMain.World.GetPlayerById((int)senderPeerId);
 
         if (sender == null)
         {
@@ -78,7 +78,7 @@ public partial class ChatManager : Singleton<ChatManager>
         }
         else
         {
-            Player sender = World.Instance.GetPlayerById(senderPeerId);
+            Player sender = SandboxnatorMain.World.GetPlayerById(senderPeerId);
             if (sender != null)
             {
                 senderProfile = sender.ProfileData;

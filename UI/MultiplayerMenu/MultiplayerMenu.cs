@@ -3,29 +3,38 @@ using NullGarel.Sandboxnator.Network;
 using System;
 namespace NullGarel.Sandboxnator.UI;
 
-public partial class MultiplayerMenu : Control
+public partial class MultiplayerMenu : Control, IUiSignalLoader
 {
-	[Export] private SpinBox portInput;
-	[Export] private LineEdit ipAddressInput;
-	[Export] private Control connectionMenu;
-	[Export] private Control loadingScreen;
-	[Export] private ProgressBar timeoutProgress;
-	[Export] private Button cancelConnectionBtn;
+	[ExportCategory("Network inputs")]
+	[Export] private SpinBox _portInput;
+	[Export] private LineEdit _ipAddressInput;
+	[Export] private Button _hostBtn;
+	[Export] private Button _joinBtn;
+	[Export] private Button _mainMenuBtn;
+	[ExportCategory("Screens")]
+	[Export] private Control _connectionMenu;
+	[Export] private Control _loadingScreen;
+	[Export] private ProgressBar _timeoutProgress;
+	[Export] private Button _cancelConnectionBtn;
 
 	public override void _Ready()
 	{
-		UiSoundManager.Instance.TryInstallSounds();
-		timeoutProgress.MaxValue = NetworkManager.ConnectionTimeoutLimit;
-		cancelConnectionBtn.Pressed += () =>
-		{
-			NetworkManager.Instance.QuitConnection();
-		};
+		ConnectUISignals();
+		_timeoutProgress.MaxValue = NetworkManager.ConnectionTimeoutLimit;
+
 	}
 
 	public override void _Process(double delta)
 	{
-		timeoutProgress.Value = NetworkManager.ConnectionTimeoutLimit - NetworkManager.Instance.ElapsedConnectionTime;
-		loadingScreen.Visible = NetworkManager.Instance.IsConnecting;
+		if (!Visible)
+			return;
+
+		NetworkManager network = NetworkManager.Instance;
+		if (network == null)
+			return;
+
+		_timeoutProgress.Value = NetworkManager.ConnectionTimeoutLimit - NetworkManager.Instance.ElapsedConnectionTime;
+		_loadingScreen.Visible = NetworkManager.Instance.IsConnecting;
 		bool showMenu = true;
 
 		if (NetworkManager.Instance.peer != null)
@@ -35,25 +44,30 @@ public partial class MultiplayerMenu : Control
 					status != MultiplayerPeer.ConnectionStatus.Connecting;
 		}
 
-		connectionMenu.Visible = showMenu;
-		//TODO: add timeout message
+		_connectionMenu.Visible = showMenu;
 	}
 
-	public void _on_host_btn_pressed()
+	public void ConnectUISignals()
 	{
-		NetworkManager.Instance.HostGame((int)portInput.Value, false);
+		_cancelConnectionBtn.Pressed += () =>
+		{
+			NetworkManager.Instance.QuitConnection();
+		};
 
+		_hostBtn.Pressed += () =>
+		{
+			if (NetworkManager.Instance == null)
+			{
+				GD.PushError("MultiplayerMenu: NetworkManager.Instance is null when attempting to host.");
+				return;
+			}
+
+			NetworkManager.Instance.HostGame(
+				(int)_portInput.Value,
+				false);
+		};
+
+		_joinBtn.Pressed += () => NetworkManager.Instance.JoinGame((int)_portInput.Value, _ipAddressInput.Text);
+		_mainMenuBtn.Pressed += () => SandboxnatorMain.Instance.ActivateMainMenu();
 	}
-
-	public void _on_join_btn_pressed()
-	{
-		NetworkManager.Instance.JoinGame((int)portInput.Value, ipAddressInput.Text);
-	}
-
-	public void _on_main_menu_btn_pressed()
-	{
-
-		GetTree().ChangeSceneToPacked(ScenesBank.Instance.mainMenuScene);
-	}
-
 }

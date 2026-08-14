@@ -3,31 +3,39 @@ using System;
 namespace NullGarel.Sandboxnator.UI;
 
 
-public partial class MainMenu : Control
+public partial class MainMenu : Control, IUiSignalLoader
 {
-	[Export] public AcceptDialog notImplementedDialog;
-	[Export] public ConfirmationDialog exitDialog;
+	[ExportCategory("Dialog boxes")]
+	[Export] private ConfirmationDialog _exitDialog;
+	[ExportCategory("Main buttons")]
+	[Export] private Button _playBtn;
+	[Export] private Button _profileEditBtn;
+	[Export] private Button _settingsBtn;
+	[Export] private Button _exitBtn;
+
 
 	public override void _Ready()
 	{
-		UiSoundManager.Instance.TryInstallSounds();
+		ConnectUISignals();
 	}
 
-	public void _on_exit_btn_pressed()
+	public void ConnectUISignals()
 	{
-		exitDialog.Popup();
-		UiSoundManager.Instance.PlaySfxSound(UiSoundType.PopUp);
+		_playBtn.Pressed += () => SandboxnatorMain.Instance?.ActivateWorldMenu();
+		_settingsBtn.Pressed += () => SandboxnatorMain.Instance?.ActivateSettingsMenu();
+		_profileEditBtn.Pressed += () => SandboxnatorMain.Instance?.ActivateProfileEditMenu();
+
+		_exitBtn.Pressed += () =>
+		{
+			_exitDialog.Popup();
+			UiSoundManager.Instance.PlaySfxSound(UiSoundType.PopUp);
+		};
+		_exitDialog.Confirmed += ExitDialogConfirmed;
 	}
 
-	public void _on_exit_dialog_confirmed()
+	public void ExitDialogConfirmed()
 	{
-		ApplicationManager.Instance.OnCloseRequested();
-		GetTree().Quit();
+		ApplicationManager.Instance.HandleCloseRequest();
 	}
 
-	private void ShowNotImplentedPopup()
-	{
-		UiSoundManager.Instance.PlaySfxSound(UiSoundType.PopUp);
-		notImplementedDialog.Popup();
-	}
 }

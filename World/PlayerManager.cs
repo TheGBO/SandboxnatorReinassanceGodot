@@ -42,20 +42,20 @@ public partial class PlayerManager : Singleton<PlayerManager>
 		player.Name = id.ToString();
 
 		//handling those stupid ass exceptions
-		if (World.Instance == null)
+		if (SandboxnatorMain.World == null)
 		{
-			NcLogger.Log("World.Instance is null!", NcLogger.LogType.Error);
+			NcLogger.Log("SandboxnatorMain.World is null!", NcLogger.LogType.Error);
 		}
-		else if (World.Instance.networkedEntities == null)
+		else if (SandboxnatorMain.World.networkedEntities == null)
 		{
-			NcLogger.Log("World.Instance.networkedEntities is null!", NcLogger.LogType.Error);
+			NcLogger.Log("SandboxnatorMain.World.networkedEntities is null!", NcLogger.LogType.Error);
 		}
 		else
 		{
-			World.Instance.networkedEntities.AddChild(player);
+			SandboxnatorMain.World.networkedEntities.AddChild(player);
 		}
 
-		World.Instance.OnPlayerJoin?.Invoke(id);
+		SandboxnatorMain.World.OnPlayerJoin?.Invoke(id);
 
 		if (Multiplayer.IsServer())
 		{
@@ -80,12 +80,12 @@ public partial class PlayerManager : Singleton<PlayerManager>
 		if (!Multiplayer.IsServer())
 			return;
 
-		World world = World.Instance;
+		World world = SandboxnatorMain.World;
 
 		if (world == null)
 		{
 			NcLogger.Log(
-				$"RemovePlayer({id}): World.Instance is null. Ignoring disconnect cleanup.",
+				$"RemovePlayer({id}): SandboxnatorMain.World is null. Ignoring disconnect cleanup.",
 				NcLogger.LogType.Warn);
 
 			return;
@@ -151,7 +151,7 @@ public partial class PlayerManager : Singleton<PlayerManager>
 	/// </summary>
 	public void PrepareForDisconnect()
 	{
-		Node networkedEntities = World.Instance?.networkedEntities;
+		Node networkedEntities = SandboxnatorMain.World?.networkedEntities;
 
 		if (networkedEntities == null || !IsInstanceValid(networkedEntities))
 		{
@@ -212,6 +212,7 @@ public partial class PlayerManager : Singleton<PlayerManager>
 
 		NcLogger.Log("Handshake acknowledged on client");
 		NetworkManager.Instance.NotifyConnectionEstablished();
+		SandboxnatorMain.Instance.LoadWorld();
 	}
 	#endregion
 
@@ -221,7 +222,7 @@ public partial class PlayerManager : Singleton<PlayerManager>
 	{
 		if (!Multiplayer.IsServer())
 		{
-			Node3D playerInstance = World.Instance.networkedEntities.GetNodeOrNull<Node3D>(playerId);
+			Node3D playerInstance = SandboxnatorMain.World.networkedEntities.GetNodeOrNull<Node3D>(playerId);
 			if (playerInstance == null)
 			{
 				NcLogger.Log("Player instance is lagging behind, delaying position change", NcLogger.LogType.Warn);

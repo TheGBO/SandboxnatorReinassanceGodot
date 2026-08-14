@@ -419,9 +419,11 @@ text = "LEAVE GAME"
 [node name="SettingsBtn" type="Button" parent="HUD/EscMenu/MarginContainer/VBoxContainer" unique_id=1235187851]
 layout_mode = 2
 size_flags_vertical = 3
+disabled = true
 text = "Settings"
 
 [node name="SaveWorldBtn" type="Button" parent="HUD/EscMenu/MarginContainer/VBoxContainer" unique_id=2125453413]
+visible = false
 layout_mode = 2
 size_flags_vertical = 3
 disabled = true
@@ -519,11 +521,13 @@ elementsToHideAsFirstPerson = [NodePath("../../PlayerModel/Node/HeadHolder"), No
 playerModel = NodePath("../../PlayerModel")
 nameTag = NodePath("../../NameTagHolder/NameTag")
 
-[node name="PlayerHUD" type="Node3D" parent="ComponentHolder" unique_id=736340043 node_paths=PackedStringArray("chatRoot", "_escMenu", "_hotBar", "_alignmentInformationIcon")]
+[node name="PlayerHUD" type="Node3D" parent="ComponentHolder" unique_id=736340043 node_paths=PackedStringArray("chatRoot", "_hotBar", "_escMenu", "_leaveGameBtn", "_settingsBtn", "_alignmentInformationIcon")]
 script = ExtResource("13_7hef5")
 chatRoot = NodePath("../../HUD/ChatRoot")
-_escMenu = NodePath("../../HUD/EscMenu")
 _hotBar = NodePath("../../HUD/HotBar")
+_escMenu = NodePath("../../HUD/EscMenu")
+_leaveGameBtn = NodePath("../../HUD/EscMenu/MarginContainer/VBoxContainer/LeaveGameBtn")
+_settingsBtn = NodePath("../../HUD/EscMenu/MarginContainer/VBoxContainer/SettingsBtn")
 _alignmentInformationIcon = NodePath("../../HUD/BuildingInfoContainer/AlignmentInfoIcon")
 _gridIcon = ExtResource("6_f17go")
 _snapperIcon = ExtResource("16_2nyvo")
@@ -573,8 +577,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.125, 0.03125, 0)
 autoplay = &"IdleAndHold"
 
 [connection signal="pressed" from="HUD/ChatRoot/ChatBox/VBoxContainer/Input/SendBtn" to="ComponentHolder/PlayerChatHUD" method="_on_send_btn_pressed"]
-[connection signal="pressed" from="HUD/EscMenu/MarginContainer/VBoxContainer/LeaveGameBtn" to="ComponentHolder/PlayerHUD" method="_on_leave_game_btn_pressed"]
-[connection signal="pressed" from="HUD/EscMenu/MarginContainer/VBoxContainer/SettingsBtn" to="ComponentHolder/PlayerHUD" method="_on_leave_game_btn_pressed"]
 [connection signal="synchronized" from="MultiplayerSynchronizer" to="ComponentHolder/PlayerItemUse" method="_on_multiplayer_synchronizer_synchronized"]
 
 [editable path="PlayerModel"]

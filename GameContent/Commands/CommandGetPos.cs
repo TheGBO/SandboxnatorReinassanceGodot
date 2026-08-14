@@ -31,7 +31,7 @@ public class CommandGetPos : ChatCommand, IChatCommand
 
         if (int.TryParse(ctx.Args[0], out int idArg))
         {
-            Player p = World.Instance.GetPlayerById(idArg);
+            Player p = SandboxnatorMain.World.GetPlayerById(idArg);
             if (p == null)
             {
                 ctx.ReplyErr($"could not find player of ID {idArg}");

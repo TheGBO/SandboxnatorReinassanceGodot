@@ -13,7 +13,7 @@ namespace NullGarel.Sandboxnator.WorldAndScenes;
 /// <summary>
 /// Class that holds the world scene data
 /// </summary>
-public partial class World : Singleton<World>
+public partial class World : Node3D
 {
 	public Action<long> OnPlayerJoin;
 	public List<Snapper> snappers = [];
@@ -24,7 +24,6 @@ public partial class World : Singleton<World>
 
 	public override void _EnterTree()
 	{
-		base.SetInstance();
 		if (GameRegistries.Instance == null)
 		{
 			NcLogger.Log("GameRegistries.Instance is null!");

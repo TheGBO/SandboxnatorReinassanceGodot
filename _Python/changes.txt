@@ -1,0 +1,1263 @@
+diff --git a/GameContent/Commands/CommandGetPos.cs b/GameContent/Commands/CommandGetPos.cs
+index 04b98bb..b6695f2 100644
+--- a/GameContent/Commands/CommandGetPos.cs
++++ b/GameContent/Commands/CommandGetPos.cs
+@@ -31,7 +31,7 @@ public class CommandGetPos : ChatCommand, IChatCommand
+ 
+         if (int.TryParse(ctx.Args[0], out int idArg))
+         {
+-            Player p = World.Instance.GetPlayerById(idArg);
++            Player p = SandboxnatorMain.World.GetPlayerById(idArg);
+             if (p == null)
+             {
+                 ctx.ReplyErr($"could not find player of ID {idArg}");
+diff --git a/GameContent/Commands/CommandPlayers.cs b/GameContent/Commands/CommandPlayers.cs
+index 8b9127c..3300149 100644
+--- a/GameContent/Commands/CommandPlayers.cs
++++ b/GameContent/Commands/CommandPlayers.cs
+@@ -16,7 +16,7 @@ public class CommandPlayers : ChatCommand, IChatCommand
+     public void Handle(CommandContext ctx)
+     {
+         string playerListMsg = "Connected players in to the server:";
+-        foreach (Player p in World.Instance.GetPlayers())
++        foreach (Player p in SandboxnatorMain.World.GetPlayers())
+         {
+             playerListMsg += $"\n[Player ID:{p.componentHolder.entityId}] : [color={p.ProfileData.PlayerColor.ToHtml()}]{p.ProfileData.PlayerName}[/color]";
+         }
+diff --git a/Source/ApplicationManager.cs b/Source/ApplicationManager.cs
+index 2fff7a7..94a1170 100644
+--- a/Source/ApplicationManager.cs
++++ b/Source/ApplicationManager.cs
+@@ -17,10 +17,10 @@ public partial class ApplicationManager : Singleton<ApplicationManager>
+ 
+ 	public override void _Ready()
+ 	{
+-		GetTree().Root.CloseRequested += OnCloseRequested;
++		GetTree().Root.CloseRequested += HandleCloseRequest;
+ 	}
+ 
+-	public void OnCloseRequested()
++	public void HandleCloseRequest()
+ 	{
+ 		NcLogger.Log("ApplicationManager :: close requested.");
+ 
+@@ -37,6 +37,6 @@ public partial class ApplicationManager : Singleton<ApplicationManager>
+ 
+ 	public override void _ExitTree()
+ 	{
+-		GetTree().Root.CloseRequested -= OnCloseRequested;
++		GetTree().Root.CloseRequested -= HandleCloseRequest;
+ 	}
+ }
+diff --git a/Source/Chat/ChatManager.cs b/Source/Chat/ChatManager.cs
+index f36b387..78a98d2 100644
+--- a/Source/Chat/ChatManager.cs
++++ b/Source/Chat/ChatManager.cs
+@@ -44,7 +44,7 @@ public partial class ChatManager : Singleton<ChatManager>
+         if (!Multiplayer.IsServer()) return;
+ 
+         long senderPeerId = Multiplayer.GetRemoteSenderId();
+-        Player sender = World.Instance.GetPlayerById((int)senderPeerId);
++        Player sender = SandboxnatorMain.World.GetPlayerById((int)senderPeerId);
+ 
+         if (sender == null)
+         {
+@@ -78,7 +78,7 @@ public partial class ChatManager : Singleton<ChatManager>
+         }
+         else
+         {
+-            Player sender = World.Instance.GetPlayerById(senderPeerId);
++            Player sender = SandboxnatorMain.World.GetPlayerById(senderPeerId);
+             if (sender != null)
+             {
+                 senderProfile = sender.ProfileData;
+diff --git a/Source/Entities/Buildings/Snapper.cs b/Source/Entities/Buildings/Snapper.cs
+index 97f027f..f29e1de 100644
+--- a/Source/Entities/Buildings/Snapper.cs
++++ b/Source/Entities/Buildings/Snapper.cs
+@@ -10,12 +10,13 @@ public partial class Snapper : Node3D
+ 
+     public override void _EnterTree()
+     {
+-        World.Instance.snappers.Add(this);
++        SandboxnatorMain.World.snappers.Add(this);
+     }
+ 
+     public override void _ExitTree()
+     {
+-        World.Instance.snappers.Remove(this);
++        //no longer needed as world is now disposable
++        //SandboxnatorMain.World.snappers.Remove(this);
+     }
+ 
+     public void _on_area_3d_body_entered(Node3D body)
+diff --git a/Source/Entities/Player/Player.tscn b/Source/Entities/Player/Player.tscn
+index 39826c9..e848198 100644
+--- a/Source/Entities/Player/Player.tscn
++++ b/Source/Entities/Player/Player.tscn
+@@ -419,9 +419,11 @@ text = "LEAVE GAME"
+ [node name="SettingsBtn" type="Button" parent="HUD/EscMenu/MarginContainer/VBoxContainer" unique_id=1235187851]
+ layout_mode = 2
+ size_flags_vertical = 3
++disabled = true
+ text = "Settings"
+ 
+ [node name="SaveWorldBtn" type="Button" parent="HUD/EscMenu/MarginContainer/VBoxContainer" unique_id=2125453413]
++visible = false
+ layout_mode = 2
+ size_flags_vertical = 3
+ disabled = true
+@@ -519,11 +521,13 @@ elementsToHideAsFirstPerson = [NodePath("../../PlayerModel/Node/HeadHolder"), No
+ playerModel = NodePath("../../PlayerModel")
+ nameTag = NodePath("../../NameTagHolder/NameTag")
+ 
+-[node name="PlayerHUD" type="Node3D" parent="ComponentHolder" unique_id=736340043 node_paths=PackedStringArray("chatRoot", "_escMenu", "_hotBar", "_alignmentInformationIcon")]
++[node name="PlayerHUD" type="Node3D" parent="ComponentHolder" unique_id=736340043 node_paths=PackedStringArray("chatRoot", "_hotBar", "_escMenu", "_leaveGameBtn", "_settingsBtn", "_alignmentInformationIcon")]
+ script = ExtResource("13_7hef5")
+ chatRoot = NodePath("../../HUD/ChatRoot")
+-_escMenu = NodePath("../../HUD/EscMenu")
+ _hotBar = NodePath("../../HUD/HotBar")
++_escMenu = NodePath("../../HUD/EscMenu")
++_leaveGameBtn = NodePath("../../HUD/EscMenu/MarginContainer/VBoxContainer/LeaveGameBtn")
++_settingsBtn = NodePath("../../HUD/EscMenu/MarginContainer/VBoxContainer/SettingsBtn")
+ _alignmentInformationIcon = NodePath("../../HUD/BuildingInfoContainer/AlignmentInfoIcon")
+ _gridIcon = ExtResource("6_f17go")
+ _snapperIcon = ExtResource("16_2nyvo")
+@@ -573,8 +577,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.125, 0.03125, 0)
+ autoplay = &"IdleAndHold"
+ 
+ [connection signal="pressed" from="HUD/ChatRoot/ChatBox/VBoxContainer/Input/SendBtn" to="ComponentHolder/PlayerChatHUD" method="_on_send_btn_pressed"]
+-[connection signal="pressed" from="HUD/EscMenu/MarginContainer/VBoxContainer/LeaveGameBtn" to="ComponentHolder/PlayerHUD" method="_on_leave_game_btn_pressed"]
+-[connection signal="pressed" from="HUD/EscMenu/MarginContainer/VBoxContainer/SettingsBtn" to="ComponentHolder/PlayerHUD" method="_on_leave_game_btn_pressed"]
+ [connection signal="synchronized" from="MultiplayerSynchronizer" to="ComponentHolder/PlayerItemUse" method="_on_multiplayer_synchronizer_synchronized"]
+ 
+ [editable path="PlayerModel"]
+diff --git a/Source/Entities/Player/PlayerHUD.cs b/Source/Entities/Player/PlayerHUD.cs
+index 52b9e3e..70adc76 100644
+--- a/Source/Entities/Player/PlayerHUD.cs
++++ b/Source/Entities/Player/PlayerHUD.cs
+@@ -1,21 +1,24 @@
+ using Godot;
+ using NullGarel.Sandboxnator.Network;
++using NullGarel.Sandboxnator.UI;
+ using NullGarel.Util.ComponentSystem;
++using NullGarel.Util.Log;
+ using System;
+ namespace NullGarel.Sandboxnator.Entity;
+ 
+ /// <summary>
+ /// Centralized component of Graphical User Interface to a player
+-/// TODO: Centralize other HUD elements to be held by this class instead of scattered through other scripts.
+-/// ? What hud elements exactly? i need to ellaborate this further xd
+ /// </summary>
+ [GodotClassName(nameof(PlayerHUD))]
+-public partial class PlayerHUD : AbstractComponent<Player>
++public partial class PlayerHUD : AbstractComponent<Player>, IUiSignalLoader
+ {
+     [ExportCategory("Main Controls")]
+     [Export] public Control chatRoot;
+-    [Export] private Control _escMenu;
+     [Export] private Control _hotBar;
++    [ExportCategory("ESC Menu")]
++    [Export] private Control _escMenu;
++    [Export] private Button _leaveGameBtn;
++    [Export] private Button _settingsBtn;
+ 
+     [ExportCategory("Grid vs snapper information")]
+     [Export] private TextureRect _alignmentInformationIcon;
+@@ -30,6 +33,8 @@ public partial class PlayerHUD : AbstractComponent<Player>
+         if (!IsMultiplayerAuthority())
+             return;
+ 
++        ConnectUISignals();
++
+         var playerInput = ComponentParent.playerInput;
+ 
+         playerInput.OnUiEscape += () =>
+@@ -42,22 +47,26 @@ public partial class PlayerHUD : AbstractComponent<Player>
+             _escMenu.Visible = !_escMenu.Visible;
+         };
+ 
+-        playerInput.ChangeSnapMode += (bool isGrid) =>
++        playerInput.OnChangeSnapMode += isGrid =>
+         {
+             _alignmentInformationIcon.Texture = isGrid ? _gridIcon : _snapperIcon;
+         };
+     }
+ 
+-    public void _on_leave_game_btn_pressed()
+-    {
+-        NetworkManager.Instance.QuitConnection();
+-        GetTree().ReloadCurrentScene();
+-    }
+-
+     public override void _Process(double delta)
+     {
+         if (!IsMultiplayerAuthority()) return;
+ 
+         IsHudBeingUsed = IsChatOpen || _escMenu.Visible;
+     }
++
++    public void ConnectUISignals()
++    {
++        //TODO: inject information onto the settings menu on whether return to world or to main menu
++        _settingsBtn.Pressed += () => { NcLogger.Log("NOT IMPLEMENTED XD"); };
++        _leaveGameBtn.Pressed += () =>
++        {
++            SandboxnatorMain.Instance.LeaveWorld();
++        };
++    }
+ }
+diff --git a/Source/Entities/Player/PlayerInput.cs b/Source/Entities/Player/PlayerInput.cs
+index 2739d44..c7545d1 100644
+--- a/Source/Entities/Player/PlayerInput.cs
++++ b/Source/Entities/Player/PlayerInput.cs
+@@ -24,7 +24,7 @@ public partial class PlayerInput : AbstractComponent<Player>
+     //Building
+     public event Action RotateCW;
+     public event Action RotateCCW;
+-    public event Action<bool> ChangeSnapMode;
++    public event Action<bool> OnChangeSnapMode;
+     //has to be exported because synchronizerisms....
+     [Export] public bool IsGridSnapMode { get; private set; } = true;
+     //usage
+@@ -168,7 +168,7 @@ public partial class PlayerInput : AbstractComponent<Player>
+         if (Input.IsActionJustPressed(BuildChangeSnapAction))
+         {
+             IsGridSnapMode = !IsGridSnapMode;
+-            ChangeSnapMode?.Invoke(IsGridSnapMode);
++            OnChangeSnapMode?.Invoke(IsGridSnapMode);
+         }
+     }
+ 
+diff --git a/Source/Items/PlacingItem.cs b/Source/Items/PlacingItem.cs
+index c721c43..1a10e52 100644
+--- a/Source/Items/PlacingItem.cs
++++ b/Source/Items/PlacingItem.cs
+@@ -30,11 +30,6 @@ public partial class PlacingItem : BaseItem
+ 
+ 	}
+ 
+-	public override void _ExitTree()
+-	{
+-		if (!IsMultiplayerAuthority()) return;
+-	}
+-
+ 	public override void _PhysicsProcess(double delta)
+ 	{
+ 		if (!ItemUser.ComponentParent.IsMultiplayerAuthority()) return;
+@@ -71,7 +66,7 @@ public partial class PlacingItem : BaseItem
+ 			);
+ 
+ 		building.Rotation = args.DesiredRotation;
+-		World.Instance.networkedEntities.CallDeferred("add_child", building);
++		SandboxnatorMain.World.networkedEntities.CallDeferred("add_child", building);
+ 		PlayPlacingSound(building.Position);
+ 	}
+ 
+@@ -85,14 +80,14 @@ public partial class PlacingItem : BaseItem
+ 	{
+ 		Vector3 offsetPos = collisionPoint + (collisionNormal * 0.5f);
+ 		if (!hasGrid)
+-			return World.Instance.GetNearestSnapper(offsetPos, snapRange);
++			return SandboxnatorMain.World.GetNearestSnapper(offsetPos, snapRange);
+ 
+ 		//else if has a grid
+ 		Vector3 snapped = new
+ 		(
+ 			Mathf.Floor(offsetPos.X + gridSize.X),
+-			Mathf.Floor(offsetPos.Y +  gridSize.Y),
+-			Mathf.Floor(offsetPos.Z +  gridSize.Z)
++			Mathf.Floor(offsetPos.Y + gridSize.Y),
++			Mathf.Floor(offsetPos.Z + gridSize.Z)
+ 		);
+ 		return snapped;
+ 	}
+diff --git a/Source/Network/NetworkManager/NetworkManager.cs b/Source/Network/NetworkManager/NetworkManager.cs
+index 6463d1c..bf5ded8 100644
+--- a/Source/Network/NetworkManager/NetworkManager.cs
++++ b/Source/Network/NetworkManager/NetworkManager.cs
+@@ -115,6 +115,7 @@ namespace NullGarel.Sandboxnator.Network
+ 				HostGame(1077, true);
+ 			}
+ 		}
++
+ 		#endregion
+ 
+ 		#region public state
+@@ -151,9 +152,9 @@ namespace NullGarel.Sandboxnator.Network
+ 
+ 			peer = newPeer;
+ 			Multiplayer.MultiplayerPeer = peer;
+-
+ 			ConnectServerSignals();
+ 
++			SandboxnatorMain.Instance.LoadWorld();
+ 			if (!dedicatedServer)
+ 			{
+ 				long hostId = Multiplayer.GetUniqueId();
+@@ -295,8 +296,7 @@ namespace NullGarel.Sandboxnator.Network
+ 				return;
+ 			}
+ 
+-			NcLogger.Log(
+-				"[!] Closing multiplayer connection...");
++			NcLogger.Log("[!] Closing multiplayer connection...");
+ 
+ 			DisconnectAllSignals();
+ 
+diff --git a/Source/Network/ServerDiscovery/ServerDiscovery.cs b/Source/Network/ServerDiscovery/ServerDiscovery.cs
+index 1f062b5..6bcccea 100644
+--- a/Source/Network/ServerDiscovery/ServerDiscovery.cs
++++ b/Source/Network/ServerDiscovery/ServerDiscovery.cs
+@@ -35,10 +35,9 @@ public partial class ServerDiscovery : Singleton<ServerDiscovery>
+         //SetupListen();
+     }
+ 
+-    public override void _Process(double delta)
++    //replace with override _Process when this gets fixed
++    public void _DoNot_Process(double delta)
+     {
+-        return;
+-
+         _elapsedTime += delta;
+         if (_elapsedTime < broadcastTimeout)
+             return;
+diff --git a/UI/MainMenu/MainMenu.cs b/UI/MainMenu/MainMenu.cs
+index 063b5af..35b5bba 100644
+--- a/UI/MainMenu/MainMenu.cs
++++ b/UI/MainMenu/MainMenu.cs
+@@ -3,31 +3,39 @@ using System;
+ namespace NullGarel.Sandboxnator.UI;
+ 
+ 
+-public partial class MainMenu : Control
++public partial class MainMenu : Control, IUiSignalLoader
+ {
+-	[Export] public AcceptDialog notImplementedDialog;
+-	[Export] public ConfirmationDialog exitDialog;
++	[ExportCategory("Dialog boxes")]
++	[Export] private ConfirmationDialog _exitDialog;
++	[ExportCategory("Main buttons")]
++	[Export] private Button _playBtn;
++	[Export] private Button _profileEditBtn;
++	[Export] private Button _settingsBtn;
++	[Export] private Button _exitBtn;
++
+ 
+ 	public override void _Ready()
+ 	{
+-		UiSoundManager.Instance.TryInstallSounds();
++		ConnectUISignals();
+ 	}
+ 
+-	public void _on_exit_btn_pressed()
++	public void ConnectUISignals()
+ 	{
+-		exitDialog.Popup();
+-		UiSoundManager.Instance.PlaySfxSound(UiSoundType.PopUp);
+-	}
++		_playBtn.Pressed += () => SandboxnatorMain.Instance?.ActivateWorldMenu();
++		_settingsBtn.Pressed += () => SandboxnatorMain.Instance?.ActivateSettingsMenu();
++		_profileEditBtn.Pressed += () => SandboxnatorMain.Instance?.ActivateProfileEditMenu();
+ 
+-	public void _on_exit_dialog_confirmed()
+-	{
+-		ApplicationManager.Instance.OnCloseRequested();
+-		GetTree().Quit();
++		_exitBtn.Pressed += () =>
++		{
++			_exitDialog.Popup();
++			UiSoundManager.Instance.PlaySfxSound(UiSoundType.PopUp);
++		};
++		_exitDialog.Confirmed += ExitDialogConfirmed;
+ 	}
+ 
+-	private void ShowNotImplentedPopup()
++	public void ExitDialogConfirmed()
+ 	{
+-		UiSoundManager.Instance.PlaySfxSound(UiSoundType.PopUp);
+-		notImplementedDialog.Popup();
++		ApplicationManager.Instance.HandleCloseRequest();
+ 	}
++
+ }
+diff --git a/UI/MainMenu/MainMenu.tscn b/UI/MainMenu/MainMenu.tscn
+index 2cab370..883c829 100644
+--- a/UI/MainMenu/MainMenu.tscn
++++ b/UI/MainMenu/MainMenu.tscn
+@@ -2,14 +2,13 @@
+ 
+ [ext_resource type="Texture2D" uid="uid://7bm83u8ekalo" path="res://UI/SBlogo.png" id="1_m3wq5"]
+ [ext_resource type="Script" uid="uid://bcm1pork7vl08" path="res://UI/MainMenu/MainMenu.cs" id="1_n530s"]
+-[ext_resource type="Script" uid="uid://cip2ifw6h88lb" path="res://UI/UIComponents/Scripts/SceneChangingButton.cs" id="3_4elqj"]
+ [ext_resource type="Theme" uid="uid://dbnnr7gglht1m" path="res://UI/Theme/Theme.tres" id="5_4elqj"]
+ [ext_resource type="Script" uid="uid://daxeebjogf5wp" path="res://UI/MainMenu/test.gd" id="5_ri767"]
+ 
+ [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tltye"]
+ bg_color = Color(0.137255, 0.137255, 0.137255, 1)
+ 
+-[node name="MainMenu" type="Control" unique_id=498379860 node_paths=PackedStringArray("notImplementedDialog", "exitDialog")]
++[node name="MainMenu" type="Control" unique_id=498379860 node_paths=PackedStringArray("_exitDialog", "_playBtn", "_profileEditBtn", "_settingsBtn", "_exitBtn")]
+ layout_mode = 3
+ anchors_preset = 15
+ anchor_right = 1.0
+@@ -17,8 +16,11 @@ anchor_bottom = 1.0
+ grow_horizontal = 2
+ grow_vertical = 2
+ script = ExtResource("1_n530s")
+-notImplementedDialog = NodePath("NotImplementedDialog")
+-exitDialog = NodePath("ExitDialog")
++_exitDialog = NodePath("ExitDialog")
++_playBtn = NodePath("RootPanel/MainMargin/Panel/MarginContainer/VBoxContainer/PlayBtn")
++_profileEditBtn = NodePath("RootPanel/MainMargin/Panel/MarginContainer/VBoxContainer/ProfileBtn")
++_settingsBtn = NodePath("RootPanel/MainMargin/Panel/MarginContainer/VBoxContainer/SettingsBtn")
++_exitBtn = NodePath("RootPanel/MainMargin/Panel/MarginContainer/VBoxContainer/ExitBtn")
+ 
+ [node name="RootPanel" type="Panel" parent="." unique_id=107203621]
+ layout_mode = 1
+@@ -69,23 +71,17 @@ expand_mode = 5
+ layout_mode = 2
+ size_flags_vertical = 3
+ text = "Play"
+-script = ExtResource("3_4elqj")
+-targetScene = "uid://c4budmkq1sg7n"
+ 
+ [node name="ProfileBtn" type="Button" parent="RootPanel/MainMargin/Panel/MarginContainer/VBoxContainer" unique_id=256094980]
+ layout_mode = 2
+ size_flags_vertical = 3
+ text = "Profile"
+-script = ExtResource("3_4elqj")
+-targetScene = "uid://cu2vloh7mq55n"
+ 
+ [node name="SettingsBtn" type="Button" parent="RootPanel/MainMargin/Panel/MarginContainer/VBoxContainer" unique_id=2116046903]
+ layout_mode = 2
+ size_flags_vertical = 3
+ text = "Settings
+ "
+-script = ExtResource("3_4elqj")
+-targetScene = "uid://crgfsh58w8e8c"
+ 
+ [node name="ExitBtn" type="Button" parent="RootPanel/MainMargin/Panel/MarginContainer/VBoxContainer" unique_id=1093046211]
+ layout_mode = 2
+@@ -114,5 +110,4 @@ cancel_button_text = "no"
+ [node name="Node" type="Node" parent="." unique_id=1860536768]
+ script = ExtResource("5_ri767")
+ 
+-[connection signal="pressed" from="RootPanel/MainMargin/Panel/MarginContainer/VBoxContainer/ExitBtn" to="." method="_on_exit_btn_pressed"]
+ [connection signal="confirmed" from="ExitDialog" to="." method="_on_exit_dialog_confirmed"]
+diff --git a/UI/MultiplayerMenu/MultiplayerMenu.cs b/UI/MultiplayerMenu/MultiplayerMenu.cs
+index d0fca7e..d0ed08b 100644
+--- a/UI/MultiplayerMenu/MultiplayerMenu.cs
++++ b/UI/MultiplayerMenu/MultiplayerMenu.cs
+@@ -3,29 +3,38 @@ using NullGarel.Sandboxnator.Network;
+ using System;
+ namespace NullGarel.Sandboxnator.UI;
+ 
+-public partial class MultiplayerMenu : Control
++public partial class MultiplayerMenu : Control, IUiSignalLoader
+ {
+-	[Export] private SpinBox portInput;
+-	[Export] private LineEdit ipAddressInput;
+-	[Export] private Control connectionMenu;
+-	[Export] private Control loadingScreen;
+-	[Export] private ProgressBar timeoutProgress;
+-	[Export] private Button cancelConnectionBtn;
++	[ExportCategory("Network inputs")]
++	[Export] private SpinBox _portInput;
++	[Export] private LineEdit _ipAddressInput;
++	[Export] private Button _hostBtn;
++	[Export] private Button _joinBtn;
++	[Export] private Button _mainMenuBtn;
++	[ExportCategory("Screens")]
++	[Export] private Control _connectionMenu;
++	[Export] private Control _loadingScreen;
++	[Export] private ProgressBar _timeoutProgress;
++	[Export] private Button _cancelConnectionBtn;
+ 
+ 	public override void _Ready()
+ 	{
+-		UiSoundManager.Instance.TryInstallSounds();
+-		timeoutProgress.MaxValue = NetworkManager.ConnectionTimeoutLimit;
+-		cancelConnectionBtn.Pressed += () =>
+-		{
+-			NetworkManager.Instance.QuitConnection();
+-		};
++		ConnectUISignals();
++		_timeoutProgress.MaxValue = NetworkManager.ConnectionTimeoutLimit;
++
+ 	}
+ 
+ 	public override void _Process(double delta)
+ 	{
+-		timeoutProgress.Value = NetworkManager.ConnectionTimeoutLimit - NetworkManager.Instance.ElapsedConnectionTime;
+-		loadingScreen.Visible = NetworkManager.Instance.IsConnecting;
++		if (!Visible)
++			return;
++
++		NetworkManager network = NetworkManager.Instance;
++		if (network == null)
++			return;
++
++		_timeoutProgress.Value = NetworkManager.ConnectionTimeoutLimit - NetworkManager.Instance.ElapsedConnectionTime;
++		_loadingScreen.Visible = NetworkManager.Instance.IsConnecting;
+ 		bool showMenu = true;
+ 
+ 		if (NetworkManager.Instance.peer != null)
+@@ -35,25 +44,30 @@ public partial class MultiplayerMenu : Control
+ 					status != MultiplayerPeer.ConnectionStatus.Connecting;
+ 		}
+ 
+-		connectionMenu.Visible = showMenu;
+-		//TODO: add timeout message
++		_connectionMenu.Visible = showMenu;
+ 	}
+ 
+-	public void _on_host_btn_pressed()
++	public void ConnectUISignals()
+ 	{
+-		NetworkManager.Instance.HostGame((int)portInput.Value, false);
+-
+-	}
++		_cancelConnectionBtn.Pressed += () =>
++		{
++			NetworkManager.Instance.QuitConnection();
++		};
+ 
+-	public void _on_join_btn_pressed()
+-	{
+-		NetworkManager.Instance.JoinGame((int)portInput.Value, ipAddressInput.Text);
+-	}
++		_hostBtn.Pressed += () =>
++		{
++			if (NetworkManager.Instance == null)
++			{
++				GD.PushError("MultiplayerMenu: NetworkManager.Instance is null when attempting to host.");
++				return;
++			}
+ 
+-	public void _on_main_menu_btn_pressed()
+-	{
++			NetworkManager.Instance.HostGame(
++				(int)_portInput.Value,
++				false);
++		};
+ 
+-		GetTree().ChangeSceneToPacked(ScenesBank.Instance.mainMenuScene);
++		_joinBtn.Pressed += () => NetworkManager.Instance.JoinGame((int)_portInput.Value, _ipAddressInput.Text);
++		_mainMenuBtn.Pressed += () => SandboxnatorMain.Instance.ActivateMainMenu();
+ 	}
+-
+ }
+diff --git a/UI/MultiplayerMenu/MultiplayerMenu.tscn b/UI/MultiplayerMenu/MultiplayerMenu.tscn
+index 59c106d..32e9341 100644
+--- a/UI/MultiplayerMenu/MultiplayerMenu.tscn
++++ b/UI/MultiplayerMenu/MultiplayerMenu.tscn
+@@ -4,7 +4,7 @@
+ [ext_resource type="Script" uid="uid://co22epydu1y4p" path="res://UI/MultiplayerMenu/ServerBrowser.cs" id="2_kkaxb"]
+ [ext_resource type="PackedScene" uid="uid://drkyst4xf3w5h" path="res://UI/MultiplayerMenu/ServerInfoContainer.tscn" id="2_q01po"]
+ 
+-[node name="MultiplayerMenu" type="Control" unique_id=765594653 node_paths=PackedStringArray("portInput", "ipAddressInput", "connectionMenu", "loadingScreen", "timeoutProgress", "cancelConnectionBtn")]
++[node name="MultiplayerMenu" type="Control" unique_id=765594653 node_paths=PackedStringArray("_portInput", "_ipAddressInput", "_hostBtn", "_joinBtn", "_mainMenuBtn", "_connectionMenu", "_loadingScreen", "_timeoutProgress", "_cancelConnectionBtn")]
+ z_index = 1
+ layout_mode = 3
+ anchors_preset = 15
+@@ -14,12 +14,15 @@ grow_horizontal = 2
+ grow_vertical = 2
+ mouse_filter = 2
+ script = ExtResource("1_t2st1")
+-portInput = NodePath("ConnectionMenu/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/PortInput")
+-ipAddressInput = NodePath("ConnectionMenu/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/IpInput")
+-connectionMenu = NodePath("ConnectionMenu")
+-loadingScreen = NodePath("LoadingScreen")
+-timeoutProgress = NodePath("LoadingScreen/Panel/Container/VBoxContainer/ProgressBar")
+-cancelConnectionBtn = NodePath("LoadingScreen/Panel/Container/VBoxContainer/CancelConnectionAttempt")
++_portInput = NodePath("ConnectionMenu/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/PortInput")
++_ipAddressInput = NodePath("ConnectionMenu/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/IpInput")
++_hostBtn = NodePath("ConnectionMenu/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer/HostBtn")
++_joinBtn = NodePath("ConnectionMenu/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer/JoinBtn")
++_mainMenuBtn = NodePath("ConnectionMenu/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer/MainMenuBtn")
++_connectionMenu = NodePath("ConnectionMenu")
++_loadingScreen = NodePath("LoadingScreen")
++_timeoutProgress = NodePath("LoadingScreen/Panel/Container/VBoxContainer/ProgressBar")
++_cancelConnectionBtn = NodePath("LoadingScreen/Panel/Container/VBoxContainer/CancelConnectionAttempt")
+ 
+ [node name="ConnectionMenu" type="PanelContainer" parent="." unique_id=1034873086]
+ layout_mode = 1
+@@ -216,7 +219,3 @@ show_percentage = false
+ custom_minimum_size = Vector2(0, 64)
+ layout_mode = 2
+ text = "Cancel connection attempt"
+-
+-[connection signal="pressed" from="ConnectionMenu/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer/JoinBtn" to="." method="_on_join_btn_pressed"]
+-[connection signal="pressed" from="ConnectionMenu/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer/HostBtn" to="." method="_on_host_btn_pressed"]
+-[connection signal="pressed" from="ConnectionMenu/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer/MainMenuBtn" to="." method="_on_main_menu_btn_pressed"]
+diff --git a/UI/Profile/ProfileEditingMenu.cs b/UI/Profile/ProfileEditingMenu.cs
+index 5d62228..c0febe0 100644
+--- a/UI/Profile/ProfileEditingMenu.cs
++++ b/UI/Profile/ProfileEditingMenu.cs
+@@ -11,92 +11,102 @@ using NullGarel.Sandboxnator.Registry;
+ namespace NullGarel.Sandboxnator.UI;
+ 
+ 
+-public partial class ProfileEditingMenu : Control
++public partial class ProfileEditingMenu : Control, IUiSignalLoader
+ {
+-	[Export] private LineEdit nameEdit;
+-	[Export] private PlayerModel playerModelPreview;
+-	[Export] private Camera3D previewCamera;
+-	[Export] private ColorPicker colorEdit;
+-	[Export] private Button saveButton;
+-	[Export] private ItemList playerFaceList;
++	[ExportCategory("Character customization")]
++	[Export] private LineEdit _nameEdit;
++	[Export] private ColorPicker _colorEdit;
++	[Export] private ItemList _playerFaceList;
++	[ExportCategory("Preview")]
++	[Export] private Camera3D _previewCamera;
++	[Export] private PlayerModel _playerModelPreview;
++	private CanvasLayer _parentCanvasLayer;
++	[ExportCategory("Main UI")]
++	[Export] private Button _saveButton;
+ 	private PlayerProfileData _cachedProfile = new();
+ 
+-	public void _on_save_and_return_btn_pressed()
+-	{
+-		UpdateProfileFromUI();
+-		GetTree().ChangeSceneToPacked(ScenesBank.Instance.mainMenuScene);
+-	}
+ 
+ 	public override void _Ready()
+ 	{
++		//assuming this is supposed to never fail (because it is lol)
++		_parentCanvasLayer = GetParent<CanvasLayer>();
++		
++		ConnectUISignals();
+ 		_cachedProfile = PlayerProfileManager.Instance.CurrentProfile;
+ 		FetchFacesFromRegistry();
+-		UpdateUiFromProfile();
++		UpdateUiFromCachedProfile();
++		_parentCanvasLayer.VisibilityChanged += UpdateVisibility;
++		UpdateVisibility();
+ 	}
+ 
+-	public override void _Process(double delta)
++	public void ConnectUISignals()
+ 	{
+-		if (PlatformCheck.IsDesktop())
++		_saveButton.Pressed += () =>
+ 		{
+-			Viewport viewPort = GetViewport();
+-			Vector2 mousePos = viewPort.GetMousePosition();
+-			float visibleRect = viewPort.GetVisibleRect().Size.X;
+-			float mouseOnScreenRatio = (mousePos.X / visibleRect) - 0.5f;
+-			playerModelPreview.GlobalRotation = new(0, mouseOnScreenRatio * Mathf.Pi - Mathf.Pi, 0);
+-		}
+-
++			ConfirmProfile();
++			SandboxnatorMain.Instance.ActivateMainMenu();
++		};
++		_nameEdit.TextChanged += (_) => OnAlteration();
++		_playerFaceList.ItemSelected += (_) => OnAlteration();
++		_colorEdit.ColorChanged += (_) => OnAlteration();
+ 	}
+ 
+-
+-	public void OnAlteration()
++	public override void _Process(double delta)
+ 	{
+-		UpdateUiFromUi();
++		ModelLookAtCursor();
+ 	}
+ 
+-	#region ALTERATION HANDLERs
+-	public void _on_item_list_item_selected(int index)
++	private void UpdateVisibility()
+ 	{
+-		OnAlteration();
++		Visible = _parentCanvasLayer.Visible;
++		_playerModelPreview.Visible = Visible;
+ 	}
+ 
+-	public void _on_color_picker_color_changed(Color color)
++	private void ModelLookAtCursor()
+ 	{
+-		OnAlteration();
++		if (!PlatformCheck.IsDesktop()) return;
++
++		Viewport viewPort = GetViewport();
++		Vector2 mousePos = viewPort.GetMousePosition();
++		float visibleRect = viewPort.GetVisibleRect().Size.X;
++		float mouseOnScreenRatio = (mousePos.X / visibleRect) - 0.5f;
++		_playerModelPreview.GlobalRotation = new(0, mouseOnScreenRatio * Mathf.Pi - Mathf.Pi, 0);
++
+ 	}
+ 
+-	public void _on_name_edit_text_changed(string newName)
++
++	public void OnAlteration()
+ 	{
+-		OnAlteration();
++		UpdateCachedProfileFromUi();
+ 	}
+-	#endregion
+ 
+ 	private bool ValidateProfile()
+ 	{
+-		bool isNameValid = !nameEdit.Text.Contains('!') && !string.IsNullOrEmpty(nameEdit.Text);
+-		saveButton.Disabled = !isNameValid;
++		bool isNameValid = !_nameEdit.Text.Contains('!') && !string.IsNullOrEmpty(_nameEdit.Text);
++		_saveButton.Disabled = !isNameValid;
+ 		bool validProfile = isNameValid;
+ 		return validProfile;
+ 	}
+ 
+-	private void UpdateUiFromUi()
++	private void UpdateCachedProfileFromUi()
+ 	{
+-		_cachedProfile.PlayerName = nameEdit.Text;
+-		_cachedProfile.PlayerColor = colorEdit.Color;
++		_cachedProfile.PlayerName = _nameEdit.Text;
++		_cachedProfile.PlayerColor = _colorEdit.Color;
+ 		_cachedProfile.PlayerFaceId = GetSelectedFaceID();
+-		playerModelPreview.UpdateVisual(_cachedProfile);
++		_playerModelPreview.UpdateVisual(_cachedProfile);
+ 	}
+ 
+-	private void UpdateUiFromProfile()
++	private void UpdateUiFromCachedProfile()
+ 	{
+ 		//name
+-		if (!nameEdit.IsEditing())
+-			nameEdit.Text = _cachedProfile.PlayerName;
++		if (!_nameEdit.IsEditing())
++			_nameEdit.Text = _cachedProfile.PlayerName;
+ 		//color
+-		colorEdit.Color = _cachedProfile.PlayerColor;
+-		playerModelPreview.UpdateVisual(_cachedProfile);
++		_colorEdit.Color = _cachedProfile.PlayerColor;
++		_playerModelPreview.UpdateVisual(_cachedProfile);
+ 	}
+ 
+-	private void UpdateProfileFromUI()
++	private void ConfirmProfile()
+ 	{
+ 		PlayerProfileManager.Instance.CurrentProfile = _cachedProfile;
+ 		_cachedProfile.PrintProperties("Updated profile from UI");
+@@ -106,10 +116,10 @@ public partial class ProfileEditingMenu : Control
+ 	#region Face registry related
+ 	private void FetchFacesFromRegistry()
+ 	{
+-		playerFaceList.Clear();
++		_playerFaceList.Clear();
+ 		foreach (PlayerFaceData face in GameRegistries.Instance.PlayerFaceRegistry.GetAllValues())
+ 		{
+-			playerFaceList.AddItem(face.playerFaceId, face.faceTexture);
++			_playerFaceList.AddItem(face.playerFaceId, face.faceTexture);
+ 		}
+ 	}
+ 
+@@ -117,19 +127,17 @@ public partial class ProfileEditingMenu : Control
+ 
+ 	private string GetSelectedFaceID()
+ 	{
+-		var currentProfile = PlayerProfileManager.Instance.CurrentProfile;
+-		var selected = playerFaceList.GetSelectedItems();
++		PlayerProfileData currentProfile = PlayerProfileManager.Instance.CurrentProfile;
++		int[] selected = _playerFaceList.GetSelectedItems();
+ 		if (selected.Length > 0)
+ 		{
+ 			int index = selected[0];
+-			string faceID = playerFaceList.GetItemText(index);
+-			//GD.Print("Selected item name: " + faceID);
++			string faceID = _playerFaceList.GetItemText(index);
+ 			return faceID;
+ 		}
+ 		return currentProfile.PlayerFaceId;
+ 	}
+-	#endregion
+-	//Placeholder to test name generation, this random name generation should only happen when there is no existing player profile.
+ 
++	#endregion
+ 
+ }
+diff --git a/UI/Profile/ProfileEditingMenu.tscn b/UI/Profile/ProfileEditingMenu.tscn
+index 56f718d..e0d3c38 100644
+--- a/UI/Profile/ProfileEditingMenu.tscn
++++ b/UI/Profile/ProfileEditingMenu.tscn
+@@ -8,7 +8,7 @@
+ background_mode = 1
+ background_color = Color(1, 1, 1, 0)
+ 
+-[node name="ProfileEditingMenu" type="Control" unique_id=413862585 node_paths=PackedStringArray("nameEdit", "playerModelPreview", "previewCamera", "colorEdit", "saveButton", "playerFaceList")]
++[node name="ProfileEditingMenu" type="Control" unique_id=413862585 node_paths=PackedStringArray("_nameEdit", "_colorEdit", "_playerFaceList", "_previewCamera", "_playerModelPreview", "_saveButton")]
+ layout_mode = 3
+ anchors_preset = 15
+ anchor_right = 1.0
+@@ -16,12 +16,12 @@ anchor_bottom = 1.0
+ grow_horizontal = 2
+ grow_vertical = 2
+ script = ExtResource("1_4fqg0")
+-nameEdit = NodePath("RootPanel/Panel/ContainerContainer/VBoxContainer/NameContaner/NameEdit")
+-playerModelPreview = NodePath("RootPanel/Panel/ContainerContainer/MarginContainer/SubViewportContainer/SubViewport/PlayerModelPreviewingScene/PlayerModel")
+-previewCamera = NodePath("RootPanel/Panel/ContainerContainer/MarginContainer/SubViewportContainer/SubViewport/PlayerModelPreviewingScene/Camera3D")
+-colorEdit = NodePath("RootPanel/Panel/ContainerContainer/VBoxContainer/ColorContainer/ColorPicker")
+-saveButton = NodePath("RootPanel/Panel/ContainerContainer/VBoxContainer/SaveAndReturnBtn")
+-playerFaceList = NodePath("RootPanel/Panel/ContainerContainer/VBoxContainer/PlayerFaceListContainer/ItemList")
++_nameEdit = NodePath("RootPanel/Panel/ContainerContainer/VBoxContainer/NameContaner/NameEdit")
++_colorEdit = NodePath("RootPanel/Panel/ContainerContainer/VBoxContainer/ColorContainer/ColorPicker")
++_playerFaceList = NodePath("RootPanel/Panel/ContainerContainer/VBoxContainer/PlayerFaceListContainer/PlayerFaceItemList")
++_previewCamera = NodePath("RootPanel/Panel/ContainerContainer/MarginContainer/SubViewportContainer/SubViewport/PlayerModelPreviewingScene/Camera3D")
++_playerModelPreview = NodePath("RootPanel/Panel/ContainerContainer/MarginContainer/SubViewportContainer/SubViewport/PlayerModelPreviewingScene/PlayerModel")
++_saveButton = NodePath("RootPanel/Panel/ContainerContainer/VBoxContainer/SaveAndReturnBtn")
+ 
+ [node name="RootPanel" type="Panel" parent="." unique_id=210643652]
+ layout_mode = 1
+@@ -77,7 +77,9 @@ text = "Color:"
+ [node name="ColorPicker" type="ColorPicker" parent="RootPanel/Panel/ContainerContainer/VBoxContainer/ColorContainer" unique_id=1941492931]
+ layout_mode = 2
+ size_flags_horizontal = 3
++size_flags_stretch_ratio = 0.3
+ edit_alpha = false
++can_add_swatches = false
+ sampler_visible = false
+ color_modes_visible = false
+ sliders_visible = false
+@@ -87,7 +89,7 @@ presets_visible = false
+ layout_mode = 2
+ size_flags_vertical = 3
+ 
+-[node name="ItemList" type="ItemList" parent="RootPanel/Panel/ContainerContainer/VBoxContainer/PlayerFaceListContainer" unique_id=1186796900]
++[node name="PlayerFaceItemList" type="ItemList" parent="RootPanel/Panel/ContainerContainer/VBoxContainer/PlayerFaceListContainer" unique_id=1186796900]
+ layout_mode = 2
+ size_flags_horizontal = 3
+ fixed_icon_size = Vector2i(64, 64)
+@@ -111,7 +113,7 @@ stretch = true
+ [node name="SubViewport" type="SubViewport" parent="RootPanel/Panel/ContainerContainer/MarginContainer/SubViewportContainer" unique_id=286801845]
+ transparent_bg = true
+ handle_input_locally = false
+-size = Vector2i(654, 548)
++size = Vector2i(270, 476)
+ render_target_update_mode = 4
+ 
+ [node name="PlayerModelPreviewingScene" type="Node3D" parent="RootPanel/Panel/ContainerContainer/MarginContainer/SubViewportContainer/SubViewport" unique_id=1648855499]
+@@ -148,7 +150,7 @@ anchor_bottom = 1.0
+ grow_horizontal = 2
+ grow_vertical = 2
+ 
+-[node name="Button" type="Button" parent="RootPanel/Panel/ContainerContainer/ProfileIO/Panel/VBoxContainer" unique_id=1235322176]
++[node name="SaveIOButton" type="Button" parent="RootPanel/Panel/ContainerContainer/ProfileIO/Panel/VBoxContainer" unique_id=1235322176]
+ layout_mode = 2
+ text = "Saved profiles"
+ 
+@@ -163,8 +165,3 @@ item_1/text = "DUMMY 404"
+ item_1/icon = ExtResource("3_xmniq")
+ item_2/text = "DUMMY 404"
+ item_2/icon = ExtResource("3_xmniq")
+-
+-[connection signal="text_changed" from="RootPanel/Panel/ContainerContainer/VBoxContainer/NameContaner/NameEdit" to="." method="_on_name_edit_text_changed"]
+-[connection signal="color_changed" from="RootPanel/Panel/ContainerContainer/VBoxContainer/ColorContainer/ColorPicker" to="." method="_on_color_picker_color_changed"]
+-[connection signal="item_selected" from="RootPanel/Panel/ContainerContainer/VBoxContainer/PlayerFaceListContainer/ItemList" to="." method="_on_item_list_item_selected"]
+-[connection signal="pressed" from="RootPanel/Panel/ContainerContainer/VBoxContainer/SaveAndReturnBtn" to="." method="_on_save_and_return_btn_pressed"]
+diff --git a/UI/Settings/SettingsMenu.cs b/UI/Settings/SettingsMenu.cs
+index d0156e5..b1eb9c1 100644
+--- a/UI/Settings/SettingsMenu.cs
++++ b/UI/Settings/SettingsMenu.cs
+@@ -6,82 +6,86 @@ using NathanHoad;
+ using NullGarel.Util.Log;
+ using NullGarel.Sandboxnator.UI;
+ using NullGarel.Sandboxnator.Settings;
++using NullGarel.Sandboxnator;
+ namespace NullGarel.UI;
+ 
+-public partial class SettingsMenu : Control
++public partial class SettingsMenu : Control, IUiSignalLoader
+ {
+-    private GameSettingsData _currentGameSettings = new();
+-    [ExportCategory("Main buttons")]
+-    [Export] private Button _acceptBtn;
+-    [Export] private Button _resetToDefaultsBtn;
++	private GameSettingsData _currentGameSettings = new();
++	[ExportCategory("Main buttons")]
++	[Export] private Button _acceptBtn;
++	[Export] private Button _resetToDefaultsBtn;
+ 
+-    [ExportCategory("Controls settings")]
+-    [Export] private Slider _fovSlider;
+-    [Export] private Slider _lookSensitivitySlider;
+-    [Export] private GameSettingsData _defaultSettings;
++	[ExportCategory("Controls settings")]
++	[Export] private Slider _fovSlider;
++	[Export] private Slider _lookSensitivitySlider;
++	[Export] private GameSettingsData _defaultSettings;
+ 
+-    public override void _EnterTree()
+-    {
+-        UiSoundManager.Instance.TryInstallSounds();
+-        UIFromSettings();
+-        //InputActionsDebug();
+-        ConnectUISignals();
+-    }
++	public override void _EnterTree()
++	{
++		UIFromSettings();
++		//InputActionsDebug();
++		ConnectUISignals();
++	}
+ 
+-    private void ConnectUISignals()
+-    {
+-        var greg = GameRegistries.Instance;
++	public void ConnectUISignals()
++	{
++		var greg = GameRegistries.Instance;
+ 
+-        greg.OnSettingsChanged += UIFromSettings;
+-        VisibilityChanged += UIFromSettings;
+-        _acceptBtn.Pressed += SettingsFromUI;
+-        _resetToDefaultsBtn.Pressed += () =>
+-        {
+-            greg.SettingsData = _defaultSettings;
+-        };
+-    }
++		greg.OnSettingsChanged += UIFromSettings;
++		VisibilityChanged += UIFromSettings;
++		_acceptBtn.Pressed += () =>
++		{
++			SettingsFromUI();
++			SandboxnatorMain.Instance.ActivateMainMenu();
++		};
++		_resetToDefaultsBtn.Pressed += () =>
++		{
++			greg.SettingsData = _defaultSettings;
++		};
++	}
+ 
+-    /// <summary>
+-    /// Writes the user selected settings into the filesystem.
+-    /// </summary>
+-    public void SettingsFromUI()
+-    {
+-        var greg = GameRegistries.Instance;
++	/// <summary>
++	/// Writes the user selected settings into the filesystem.
++	/// </summary>
++	public void SettingsFromUI()
++	{
++		var greg = GameRegistries.Instance;
+ 
+-        _currentGameSettings.FieldOfView = _fovSlider.Value;
+-        _currentGameSettings.LookSensitivity = _lookSensitivitySlider.Value;
++		_currentGameSettings.FieldOfView = _fovSlider.Value;
++		_currentGameSettings.LookSensitivity = _lookSensitivitySlider.Value;
+ 
+-        greg.SettingsData = _currentGameSettings;
+-    }
++		greg.SettingsData = _currentGameSettings;
++	}
+ 
+-    /// <summary>
+-    /// Reads the registry and updates the UI to display settings info.
+-    /// </summary>
+-    public void UIFromSettings()
+-    {
+-        var greg = GameRegistries.Instance;
+-        _fovSlider.Value = greg.SettingsData.FieldOfView;
+-        _lookSensitivitySlider.Value = greg.SettingsData.LookSensitivity;
++	/// <summary>
++	/// Reads the registry and updates the UI to display settings info.
++	/// </summary>
++	public void UIFromSettings()
++	{
++		var greg = GameRegistries.Instance;
++		_fovSlider.Value = greg.SettingsData.FieldOfView;
++		_lookSensitivitySlider.Value = greg.SettingsData.LookSensitivity;
+ 
+-    }
++	}
+ 
+-    //TODO: Keybind remapping system.
+-    private void InputActionsDebug()
+-    {
+-        Array<StringName> actions = InputMap.GetActions();
+-        foreach (StringName action in actions)
+-        {
+-            string actionName = action.ToString();
+-            if (actionName.StartsWith("ui_"))
+-            {
+-                continue;
+-            }
+-            Array<InputEvent> eventsForAction = InputHelper.GetKeyboardInputsForAction(action);
+-            foreach (var e in eventsForAction)
+-            {
+-                GD.PrintRich($"{action} :: {e.AsText()}");
+-            }
+-        }
+-    }
++	//TODO: Keybind remapping system.
++	private void InputActionsDebug()
++	{
++		Array<StringName> actions = InputMap.GetActions();
++		foreach (StringName action in actions)
++		{
++			string actionName = action.ToString();
++			if (actionName.StartsWith("ui_"))
++			{
++				continue;
++			}
++			Array<InputEvent> eventsForAction = InputHelper.GetKeyboardInputsForAction(action);
++			foreach (var e in eventsForAction)
++			{
++				GD.PrintRich($"{action} :: {e.AsText()}");
++			}
++		}
++	}
+ 
+ }
+diff --git a/UI/Settings/SettingsMenu.tscn b/UI/Settings/SettingsMenu.tscn
+index ded472f..26013d6 100644
+--- a/UI/Settings/SettingsMenu.tscn
++++ b/UI/Settings/SettingsMenu.tscn
+@@ -1,7 +1,6 @@
+ [gd_scene format=3 uid="uid://crgfsh58w8e8c"]
+ 
+ [ext_resource type="Theme" uid="uid://dbnnr7gglht1m" path="res://UI/Theme/Theme.tres" id="1_fc8s3"]
+-[ext_resource type="Script" uid="uid://cip2ifw6h88lb" path="res://UI/UIComponents/Scripts/SceneChangingButton.cs" id="2_fc8s3"]
+ [ext_resource type="Script" uid="uid://cugg058t0t6u7" path="res://UI/Settings/SettingsMenu.cs" id="2_glqfu"]
+ [ext_resource type="Script" uid="uid://vbbgilmnwckl" path="res://UI/UIComponents/Scripts/ValueLabel.cs" id="3_cgddo"]
+ [ext_resource type="Resource" uid="uid://cqxx2lthvlpp3" path="res://GameContent/DefaultSettings.tres" id="3_i5m1f"]
+@@ -174,14 +173,12 @@ theme_override_constants/margin_bottom = 8
+ layout_mode = 2
+ theme = ExtResource("1_fc8s3")
+ 
+-[node name="AcceptBtn" type="Button" parent="RootPanel/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer" unique_id=810330844]
++[node name="AcceptBtn" type="Button" parent="RootPanel/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer" unique_id=851065763]
+ custom_minimum_size = Vector2(0, 64)
+ layout_mode = 2
+ size_flags_horizontal = 3
+ theme = ExtResource("1_fc8s3")
+ text = "Apply and return"
+-script = ExtResource("2_fc8s3")
+-targetScene = "uid://ddpxqpot2m7a2"
+ 
+ [node name="ResetDefaultsBtn" type="Button" parent="RootPanel/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer" unique_id=100178937]
+ custom_minimum_size = Vector2(0, 64)
+diff --git a/UI/UiSoundManager.cs b/UI/UiSoundManager.cs
+index b15e042..b6e7ab0 100644
+--- a/UI/UiSoundManager.cs
++++ b/UI/UiSoundManager.cs
+@@ -11,11 +11,6 @@ public partial class UiSoundManager : Singleton<UiSoundManager>
+ 	[Export] private AudioStreamPlayer interactSound;
+ 	[Export] private AudioStreamPlayer popUpSound;
+ 
+-	public override void _Ready()
+-	{
+-		TryInstallSounds();
+-	}
+-
+ 	/// <summary>
+ 	/// Called to set up InstallSounds
+ 	/// </summary>
+@@ -55,12 +50,12 @@ public partial class UiSoundManager : Singleton<UiSoundManager>
+ 		}
+ 	}
+ 
+-	public void PlaySfxSound(UiSoundType _type)
++	public void PlaySfxSound(UiSoundType soundType)
+ 	{
+-		switch (_type)
++		switch (soundType)
+ 		{
+ 			case UiSoundType.Hover:
+-				hoverSound.PitchScale = 1f + (float)GD.RandRange(-0.2, 0.2);
++				hoverSound.PitchScale = 1f + (float)GD.RandRange(-0.25, 0.25);
+ 				hoverSound.Play();
+ 				break;
+ 			case UiSoundType.Interact:
+diff --git a/World/PlayerManager.cs b/World/PlayerManager.cs
+index f424486..c12977b 100644
+--- a/World/PlayerManager.cs
++++ b/World/PlayerManager.cs
+@@ -42,20 +42,20 @@ public partial class PlayerManager : Singleton<PlayerManager>
+ 		player.Name = id.ToString();
+ 
+ 		//handling those stupid ass exceptions
+-		if (World.Instance == null)
++		if (SandboxnatorMain.World == null)
+ 		{
+-			NcLogger.Log("World.Instance is null!", NcLogger.LogType.Error);
++			NcLogger.Log("SandboxnatorMain.World is null!", NcLogger.LogType.Error);
+ 		}
+-		else if (World.Instance.networkedEntities == null)
++		else if (SandboxnatorMain.World.networkedEntities == null)
+ 		{
+-			NcLogger.Log("World.Instance.networkedEntities is null!", NcLogger.LogType.Error);
++			NcLogger.Log("SandboxnatorMain.World.networkedEntities is null!", NcLogger.LogType.Error);
+ 		}
+ 		else
+ 		{
+-			World.Instance.networkedEntities.AddChild(player);
++			SandboxnatorMain.World.networkedEntities.AddChild(player);
+ 		}
+ 
+-		World.Instance.OnPlayerJoin?.Invoke(id);
++		SandboxnatorMain.World.OnPlayerJoin?.Invoke(id);
+ 
+ 		if (Multiplayer.IsServer())
+ 		{
+@@ -80,12 +80,12 @@ public partial class PlayerManager : Singleton<PlayerManager>
+ 		if (!Multiplayer.IsServer())
+ 			return;
+ 
+-		World world = World.Instance;
++		World world = SandboxnatorMain.World;
+ 
+ 		if (world == null)
+ 		{
+ 			NcLogger.Log(
+-				$"RemovePlayer({id}): World.Instance is null. Ignoring disconnect cleanup.",
++				$"RemovePlayer({id}): SandboxnatorMain.World is null. Ignoring disconnect cleanup.",
+ 				NcLogger.LogType.Warn);
+ 
+ 			return;
+@@ -151,7 +151,7 @@ public partial class PlayerManager : Singleton<PlayerManager>
+ 	/// </summary>
+ 	public void PrepareForDisconnect()
+ 	{
+-		Node networkedEntities = World.Instance?.networkedEntities;
++		Node networkedEntities = SandboxnatorMain.World?.networkedEntities;
+ 
+ 		if (networkedEntities == null || !IsInstanceValid(networkedEntities))
+ 		{
+@@ -212,6 +212,7 @@ public partial class PlayerManager : Singleton<PlayerManager>
+ 
+ 		NcLogger.Log("Handshake acknowledged on client");
+ 		NetworkManager.Instance.NotifyConnectionEstablished();
++		SandboxnatorMain.Instance.LoadWorld();
+ 	}
+ 	#endregion
+ 
+@@ -221,7 +222,7 @@ public partial class PlayerManager : Singleton<PlayerManager>
+ 	{
+ 		if (!Multiplayer.IsServer())
+ 		{
+-			Node3D playerInstance = World.Instance.networkedEntities.GetNodeOrNull<Node3D>(playerId);
++			Node3D playerInstance = SandboxnatorMain.World.networkedEntities.GetNodeOrNull<Node3D>(playerId);
+ 			if (playerInstance == null)
+ 			{
+ 				NcLogger.Log("Player instance is lagging behind, delaying position change", NcLogger.LogType.Warn);
+diff --git a/World/ScenesBank/ScenesBank.cs b/World/ScenesBank/ScenesBank.cs
+index def50fa..91305f6 100644
+--- a/World/ScenesBank/ScenesBank.cs
++++ b/World/ScenesBank/ScenesBank.cs
+@@ -5,6 +5,7 @@ using NullGarel.Util;
+ using System;
+ namespace NullGarel.Sandboxnator;
+ 
++[Obsolete("do NOT use this shit anymore as of sandboxnator 0.5.0")]
+ public partial class ScenesBank : Singleton<ScenesBank>
+ {
+ 
+@@ -14,6 +15,5 @@ public partial class ScenesBank : Singleton<ScenesBank>
+ 
+     public override void _Ready()
+     {
+-        UiSoundManager.Instance.TryInstallSounds();
+     }
+ }
+diff --git a/World/World.cs b/World/World.cs
+index 6009a7f..faa4f78 100644
+--- a/World/World.cs
++++ b/World/World.cs
+@@ -13,7 +13,7 @@ namespace NullGarel.Sandboxnator.WorldAndScenes;
+ /// <summary>
+ /// Class that holds the world scene data
+ /// </summary>
+-public partial class World : Singleton<World>
++public partial class World : Node3D
+ {
+ 	public Action<long> OnPlayerJoin;
+ 	public List<Snapper> snappers = [];
+@@ -24,7 +24,6 @@ public partial class World : Singleton<World>
+ 
+ 	public override void _EnterTree()
+ 	{
+-		base.SetInstance();
+ 		if (GameRegistries.Instance == null)
+ 		{
+ 			NcLogger.Log("GameRegistries.Instance is null!");
+diff --git a/World/World.tscn b/World/World.tscn
+index fa0ac63..00cc76b 100644
+--- a/World/World.tscn
++++ b/World/World.tscn
+@@ -3,11 +3,7 @@
+ [ext_resource type="Script" uid="uid://dqcj2eps8s47d" path="res://World/World.cs" id="1_53ob6"]
+ [ext_resource type="Material" uid="uid://dni3mk5x6hn4f" path="res://Assets/Materials/GreenTile.tres" id="2_2i86a"]
+ [ext_resource type="Environment" uid="uid://bxlncy7pe2yl8" path="res://Assets/WorldEnv.tres" id="2_cf1t6"]
+-[ext_resource type="PackedScene" uid="uid://t1rkfpsrocdb" path="res://Source/Network/NetworkManager/NetworkManager.tscn" id="4_kc546"]
+-[ext_resource type="PackedScene" uid="uid://dowhshkw35fbv" path="res://UI/MultiplayerMenu/MultiplayerMenu.tscn" id="4_ssyfj"]
+ [ext_resource type="Script" uid="uid://jw73htruigdm" path="res://Source/Chat/ChatManager.cs" id="6_sbbat"]
+-[ext_resource type="Script" uid="uid://c2kiihybgeyab" path="res://World/PlayerManager.cs" id="7_cf1t6"]
+-[ext_resource type="PackedScene" uid="uid://1hsnhm80nlng" path="res://Source/Entities/Player/Player.tscn" id="8_cf1t6"]
+ [ext_resource type="Script" uid="uid://nbia3v54iixi" path="res://Source/Audio/WorldAudioManager.cs" id="9_4sj48"]
+ 
+ [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_umnpi"]
+@@ -59,19 +55,8 @@ spawn_path = NodePath("../NetworkedEntities")
+ 
+ [node name="NetworkedEntities" type="Node3D" parent="." unique_id=1549338156]
+ 
+-[node name="NetworkManager" parent="." unique_id=1038511083 instance=ExtResource("4_kc546")]
+-
+-[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1529727226]
+-
+-[node name="MultiplayerMenu" parent="CanvasLayer" unique_id=706467303 instance=ExtResource("4_ssyfj")]
+-
+ [node name="ChatManager" type="Node3D" parent="." unique_id=857003785]
+ script = ExtResource("6_sbbat")
+ 
+-[node name="PlayerManager" type="Node3D" parent="." unique_id=806909296]
+-script = ExtResource("7_cf1t6")
+-playerScene = ExtResource("8_cf1t6")
+-rangeOfRandomPos = Vector2(15, 15)
+-
+ [node name="WorldAudioManager" type="Node3D" parent="." unique_id=973766687]
+ script = ExtResource("9_4sj48")
+diff --git a/_Docs/Conventions.md b/_Docs/Conventions.md
+index f892ee6..d2a63b2 100644
+--- a/_Docs/Conventions.md
++++ b/_Docs/Conventions.md
+@@ -3,8 +3,8 @@
+ ## Naming conventions
+ 
+ - ```PascalCase``` Classes, properties, methods, files and folder names, enums, structs, registry entries (IDs).
+-- ```camelCase``` Public fields and private fields with the Export attribute, method arguments and local variables.
+-- ```_underscoreCamelCase``` Truly private fields without external references
++- ```camelCase``` Public fields, method arguments and local variables.
++- ```_underscoreCamelCase``` private fields
+ - ```snake_case``` files that have a prefix/suffix such as ui_hover.mp3, ui_interact.mp3, PlayerModel_0
+ 
+ ---
+diff --git a/project.godot b/project.godot
+index 8b9f545..3cc4007 100644
+--- a/project.godot
++++ b/project.godot
+@@ -17,17 +17,16 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
+ config/name="Sandboxnator"
+ config/description="A LAN multiplayer sandbox game, have fun with your friends, hang out, build and destroy :3"
+ config/version="0.4.1"
+-run/main_scene="uid://ddpxqpot2m7a2"
++run/main_scene="uid://cghy1wt2we3bu"
+ config/features=PackedStringArray("4.7", "C#", "Forward Plus")
+ boot_splash/use_filter=false
+-boot_splash/image="res://UI/SBlogo.png"
++boot_splash/image="uid://gl3kk4eokacn"
+ config/icon="res://Assets/Textures/sandboxnator_icon.png"
+ 
+ [autoload]
+ 
+ ApplicationManager="*uid://dsjkf1g1yhl67"
+ GameRegistriesScene="*uid://dx4fogi4qptr5"
+-ScenesBank="*res://World/ScenesBank/ScenesBank.tscn"
+ PlayerProfileManager="*res://Source/Entities/Player/PlayerProfileManager.cs"
+ InputHelper="*uid://cholww48njaeh"
+ UiSoundManager="*res://UI/UiSoundManager.tscn"

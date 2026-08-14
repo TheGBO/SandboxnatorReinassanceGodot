@@ -3,11 +3,7 @@
 [ext_resource type="Script" uid="uid://dqcj2eps8s47d" path="res://World/World.cs" id="1_53ob6"]
 [ext_resource type="Material" uid="uid://dni3mk5x6hn4f" path="res://Assets/Materials/GreenTile.tres" id="2_2i86a"]
 [ext_resource type="Environment" uid="uid://bxlncy7pe2yl8" path="res://Assets/WorldEnv.tres" id="2_cf1t6"]
-[ext_resource type="PackedScene" uid="uid://t1rkfpsrocdb" path="res://Source/Network/NetworkManager/NetworkManager.tscn" id="4_kc546"]
-[ext_resource type="PackedScene" uid="uid://dowhshkw35fbv" path="res://UI/MultiplayerMenu/MultiplayerMenu.tscn" id="4_ssyfj"]
 [ext_resource type="Script" uid="uid://jw73htruigdm" path="res://Source/Chat/ChatManager.cs" id="6_sbbat"]
-[ext_resource type="Script" uid="uid://c2kiihybgeyab" path="res://World/PlayerManager.cs" id="7_cf1t6"]
-[ext_resource type="PackedScene" uid="uid://1hsnhm80nlng" path="res://Source/Entities/Player/Player.tscn" id="8_cf1t6"]
 [ext_resource type="Script" uid="uid://nbia3v54iixi" path="res://Source/Audio/WorldAudioManager.cs" id="9_4sj48"]
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_umnpi"]
@@ -59,19 +55,8 @@ spawn_path = NodePath("../NetworkedEntities")
 
 [node name="NetworkedEntities" type="Node3D" parent="." unique_id=1549338156]
 
-[node name="NetworkManager" parent="." unique_id=1038511083 instance=ExtResource("4_kc546")]
-
-[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1529727226]
-
-[node name="MultiplayerMenu" parent="CanvasLayer" unique_id=706467303 instance=ExtResource("4_ssyfj")]
-
 [node name="ChatManager" type="Node3D" parent="." unique_id=857003785]
 script = ExtResource("6_sbbat")
-
-[node name="PlayerManager" type="Node3D" parent="." unique_id=806909296]
-script = ExtResource("7_cf1t6")
-playerScene = ExtResource("8_cf1t6")
-rangeOfRandomPos = Vector2(15, 15)
 
 [node name="WorldAudioManager" type="Node3D" parent="." unique_id=973766687]
 script = ExtResource("9_4sj48")

@@ -17,17 +17,16 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 config/name="Sandboxnator"
 config/description="A LAN multiplayer sandbox game, have fun with your friends, hang out, build and destroy :3"
 config/version="0.4.1"
-run/main_scene="uid://ddpxqpot2m7a2"
+run/main_scene="uid://cghy1wt2we3bu"
 config/features=PackedStringArray("4.7", "C#", "Forward Plus")
 boot_splash/use_filter=false
-boot_splash/image="res://UI/SBlogo.png"
+boot_splash/image="uid://gl3kk4eokacn"
 config/icon="res://Assets/Textures/sandboxnator_icon.png"
 
 [autoload]
 
 ApplicationManager="*uid://dsjkf1g1yhl67"
 GameRegistriesScene="*uid://dx4fogi4qptr5"
-ScenesBank="*res://World/ScenesBank/ScenesBank.tscn"
 PlayerProfileManager="*res://Source/Entities/Player/PlayerProfileManager.cs"
 InputHelper="*uid://cholww48njaeh"
 UiSoundManager="*res://UI/UiSoundManager.tscn"

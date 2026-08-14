@@ -115,6 +115,7 @@ namespace NullGarel.Sandboxnator.Network
 				HostGame(1077, true);
 			}
 		}
+
 		#endregion
 
 		#region public state
@@ -151,9 +152,9 @@ namespace NullGarel.Sandboxnator.Network
 
 			peer = newPeer;
 			Multiplayer.MultiplayerPeer = peer;
-
 			ConnectServerSignals();
 
+			SandboxnatorMain.Instance.LoadWorld();
 			if (!dedicatedServer)
 			{
 				long hostId = Multiplayer.GetUniqueId();
@@ -295,8 +296,7 @@ namespace NullGarel.Sandboxnator.Network
 				return;
 			}
 
-			NcLogger.Log(
-				"[!] Closing multiplayer connection...");
+			NcLogger.Log("[!] Closing multiplayer connection...");
 
 			DisconnectAllSignals();
 

@@ -24,7 +24,7 @@ public partial class PlayerInput : AbstractComponent<Player>
     //Building
     public event Action RotateCW;
     public event Action RotateCCW;
-    public event Action<bool> ChangeSnapMode;
+    public event Action<bool> OnChangeSnapMode;
     //has to be exported because synchronizerisms....
     [Export] public bool IsGridSnapMode { get; private set; } = true;
     //usage
@@ -168,7 +168,7 @@ public partial class PlayerInput : AbstractComponent<Player>
         if (Input.IsActionJustPressed(BuildChangeSnapAction))
         {
             IsGridSnapMode = !IsGridSnapMode;
-            ChangeSnapMode?.Invoke(IsGridSnapMode);
+            OnChangeSnapMode?.Invoke(IsGridSnapMode);
         }
     }
 

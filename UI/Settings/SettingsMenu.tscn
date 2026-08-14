@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://crgfsh58w8e8c"]
 
 [ext_resource type="Theme" uid="uid://dbnnr7gglht1m" path="res://UI/Theme/Theme.tres" id="1_fc8s3"]
-[ext_resource type="Script" uid="uid://cip2ifw6h88lb" path="res://UI/UIComponents/Scripts/SceneChangingButton.cs" id="2_fc8s3"]
 [ext_resource type="Script" uid="uid://cugg058t0t6u7" path="res://UI/Settings/SettingsMenu.cs" id="2_glqfu"]
 [ext_resource type="Script" uid="uid://vbbgilmnwckl" path="res://UI/UIComponents/Scripts/ValueLabel.cs" id="3_cgddo"]
 [ext_resource type="Resource" uid="uid://cqxx2lthvlpp3" path="res://GameContent/DefaultSettings.tres" id="3_i5m1f"]
@@ -174,14 +173,12 @@ theme_override_constants/margin_bottom = 8
 layout_mode = 2
 theme = ExtResource("1_fc8s3")
 
-[node name="AcceptBtn" type="Button" parent="RootPanel/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer" unique_id=810330844]
+[node name="AcceptBtn" type="Button" parent="RootPanel/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer" unique_id=851065763]
 custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("1_fc8s3")
 text = "Apply and return"
-script = ExtResource("2_fc8s3")
-targetScene = "uid://ddpxqpot2m7a2"
 
 [node name="ResetDefaultsBtn" type="Button" parent="RootPanel/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer" unique_id=100178937]
 custom_minimum_size = Vector2(0, 64)

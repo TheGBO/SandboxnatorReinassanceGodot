@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://co22epydu1y4p" path="res://UI/MultiplayerMenu/ServerBrowser.cs" id="2_kkaxb"]
 [ext_resource type="PackedScene" uid="uid://drkyst4xf3w5h" path="res://UI/MultiplayerMenu/ServerInfoContainer.tscn" id="2_q01po"]
 
-[node name="MultiplayerMenu" type="Control" unique_id=765594653 node_paths=PackedStringArray("portInput", "ipAddressInput", "connectionMenu", "loadingScreen", "timeoutProgress", "cancelConnectionBtn")]
+[node name="MultiplayerMenu" type="Control" unique_id=765594653 node_paths=PackedStringArray("_portInput", "_ipAddressInput", "_hostBtn", "_joinBtn", "_mainMenuBtn", "_connectionMenu", "_loadingScreen", "_timeoutProgress", "_cancelConnectionBtn")]
 z_index = 1
 layout_mode = 3
 anchors_preset = 15
@@ -14,12 +14,15 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("1_t2st1")
-portInput = NodePath("ConnectionMenu/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/PortInput")
-ipAddressInput = NodePath("ConnectionMenu/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/IpInput")
-connectionMenu = NodePath("ConnectionMenu")
-loadingScreen = NodePath("LoadingScreen")
-timeoutProgress = NodePath("LoadingScreen/Panel/Container/VBoxContainer/ProgressBar")
-cancelConnectionBtn = NodePath("LoadingScreen/Panel/Container/VBoxContainer/CancelConnectionAttempt")
+_portInput = NodePath("ConnectionMenu/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/PortInput")
+_ipAddressInput = NodePath("ConnectionMenu/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer2/IpInput")
+_hostBtn = NodePath("ConnectionMenu/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer/HostBtn")
+_joinBtn = NodePath("ConnectionMenu/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer/JoinBtn")
+_mainMenuBtn = NodePath("ConnectionMenu/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer/MainMenuBtn")
+_connectionMenu = NodePath("ConnectionMenu")
+_loadingScreen = NodePath("LoadingScreen")
+_timeoutProgress = NodePath("LoadingScreen/Panel/Container/VBoxContainer/ProgressBar")
+_cancelConnectionBtn = NodePath("LoadingScreen/Panel/Container/VBoxContainer/CancelConnectionAttempt")
 
 [node name="ConnectionMenu" type="PanelContainer" parent="." unique_id=1034873086]
 layout_mode = 1
@@ -216,7 +219,3 @@ show_percentage = false
 custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 text = "Cancel connection attempt"
-
-[connection signal="pressed" from="ConnectionMenu/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer/JoinBtn" to="." method="_on_join_btn_pressed"]
-[connection signal="pressed" from="ConnectionMenu/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer/HostBtn" to="." method="_on_host_btn_pressed"]
-[connection signal="pressed" from="ConnectionMenu/MarginContainer/Panel/MarginContainer/HBoxContainer/VBoxContainer/MainMenuBtn" to="." method="_on_main_menu_btn_pressed"]

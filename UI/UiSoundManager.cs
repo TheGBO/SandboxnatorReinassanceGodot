@@ -11,11 +11,6 @@ public partial class UiSoundManager : Singleton<UiSoundManager>
 	[Export] private AudioStreamPlayer interactSound;
 	[Export] private AudioStreamPlayer popUpSound;
 
-	public override void _Ready()
-	{
-		TryInstallSounds();
-	}
-
 	/// <summary>
 	/// Called to set up InstallSounds
 	/// </summary>
@@ -55,12 +50,12 @@ public partial class UiSoundManager : Singleton<UiSoundManager>
 		}
 	}
 
-	public void PlaySfxSound(UiSoundType _type)
+	public void PlaySfxSound(UiSoundType soundType)
 	{
-		switch (_type)
+		switch (soundType)
 		{
 			case UiSoundType.Hover:
-				hoverSound.PitchScale = 1f + (float)GD.RandRange(-0.2, 0.2);
+				hoverSound.PitchScale = 1f + (float)GD.RandRange(-0.25, 0.25);
 				hoverSound.Play();
 				break;
 			case UiSoundType.Interact:

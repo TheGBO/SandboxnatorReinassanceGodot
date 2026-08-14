@@ -16,7 +16,7 @@ public class CommandPlayers : ChatCommand, IChatCommand
     public void Handle(CommandContext ctx)
     {
         string playerListMsg = "Connected players in to the server:";
-        foreach (Player p in World.Instance.GetPlayers())
+        foreach (Player p in SandboxnatorMain.World.GetPlayers())
         {
             playerListMsg += $"\n[Player ID:{p.componentHolder.entityId}] : [color={p.ProfileData.PlayerColor.ToHtml()}]{p.ProfileData.PlayerName}[/color]";
         }

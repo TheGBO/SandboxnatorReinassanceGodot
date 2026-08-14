@@ -17,10 +17,10 @@ public partial class ApplicationManager : Singleton<ApplicationManager>
 
 	public override void _Ready()
 	{
-		GetTree().Root.CloseRequested += OnCloseRequested;
+		GetTree().Root.CloseRequested += HandleCloseRequest;
 	}
 
-	public void OnCloseRequested()
+	public void HandleCloseRequest()
 	{
 		NcLogger.Log("ApplicationManager :: close requested.");
 
@@ -37,6 +37,6 @@ public partial class ApplicationManager : Singleton<ApplicationManager>
 
 	public override void _ExitTree()
 	{
-		GetTree().Root.CloseRequested -= OnCloseRequested;
+		GetTree().Root.CloseRequested -= HandleCloseRequest;
 	}
 }

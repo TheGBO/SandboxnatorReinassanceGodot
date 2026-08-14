@@ -10,12 +10,13 @@ public partial class Snapper : Node3D
 
     public override void _EnterTree()
     {
-        World.Instance.snappers.Add(this);
+        SandboxnatorMain.World.snappers.Add(this);
     }
 
     public override void _ExitTree()
     {
-        World.Instance.snappers.Remove(this);
+        //no longer needed as world is now disposable
+        //SandboxnatorMain.World.snappers.Remove(this);
     }
 
     public void _on_area_3d_body_entered(Node3D body)

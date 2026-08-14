@@ -35,10 +35,9 @@ public partial class ServerDiscovery : Singleton<ServerDiscovery>
         //SetupListen();
     }
 
-    public override void _Process(double delta)
+    //replace with override _Process when this gets fixed
+    public void _DoNot_Process(double delta)
     {
-        return;
-
         _elapsedTime += delta;
         if (_elapsedTime < broadcastTimeout)
             return;

@@ -30,11 +30,6 @@ public partial class PlacingItem : BaseItem
 
 	}
 
-	public override void _ExitTree()
-	{
-		if (!IsMultiplayerAuthority()) return;
-	}
-
 	public override void _PhysicsProcess(double delta)
 	{
 		if (!ItemUser.ComponentParent.IsMultiplayerAuthority()) return;
@@ -71,7 +66,7 @@ public partial class PlacingItem : BaseItem
 			);
 
 		building.Rotation = args.DesiredRotation;
-		World.Instance.networkedEntities.CallDeferred("add_child", building);
+		SandboxnatorMain.World.networkedEntities.CallDeferred("add_child", building);
 		PlayPlacingSound(building.Position);
 	}
 
@@ -85,14 +80,14 @@ public partial class PlacingItem : BaseItem
 	{
 		Vector3 offsetPos = collisionPoint + (collisionNormal * 0.5f);
 		if (!hasGrid)
-			return World.Instance.GetNearestSnapper(offsetPos, snapRange);
+			return SandboxnatorMain.World.GetNearestSnapper(offsetPos, snapRange);
 
 		//else if has a grid
 		Vector3 snapped = new
 		(
 			Mathf.Floor(offsetPos.X + gridSize.X),
-			Mathf.Floor(offsetPos.Y +  gridSize.Y),
-			Mathf.Floor(offsetPos.Z +  gridSize.Z)
+			Mathf.Floor(offsetPos.Y + gridSize.Y),
+			Mathf.Floor(offsetPos.Z + gridSize.Z)
 		);
 		return snapped;
 	}

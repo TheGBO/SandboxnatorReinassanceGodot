@@ -5,6 +5,7 @@ using NullGarel.Util;
 using System;
 namespace NullGarel.Sandboxnator;
 
+[Obsolete("do NOT use this shit anymore as of sandboxnator 0.5.0")]
 public partial class ScenesBank : Singleton<ScenesBank>
 {
 
@@ -14,6 +15,5 @@ public partial class ScenesBank : Singleton<ScenesBank>
 
     public override void _Ready()
     {
-        UiSoundManager.Instance.TryInstallSounds();
     }
 }

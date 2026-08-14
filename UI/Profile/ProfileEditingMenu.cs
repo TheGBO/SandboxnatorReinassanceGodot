@@ -11,92 +11,102 @@ using NullGarel.Sandboxnator.Registry;
 namespace NullGarel.Sandboxnator.UI;
 
 
-public partial class ProfileEditingMenu : Control
+public partial class ProfileEditingMenu : Control, IUiSignalLoader
 {
-	[Export] private LineEdit nameEdit;
-	[Export] private PlayerModel playerModelPreview;
-	[Export] private Camera3D previewCamera;
-	[Export] private ColorPicker colorEdit;
-	[Export] private Button saveButton;
-	[Export] private ItemList playerFaceList;
+	[ExportCategory("Character customization")]
+	[Export] private LineEdit _nameEdit;
+	[Export] private ColorPicker _colorEdit;
+	[Export] private ItemList _playerFaceList;
+	[ExportCategory("Preview")]
+	[Export] private Camera3D _previewCamera;
+	[Export] private PlayerModel _playerModelPreview;
+	private CanvasLayer _parentCanvasLayer;
+	[ExportCategory("Main UI")]
+	[Export] private Button _saveButton;
 	private PlayerProfileData _cachedProfile = new();
 
-	public void _on_save_and_return_btn_pressed()
-	{
-		UpdateProfileFromUI();
-		GetTree().ChangeSceneToPacked(ScenesBank.Instance.mainMenuScene);
-	}
 
 	public override void _Ready()
 	{
+		//assuming this is supposed to never fail (because it is lol)
+		_parentCanvasLayer = GetParent<CanvasLayer>();
+		
+		ConnectUISignals();
 		_cachedProfile = PlayerProfileManager.Instance.CurrentProfile;
 		FetchFacesFromRegistry();
-		UpdateUiFromProfile();
+		UpdateUiFromCachedProfile();
+		_parentCanvasLayer.VisibilityChanged += UpdateVisibility;
+		UpdateVisibility();
+	}
+
+	public void ConnectUISignals()
+	{
+		_saveButton.Pressed += () =>
+		{
+			ConfirmProfile();
+			SandboxnatorMain.Instance.ActivateMainMenu();
+		};
+		_nameEdit.TextChanged += (_) => OnAlteration();
+		_playerFaceList.ItemSelected += (_) => OnAlteration();
+		_colorEdit.ColorChanged += (_) => OnAlteration();
 	}
 
 	public override void _Process(double delta)
 	{
-		if (PlatformCheck.IsDesktop())
-		{
-			Viewport viewPort = GetViewport();
-			Vector2 mousePos = viewPort.GetMousePosition();
-			float visibleRect = viewPort.GetVisibleRect().Size.X;
-			float mouseOnScreenRatio = (mousePos.X / visibleRect) - 0.5f;
-			playerModelPreview.GlobalRotation = new(0, mouseOnScreenRatio * Mathf.Pi - Mathf.Pi, 0);
-		}
+		ModelLookAtCursor();
+	}
+
+	private void UpdateVisibility()
+	{
+		Visible = _parentCanvasLayer.Visible;
+		_playerModelPreview.Visible = Visible;
+	}
+
+	private void ModelLookAtCursor()
+	{
+		if (!PlatformCheck.IsDesktop()) return;
+
+		Viewport viewPort = GetViewport();
+		Vector2 mousePos = viewPort.GetMousePosition();
+		float visibleRect = viewPort.GetVisibleRect().Size.X;
+		float mouseOnScreenRatio = (mousePos.X / visibleRect) - 0.5f;
+		_playerModelPreview.GlobalRotation = new(0, mouseOnScreenRatio * Mathf.Pi - Mathf.Pi, 0);
 
 	}
 
 
 	public void OnAlteration()
 	{
-		UpdateUiFromUi();
+		UpdateCachedProfileFromUi();
 	}
-
-	#region ALTERATION HANDLERs
-	public void _on_item_list_item_selected(int index)
-	{
-		OnAlteration();
-	}
-
-	public void _on_color_picker_color_changed(Color color)
-	{
-		OnAlteration();
-	}
-
-	public void _on_name_edit_text_changed(string newName)
-	{
-		OnAlteration();
-	}
-	#endregion
 
 	private bool ValidateProfile()
 	{
-		bool isNameValid = !nameEdit.Text.Contains('!') && !string.IsNullOrEmpty(nameEdit.Text);
-		saveButton.Disabled = !isNameValid;
+		bool isNameValid = !_nameEdit.Text.Contains('!') && !string.IsNullOrEmpty(_nameEdit.Text);
+		_saveButton.Disabled = !isNameValid;
 		bool validProfile = isNameValid;
 		return validProfile;
 	}
 
-	private void UpdateUiFromUi()
+	private void UpdateCachedProfileFromUi()
 	{
-		_cachedProfile.PlayerName = nameEdit.Text;
-		_cachedProfile.PlayerColor = colorEdit.Color;
+		_cachedProfile.PlayerName = _nameEdit.Text;
+		_cachedProfile.PlayerColor = _colorEdit.Color;
 		_cachedProfile.PlayerFaceId = GetSelectedFaceID();
-		playerModelPreview.UpdateVisual(_cachedProfile);
+		_playerModelPreview.UpdateVisual(_cachedProfile);
 	}
 
-	private void UpdateUiFromProfile()
+	private void UpdateUiFromCachedProfile()
 	{
 		//name
-		if (!nameEdit.IsEditing())
-			nameEdit.Text = _cachedProfile.PlayerName;
+		if (!_nameEdit.IsEditing())
+			_nameEdit.Text = _cachedProfile.PlayerName;
 		//color
-		colorEdit.Color = _cachedProfile.PlayerColor;
-		playerModelPreview.UpdateVisual(_cachedProfile);
+		_colorEdit.Color = _cachedProfile.PlayerColor;
+		_playerModelPreview.UpdateVisual(_cachedProfile);
 	}
 
-	private void UpdateProfileFromUI()
+	private void ConfirmProfile()
 	{
 		PlayerProfileManager.Instance.CurrentProfile = _cachedProfile;
 		_cachedProfile.PrintProperties("Updated profile from UI");
@@ -106,10 +116,10 @@ public partial class ProfileEditingMenu : Control
 	#region Face registry related
 	private void FetchFacesFromRegistry()
 	{
-		playerFaceList.Clear();
+		_playerFaceList.Clear();
 		foreach (PlayerFaceData face in GameRegistries.Instance.PlayerFaceRegistry.GetAllValues())
 		{
-			playerFaceList.AddItem(face.playerFaceId, face.faceTexture);
+			_playerFaceList.AddItem(face.playerFaceId, face.faceTexture);
 		}
 	}
 
@@ -117,19 +127,17 @@ public partial class ProfileEditingMenu : Control
 
 	private string GetSelectedFaceID()
 	{
-		var currentProfile = PlayerProfileManager.Instance.CurrentProfile;
-		var selected = playerFaceList.GetSelectedItems();
+		PlayerProfileData currentProfile = PlayerProfileManager.Instance.CurrentProfile;
+		int[] selected = _playerFaceList.GetSelectedItems();
 		if (selected.Length > 0)
 		{
 			int index = selected[0];
-			string faceID = playerFaceList.GetItemText(index);
-			//GD.Print("Selected item name: " + faceID);
+			string faceID = _playerFaceList.GetItemText(index);
 			return faceID;
 		}
 		return currentProfile.PlayerFaceId;
 	}
-	#endregion
-	//Placeholder to test name generation, this random name generation should only happen when there is no existing player profile.
 
+	#endregion
 
 }
