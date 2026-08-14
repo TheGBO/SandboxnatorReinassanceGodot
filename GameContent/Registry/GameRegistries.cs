@@ -25,18 +25,21 @@ public partial class GameRegistries : Singleton<GameRegistries>
     public Registry<PackedScene> BuildingRegistry { get; set; } = new();
 
     //ingame settings
-    public GameSettingsData SettingsData { get; set; } = new();
-    public string UserSettingsName { get; private set; } = "UserSettings.tres";
-
-
+    private GameSettingsData _settingsData = new();
+    public GameSettingsData SettingsData
+    {
+        get => _settingsData;
+        set
+        {
+            _settingsData = value;
+            SaveLoader.WriteResource(SaveFolder.Config, UserSettingsFileName, SettingsData);
+            OnSettingsChanged?.Invoke();
+        }
+    }
+    public const string UserSettingsFileName = "UserSettings.tres";
+    public Action OnSettingsChanged { get; set; }
 
     public static string GetGameVersion => ProjectSettings.GetSetting("application/config/version").ToString();
-
-    //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-EVENT BUS SECTION
-    /// <summary>
-    /// Called when settings are saved and SettingsData is reassigned.
-    /// </summary>
-    public Action OnSettingsSaved { get; set; }
 
     public override void _Ready()
     {
@@ -65,12 +68,12 @@ public partial class GameRegistries : Singleton<GameRegistries>
         {
             SettingsData = settings;
         }
-        OnSettingsSaved?.Invoke();
+        OnSettingsChanged?.Invoke();
     }
 
     private void LoadUserSettings()
     {
-        var settings = SaveLoader.ReadResource<GameSettingsData>(SaveFolder.Config, UserSettingsName);
+        var settings = SaveLoader.ReadResource<GameSettingsData>(SaveFolder.Config, UserSettingsFileName);
         if (settings == null)
         {
             NcLogger.Error("User settings do not exist yet");
@@ -78,7 +81,7 @@ public partial class GameRegistries : Singleton<GameRegistries>
         }
         NcLogger.Info("User settings do in fact exist.");
         SettingsData = settings;
-        OnSettingsSaved?.Invoke();
+        OnSettingsChanged?.Invoke();
     }
 
     private void InitializeRegistries()

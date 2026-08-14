@@ -4,9 +4,10 @@
 [ext_resource type="Script" uid="uid://cip2ifw6h88lb" path="res://UI/UIComponents/Scripts/SceneChangingButton.cs" id="2_fc8s3"]
 [ext_resource type="Script" uid="uid://cugg058t0t6u7" path="res://UI/Settings/SettingsMenu.cs" id="2_glqfu"]
 [ext_resource type="Script" uid="uid://vbbgilmnwckl" path="res://UI/UIComponents/Scripts/ValueLabel.cs" id="3_cgddo"]
+[ext_resource type="Resource" uid="uid://cqxx2lthvlpp3" path="res://GameContent/DefaultSettings.tres" id="3_i5m1f"]
 [ext_resource type="FontFile" uid="uid://byx34uye6i18w" path="res://Assets/Font/Inter-VariableFont_opsz,wght.ttf" id="10_2t4x0"]
 
-[node name="SettingsMenu" type="Control" unique_id=1881731858 node_paths=PackedStringArray("FovSlider", "LookSensitivitySlider")]
+[node name="SettingsMenu" type="Control" unique_id=1881731858 node_paths=PackedStringArray("_acceptBtn", "_resetToDefaultsBtn", "_fovSlider", "_lookSensitivitySlider")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -15,8 +16,11 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_fc8s3")
 script = ExtResource("2_glqfu")
-FovSlider = NodePath("RootPanel/MarginContainer/VBoxContainer/Panel/TabContainer/Controls/VBoxContainer/FovProperty/hbox/Slider")
-LookSensitivitySlider = NodePath("RootPanel/MarginContainer/VBoxContainer/Panel/TabContainer/Controls/VBoxContainer/SensitivityProperty/hbox/Slider")
+_acceptBtn = NodePath("RootPanel/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer/AcceptBtn")
+_resetToDefaultsBtn = NodePath("RootPanel/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer/ResetDefaultsBtn")
+_fovSlider = NodePath("RootPanel/MarginContainer/VBoxContainer/Panel/TabContainer/Controls/VBoxContainer/FovProperty/hbox/FovSlider")
+_lookSensitivitySlider = NodePath("RootPanel/MarginContainer/VBoxContainer/Panel/TabContainer/Controls/VBoxContainer/SensitivityProperty/hbox/SensitivitySlider")
+_defaultSettings = ExtResource("3_i5m1f")
 
 [node name="RootPanel" type="Panel" parent="." unique_id=1474105256]
 layout_mode = 1
@@ -66,9 +70,12 @@ theme = ExtResource("1_fc8s3")
 metadata/_tab_index = 0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="RootPanel/MarginContainer/VBoxContainer/Panel/TabContainer/Controls" unique_id=297803790]
-layout_mode = 0
-offset_right = 1088.0
-offset_bottom = 459.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme = ExtResource("1_fc8s3")
@@ -91,7 +98,7 @@ theme = ExtResource("1_fc8s3")
 theme_override_fonts/font = ExtResource("10_2t4x0")
 text = "Field Of view"
 
-[node name="Slider" type="HSlider" parent="RootPanel/MarginContainer/VBoxContainer/Panel/TabContainer/Controls/VBoxContainer/FovProperty/hbox" unique_id=983554810]
+[node name="FovSlider" type="HSlider" parent="RootPanel/MarginContainer/VBoxContainer/Panel/TabContainer/Controls/VBoxContainer/FovProperty/hbox" unique_id=983554810]
 layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("1_fc8s3")
@@ -105,7 +112,7 @@ theme = ExtResource("1_fc8s3")
 theme_override_fonts/font = ExtResource("10_2t4x0")
 text = "0"
 script = ExtResource("3_cgddo")
-displayValue = NodePath("../Slider")
+displayValue = NodePath("../FovSlider")
 displayPrefix = "= "
 
 [node name="SensitivityProperty" type="MarginContainer" parent="RootPanel/MarginContainer/VBoxContainer/Panel/TabContainer/Controls/VBoxContainer" unique_id=692162451]
@@ -126,7 +133,7 @@ theme = ExtResource("1_fc8s3")
 theme_override_fonts/font = ExtResource("10_2t4x0")
 text = "Look sensitivity"
 
-[node name="Slider" type="HSlider" parent="RootPanel/MarginContainer/VBoxContainer/Panel/TabContainer/Controls/VBoxContainer/SensitivityProperty/hbox" unique_id=2101525264]
+[node name="SensitivitySlider" type="HSlider" parent="RootPanel/MarginContainer/VBoxContainer/Panel/TabContainer/Controls/VBoxContainer/SensitivityProperty/hbox" unique_id=2101525264]
 layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("1_fc8s3")
@@ -140,7 +147,7 @@ theme = ExtResource("1_fc8s3")
 theme_override_fonts/font = ExtResource("10_2t4x0")
 text = "0"
 script = ExtResource("3_cgddo")
-displayValue = NodePath("../Slider")
+displayValue = NodePath("../SensitivitySlider")
 displayPrefix = "= "
 
 [node name="Graphics" type="TabBar" parent="RootPanel/MarginContainer/VBoxContainer/Panel/TabContainer" unique_id=328691987]
@@ -176,11 +183,9 @@ text = "Apply and return"
 script = ExtResource("2_fc8s3")
 targetScene = "uid://ddpxqpot2m7a2"
 
-[node name="Button2" type="Button" parent="RootPanel/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer" unique_id=100178937]
+[node name="ResetDefaultsBtn" type="Button" parent="RootPanel/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer" unique_id=100178937]
 custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("1_fc8s3")
 text = "Reset defaults"
-
-[connection signal="pressed" from="RootPanel/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer/AcceptBtn" to="." method="_on_accept_btn_pressed"]

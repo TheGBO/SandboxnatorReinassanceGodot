@@ -10,6 +10,6 @@ public interface ISettingsLoader
     public void UpdateSettingsData();
     public void SubscribeToSettingsEventBus()
     {
-        GameRegistries.Instance.OnSettingsSaved += this.UpdateSettingsData;
+        GameRegistries.Instance.OnSettingsChanged += this.UpdateSettingsData;
     }
 }

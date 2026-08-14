@@ -5,18 +5,64 @@ using NullGarel.Util.IO;
 using NathanHoad;
 using NullGarel.Util.Log;
 using NullGarel.Sandboxnator.UI;
+using NullGarel.Sandboxnator.Settings;
 namespace NullGarel.UI;
 
 public partial class SettingsMenu : Control
 {
-    [Export] private Slider FovSlider;
-    [Export] private Slider LookSensitivitySlider;
+    private GameSettingsData _currentGameSettings = new();
+    [ExportCategory("Main buttons")]
+    [Export] private Button _acceptBtn;
+    [Export] private Button _resetToDefaultsBtn;
+
+    [ExportCategory("Controls settings")]
+    [Export] private Slider _fovSlider;
+    [Export] private Slider _lookSensitivitySlider;
+    [Export] private GameSettingsData _defaultSettings;
 
     public override void _EnterTree()
     {
         UiSoundManager.Instance.TryInstallSounds();
         UIFromSettings();
-        InputActionsDebug();
+        //InputActionsDebug();
+        ConnectUISignals();
+    }
+
+    private void ConnectUISignals()
+    {
+        var greg = GameRegistries.Instance;
+
+        greg.OnSettingsChanged += UIFromSettings;
+        VisibilityChanged += UIFromSettings;
+        _acceptBtn.Pressed += SettingsFromUI;
+        _resetToDefaultsBtn.Pressed += () =>
+        {
+            greg.SettingsData = _defaultSettings;
+        };
+    }
+
+    /// <summary>
+    /// Writes the user selected settings into the filesystem.
+    /// </summary>
+    public void SettingsFromUI()
+    {
+        var greg = GameRegistries.Instance;
+
+        _currentGameSettings.FieldOfView = _fovSlider.Value;
+        _currentGameSettings.LookSensitivity = _lookSensitivitySlider.Value;
+
+        greg.SettingsData = _currentGameSettings;
+    }
+
+    /// <summary>
+    /// Reads the registry and updates the UI to display settings info.
+    /// </summary>
+    public void UIFromSettings()
+    {
+        var greg = GameRegistries.Instance;
+        _fovSlider.Value = greg.SettingsData.FieldOfView;
+        _lookSensitivitySlider.Value = greg.SettingsData.LookSensitivity;
+
     }
 
     //TODO: Keybind remapping system.
@@ -33,43 +79,9 @@ public partial class SettingsMenu : Control
             Array<InputEvent> eventsForAction = InputHelper.GetKeyboardInputsForAction(action);
             foreach (var e in eventsForAction)
             {
-                string eventName = e.AsText();
-
                 GD.PrintRich($"{action} :: {e.AsText()}");
-
             }
         }
-    }
-
-    public void SettingsFromUI()
-    {
-        var greg = GameRegistries.Instance;
-        //read from ui and put into the registry
-        greg.SettingsData.FieldOfView = FovSlider.Value;
-        greg.SettingsData.LookSensitivity = LookSensitivitySlider.Value;
-
-        SaveLoader.WriteResource(SaveFolder.Config, greg.UserSettingsName, greg.SettingsData);
-        greg.OnSettingsSaved?.Invoke();
-    }
-
-    //TODO: also call this from "visibility changed"
-    public void UIFromSettings()
-    {
-        var greg = GameRegistries.Instance;
-        //load from the registry and put into the ui
-        FovSlider.Value = greg.SettingsData.FieldOfView;
-        LookSensitivitySlider.Value = greg.SettingsData.LookSensitivity;
-
-    }
-
-    public void ResetDefaults()
-    {
-
-    }
-
-    public void _on_accept_btn_pressed()
-    {
-        SettingsFromUI();
     }
 
 }

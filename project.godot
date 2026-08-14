@@ -35,6 +35,8 @@ ServerDiscovery="*res://Source/Network/ServerDiscovery/ServerDiscovery.tscn"
 
 [display]
 
+window/size/viewport_width=768
+window/size/viewport_height=576
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 window/handheld/orientation=4
