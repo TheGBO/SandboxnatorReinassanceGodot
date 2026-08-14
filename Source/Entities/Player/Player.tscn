@@ -495,12 +495,15 @@ libraries/ = SubResource("AnimationLibrary_0sei0")
 [node name="PlayerInput" type="Node3D" parent="ComponentHolder" unique_id=757712919]
 script = ExtResource("10_xk60u")
 
-[node name="PlayerChatHUD" type="Node3D" parent="ComponentHolder" unique_id=995031727 node_paths=PackedStringArray("_messageEdit", "_messageBox", "_notificationSound", "_quickMessageBox")]
+[node name="PlayerChatHUD" type="Node3D" parent="ComponentHolder" unique_id=995031727 node_paths=PackedStringArray("_messageEdit", "_messageBox", "_notificationSound", "_quickMessageBox", "_messageFadeOutTimer")]
 script = ExtResource("10_np6ov")
 _messageEdit = NodePath("../../HUD/ChatRoot/ChatBox/VBoxContainer/Input/MessageEdit")
 _messageBox = NodePath("../../HUD/ChatRoot/ChatBox/VBoxContainer/MarginContainer/MessagesContainer")
 _notificationSound = NodePath("../../HUD/ChatRoot/NotificationSound")
 _quickMessageBox = NodePath("../../HUD/QuickChatContainer/QuickMessageBox")
+_messageFadeOutTimer = NodePath("MessageFadeOutTimer")
+
+[node name="MessageFadeOutTimer" type="Timer" parent="ComponentHolder/PlayerChatHUD" unique_id=373599928]
 
 [node name="HandSway" type="Node3D" parent="ComponentHolder" unique_id=675638470 node_paths=PackedStringArray("hand")]
 script = ExtResource("11_v2xwv")

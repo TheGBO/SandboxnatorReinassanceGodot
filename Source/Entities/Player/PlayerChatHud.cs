@@ -14,7 +14,11 @@ public partial class PlayerChatHud : AbstractComponent<Player>
     [Export] private AudioStreamPlayer _notificationSound;
     [ExportCategory("Latest message")]
     [Export] private RichTextLabel _quickMessageBox;
+    [Export] private Timer _messageFadeOutTimer;
     private string _latestMessage = "";
+    //TODO: Tweakable in settings menu.
+    private const double TimePerCharacterSeconds = 96d / 1000d;
+    private const double MaxTimeCapSeconds = 120d;
     public string LatestMessage
     {
         get => _latestMessage;
@@ -22,6 +26,13 @@ public partial class PlayerChatHud : AbstractComponent<Player>
         {
             _latestMessage = value;
             _quickMessageBox.Text = _latestMessage;
+
+
+            double messageDuration = _latestMessage.Length * TimePerCharacterSeconds;
+            double clampedDuration = Mathf.Min(messageDuration, MaxTimeCapSeconds);
+            _messageFadeOutTimer.WaitTime = clampedDuration;
+
+            _messageFadeOutTimer.Start();
         }
     }
 
@@ -31,6 +42,10 @@ public partial class PlayerChatHud : AbstractComponent<Player>
         ComponentParent.playerInput.OnShowChat += ShowChat;
         ComponentParent.playerInput.OnUiEscape += HideChat;
         ChatManager.Instance.OnMessageReceived += ReceiveMessage;
+        _messageFadeOutTimer.Timeout += () =>
+        {
+            _quickMessageBox.Text = "";
+        };
     }
 
     public override void _Process(double delta)
@@ -71,7 +86,10 @@ public partial class PlayerChatHud : AbstractComponent<Player>
         {
             string computedText = $"[color={senderData.PlayerColor.ToHtml()}](@{senderData.PlayerName}) [/color] : {message.Content}\n";
             _messageBox.Text += computedText;
-            LatestMessage = computedText;
+
+            //I personally thinks it's completely useless to make your own message you wrote yourself visible to yourself, idk, might be revisited.
+            if (message.PlayerId != ComponentParent.componentHolder.entityId)
+                LatestMessage = computedText;
         }
         else
         {

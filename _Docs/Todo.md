@@ -42,4 +42,4 @@
 
 - [ ] - Finish the settings menu.
 - [x] - Add a persistent "recent chat messages" overlay so opening the full chat isn't required to read messages.
-  - [ ] - Make the most recent message fade after some time in function of the length of the message
+  - [x] - Make the most recent message fade after some time in function of the length of the message
