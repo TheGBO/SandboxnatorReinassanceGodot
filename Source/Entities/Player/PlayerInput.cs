@@ -3,6 +3,7 @@ using System;
 using NullGarel.Util.ComponentSystem;
 using NullGarel.Sandboxnator.Registry;
 using NullGarel.Util.Log;
+using NullGarel.Sandboxnator.Network;
 namespace NullGarel.Sandboxnator.Entity;
 
 public partial class PlayerInput : AbstractComponent<Player>
@@ -62,11 +63,6 @@ public partial class PlayerInput : AbstractComponent<Player>
     private const string LookUpAction = "look_up";
     private const string LookDownAction = "look_down";
     #endregion
-
-
-
-
-
 
     #region Overrides
     // Called every frame. 'delta' is the elapsed time since the previous frame.

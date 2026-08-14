@@ -63,9 +63,8 @@ public partial class SandboxnatorMain : Singleton<SandboxnatorMain>
 			return;
 
 		_world = _worldScene.Instantiate<World>();
+		_world.Name = "world";
 		_worldContainer.AddChild(_world);
-
-		ActivateWorld();
 	}
 
 	public void UnloadWorld()
@@ -75,6 +74,7 @@ public partial class SandboxnatorMain : Singleton<SandboxnatorMain>
 
 		_world.QueueFree();
 		_world = null;
+		// i wont call activate world here because it's responsibilyit opf the handshake
 	}
 
 	public void LeaveWorld(bool returnToMainMenu = true)

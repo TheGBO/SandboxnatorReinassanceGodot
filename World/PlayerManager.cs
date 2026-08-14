@@ -212,7 +212,7 @@ public partial class PlayerManager : Singleton<PlayerManager>
 
 		NcLogger.Log("Handshake acknowledged on client");
 		NetworkManager.Instance.NotifyConnectionEstablished();
-		SandboxnatorMain.Instance.LoadWorld();
+		SandboxnatorMain.Instance.ActivateWorld();
 	}
 	#endregion
 

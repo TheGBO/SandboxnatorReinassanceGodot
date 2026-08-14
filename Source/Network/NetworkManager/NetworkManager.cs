@@ -1,7 +1,6 @@
 using Godot;
 using System;
 using System.Linq;
-using NullGarel.Util;
 using NullGarel.Util.GodotHelpers;
 using NullGarel.Sandboxnator.WorldAndScenes;
 using NullGarel.Util.Log;
@@ -20,7 +19,6 @@ namespace NullGarel.Sandboxnator.Network
 
 		private bool _connectionInProgress = false;
 		private bool _enetConnected = false;
-
 		public bool IsConnecting => _connectionInProgress;
 
 		public double ElapsedConnectionTime
@@ -46,6 +44,7 @@ namespace NullGarel.Sandboxnator.Network
 		public event Action ConnectionStarted;
 		public event Action ConnectionEstablished;
 		public event Action ConnectionFailed;
+		public event Action ServerDisconnected;
 		public event Action TimedOut;
 		#endregion
 
@@ -176,6 +175,9 @@ namespace NullGarel.Sandboxnator.Network
 			string ip = "127.0.0.1")
 		{
 			CleanupOldPeer();
+
+			//try to load the world anyway so atleast there are shared node paths.
+			SandboxnatorMain.Instance.LoadWorld();
 
 			NcLogger.Log(
 				$"[V] Connecting to {ip}:{port}...");
@@ -385,11 +387,11 @@ namespace NullGarel.Sandboxnator.Network
 			if (_clientSignalsConnected)
 				return;
 
-			Multiplayer.ConnectedToServer +=
-				OnConnectedToServer;
+			Multiplayer.ConnectedToServer += OnConnectedToServer;
 
-			Multiplayer.ConnectionFailed +=
-				OnConnectionFailed;
+			Multiplayer.ConnectionFailed += OnConnectionFailed;
+
+			Multiplayer.ServerDisconnected += ServerDisconnected;
 
 			_clientSignalsConnected = true;
 
@@ -402,11 +404,11 @@ namespace NullGarel.Sandboxnator.Network
 			if (!_clientSignalsConnected)
 				return;
 
-			Multiplayer.ConnectedToServer -=
-				OnConnectedToServer;
+			Multiplayer.ConnectedToServer -= OnConnectedToServer;
 
-			Multiplayer.ConnectionFailed -=
-				OnConnectionFailed;
+			Multiplayer.ConnectionFailed -= OnConnectionFailed;
+
+			Multiplayer.ServerDisconnected -= ServerDisconnected;
 
 			_clientSignalsConnected = false;
 

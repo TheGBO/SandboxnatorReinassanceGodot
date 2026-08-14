@@ -21,7 +21,13 @@ public partial class MultiplayerMenu : Control, IUiSignalLoader
 	{
 		ConnectUISignals();
 		_timeoutProgress.MaxValue = NetworkManager.ConnectionTimeoutLimit;
+		NetworkManager.Instance.ConnectionFailed += OnConnectionFailed;
+		NetworkManager.Instance.ServerDisconnected += OnConnectionFailed;
+	}
 
+	private void OnConnectionFailed()
+	{
+		SandboxnatorMain.Instance.ActivateWorldMenu();
 	}
 
 	public override void _Process(double delta)
