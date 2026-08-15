@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://dqy5tanhto0wp"]
+
+[ext_resource type="PackedScene" uid="uid://brra32kqxyt3m" path="res://Source/Items/BasePlacingItem.tscn" id="1_8f7pl"]
+[ext_resource type="PackedScene" uid="uid://beyl7s33u6yo3" path="res://GameContent/Buildings/Door/Assets/Door.gltf" id="2_1mrhx"]
+[ext_resource type="PackedScene" uid="uid://bmfjseurvq22n" path="res://GameContent/Buildings/Door/PlacedDoor.tscn" id="2_38785"]
+[ext_resource type="Material" uid="uid://b8qe5ox5smlkp" path="res://Assets/Materials/Preview.tres" id="3_1mrhx"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_8f7pl"]
+material = ExtResource("3_1mrhx")
+size = Vector3(1, 2, 0.2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_38785"]
+size = Vector3(0.65, 0.6, 0.65)
+
+[node name="ItemDoor" unique_id=1913946057 instance=ExtResource("1_8f7pl")]
+buildingScene = ExtResource("2_38785")
+_previewMeshOffset = Vector3(0, 0.5, 0)
+
+[node name="blockbench_export" parent="HandItem" parent_id_path=PackedInt32Array(348518840) index="0" unique_id=772440325 instance=ExtResource("2_1mrhx")]
+
+[node name="PreviewMesh" parent="." index="1" unique_id=1177653492]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("BoxMesh_8f7pl")
+
+[node name="CollisionShape3D" parent="PreviewCollider" parent_id_path=PackedInt32Array(1593557762) index="0" unique_id=1322786859]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.17499998, 0)
+shape = SubResource("BoxShape3D_38785")

@@ -11,8 +11,5 @@ buildingScene = ExtResource("2_1c5or")
 transform = Transform3D(0.2, 0, 0, 0, 0.141421, -0.141421, 0, 0.141421, 0.141421, 0, 0.255091, 0)
 mesh = ExtResource("3_ghdtp")
 
-[node name="PreviewMesh" parent="." index="1" unique_id=1177653492]
-visible = true
-
 [connection signal="body_entered" from="PreviewCollider" to="PreviewCollider" method="_on_body_entered"]
 [connection signal="body_exited" from="PreviewCollider" to="PreviewCollider" method="_on_body_exited"]

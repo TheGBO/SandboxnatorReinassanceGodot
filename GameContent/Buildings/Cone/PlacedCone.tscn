@@ -5,6 +5,6 @@
 
 [node name="PlacedCone" unique_id=95483799 instance=ExtResource("1_4jdau")]
 
-[node name="MeshInstance3D" parent="." index="1" unique_id=681485474]
+[node name="MeshInstance3D" parent="." index="3" unique_id=439898019]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
 mesh = ExtResource("2_x2het")

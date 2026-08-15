@@ -15,8 +15,8 @@ public partial class Snapper : Node3D
 
     public override void _ExitTree()
     {
-        //no longer needed as world is now disposable
-        //SandboxnatorMain.World.snappers.Remove(this);
+        if (SandboxnatorMain.World == null) return;
+        SandboxnatorMain.World.snappers.Remove(this);
     }
 
     public void _on_area_3d_body_entered(Node3D body)

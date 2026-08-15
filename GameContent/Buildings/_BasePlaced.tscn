@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://bwpdpg3s1b868"]
 
 [ext_resource type="Script" uid="uid://bv0c7lrf15lmu" path="res://Source/Entities/Buildings/Placeable.cs" id="1_lrkqx"]
-[ext_resource type="Material" uid="uid://cwqjolp2w3bto" path="res://Assets/Materials/tileMaterial.tres" id="2_tomxc"]
 [ext_resource type="PackedScene" uid="uid://dt7f7iern17j1" path="res://Source/Entities/Buildings/Snapper.tscn" id="3_jxyuh"]
 [ext_resource type="Script" uid="uid://e34gkmm62lfj" path="res://Source/Common/ComponentSystem/ComponentHolder.cs" id="4_peig7"]
 
@@ -13,25 +12,13 @@ properties/1/path = NodePath(".:rotation")
 properties/1/spawn = true
 properties/1/replication_mode = 2
 
-[sub_resource type="BoxMesh" id="BoxMesh_613oe"]
-material = ExtResource("2_tomxc")
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_3v22q"]
-
-[node name="BasePlaced" type="RigidBody3D" unique_id=1927012819 node_paths=PackedStringArray("componentHolder", "placedSound")]
+[node name="BasePlaced" type="RigidBody3D" unique_id=1927012819 node_paths=PackedStringArray("componentHolder")]
 freeze = true
 script = ExtResource("1_lrkqx")
 componentHolder = NodePath("ComponentHolder")
-placedSound = NodePath("")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=999469991]
 replication_config = SubResource("SceneReplicationConfig_0od6p")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=681485474]
-mesh = SubResource("BoxMesh_613oe")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1348441169]
-shape = SubResource("BoxShape3D_3v22q")
 
 [node name="snappers" type="Node3D" parent="." unique_id=1019429589]
 

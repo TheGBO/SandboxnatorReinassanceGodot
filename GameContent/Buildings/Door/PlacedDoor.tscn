@@ -1,0 +1,140 @@
+[gd_scene format=4 uid="uid://bmfjseurvq22n"]
+
+[ext_resource type="PackedScene" uid="uid://bwpdpg3s1b868" path="res://GameContent/Buildings/_BasePlaced.tscn" id="1_7tteg"]
+[ext_resource type="Texture2D" uid="uid://b5xig3se4neou" path="res://GameContent/Buildings/Door/Assets/Door_0.png" id="2_e50qv"]
+[ext_resource type="PackedScene" uid="uid://dt7f7iern17j1" path="res://Source/Entities/Buildings/Snapper.tscn" id="2_sjdgy"]
+[ext_resource type="Script" uid="uid://cl8l1clcyvaxu" path="res://Source/Entities/Components/Paintable.cs" id="3_7xn6h"]
+[ext_resource type="Script" uid="uid://de2idj8yjlehy" path="res://Source/Common/Utils/GodotHelpers/CopyTransform3D.cs" id="4_sjdgy"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_r0ne4"]
+resource_name = "material_0"
+transparency = 2
+alpha_scissor_threshold = 0.05
+alpha_antialiasing_mode = 0
+cull_mode = 2
+albedo_texture = ExtResource("2_e50qv")
+texture_filter = 0
+texture_repeat = false
+metadata/_gltf_primary_texture_coord = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_mlybb"]
+_surfaces = [{
+"aabb": AABB(-0.5, 0, -0.0625, 1, 2.125, 0.125),
+"format": 34896613377,
+"index_count": 36,
+"index_data": PackedByteArray("AAABAAIAAwAAAAIAAgABAAQABQAAAAMABQABAAAAAwACAAYABgAFAAMABgACAAQABwABAAUABwAFAAYAAQAHAAQABAAHAAYA"),
+"name": "material_0",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 8,
+"vertex_data": PackedByteArray("////////AAD/////AAAAAP//AAD//wAAAAAAAP//AAD//wAAAAAAAAAA/////wAAAAAAAAAAAAAAAP//AAAAAA==")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_1yy2y"]
+resource_name = "blockbench_export_mesh"
+_surfaces = [{
+"aabb": AABB(-0.5, 0, -0.0625, 1, 2.125, 0.125),
+"attribute_data": PackedByteArray("/38AAP+HAAD/f/9D/4f/QwAA/0P/B/9DAAD/h/8H/4f/x/8D/4f/A//HAAD/hwAA/0f/Q/8H/0P/R/9H/wf/R/8/AAD/fwAA/z//Q/9//0MAAAAA/z8AAAAA/0P/P/9D"),
+"format": 34896613399,
+"index_count": 36,
+"index_data": PackedByteArray("AAABAAIAAgABAAMABAAFAAYABgAFAAcACAAJAAoACgAJAAsADAANAA4ADgANAA8AEAARABIAEgARABMAFAAVABYAFgAVABcA"),
+"material": SubResource("StandardMaterial3D_r0ne4"),
+"name": "material_0",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 24,
+"vertex_data": PackedByteArray("/////////7//////AAD/v///AAD///+///8AAAAA/78AAP//AAD/vwAA//////+/AAAAAAAA/78AAAAA////vwAA//8AAP///////wAA//8AAP//////////////////AAAAAP//AAD//wAA//8AAAAAAAAAAAAA//8AAAAAAAAAAP////8AgP///////wCAAAAAAP//AID//wAA//8AgP////8AAP//AAD//wAA/////wAAAAD//wAAAAAAAP///38AAP9/AAD/fwAA/38AAP9/////f////3////9/////f/+//3//v/9//7//f/+//3//P/9//z//f/8//3//P/9/////f////3////9/////f////3////9/////f///")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_mlybb")
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_4lf03"]
+_surfaces = [{
+"aabb": AABB(-0.075, -0.075, -0.1875, 0.15, 0.15, 0.375),
+"format": 34896613377,
+"index_count": 36,
+"index_data": PackedByteArray("AAABAAIAAwAAAAIAAgABAAQABQAAAAMABQABAAAAAwACAAYABgAFAAMABgACAAQABwABAAUABwAFAAYAAQAHAAQABAAHAAYA"),
+"name": "material_0",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 8,
+"vertex_data": PackedByteArray("////////AAD/////AAAAAP//AAD//wAAAAAAAP//AAD//wAAAAAAAAAA/////wAAAAAAAAAAAAAAAP//AAAAAA==")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_5mrmn"]
+resource_name = "blockbench_export_mesh2"
+_surfaces = [{
+"aabb": AABB(-0.075, -0.075, -0.1875, 0.15, 0.15, 0.375),
+"attribute_data": PackedByteArray("/1//h/9f/1f/f/+H/3//V/9f/4f/X/9X/3//h/9//1f/f/+H/1//h/9//1f/X/9X/3//V/9f/1f/f/+H/1//h/8//1f/X/9X/z//Z/9f/2f/P/9X/1//V/8//2f/X/9n"),
+"format": 34896613399,
+"index_count": 36,
+"index_data": PackedByteArray("AAABAAIAAgABAAMABAAFAAYABgAFAAcACAAJAAoACgAJAAsADAANAA4ADgANAA8AEAARABIAEgARABMAFAAVABYAFgAVABcA"),
+"material": SubResource("StandardMaterial3D_r0ne4"),
+"name": "material_0",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 24,
+"vertex_data": PackedByteArray("////////VNX/////AABU1f//AAD//1TV//8AAAAAVNUAAP//AABU1QAA/////1TVAAAAAAAAVNUAAAAA//9U1QAA//8AAP///////wAA//8AAP//////////////////AAAAAP//AAD//wAA//8AAAAAAAAAAAAA//8AAAAAAAAAAP////8AgP///////wCAAAAAAP//AID//wAA//8AgP////8AAP//AAD//wAA/////wAAAAD//wAAAAAAAP//qqpUVaqqVFWqqlRVqqpUVVRVqqpUVaqqVFWqqlRVqqr/f/+//3//v/9//7//f/+//3//P/9//z//f/8//3//P/9/////f////3////9/////f////3////9/////f///")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_4lf03")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_yl2mn"]
+size = Vector3(1, 2, 0.2)
+
+[node name="PlacedDoor" unique_id=1927012819 instance=ExtResource("1_7tteg")]
+
+[node name="snapper_N2" parent="snappers" parent_id_path=PackedInt32Array(1019429589) index="4" unique_id=747630500 instance=ExtResource("2_sjdgy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -1)
+
+[node name="snapper_S2" parent="snappers" parent_id_path=PackedInt32Array(1019429589) index="5" unique_id=403341149 instance=ExtResource("2_sjdgy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1)
+
+[node name="snapper_E2" parent="snappers" parent_id_path=PackedInt32Array(1019429589) index="6" unique_id=1824765351 instance=ExtResource("2_sjdgy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0)
+
+[node name="snapper_W2" parent="snappers" parent_id_path=PackedInt32Array(1019429589) index="7" unique_id=1551942848 instance=ExtResource("2_sjdgy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1, 0)
+
+[node name="snapper_U" parent="snappers" parent_id_path=PackedInt32Array(1019429589) index="8" unique_id=90265130]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+
+[node name="Paintable" type="Node3D" parent="ComponentHolder" parent_id_path=PackedInt32Array(1442099316) index="0" unique_id=1760684290 node_paths=PackedStringArray("_targetMeshes")]
+script = ExtResource("3_7xn6h")
+_targetMeshes = [NodePath("../../DoorHinge/DoorModel/MainDoor")]
+
+[node name="DoorHinge" type="Node3D" parent="." index="3" unique_id=651202318]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, -0.5, 0)
+
+[node name="DoorModel" type="Node3D" parent="DoorHinge" index="0" unique_id=772440325]
+transform = Transform3D(1, 0, 0, 0, 0.95, 0, 0, 0, 1, 0.5, 0, 0)
+
+[node name="MainDoor" type="MeshInstance3D" parent="DoorHinge/DoorModel" index="0" unique_id=2072508646]
+mesh = SubResource("ArrayMesh_1yy2y")
+skeleton = NodePath("")
+
+[node name="DoorHandle" type="MeshInstance3D" parent="DoorHinge/DoorModel" index="1" unique_id=1495860018]
+transform = Transform3D(0.7071067, 0.7071068, 0, -0.7071068, 0.7071067, 0, 0, 0, 1, 0.3125, 1, 0)
+mesh = SubResource("ArrayMesh_5mrmn")
+skeleton = NodePath("")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." index="4" unique_id=1053015416]
+transform = Transform3D(0.9999915, 0, 0, 0, 1, 0, 0, 0, 0.9999915, 0, 0.5, 0)
+shape = SubResource("BoxShape3D_yl2mn")
+
+[node name="CopyDoorRotation" type="Node3D" parent="." index="5" unique_id=2054801061 node_paths=PackedStringArray("_reference", "_rotateAlongReference", "_moveAlongReference")]
+script = ExtResource("4_sjdgy")
+_reference = NodePath("../DoorHinge")
+_rotateAlongReference = [NodePath("../CollisionShape3D")]
+_moveAlongReference = []
+metadata/_custom_type_script = "uid://de2idj8yjlehy"
+
+[node name="CopyDoorPosition" type="Node3D" parent="." index="6" unique_id=1132503036 node_paths=PackedStringArray("_reference", "_rotateAlongReference", "_moveAlongReference")]
+script = ExtResource("4_sjdgy")
+_reference = NodePath("../DoorHinge/DoorModel/MainDoor")
+_rotateAlongReference = []
+_moveAlongReference = [NodePath("../CollisionShape3D")]
+_posOffset = Vector3(0, 1, 0)
+metadata/_custom_type_script = "uid://de2idj8yjlehy"

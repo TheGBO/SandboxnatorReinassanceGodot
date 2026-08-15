@@ -13,6 +13,7 @@ public partial class PlacingItem : BaseItem
 	[Export] public PackedScene buildingScene;
 	[Export] private MeshInstance3D _previewMesh;
 	[Export] private PreviewCollider _previewCollider;
+	[Export] private Vector3 _previewMeshOffset = Vector3.Zero;
 	[Export] private float _snapRange = 0.5f;
 	[Export] private float _normalOffset = 1;
 	[Export] private Vector3 _gridSize = new(0.5f, 0.5f, 0.5f);
@@ -46,7 +47,7 @@ public partial class PlacingItem : BaseItem
 			ItemUser.rayCast.GetCollisionPoint(),
 			ItemUser.rayCast.GetCollisionNormal(),
 			ItemUser.ComponentParent.playerInput.IsGridSnapMode
-			);
+			) + _previewMeshOffset;
 		_previewMesh.GlobalRotation = ItemUser.DesiredRotation;
 		_previewCollider.GlobalPosition = _previewMesh.GlobalPosition;
 		_previewCollider.GlobalRotation = _previewMesh.GlobalRotation;
