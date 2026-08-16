@@ -3,8 +3,19 @@
 [ext_resource type="PackedScene" uid="uid://dyjq7d6grfpuu" path="res://GameContent/Buildings/Cube/PlacedCube.tscn" id="1_4jdau"]
 [ext_resource type="ArrayMesh" uid="uid://ytmryq6ofimr" path="res://GameContent/Buildings/Cone/ConeMesh.tres" id="2_x2het"]
 
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_0od6p"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 2
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 2
+
 [node name="PlacedCone" unique_id=95483799 instance=ExtResource("1_4jdau")]
 
-[node name="MeshInstance3D" parent="." index="3" unique_id=439898019]
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." index="0" unique_id=999469991]
+replication_config = SubResource("SceneReplicationConfig_0od6p")
+
+[node name="MeshInstance3D" parent="." index="4" unique_id=439898019]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
 mesh = ExtResource("2_x2het")

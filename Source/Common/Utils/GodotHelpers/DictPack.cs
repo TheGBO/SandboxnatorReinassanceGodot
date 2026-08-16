@@ -6,7 +6,7 @@ using Godot.Collections;
 namespace NullGarel.Util.GodotHelpers;
 
 /// <summary>
-/// This class is intended to replace the old legacy msgpack approach <see cref="IO.MPacker"/>
+/// This class is intended to replace the old legacy msgpack approach <see cref="IO.BinPack"/>
 /// </summary>
 public static class DictPack
 {

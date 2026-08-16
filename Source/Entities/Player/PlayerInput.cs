@@ -33,6 +33,7 @@ public partial class PlayerInput : AbstractComponent<Player>
     public event Action UseSecondary;
     public event Action UseIncrement;
     public event Action UseDecrement;
+    public event Action Interact;
 
     #region "magic strings" and constants
     private const float JoypadSensitivityDenominator = 100.0f;
@@ -56,7 +57,8 @@ public partial class PlayerInput : AbstractComponent<Player>
     private const string UsePrimaryAction = "use_primary";
     private const string UseSecondaryAction = "use_secondary";
     private const string UseIncrementAction = "use_increment";
-    private const string UseDecrementString = "use_decrement";
+    private const string UseDecrementAction = "use_decrement";
+    private const string InteractAction = "interact";
 
     private const string LookLeftAction = "look_left";
     private const string LookRightAction = "look_right";
@@ -185,9 +187,14 @@ public partial class PlayerInput : AbstractComponent<Player>
             UseIncrement?.Invoke();
         }
 
-        if (Input.IsActionJustPressed(UseDecrementString))
+        if (Input.IsActionJustPressed(UseDecrementAction))
         {
             UseDecrement?.Invoke();
+        }
+
+        if (Input.IsActionJustPressed(InteractAction))
+        {
+            Interact?.Invoke();
         }
     }
 

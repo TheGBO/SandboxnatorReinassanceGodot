@@ -1,3 +1,4 @@
+using System;
 using Godot;
 using Godot.Collections;
 
@@ -7,6 +8,7 @@ namespace NullGarel.Util.GodotHelpers;
 /// </summary>
 [Tool]
 [GlobalClass]
+[Obsolete("Just found out about the existence of RemoteTransform3D lmfao")]
 public partial class CopyTransform3D : Node3D
 {
     [ExportCategory("Common")]

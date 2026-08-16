@@ -70,8 +70,6 @@ public partial class PlayerItemUse : AbstractComponent<Player>
 	{
 		if (!rayCast.IsColliding() || _item == null) return;
 
-
-
 		RpcId(1, nameof(ServerBoundUse), primaryUsage);
 	}
 

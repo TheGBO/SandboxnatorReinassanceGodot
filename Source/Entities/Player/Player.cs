@@ -24,6 +24,7 @@ public partial class Player : CharacterBody3D
 	[Export] public PlayerVisualSync visuals;
 	[Export] public PlayerHUD playerHud;
 	[Export] public PlayerItemVisuals playerItemVisuals;
+	[Export] public PlayerInteract playerInteract;
 	public PlayerProfileData ProfileData { get; set; }
 
 

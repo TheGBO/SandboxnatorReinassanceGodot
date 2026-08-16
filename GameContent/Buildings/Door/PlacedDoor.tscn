@@ -4,7 +4,15 @@
 [ext_resource type="Texture2D" uid="uid://b5xig3se4neou" path="res://GameContent/Buildings/Door/Assets/Door_0.png" id="2_e50qv"]
 [ext_resource type="PackedScene" uid="uid://dt7f7iern17j1" path="res://Source/Entities/Buildings/Snapper.tscn" id="2_sjdgy"]
 [ext_resource type="Script" uid="uid://cl8l1clcyvaxu" path="res://Source/Entities/Components/Paintable.cs" id="3_7xn6h"]
-[ext_resource type="Script" uid="uid://de2idj8yjlehy" path="res://Source/Common/Utils/GodotHelpers/CopyTransform3D.cs" id="4_sjdgy"]
+[ext_resource type="Script" uid="uid://b56qx8gmsmnm3" path="res://GameContent/Buildings/Door/Door.cs" id="4_7xn6h"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_7xn6h"]
+properties/0/path = NodePath(".:CurrentColor")
+properties/0/spawn = true
+properties/0/replication_mode = 2
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_yl2mn"]
+size = Vector3(0.9748535, 2, 0.1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_r0ne4"]
 resource_name = "material_0"
@@ -81,8 +89,172 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_4lf03")
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_yl2mn"]
-size = Vector3(1, 2, 0.2)
+[sub_resource type="Animation" id="Animation_sjdgy"]
+resource_name = "DoorClosed"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("DoorModel:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, -0.5, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("DoorModel:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("CollisionShape3D:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0.5, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("CollisionShape3D:rotation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_7xn6h"]
+resource_name = "DoorOpen"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("DoorModel:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(-0.44031498, -0.5, -0.4)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("DoorModel:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 1.5707964, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("CollisionShape3D:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(-0.44, 0.5, -0.4)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("CollisionShape3D:rotation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 1.5707964, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_hsc45"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("DoorModel:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, -0.5, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("DoorModel:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("CollisionShape3D:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0.5, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("CollisionShape3D:rotation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_3ib17"]
+_data = {
+&"DoorClosed": SubResource("Animation_sjdgy"),
+&"DoorOpen": SubResource("Animation_7xn6h"),
+&"RESET": SubResource("Animation_hsc45")
+}
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_hsc45"]
+properties/0/path = NodePath("ComponentHolder/Interactable:IsOpen")
+properties/0/spawn = true
+properties/0/replication_mode = 2
 
 [node name="PlacedDoor" unique_id=1927012819 instance=ExtResource("1_7tteg")]
 
@@ -103,38 +275,33 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
 
 [node name="Paintable" type="Node3D" parent="ComponentHolder" parent_id_path=PackedInt32Array(1442099316) index="0" unique_id=1760684290 node_paths=PackedStringArray("_targetMeshes")]
 script = ExtResource("3_7xn6h")
-_targetMeshes = [NodePath("../../DoorHinge/DoorModel/MainDoor")]
+_targetMeshes = [NodePath("../../DoorModel/MainDoor")]
 
-[node name="DoorHinge" type="Node3D" parent="." index="3" unique_id=651202318]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, -0.5, 0)
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="ComponentHolder/Paintable" index="0" unique_id=399869011]
+replication_config = SubResource("SceneReplicationConfig_7xn6h")
 
-[node name="DoorModel" type="Node3D" parent="DoorHinge" index="0" unique_id=772440325]
-transform = Transform3D(1, 0, 0, 0, 0.95, 0, 0, 0, 1, 0.5, 0, 0)
+[node name="Interactable" type="Node3D" parent="ComponentHolder" parent_id_path=PackedInt32Array(1442099316) index="1" unique_id=1693713010 node_paths=PackedStringArray("_animationPlayer")]
+script = ExtResource("4_7xn6h")
+_animationPlayer = NodePath("../../DoorAnimator")
 
-[node name="MainDoor" type="MeshInstance3D" parent="DoorHinge/DoorModel" index="0" unique_id=2072508646]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." index="3" unique_id=1053015416]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("BoxShape3D_yl2mn")
+
+[node name="DoorModel" type="Node3D" parent="." index="4" unique_id=772440325]
+transform = Transform3D(1, 0, 0, 0, 0.95, 0, 0, 0, 1, 0, -0.5, 0)
+
+[node name="MainDoor" type="MeshInstance3D" parent="DoorModel" index="0" unique_id=2072508646]
 mesh = SubResource("ArrayMesh_1yy2y")
 skeleton = NodePath("")
 
-[node name="DoorHandle" type="MeshInstance3D" parent="DoorHinge/DoorModel" index="1" unique_id=1495860018]
+[node name="DoorHandle" type="MeshInstance3D" parent="DoorModel" index="1" unique_id=1495860018]
 transform = Transform3D(0.7071067, 0.7071068, 0, -0.7071068, 0.7071067, 0, 0, 0, 1, 0.3125, 1, 0)
 mesh = SubResource("ArrayMesh_5mrmn")
 skeleton = NodePath("")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="." index="4" unique_id=1053015416]
-transform = Transform3D(0.9999915, 0, 0, 0, 1, 0, 0, 0, 0.9999915, 0, 0.5, 0)
-shape = SubResource("BoxShape3D_yl2mn")
+[node name="DoorAnimator" type="AnimationPlayer" parent="." index="5" unique_id=1265080214]
+libraries/ = SubResource("AnimationLibrary_3ib17")
 
-[node name="CopyDoorRotation" type="Node3D" parent="." index="5" unique_id=2054801061 node_paths=PackedStringArray("_reference", "_rotateAlongReference", "_moveAlongReference")]
-script = ExtResource("4_sjdgy")
-_reference = NodePath("../DoorHinge")
-_rotateAlongReference = [NodePath("../CollisionShape3D")]
-_moveAlongReference = []
-metadata/_custom_type_script = "uid://de2idj8yjlehy"
-
-[node name="CopyDoorPosition" type="Node3D" parent="." index="6" unique_id=1132503036 node_paths=PackedStringArray("_reference", "_rotateAlongReference", "_moveAlongReference")]
-script = ExtResource("4_sjdgy")
-_reference = NodePath("../DoorHinge/DoorModel/MainDoor")
-_rotateAlongReference = []
-_moveAlongReference = [NodePath("../CollisionShape3D")]
-_posOffset = Vector3(0, 1, 0)
-metadata/_custom_type_script = "uid://de2idj8yjlehy"
+[node name="DoorSynchronizer" type="MultiplayerSynchronizer" parent="." index="6" unique_id=396225660]
+replication_config = SubResource("SceneReplicationConfig_hsc45")

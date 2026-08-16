@@ -19,6 +19,7 @@
 [ext_resource type="PackedScene" uid="uid://bvk2qsd5vogiv" path="res://Source/Entities/Player/PlayerModel.tscn" id="15_7hef5"]
 [ext_resource type="Texture2D" uid="uid://cynkqshultlao" path="res://Assets/Textures/Icons/icon_alignment_snapper.png" id="16_2nyvo"]
 [ext_resource type="Script" uid="uid://c7cntnqvgc1tj" path="res://Source/Entities/Player/PlayerSounds.cs" id="16_ckclx"]
+[ext_resource type="Texture2D" uid="uid://coppnj26ahh10" path="res://_ThirdParty/KenneyInputPrompts/Keyboard & Mouse/Double/keyboard_f.png" id="16_wabrv"]
 [ext_resource type="AudioStream" uid="uid://drcyqysa48vv4" path="res://_ThirdParty/KenneyImpactSounds/Audio/footstep_concrete_000.ogg" id="17_l24fo"]
 [ext_resource type="AudioStream" uid="uid://cgibi3vg7rv5q" path="res://_ThirdParty/KenneyImpactSounds/Audio/footstep_concrete_001.ogg" id="18_a7eri"]
 [ext_resource type="AudioStream" uid="uid://cc75lx73p3qu8" path="res://_ThirdParty/KenneyImpactSounds/Audio/footstep_concrete_002.ogg" id="19_251ni"]
@@ -26,6 +27,7 @@
 [ext_resource type="AudioStream" uid="uid://c747vquocilw2" path="res://_ThirdParty/KenneyImpactSounds/Audio/footstep_concrete_004.ogg" id="21_2nyvo"]
 [ext_resource type="AudioStream" uid="uid://dsla1gjda3sih" path="res://_ThirdParty/KenneyImpactSounds/Audio/footstep_grass_000.ogg" id="22_2nyvo"]
 [ext_resource type="Script" uid="uid://c80ul7h2jy2em" path="res://Source/Entities/Player/PlayerItemVisuals.cs" id="23_a7eri"]
+[ext_resource type="Script" uid="uid://dglbqu86kjnsr" path="res://Source/Entities/Player/PlayerInteract.cs" id="26_2nyvo"]
 
 [sub_resource type="InputEventAction" id="InputEventAction_jynvv"]
 action = &"sb_ui_enter"
@@ -210,7 +212,7 @@ properties/9/path = NodePath("ComponentHolder/PlayerInput:IsGridSnapMode")
 properties/9/spawn = true
 properties/9/replication_mode = 2
 
-[node name="Player" type="CharacterBody3D" unique_id=277325947 node_paths=PackedStringArray("componentHolder", "characterBody", "playerMovement", "cameraMovement", "playerItemUse", "playerItemSync", "playerInput", "chatHud", "visuals", "playerHud", "playerItemVisuals", "camera", "hud", "playerSounds")]
+[node name="Player" type="CharacterBody3D" unique_id=277325947 node_paths=PackedStringArray("componentHolder", "characterBody", "playerMovement", "cameraMovement", "playerItemUse", "playerItemSync", "playerInput", "chatHud", "visuals", "playerHud", "playerItemVisuals", "playerInteract", "camera", "hud", "playerSounds")]
 floor_stop_on_slope = false
 platform_on_leave = 2
 script = ExtResource("1_kjmmx")
@@ -225,6 +227,7 @@ chatHud = NodePath("ComponentHolder/PlayerChatHUD")
 visuals = NodePath("ComponentHolder/PlayerVisualSync")
 playerHud = NodePath("ComponentHolder/PlayerHUD")
 playerItemVisuals = NodePath("ComponentHolder/PlayerItemVisuals")
+playerInteract = NodePath("ComponentHolder/PlayerInteract")
 camera = NodePath("Neck/Camera3D")
 hud = NodePath("HUD")
 playerSounds = NodePath("ComponentHolder/PlayerSounds")
@@ -250,6 +253,7 @@ grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(2, 2)
 texture = ExtResource("8_2c07k")
+expand_mode = 2
 
 [node name="HotBar" type="Control" parent="HUD" unique_id=1154890998 node_paths=PackedStringArray("_playerItemSync", "_activeItemIcon")]
 layout_mode = 1
@@ -461,8 +465,12 @@ libraries/ = SubResource("AnimationLibrary_a7qbv")
 
 [node name="MAKE_CURRENT_IF_USED" type="Node" parent="Neck/Camera3D/Ears" unique_id=119419740]
 
-[node name="RayCast3D" type="RayCast3D" parent="Neck" unique_id=651556328]
+[node name="UsageRaycast" type="RayCast3D" parent="Neck" unique_id=651556328]
 target_position = Vector3(0, 0, -8)
+
+[node name="InteractionRaycast" type="RayCast3D" parent="Neck" unique_id=786881184]
+target_position = Vector3(0, 0, -8)
+collision_mask = 3
 
 [node name="PhysicsHitbox" type="CollisionShape3D" parent="." unique_id=727258776]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.935, 0)
@@ -487,7 +495,7 @@ body = NodePath("../..")
 
 [node name="PlayerItemUse" type="Node3D" parent="ComponentHolder" unique_id=1205825359 node_paths=PackedStringArray("rayCast", "hand", "itemVisual")]
 script = ExtResource("9_rtpsh")
-rayCast = NodePath("../../Neck/RayCast3D")
+rayCast = NodePath("../../Neck/UsageRaycast")
 hand = NodePath("../../PlayerModel/Node/Hands/right_H/Hand_R/HoldingPoint/Hand")
 itemVisual = NodePath("../PlayerItemVisuals")
 
@@ -520,10 +528,13 @@ _rotateAlongNeck = [NodePath("../../PlayerModel/Node/HeadHolder"), NodePath("../
 _neck = NodePath("../../Neck")
 ProfileDataDict = {}
 
-[node name="PlayerHUD" type="Node3D" parent="ComponentHolder" unique_id=736340043 node_paths=PackedStringArray("chatRoot", "_hotBar", "_escMenu", "_leaveGameBtn", "_settingsBtn", "_alignmentInformationIcon")]
+[node name="PlayerHUD" type="Node3D" parent="ComponentHolder" unique_id=736340043 node_paths=PackedStringArray("chatRoot", "_hotBar", "_crossHair", "_escMenu", "_leaveGameBtn", "_settingsBtn", "_alignmentInformationIcon")]
 script = ExtResource("13_7hef5")
 chatRoot = NodePath("../../HUD/ChatRoot")
 _hotBar = NodePath("../../HUD/HotBar")
+_crossHair = NodePath("../../HUD/CrossHair")
+_defaultCrosshair = ExtResource("8_2c07k")
+_interactionCrosshair = ExtResource("16_wabrv")
 _escMenu = NodePath("../../HUD/EscMenu")
 _leaveGameBtn = NodePath("../../HUD/EscMenu/MarginContainer/VBoxContainer/LeaveGameBtn")
 _settingsBtn = NodePath("../../HUD/EscMenu/MarginContainer/VBoxContainer/SettingsBtn")
@@ -533,7 +544,7 @@ _snapperIcon = ExtResource("16_2nyvo")
 
 [node name="PlayerItemSync" type="Node3D" parent="ComponentHolder" unique_id=2081320656]
 script = ExtResource("14_a5byf")
-_inventory = Array[String](["Hammer", "PaintBubble", "Compass", "Cone", "Cube", "Door"])
+_inventory = Array[String](["Hammer", "Cube", "Door", "Cone", "PaintBubble", "Compass"])
 CurrentItemId = "Hammer"
 
 [node name="PlayerSounds" type="Node3D" parent="ComponentHolder" unique_id=1285901011 node_paths=PackedStringArray("_streamPlayer")]
@@ -548,6 +559,10 @@ attenuation_model = 3
 script = ExtResource("23_a7eri")
 _hand = NodePath("../../PlayerModel/Node/Hands/right_H/Hand_R/HoldingPoint/Hand")
 _handAnimator = NodePath("../PlayerItemUse/HandAnimator")
+
+[node name="PlayerInteract" type="Node3D" parent="ComponentHolder" unique_id=1413913750 node_paths=PackedStringArray("_interactionRaycast")]
+script = ExtResource("26_2nyvo")
+_interactionRaycast = NodePath("../../Neck/InteractionRaycast")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=41916486]
 replication_config = SubResource("SceneReplicationConfig_bglb2")

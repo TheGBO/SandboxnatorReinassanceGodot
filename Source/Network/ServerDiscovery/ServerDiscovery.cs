@@ -56,7 +56,7 @@ public partial class ServerDiscovery : Singleton<ServerDiscovery>
             //Needs to happen on receiver side in order to get proper broadcasting and correct IP addr
             string serverIP = _listener.GetPacketIP();
             int serverPort = _listener.GetPacketPort();
-            ServerInfoData serverInfo = MPacker.Unpack<ServerInfoData>(serverInfoBytes);
+            ServerInfoData serverInfo = BinPack.Unpack<ServerInfoData>(serverInfoBytes);
             serverInfo.IpAddress = serverIP;
             serverInfo.Port = serverPort;
             OnBroadcastReceived?.Invoke(serverInfo);
@@ -118,6 +118,6 @@ public partial class ServerDiscovery : Singleton<ServerDiscovery>
             GameVersion = GameRegistries.GetGameVersion
         };
 
-        _broadcaster.PutPacket(MPacker.Pack(serverInfo));
+        _broadcaster.PutPacket(BinPack.Pack(serverInfo));
     }
 }

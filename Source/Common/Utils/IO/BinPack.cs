@@ -7,10 +7,9 @@ namespace NullGarel.Util.IO;
 
 
 /// <summary>
-/// DEPRECATED. Use <see cref="GodotHelpers.DictPack"/>
+/// No longer used for network DTOs. For that usecase, use <see cref="GodotHelpers.DictPack"/>
 /// </summary>
-[Obsolete("Use DictPack")]
-public static class MPacker
+public static class BinPack
 {
     //Had to use AI for this one, the MessagePackGodot is great but it has no god damn documentation.
     private static readonly MessagePackSerializerOptions _options =

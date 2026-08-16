@@ -15,6 +15,10 @@ public partial class PlayerHUD : AbstractComponent<Player>, IUiSignalLoader
     [ExportCategory("Main Controls")]
     [Export] public Control chatRoot;
     [Export] private Control _hotBar;
+    [ExportCategory("CrossHair")]
+    [Export] private TextureRect _crossHair;
+    [Export] private Texture2D _defaultCrosshair;
+    [Export] private Texture2D _interactionCrosshair;
     [ExportCategory("ESC Menu")]
     [Export] private Control _escMenu;
     [Export] private Button _leaveGameBtn;
@@ -58,6 +62,7 @@ public partial class PlayerHUD : AbstractComponent<Player>, IUiSignalLoader
         if (!IsMultiplayerAuthority()) return;
 
         IsHudBeingUsed = IsChatOpen || _escMenu.Visible;
+        _crossHair.Texture = ComponentParent.playerInteract.IsFacingInteractable ? _interactionCrosshair : _defaultCrosshair;
     }
 
     public void ConnectUISignals()

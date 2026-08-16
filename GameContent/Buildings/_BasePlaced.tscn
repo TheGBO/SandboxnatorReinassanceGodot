@@ -17,7 +17,7 @@ freeze = true
 script = ExtResource("1_lrkqx")
 componentHolder = NodePath("ComponentHolder")
 
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=999469991]
+[node name="BaseTransformSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=999469991]
 replication_config = SubResource("SceneReplicationConfig_0od6p")
 
 [node name="snappers" type="Node3D" parent="." unique_id=1019429589]
