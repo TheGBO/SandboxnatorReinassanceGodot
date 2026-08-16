@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="PlaceableItemData" format=3 uid="uid://gd2g2rhnbmg2"]
+
+[ext_resource type="Script" uid="uid://cnb6qwfwd4ofm" path="res://Source/Items/PlaceableItemData.cs" id="1_7hrfk"]
+[ext_resource type="Texture2D" uid="uid://s80o32nfq4uo" path="res://GameContent/Items/WindowFrame/WindowFrameIcon.png" id="1_bvvvu"]
+[ext_resource type="PackedScene" uid="uid://c0as3lrlocjul" path="res://GameContent/Items/WindowFrame/ItemWindowFrame.tscn" id="2_cbjdx"]
+[ext_resource type="AudioStream" uid="uid://d27na5ituo6rs" path="res://_ThirdParty/KenneyImpactSounds/Audio/impactTin_medium_002.ogg" id="3_3kq8k"]
+
+[resource]
+script = ExtResource("1_7hrfk")
+placementSound = ExtResource("3_3kq8k")
+itemScene = ExtResource("2_cbjdx")
+itemID = "WindowFrame"
+itemIcon = ExtResource("1_bvvvu")
+itemName = "ItemFrame"
+maxStackSize = 96
+metadata/_custom_type_script = "uid://cnb6qwfwd4ofm"

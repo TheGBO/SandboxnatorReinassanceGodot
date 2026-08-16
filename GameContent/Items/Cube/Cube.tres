@@ -12,4 +12,5 @@ itemScene = ExtResource("2_3xcjv")
 itemID = "Cube"
 itemIcon = ExtResource("1_fd4ks")
 itemName = "Cube"
+maxStackSize = 96
 metadata/_custom_type_script = "uid://cnb6qwfwd4ofm"

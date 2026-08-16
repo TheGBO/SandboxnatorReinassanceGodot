@@ -544,7 +544,7 @@ _snapperIcon = ExtResource("16_2nyvo")
 
 [node name="PlayerItemSync" type="Node3D" parent="ComponentHolder" unique_id=2081320656]
 script = ExtResource("14_a5byf")
-_inventory = Array[String](["Hammer", "Cube", "Door", "Cone", "PaintBubble", "Compass"])
+_inventory = Array[String](["Hammer", "Cube", "Door", "Cone", "PaintBubble", "Compass", "WindowFrame"])
 CurrentItemId = "Hammer"
 
 [node name="PlayerSounds" type="Node3D" parent="ComponentHolder" unique_id=1285901011 node_paths=PackedStringArray("_streamPlayer")]

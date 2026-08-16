@@ -9,6 +9,7 @@
 [ext_resource type="Resource" uid="uid://ceqeoy6wmv2fe" path="res://GameContent/Items/Hammer/Hammer.tres" id="6_pnv4a"]
 [ext_resource type="Resource" uid="uid://ddp350884qc02" path="res://GameContent/PlayerFaces/FaceAwesome.tres" id="7_bp3aw"]
 [ext_resource type="Resource" uid="uid://cr0dlcnmpixfw" path="res://GameContent/Items/Door/Door.tres" id="7_qs834"]
+[ext_resource type="Resource" uid="uid://gd2g2rhnbmg2" path="res://GameContent/Items/WindowFrame/WindowFrame.tres" id="8_dfwm2"]
 [ext_resource type="Resource" uid="uid://dluky1fepbie8" path="res://GameContent/PlayerFaces/FaceAww.tres" id="8_qs834"]
 [ext_resource type="Resource" uid="uid://b1qj6tntt5t55" path="res://GameContent/PlayerFaces/FaceBreh.tres" id="9_dfwm2"]
 [ext_resource type="Resource" uid="uid://c7s8dh7h2jwh4" path="res://GameContent/PlayerFaces/FaceColonThree.tres" id="10_onrk6"]
@@ -27,7 +28,7 @@
 
 [resource]
 script = ExtResource("1_i7gde")
-Items = Array[Object]([ExtResource("2_ok7yr"), ExtResource("3_5qsg6"), ExtResource("4_ic885"), ExtResource("5_c2x75"), ExtResource("6_pnv4a"), ExtResource("7_qs834")])
+Items = Array[Object]([ExtResource("2_ok7yr"), ExtResource("3_5qsg6"), ExtResource("4_ic885"), ExtResource("5_c2x75"), ExtResource("6_pnv4a"), ExtResource("7_qs834"), ExtResource("8_dfwm2")])
 PlayerFaces = Array[Object]([ExtResource("7_bp3aw"), ExtResource("8_qs834"), ExtResource("9_dfwm2"), ExtResource("10_onrk6"), ExtResource("11_83xwl"), ExtResource("12_8yqrn"), ExtResource("13_fcjrp"), ExtResource("14_f4tcm"), ExtResource("15_lkfmy"), ExtResource("16_r1l6l"), ExtResource("17_8gas4"), ExtResource("18_1apib"), ExtResource("19_m23jq"), ExtResource("20_w3dxi"), ExtResource("21_70y55"), ExtResource("22_6kju4")])
 BuildingPallete = ExtResource("1_qs834")
 metadata/_custom_type_script = "uid://b8gc7u5tdfw7l"

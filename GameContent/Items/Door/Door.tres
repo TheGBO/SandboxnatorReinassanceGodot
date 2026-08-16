@@ -12,4 +12,5 @@ itemScene = ExtResource("2_h0etk")
 itemID = "Door"
 itemIcon = ExtResource("1_h0etk")
 itemName = "Door"
+maxStackSize = 96
 metadata/_custom_type_script = "uid://cnb6qwfwd4ofm"

@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://c0as3lrlocjul"]
+
+[ext_resource type="PackedScene" uid="uid://djqekcjdmn1te" path="res://GameContent/Items/Cube/ItemCube.tscn" id="1_nwh8l"]
+[ext_resource type="PackedScene" uid="uid://bmil7csddno5j" path="res://GameContent/Buildings/WindowFrame/PlacedWindowFrame.tscn" id="2_n6336"]
+[ext_resource type="PackedScene" uid="uid://3kwq54b6whhy" path="res://GameContent/Buildings/WindowFrame/Assets/WindowFrame.gltf" id="3_8eo60"]
+[ext_resource type="Material" uid="uid://b8qe5ox5smlkp" path="res://Assets/Materials/Preview.tres" id="4_ndt1h"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_5jer2"]
+material = ExtResource("4_ndt1h")
+size = Vector3(1, 1, 0.25)
+
+[node name="ItemWindowFrame" unique_id=1080161110 instance=ExtResource("1_nwh8l")]
+buildingScene = ExtResource("2_n6336")
+
+[node name="HandItem" parent="." index="0" unique_id=348518840]
+mesh = null
+
+[node name="blockbench_export" parent="HandItem" index="0" unique_id=1416364920 instance=ExtResource("3_8eo60")]
+
+[node name="PreviewMesh" parent="." index="1" unique_id=1177653492]
+mesh = SubResource("BoxMesh_5jer2")
