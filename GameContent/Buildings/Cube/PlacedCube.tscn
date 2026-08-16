@@ -3,11 +3,18 @@
 [ext_resource type="PackedScene" uid="uid://bwpdpg3s1b868" path="res://GameContent/Buildings/_BasePlaced.tscn" id="1_1uskk"]
 [ext_resource type="Script" uid="uid://cl8l1clcyvaxu" path="res://Source/Entities/Components/Paintable.cs" id="2_o6dq1"]
 [ext_resource type="BoxMesh" uid="uid://catxv1ai3nedn" path="res://GameContent/Items/Cube/mesh.tres" id="3_o6dq1"]
+[ext_resource type="Texture2D" uid="uid://ojo0i4sevmr2" path="res://GameContent/Buildings/Cube/Tile.png" id="4_3hgig"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_o6dq1"]
 properties/0/path = NodePath(".:CurrentColor")
 properties/0/spawn = true
 properties/0/replication_mode = 2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_twed4"]
+albedo_texture = ExtResource("4_3hgig")
+uv1_offset = Vector3(0.5, 0.5, 0.5)
+uv1_triplanar = true
+texture_filter = 0
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_yl2mn"]
 
@@ -22,6 +29,7 @@ replication_config = SubResource("SceneReplicationConfig_o6dq1")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." index="3" unique_id=439898019]
 mesh = ExtResource("3_o6dq1")
+surface_material_override/0 = SubResource("StandardMaterial3D_twed4")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." index="4" unique_id=235461355]
 shape = SubResource("BoxShape3D_yl2mn")

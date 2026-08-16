@@ -1,22 +1,8 @@
 [gd_scene format=4 uid="uid://bmil7csddno5j"]
 
 [ext_resource type="PackedScene" uid="uid://dyjq7d6grfpuu" path="res://GameContent/Buildings/Cube/PlacedCube.tscn" id="1_co6us"]
-[ext_resource type="Texture2D" uid="uid://boo5ad36he1ul" path="res://Assets/Textures/BorderlessTile.png" id="2_1aq5c"]
+[ext_resource type="Material" uid="uid://b1a7n154q0puc" path="res://Assets/Materials/borderlessTileMaterial.tres" id="2_co6us"]
 [ext_resource type="Texture2D" uid="uid://dk6csoiu437uo" path="res://GameContent/Buildings/WindowFrame/Assets/WindowFrame_0.png" id="3_js07i"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6qbs2"]
-albedo_texture = ExtResource("2_1aq5c")
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_n1o13"]
-resource_name = "material_0"
-transparency = 2
-alpha_scissor_threshold = 0.05
-alpha_antialiasing_mode = 0
-cull_mode = 2
-albedo_texture = ExtResource("3_js07i")
-texture_filter = 0
-texture_repeat = false
-metadata/_gltf_primary_texture_coord = 0
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_cmweq"]
 _surfaces = [{
@@ -40,7 +26,7 @@ _surfaces = [{
 "format": 34896613399,
 "index_count": 36,
 "index_data": PackedByteArray("AAABAAIAAgABAAMABAAFAAYABgAFAAcACAAJAAoACgAJAAsADAANAA4ADgANAA8AEAARABIAEgARABMAFAAVABYAFgAVABcA"),
-"material": SubResource("StandardMaterial3D_n1o13"),
+"material": ExtResource("2_co6us"),
 "name": "material_0",
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
@@ -50,8 +36,27 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_cmweq")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_f53h1"]
-albedo_texture = ExtResource("2_1aq5c")
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_co6us"]
+resource_name = "material_0"
+transparency = 2
+alpha_scissor_threshold = 0.05
+alpha_antialiasing_mode = 0
+cull_mode = 2
+albedo_texture = ExtResource("3_js07i")
+texture_filter = 0
+texture_repeat = false
+metadata/_gltf_primary_texture_coord = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_n1o13"]
+resource_name = "material_0"
+transparency = 2
+alpha_scissor_threshold = 0.05
+alpha_antialiasing_mode = 0
+cull_mode = 2
+albedo_texture = ExtResource("3_js07i")
+texture_filter = 0
+texture_repeat = false
+metadata/_gltf_primary_texture_coord = 0
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_v55ly"]
 _surfaces = [{
@@ -85,8 +90,16 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_v55ly")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wpole"]
-albedo_texture = ExtResource("2_1aq5c")
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1aq5c"]
+resource_name = "material_0"
+transparency = 2
+alpha_scissor_threshold = 0.05
+alpha_antialiasing_mode = 0
+cull_mode = 2
+albedo_texture = ExtResource("3_js07i")
+texture_filter = 0
+texture_repeat = false
+metadata/_gltf_primary_texture_coord = 0
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_batpy"]
 _surfaces = [{
@@ -120,8 +133,16 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_batpy")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_frmxm"]
-albedo_texture = ExtResource("2_1aq5c")
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_js07i"]
+resource_name = "material_0"
+transparency = 2
+alpha_scissor_threshold = 0.05
+alpha_antialiasing_mode = 0
+cull_mode = 2
+albedo_texture = ExtResource("3_js07i")
+texture_filter = 0
+texture_repeat = false
+metadata/_gltf_primary_texture_coord = 0
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_7wgqt"]
 _surfaces = [{
@@ -155,8 +176,16 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_7wgqt")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7ea4a"]
-albedo_texture = ExtResource("2_1aq5c")
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6qbs2"]
+resource_name = "material_0"
+transparency = 2
+alpha_scissor_threshold = 0.05
+alpha_antialiasing_mode = 0
+cull_mode = 2
+albedo_texture = ExtResource("3_js07i")
+texture_filter = 0
+texture_repeat = false
+metadata/_gltf_primary_texture_coord = 0
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_a7tex"]
 _surfaces = [{
@@ -190,8 +219,16 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_a7tex")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_f56c0"]
-albedo_texture = ExtResource("2_1aq5c")
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_f53h1"]
+resource_name = "material_0"
+transparency = 2
+alpha_scissor_threshold = 0.05
+alpha_antialiasing_mode = 0
+cull_mode = 2
+albedo_texture = ExtResource("3_js07i")
+texture_filter = 0
+texture_repeat = false
+metadata/_gltf_primary_texture_coord = 0
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_ijsg6"]
 _surfaces = [{
@@ -225,54 +262,67 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_ijsg6")
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wpole"]
+resource_name = "material_0"
+transparency = 2
+alpha_scissor_threshold = 0.05
+alpha_antialiasing_mode = 0
+cull_mode = 2
+albedo_texture = ExtResource("3_js07i")
+texture_filter = 0
+texture_repeat = false
+metadata/_gltf_primary_texture_coord = 0
+
 [sub_resource type="BoxShape3D" id="BoxShape3D_8pqf7"]
 size = Vector3(1, 1, 0.2)
 
 [node name="PlacedCube" unique_id=1333239392 instance=ExtResource("1_co6us")]
 
 [node name="Paintable" parent="ComponentHolder" parent_id_path=PackedInt32Array(1442099316) index="0" unique_id=1874341437 node_paths=PackedStringArray("_targetMeshes")]
-_targetMeshes = [NodePath("../../MeshInstance3D/WindowFrame/FrameBottom"), NodePath("../../MeshInstance3D/WindowFrame/FrameEast"), NodePath("../../MeshInstance3D/WindowFrame/FrameTop"), NodePath("../../MeshInstance3D/WindowFrame/FrameWest"), NodePath("../../MeshInstance3D/WindowFrame/LatticeHorizontal"), NodePath("../../MeshInstance3D/WindowFrame/LatticeVertical")]
+_targetMeshes = [NodePath("../../MeshInstance3D/blockbench_export/WindowFrame/FrameBottom"), NodePath("../../MeshInstance3D/blockbench_export/WindowFrame/FrameEast"), NodePath("../../MeshInstance3D/blockbench_export/WindowFrame/FrameTop"), NodePath("../../MeshInstance3D/blockbench_export/WindowFrame/FrameWest"), NodePath("../../MeshInstance3D/blockbench_export/WindowFrame/LatticeHorizontal"), NodePath("../../MeshInstance3D/blockbench_export/WindowFrame/LatticeVertical")]
 
 [node name="MeshInstance3D" parent="." index="3" unique_id=439898019]
 mesh = null
 
-[node name="WindowFrame" type="Node3D" parent="MeshInstance3D" index="0" unique_id=832733516]
+[node name="blockbench_export" type="Node3D" parent="MeshInstance3D" index="0" unique_id=1416364920]
+
+[node name="WindowFrame" type="Node3D" parent="MeshInstance3D/blockbench_export" index="0" unique_id=832733516]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
 
-[node name="FrameBottom" type="MeshInstance3D" parent="MeshInstance3D/WindowFrame" index="0" unique_id=645024256]
-material_override = SubResource("StandardMaterial3D_6qbs2")
+[node name="FrameBottom" type="MeshInstance3D" parent="MeshInstance3D/blockbench_export/WindowFrame" index="0" unique_id=645024256]
 mesh = SubResource("ArrayMesh_gcqhe")
 skeleton = NodePath("")
+surface_material_override/0 = SubResource("StandardMaterial3D_co6us")
 
-[node name="FrameEast" type="MeshInstance3D" parent="MeshInstance3D/WindowFrame" index="1" unique_id=1189051516]
+[node name="FrameEast" type="MeshInstance3D" parent="MeshInstance3D/blockbench_export/WindowFrame" index="1" unique_id=1189051516]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.125, 0)
-material_override = SubResource("StandardMaterial3D_f53h1")
 mesh = SubResource("ArrayMesh_dax0c")
 skeleton = NodePath("")
+surface_material_override/0 = SubResource("StandardMaterial3D_1aq5c")
 
-[node name="FrameTop" type="MeshInstance3D" parent="MeshInstance3D/WindowFrame" index="2" unique_id=1757817066]
+[node name="FrameTop" type="MeshInstance3D" parent="MeshInstance3D/blockbench_export/WindowFrame" index="2" unique_id=1757817066]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.125, 0.875, 0)
-material_override = SubResource("StandardMaterial3D_wpole")
 mesh = SubResource("ArrayMesh_rv71h")
 skeleton = NodePath("")
+surface_material_override/0 = SubResource("StandardMaterial3D_js07i")
 
-[node name="FrameWest" type="MeshInstance3D" parent="MeshInstance3D/WindowFrame" index="3" unique_id=1329597183]
+[node name="FrameWest" type="MeshInstance3D" parent="MeshInstance3D/blockbench_export/WindowFrame" index="3" unique_id=1329597183]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.875, 0, 0)
-material_override = SubResource("StandardMaterial3D_frmxm")
 mesh = SubResource("ArrayMesh_kujln")
 skeleton = NodePath("")
+surface_material_override/0 = SubResource("StandardMaterial3D_6qbs2")
 
-[node name="LatticeHorizontal" type="MeshInstance3D" parent="MeshInstance3D/WindowFrame" index="4" unique_id=1549425679]
+[node name="LatticeHorizontal" type="MeshInstance3D" parent="MeshInstance3D/blockbench_export/WindowFrame" index="4" unique_id=1549425679]
 transform = Transform3D(0, 1, 0, -1, 0, 0, 0, 0, 1, 0, 0.5, 0)
-material_override = SubResource("StandardMaterial3D_7ea4a")
 mesh = SubResource("ArrayMesh_svsqw")
 skeleton = NodePath("")
+surface_material_override/0 = SubResource("StandardMaterial3D_f53h1")
 
-[node name="LatticeVertical" type="MeshInstance3D" parent="MeshInstance3D/WindowFrame" index="5" unique_id=26793378]
+[node name="LatticeVertical" type="MeshInstance3D" parent="MeshInstance3D/blockbench_export/WindowFrame" index="5" unique_id=26793378]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.4375, 0, 0)
-material_override = SubResource("StandardMaterial3D_f56c0")
 mesh = SubResource("ArrayMesh_22lbm")
 skeleton = NodePath("")
+surface_material_override/0 = SubResource("StandardMaterial3D_wpole")
 
 [node name="CollisionShape3D" parent="." index="4" unique_id=235461355]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.9802322e-08)

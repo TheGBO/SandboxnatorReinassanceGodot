@@ -6,6 +6,7 @@ using System;
 
 namespace NullGarel.Sandboxnator.Building;
 
+[Tool]
 public partial class Paintable : AbstractComponent<Placeable>
 {
 	[Export] private Array<MeshInstance3D> _targetMeshes;
