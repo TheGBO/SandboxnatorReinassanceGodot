@@ -9,13 +9,16 @@ namespace NullGarel.Sandboxnator.Item;
 public partial class ItemData : Resource
 {
     //Contains the model and the logic
-    [ExportGroup("Basic properties")]
+    [ExportCategory("Basic properties")]
     //The item scene that contains its model and functionality.
     [Export] public PackedScene itemScene;
     //The language-agnostic item id, PascalCaseIsRecommended
     [Export] public string itemID;
-    [ExportGroup("Visual information")]
+    [ExportCategory("Visual information")]
     [Export] public Texture2D itemIcon;
     //The item name, in the future I'll make it so it can be changed according to Locales.
     [Export] public string itemName;
+    [ExportCategory("Inventory properties")]
+    [Export] public int maxStackSize = 1;
+    public bool IsStackable { get => maxStackSize > 1; }
 }
