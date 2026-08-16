@@ -1,8 +1,8 @@
 using System;
 using Godot;
 using Godot.Collections;
+using NullGarel.Sandboxnator.Item;
 using NullGarel.Util.ComponentSystem;
-using NullGarel.Util.Log;
 
 namespace NullGarel.Sandboxnator.Entity;
 
@@ -11,54 +11,76 @@ namespace NullGarel.Sandboxnator.Entity;
 /// </summary>
 public partial class PlayerItemSync : AbstractComponent<Player>
 {
-    [Export] private Array<string> _inventory = [];
+    [Export]
+    private Inventory _inventory;
     private int _inventoryIndex;
     public event Action<string> OnItemEquipped;
-
     private string _currentItemId = string.Empty;
+    public ItemStack CurrentItemStack => _inventory.GetSlot(_inventoryIndex);
+    public int CurrentInventoryIndex => _inventoryIndex;
+
     [Export]
     public string CurrentItemId
     {
         get => _currentItemId;
         set
         {
-            if (_currentItemId == value) return;
-            _currentItemId = value;
+            if (_currentItemId == value)
+                return;
 
+            _currentItemId = value;
             OnItemEquipped?.Invoke(_currentItemId);
         }
     }
 
     private Dictionary _activeItemState;
+
     public Dictionary ActiveItemState
     {
         get => _activeItemState;
         set
         {
-            if (_activeItemState == value) return;
+            if (_activeItemState == value)
+                return;
+
             _activeItemState = value;
         }
     }
 
     public override void _Ready()
     {
-        // this component should be authority of the server.
         SetMultiplayerAuthority(1);
 
         if (!string.IsNullOrEmpty(_currentItemId))
         {
             OnItemEquipped?.Invoke(_currentItemId);
         }
-        else if (Multiplayer.IsServer() && _inventory.Count > 0)
+        else if (Multiplayer.IsServer())
         {
-            CurrentItemId = _inventory[0];
+            SelectFirstAvailableItem();
         }
 
         if (Multiplayer.IsServer())
         {
-            // address the late joiner issue I suppose
             Multiplayer.PeerConnected += OnPeerConnected;
         }
+    }
+
+    private void SelectFirstAvailableItem()
+    {
+        for (int i = 0; i < _inventory.Count; i++)
+        {
+            ItemStack stack = _inventory.GetSlot(i);
+
+            if (stack == null || stack.IsEmpty)
+                continue;
+
+            _inventoryIndex = i;
+            CurrentItemId = stack.ItemId;
+            return;
+        }
+
+        CurrentItemId = string.Empty;
     }
 
     private void OnPeerConnected(long id)
@@ -68,19 +90,70 @@ public partial class PlayerItemSync : AbstractComponent<Player>
 
     public void RequestCycleItem(int increment)
     {
+        if (increment == 0)
+            return;
+
         RpcId(1, nameof(ServerBoundRequestCycleItem), increment);
     }
 
     [Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
     private void ServerBoundRequestCycleItem(int increment)
     {
-        if (!Multiplayer.IsServer() || _inventory.Count == 0) return;
+        if (!Multiplayer.IsServer())
+            return;
 
-        _inventoryIndex += increment;
-        string nextItemId = _inventory[Mathf.Abs(_inventoryIndex % _inventory.Count)];
+        if (increment == 0)
+            return;
 
-        CurrentItemId = nextItemId;
-        Rpc(nameof(ClientBoundConfirmItemChange), nextItemId);
+        int nextIndex = FindNextOccupiedSlot(_inventoryIndex, increment);
+
+        if (nextIndex < 0)
+            return;
+
+        _inventoryIndex = nextIndex;
+
+        ItemStack stack = _inventory.GetSlot(_inventoryIndex);
+
+        if (stack == null || stack.IsEmpty)
+            return;
+
+        CurrentItemId = stack.ItemId;
+
+        Rpc(nameof(ClientBoundConfirmItemChange), CurrentItemId);
+    }
+
+    private int FindNextOccupiedSlot(int currentIndex, int direction)
+    {
+        int step = Math.Sign(direction);
+
+        if (step == 0)
+            return -1;
+
+        int index = currentIndex;
+
+        for (int i = 0; i < _inventory.Count; i++)
+        {
+            index = WrapIndex(index + step, _inventory.Count);
+            ItemStack stack = null;
+            try
+            {
+                stack = _inventory.GetSlot(index);
+            }
+            catch
+            {
+                // do nowt xd
+            }
+
+            if (stack != null && !stack.IsEmpty)
+                return index;
+        }
+
+        return -1;
+    }
+
+    private static int WrapIndex(int index, int count)
+    {
+        return ((index % count) + count) % count;
     }
 
     [Rpc(MultiplayerApi.RpcMode.Authority, CallLocal = true)]
@@ -94,11 +167,11 @@ public partial class PlayerItemSync : AbstractComponent<Player>
     /// </summary>
     public void BroadcastItemState(Dictionary stateData)
     {
-        if (Multiplayer.IsServer())
-        {
-            ActiveItemState = stateData;
-            Rpc(nameof(ClientBoundSyncItemState), stateData);
-        }
+        if (!Multiplayer.IsServer())
+            return;
+
+        ActiveItemState = stateData;
+        Rpc(nameof(ClientBoundSyncItemState), stateData);
     }
 
     [Rpc(MultiplayerApi.RpcMode.Authority, CallLocal = true)]

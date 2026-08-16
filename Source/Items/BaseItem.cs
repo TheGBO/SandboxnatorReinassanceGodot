@@ -37,6 +37,7 @@ public partial class BaseItem : Node3D
 	{
 	}
 
+
 	public virtual Dictionary GetItemState()
 	{
 		return new Dictionary { { "key", "value" } };
