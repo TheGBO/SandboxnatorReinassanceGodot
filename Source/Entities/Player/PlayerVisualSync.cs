@@ -55,7 +55,7 @@ public partial class PlayerVisualSync : AbstractComponent<Player>
 			foreach (Node3D element in _elementsToHideAsFirstPerson)
 				element.Visible = false;
 			ProfileDataDict = DictPack.Serialize(PlayerProfileManager.Instance.CurrentProfile);
-			ColorAndMeshUtils.SetMeshClip(_playerModel.handMesh, true);
+			_playerModel.handMesh.SetMeshClip(true);
 		}
 	}
 
@@ -70,7 +70,7 @@ public partial class PlayerVisualSync : AbstractComponent<Player>
 			case MovementState.Idle:
 				_movementStateAnimation.CurrentAnimation = IdleAnimation;
 				break;
-				
+
 			case MovementState.Walk:
 				_movementStateAnimation.CurrentAnimation = WalkAnimation;
 

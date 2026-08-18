@@ -12,7 +12,7 @@ namespace NullGarel.Sandboxnator.Item;
 //TODO: There's something really important to be done: store data in this item persistently.
 // For instance, if you change the color and scroll to another item and scroll back to this
 // one, the color is reset and completely forgotten.
-// I'm thinking of either a dictionary or a msgpack object for this purpose.
+// I'm thinking of a dictionary for this purpose.
 // Minecraft does this for things like durability, custom item names, custom properties, etc..
 // And I think this is what NBT does on minecraft.
 // I don't even know if this is inspiration or plagiarizing at this point xd
@@ -33,7 +33,7 @@ public partial class PaintBubble : BaseItem
     [Export] private MeshInstance3D _bubble;
     [Export] private int _colorIndex = 0;
 
-    private Color[] _colors = [.. ColorAndMeshUtils.PixelsOfImage(GameRegistries.Instance.ContentDatabase.BuildingPallete.GetImage())];
+    private Color[] _colors = [.. GameRegistries.Instance.ContentDatabase.BuildingPallete.GetImage().PixelsOfImage()];
 
     public override void _EnterTree()
     {
@@ -90,6 +90,6 @@ public partial class PaintBubble : BaseItem
 
     private void UpdateVisualLocal()
     {
-        ColorAndMeshUtils.ChangeMeshColor(_bubble, _colors[_colorIndex]);
+        _bubble.ChangeMeshColor(_colors[_colorIndex]);
     }
 }

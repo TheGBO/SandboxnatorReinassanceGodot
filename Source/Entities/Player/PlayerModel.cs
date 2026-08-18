@@ -22,9 +22,9 @@ public partial class PlayerModel : Node3D
     {
         foreach (MeshInstance3D element in modelsToColor)
         {
-            if (IsInstanceValid(element))
-                ColorAndMeshUtils.ChangeMeshColor(element, profile.PlayerColor);
+            if (!IsInstanceValid(element)) continue;
+            element.ChangeMeshColor(profile.PlayerColor);
         }
-        ColorAndMeshUtils.ChangeMeshTexture(faceMesh, PlayerFaceRegistryManager.GetTextureByFaceId(profile.PlayerFaceId));
+        faceMesh.ChangeMeshTexture(PlayerFaceRegistryManager.GetTextureByFaceId(profile.PlayerFaceId));
     }
 }

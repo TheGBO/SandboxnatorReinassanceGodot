@@ -42,8 +42,8 @@ public partial class Paintable : AbstractComponent<Placeable>
 	{
 		foreach (MeshInstance3D mesh in _targetMeshes)
 		{
-			if (IsInstanceValid(mesh))
-				ColorAndMeshUtils.ChangeMeshColor(mesh, color);
+			if (!IsInstanceValid(mesh)) continue;
+			mesh.ChangeMeshColor(color);
 		}
 	}
 }

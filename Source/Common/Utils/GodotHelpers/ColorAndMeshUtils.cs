@@ -3,9 +3,9 @@ using Godot.Collections;
 using System;
 namespace NullGarel.Util.GodotHelpers;
 
-class ColorAndMeshUtils
+public static class ColorAndMeshUtils
 {
-	public static Array<Color> PixelsOfImage(Image img)
+	public static Array<Color> PixelsOfImage(this Image img)
 	{
 		Array<Color> result = [];
 
@@ -24,7 +24,7 @@ class ColorAndMeshUtils
 		return result;
 	}
 
-	public static Color InvertColor(Color color)
+	public static Color InvertColor(this Color color)
 	{
 		Color maxxedColor = new(1, 1, 1, 1);
 		Color resultColor = maxxedColor - color;
@@ -32,7 +32,7 @@ class ColorAndMeshUtils
 		return resultColor;
 	}
 
-	public static void ChangeMeshColor(MeshInstance3D model, Color color)
+	public static void ChangeMeshColor(this MeshInstance3D model, Color color)
 	{
 		if (model.Mesh == null) return;
 
@@ -53,7 +53,7 @@ class ColorAndMeshUtils
 			}
 		}
 	}
-	public static void ChangeMeshTexture(MeshInstance3D model, Texture2D texture)
+	public static void ChangeMeshTexture(this MeshInstance3D model, Texture2D texture)
 	{
 		//Change the active model 0
 		var currentMaterial = model.GetActiveMaterial(0);
@@ -70,7 +70,7 @@ class ColorAndMeshUtils
 	/// </summary>
 	/// <param name="model"></param>
 	/// <param name="clip"></param>
-	public static void SetMeshClip(MeshInstance3D model, bool clip = true)
+	public static void SetMeshClip(this MeshInstance3D model, bool clip = true)
 	{
 		var handMaterial = model.GetActiveMaterial(0);
 		if (handMaterial is StandardMaterial3D stdMat)
