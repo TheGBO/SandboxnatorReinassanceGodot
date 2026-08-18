@@ -237,24 +237,30 @@ properties/2/replication_mode = 2
 properties/3/path = NodePath("Neck:position")
 properties/3/spawn = true
 properties/3/replication_mode = 2
-properties/4/path = NodePath("ComponentHolder/PlayerItemUse:isUseValid")
-properties/4/spawn = true
-properties/4/replication_mode = 2
-properties/5/path = NodePath("ComponentHolder/PlayerMovement:MovementType")
-properties/5/spawn = true
-properties/5/replication_mode = 2
-properties/6/path = NodePath("ComponentHolder/PlayerItemSync:CurrentItemId")
-properties/6/spawn = true
-properties/6/replication_mode = 2
-properties/7/path = NodePath("ComponentHolder/PlayerVisualSync:ProfileDataDict")
-properties/7/spawn = true
-properties/7/replication_mode = 2
-properties/8/path = NodePath("ComponentHolder/PlayerItemUse:DesiredRotation")
-properties/8/spawn = true
-properties/8/replication_mode = 2
-properties/9/path = NodePath("ComponentHolder/PlayerInput:IsGridSnapMode")
-properties/9/spawn = true
-properties/9/replication_mode = 2
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_2gtko"]
+properties/0/path = NodePath("../PlayerMovement:MovementType")
+properties/0/spawn = true
+properties/0/replication_mode = 2
+properties/1/path = NodePath(".:ProfileDataDict")
+properties/1/spawn = true
+properties/1/replication_mode = 2
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_hnsoe"]
+properties/0/path = NodePath(".:isUseValid")
+properties/0/spawn = true
+properties/0/replication_mode = 2
+properties/1/path = NodePath(".:DesiredRotation")
+properties/1/spawn = true
+properties/1/replication_mode = 2
+properties/2/path = NodePath("../PlayerItemSync:CurrentItemId")
+properties/2/spawn = true
+properties/2/replication_mode = 2
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_kf3vh"]
+properties/0/path = NodePath("../ComponentHolder/PlayerInput:IsGridSnapMode")
+properties/0/spawn = true
+properties/0/replication_mode = 2
 
 [node name="Player" type="CharacterBody3D" unique_id=277325947 node_paths=PackedStringArray("componentHolder", "characterBody", "playerMovement", "cameraMovement", "playerItemUse", "playerItemSync", "playerInput", "chatHud", "visuals", "playerHud", "playerItemVisuals", "playerInteract", "camera", "hud", "playerSounds")]
 floor_stop_on_slope = false
@@ -523,13 +529,13 @@ shape = SubResource("CapsuleShape3D_7hef5")
 [node name="ComponentHolder" type="Node" parent="." unique_id=1298016837]
 script = ExtResource("7_kauam")
 
-[node name="PlayerMovement" type="Node3D" parent="ComponentHolder" unique_id=88819430 node_paths=PackedStringArray("_cbody", "camera")]
+[node name="PlayerMovement" type="Node3D" parent="ComponentHolder" unique_id=88819430 node_paths=PackedStringArray("_characterBody", "camera")]
 script = ExtResource("1_fmfn4")
-_cbody = NodePath("../..")
+_characterBody = NodePath("../..")
+camera = NodePath("../../Neck/Camera3D")
 walkSpeed = 2.8
 sprintSpeed = 7.23
 jumpVelocity = 8.0
-camera = NodePath("../../Neck/Camera3D")
 sprintEffectTime = 0.125
 
 [node name="CameraMovement" type="Node3D" parent="ComponentHolder" unique_id=20787505 node_paths=PackedStringArray("neck", "body")]
@@ -563,13 +569,14 @@ _messageFadeOutTimer = NodePath("MessageFadeOutTimer")
 script = ExtResource("11_v2xwv")
 _hand = NodePath("../../PlayerModel/Node/Hands/right_H/Hand_R/HoldingPoint/Hand")
 
-[node name="PlayerVisualSync" type="Node3D" parent="ComponentHolder" unique_id=1823580024 node_paths=PackedStringArray("_elementsToHideAsFirstPerson", "_playerModel", "_nameTag", "_rotateAlongNeck", "_neck")]
+[node name="PlayerVisualSync" type="Node3D" parent="ComponentHolder" unique_id=1823580024 node_paths=PackedStringArray("_elementsToHideAsFirstPerson", "_playerModel", "_nameTag", "_rotateAlongNeck", "_neck", "_movementStateAnimation")]
 script = ExtResource("14_3e0s0")
 _elementsToHideAsFirstPerson = [NodePath("../../PlayerModel/Node/HeadHolder"), NodePath("../../NameTagHolder/NameTag")]
 _playerModel = NodePath("../../PlayerModel")
 _nameTag = NodePath("../../NameTagHolder/NameTag")
 _rotateAlongNeck = [NodePath("../../PlayerModel/Node/HeadHolder"), NodePath("../../PlayerModel/Node/Hands")]
 _neck = NodePath("../../Neck")
+_movementStateAnimation = NodePath("../../PlayerModel/ModelAnimator")
 ProfileDataDict = {}
 
 [node name="PlayerHUD" type="Node3D" parent="ComponentHolder" unique_id=736340043 node_paths=PackedStringArray("chatRoot", "_hotBar", "_crossHair", "_escMenu", "_leaveGameBtn", "_settingsBtn", "_alignmentInformationIcon")]
@@ -613,9 +620,6 @@ _handAnimator = NodePath("../PlayerItemUse/HandAnimator")
 script = ExtResource("26_2nyvo")
 _interactionRaycast = NodePath("../../Neck/InteractionRaycast")
 
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." unique_id=41916486]
-replication_config = SubResource("SceneReplicationConfig_bglb2")
-
 [node name="NameTagHolder" type="Marker3D" parent="." unique_id=2079946833]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2, 0)
 
@@ -628,18 +632,34 @@ autowrap_mode = 1
 [node name="PlayerModel" parent="." unique_id=1713642264 instance=ExtResource("15_7hef5")]
 
 [node name="HeadHolder" parent="PlayerModel/Node" index="0"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6875, 0)
+transform = Transform3D(1.0042562, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.687234, 0)
 
 [node name="right_H" parent="PlayerModel/Node/Hands" index="1"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.30626476, -0.03124994, 0)
 
 [node name="Feet" parent="PlayerModel/Node" index="2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.125, 0.03125, 0)
+transform = Transform3D(1.0004255, 0, 0, 0, 1, 0, 0, 0, 1, 0.125, 0.03125, 0)
 
 [node name="ModelAnimator" parent="PlayerModel" index="1"]
 autoplay = &"IdleAndHold"
 
+[node name="Synchronizers" type="Node" parent="." unique_id=705612137]
+
+[node name="TransformSynchronizer" type="MultiplayerSynchronizer" parent="Synchronizers" unique_id=41916486]
+root_path = NodePath("../..")
+replication_config = SubResource("SceneReplicationConfig_bglb2")
+
+[node name="VisualSynchronizer" type="MultiplayerSynchronizer" parent="Synchronizers" unique_id=2093900984]
+root_path = NodePath("../../ComponentHolder/PlayerVisualSync")
+replication_config = SubResource("SceneReplicationConfig_2gtko")
+
+[node name="ItemSynchronizer" type="MultiplayerSynchronizer" parent="Synchronizers" unique_id=922255866]
+root_path = NodePath("../../ComponentHolder/PlayerItemUse")
+replication_config = SubResource("SceneReplicationConfig_hnsoe")
+
+[node name="InputSynchronizer" type="MultiplayerSynchronizer" parent="Synchronizers" unique_id=1073787925]
+replication_config = SubResource("SceneReplicationConfig_kf3vh")
+
 [connection signal="pressed" from="HUD/ChatRoot/ChatBox/VBoxContainer/Input/SendBtn" to="ComponentHolder/PlayerChatHUD" method="_on_send_btn_pressed"]
-[connection signal="synchronized" from="MultiplayerSynchronizer" to="ComponentHolder/PlayerItemUse" method="_on_multiplayer_synchronizer_synchronized"]
 
 [editable path="PlayerModel"]

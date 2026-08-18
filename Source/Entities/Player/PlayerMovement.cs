@@ -5,20 +5,29 @@ using NullGarel.Util.ComponentSystem;
 using System;
 namespace NullGarel.Sandboxnator.Entity;
 
+public enum MovementState
+{
+	Idle,
+	Walk,
+	Sprint
+}
+
 [GodotClassName("PlayerMovement")]
 public partial class PlayerMovement : AbstractComponent<Player>, ISettingsLoader
 {
 	//movement
-	[ExportCategory("Components")]
-	[Export] private CharacterBody3D _cbody;
-	private float _currentSpeed;
+	[ExportCategory("Nodes")]
+	[Export] private CharacterBody3D _characterBody;
+	[Export] public Camera3D camera;
 	[ExportCategory("Movement parameters")]
 	[Export] public float walkSpeed;
 	[Export] public float sprintSpeed;
 	[Export] public float jumpVelocity;
+	//state trackers
 	private Vector3 _velocity;
 	private bool _isMoving;
 	private bool _isSprinting;
+	private float _currentSpeed;
 	public float HorizontalSpeed
 	{
 		get
@@ -26,20 +35,12 @@ public partial class PlayerMovement : AbstractComponent<Player>, ISettingsLoader
 			return new Vector3(_velocity.X, 0, _velocity.Z).Length();
 		}
 	}
-	//rigid body interaction
-	// [Export] public float mass = 5f;
-	// [Export] public float pushForceScalar = 2f;
 
-	//visual effects
 	[ExportCategory("Visual effects")]
-	[Export] public Camera3D camera;
 	[Export] public float sprintEffectTime = 0.75f;
 	private float _fov = 75;
-	/// <summary>
-	/// Used for detection of movement and animations.
-	/// </summary>
-	[Export(PropertyHint.Enum, "FOR SYNCING PURPOSES!!!")]
-	public PlayerMovementType MovementType { get; private set; }
+	[Export(PropertyHint.Enum, "Do not alter it in the editor. This is used for animations.")]
+	public MovementState MovementType { get; private set; }
 
 	public override void _Ready()
 	{
@@ -56,9 +57,9 @@ public partial class PlayerMovement : AbstractComponent<Player>, ISettingsLoader
 	public override void _PhysicsProcess(double delta)
 	{
 		if (!Multiplayer.HasMultiplayerPeer()) return;
-		if (_cbody == null) return;
+		if (_characterBody == null) return;
 		if (!ComponentParent.IsMultiplayerAuthority()) return;
-		
+
 		camera.Fov = (float)GameRegistries.Instance.SettingsData.FieldOfView;
 		SoundEffectProcess();
 		MovementProcess(delta);
@@ -66,21 +67,21 @@ public partial class PlayerMovement : AbstractComponent<Player>, ISettingsLoader
 
 	private void MovementProcess(double delta)
 	{
-		_velocity = _cbody.Velocity;
+		_velocity = _characterBody.Velocity;
 
 		// Add the gravity.
-		if (!_cbody.IsOnFloor())
+		if (!_characterBody.IsOnFloor())
 		{
-			_velocity += _cbody.GetGravity() * (float)delta;
+			_velocity += _characterBody.GetGravity() * (float)delta;
 		}
 
-		if (_cbody.IsOnFloor() && ComponentParent.playerInput.IsJumping)
+		if (_characterBody.IsOnFloor() && ComponentParent.playerInput.IsJumping)
 		{
 			_velocity.Y = jumpVelocity;
 		}
 
-		Vector3 forward = _cbody.GlobalTransform.Basis.Z;
-		Vector3 right = _cbody.GlobalTransform.Basis.X;
+		Vector3 forward = _characterBody.GlobalTransform.Basis.Z;
+		Vector3 right = _characterBody.GlobalTransform.Basis.X;
 
 		Vector2 inputDir = ComponentParent.playerInput.MovementVector;
 		Vector3 direction = (forward * inputDir.Y + right * inputDir.X).Normalized();
@@ -90,16 +91,16 @@ public partial class PlayerMovement : AbstractComponent<Player>, ISettingsLoader
 		_isSprinting = ComponentParent.playerInput.IsSprinting;
 		if (_isSprinting)
 		{
-			MovementType = PlayerMovementType.Sprint;
+			MovementType = MovementState.Sprint;
 			Sprint(true);
 		}
 		if (_isMoving && !_isSprinting)
 		{
-			MovementType = PlayerMovementType.Walk;
+			MovementType = MovementState.Walk;
 		}
 		if (!_isMoving && !_isSprinting)
 		{
-			MovementType = PlayerMovementType.Idle;
+			MovementType = MovementState.Idle;
 		}
 
 		if (direction != Vector3.Zero)
@@ -109,48 +110,23 @@ public partial class PlayerMovement : AbstractComponent<Player>, ISettingsLoader
 		}
 		else
 		{
-			_velocity.X = Mathf.MoveToward(_cbody.Velocity.X, 0, _currentSpeed);
-			_velocity.Z = Mathf.MoveToward(_cbody.Velocity.Z, 0, _currentSpeed);
+			_velocity.X = Mathf.MoveToward(_characterBody.Velocity.X, 0, _currentSpeed);
+			_velocity.Z = Mathf.MoveToward(_characterBody.Velocity.Z, 0, _currentSpeed);
 		}
 
-		_cbody.Velocity = _velocity;
-		_cbody.MoveAndSlide();
+		_characterBody.Velocity = _velocity;
+		_characterBody.MoveAndSlide();
 	}
 
 	private void SoundEffectProcess()
 	{
-		if (_isMoving && _cbody.IsOnFloor())
+		if (_isMoving && _characterBody.IsOnFloor())
 		{
 			float footstepDelay = _isSprinting ? 0.1f : 0.25f;
 			ComponentParent.playerSounds.PlayGenericFootstep(footstepDelay);
 		}
 	}
-
-	//not my code, adapted version from https://www.youtube.com/watch?v=Uh9PSOORMmA
-	//DEPRECATED Disabled due to network issues.
-	// private void PushAwayRigidBodies()
-	// {
-	// 	for (int i = 0; i < movementCBody.GetSlideCollisionCount(); i++)
-	// 	{
-	// 		KinematicCollision3D CollisionData = movementCBody.GetSlideCollision(i);
-
-	// 		GodotObject UnkObj = CollisionData.GetCollider();
-
-	// 		if (UnkObj is RigidBody3D)
-	// 		{
-	// 			RigidBody3D Obj = UnkObj as RigidBody3D;
-	// 			float MassRatio = Mathf.Min(1.0f, mass / Obj.Mass);
-	// 			if (MassRatio < 0.25f) continue;
-	// 			Vector3 PushDir = -CollisionData.GetNormal();
-	// 			float VelocityDiffInPushDir = movementCBody.Velocity.Dot(PushDir) - Obj.LinearVelocity.Dot(PushDir);
-	// 			VelocityDiffInPushDir = Mathf.Max(0.0f, VelocityDiffInPushDir);
-	// 			PushDir.Y = 0;
-	// 			float PushForce = MassRatio * pushForceScalar;
-	// 			Obj.ApplyImpulse(PushDir * VelocityDiffInPushDir * PushForce, CollisionData.GetPosition() - Obj.GlobalPosition);
-	// 		}
-	// 	}
-	// }
-
+	
 	//input related.
 	private void StopSprint()
 	{
@@ -159,7 +135,7 @@ public partial class PlayerMovement : AbstractComponent<Player>, ISettingsLoader
 
 	private void Sprint(bool beginSprint)
 	{
-		MovementType = PlayerMovementType.Sprint;
+		MovementType = MovementState.Sprint;
 		Tween sprintTween = GetTree().CreateTween();
 		if (beginSprint)
 		{
@@ -173,6 +149,9 @@ public partial class PlayerMovement : AbstractComponent<Player>, ISettingsLoader
 		}
 	}
 
+	/// <summary>
+	/// Load the FieldOfView property from the game settings.
+	/// </summary>
 	public void UpdateSettingsData()
 	{
 		_fov = (float)GameRegistries.Instance.SettingsData.FieldOfView;

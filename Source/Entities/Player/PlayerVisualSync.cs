@@ -10,14 +10,19 @@ namespace NullGarel.Sandboxnator.Entity;
 /// </summary>
 public partial class PlayerVisualSync : AbstractComponent<Player>
 {
-	[ExportGroup("In-Game")]
+	[ExportCategory("In-Game")]
 	[Export] private Array<Node3D> _elementsToHideAsFirstPerson;
 
-	[ExportGroup("Player model")]
+	[ExportCategory("Player model")]
 	[Export] private PlayerModel _playerModel;
 	[Export] public Label3D _nameTag;
 	[Export] private Array<Node3D> _rotateAlongNeck;
 	[Export] private Node3D _neck;
+
+	[ExportCategory("Animations")]
+	[Export] private AnimationPlayer _movementStateAnimation;
+	private const string IdleAnimation = "IdleAndHold";
+	private const string WalkAnimation = "WalkAndHold";
 
 	//Serialization
 	private PlayerProfileData _profileData = new();
@@ -59,6 +64,20 @@ public partial class PlayerVisualSync : AbstractComponent<Player>
 		foreach (Node3D target in _rotateAlongNeck)
 		{
 			target.GlobalRotation = _neck.GlobalRotation;
+		}
+		switch (ComponentParent.playerMovement.MovementType)
+		{
+			case MovementState.Idle:
+				_movementStateAnimation.CurrentAnimation = IdleAnimation;
+				break;
+				
+			case MovementState.Walk:
+				_movementStateAnimation.CurrentAnimation = WalkAnimation;
+
+				break;
+			case MovementState.Sprint:
+				_movementStateAnimation.CurrentAnimation = WalkAnimation;
+				break;
 		}
 	}
 
