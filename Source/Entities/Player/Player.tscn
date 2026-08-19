@@ -17,9 +17,9 @@
 [ext_resource type="Script" uid="uid://1r4uikdke5pe" path="res://Source/Entities/Player/PlayerVisualSync.cs" id="14_3e0s0"]
 [ext_resource type="Script" uid="uid://dfhgyr0xk8nju" path="res://Source/Entities/Player/PlayerItemSync.cs" id="14_a5byf"]
 [ext_resource type="PackedScene" uid="uid://bvk2qsd5vogiv" path="res://Source/Entities/Player/PlayerModel.tscn" id="15_7hef5"]
+[ext_resource type="Texture2D" uid="uid://jl7600uk4hn1" path="res://_ThirdParty/KenneyInputPrompts/Keyboard & Mouse/Vector/keyboard_f.svg" id="16_2gtko"]
 [ext_resource type="Texture2D" uid="uid://cynkqshultlao" path="res://Assets/Textures/Icons/icon_alignment_snapper.png" id="16_2nyvo"]
 [ext_resource type="Script" uid="uid://c7cntnqvgc1tj" path="res://Source/Entities/Player/PlayerSounds.cs" id="16_ckclx"]
-[ext_resource type="Texture2D" uid="uid://coppnj26ahh10" path="res://_ThirdParty/KenneyInputPrompts/Keyboard & Mouse/Double/keyboard_f.png" id="16_wabrv"]
 [ext_resource type="AudioStream" uid="uid://drcyqysa48vv4" path="res://_ThirdParty/KenneyImpactSounds/Audio/footstep_concrete_000.ogg" id="17_l24fo"]
 [ext_resource type="AudioStream" uid="uid://cgibi3vg7rv5q" path="res://_ThirdParty/KenneyImpactSounds/Audio/footstep_concrete_001.ogg" id="18_a7eri"]
 [ext_resource type="Script" uid="uid://dqfl0pifo5c3e" path="res://Source/Items/Inventory.cs" id="19_2gtko"]
@@ -585,7 +585,7 @@ chatRoot = NodePath("../../HUD/ChatRoot")
 _hotBar = NodePath("../../HUD/HotBar")
 _crossHair = NodePath("../../HUD/CrossHair")
 _defaultCrosshair = ExtResource("8_2c07k")
-_interactionCrosshair = ExtResource("16_wabrv")
+_interactionCrosshair = ExtResource("16_2gtko")
 _escMenu = NodePath("../../HUD/EscMenu")
 _leaveGameBtn = NodePath("../../HUD/EscMenu/MarginContainer/VBoxContainer/LeaveGameBtn")
 _settingsBtn = NodePath("../../HUD/EscMenu/MarginContainer/VBoxContainer/SettingsBtn")
