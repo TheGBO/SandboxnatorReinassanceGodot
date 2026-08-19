@@ -11,8 +11,14 @@ namespace NullGarel.Sandboxnator.Settings;
 public partial class GameSettingsData : Resource
 {
     [ExportCategory("Controls")]
+    [SettingsSlider(SettingsCategory.Controls, "FOV", 32, 128, 1)]
     [Export] public double FieldOfView { get; set; } = 75;
+
+    [SettingsSlider(SettingsCategory.Controls, "Sensitivity", 16, 256, 1)]
     [Export] public double LookSensitivity { get; set; } = 100;
+
+
     [ExportCategory("Graphics")]
     [Export] public bool AmbientOcclusion = false;
+
 }

@@ -74,4 +74,9 @@ public partial class PlayerHUD : AbstractComponent<Player>, IUiSignalLoader
             SandboxnatorMain.Instance.LeaveWorld();
         };
     }
+
+    public void DisconnectUISignals()
+    {
+        throw new NotImplementedException();
+    }
 }

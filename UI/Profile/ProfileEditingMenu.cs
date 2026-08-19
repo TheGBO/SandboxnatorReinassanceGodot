@@ -30,7 +30,7 @@ public partial class ProfileEditingMenu : Control, IUiSignalLoader
 	{
 		//assuming this is supposed to never fail (because it is lol)
 		_parentCanvasLayer = GetParent<CanvasLayer>();
-		
+
 		ConnectUISignals();
 		_cachedProfile = PlayerProfileManager.Instance.CurrentProfile;
 		FetchFacesFromRegistry();
@@ -136,6 +136,11 @@ public partial class ProfileEditingMenu : Control, IUiSignalLoader
 			return faceID;
 		}
 		return currentProfile.PlayerFaceId;
+	}
+
+	public void DisconnectUISignals()
+	{
+		throw new NotImplementedException();
 	}
 
 	#endregion

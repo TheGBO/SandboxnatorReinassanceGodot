@@ -18,8 +18,8 @@ grow_vertical = 2
 script = ExtResource("1_n530s")
 _exitDialog = NodePath("ExitDialog")
 _playBtn = NodePath("RootPanel/MainMargin/Panel/MarginContainer/VBoxContainer/PlayBtn")
-_profileEditBtn = NodePath("RootPanel/MainMargin/Panel/MarginContainer/VBoxContainer/ProfileBtn")
-_settingsBtn = NodePath("RootPanel/MainMargin/Panel/MarginContainer/VBoxContainer/SettingsBtn")
+_profileEditBtn = NodePath("RootPanel/MainMargin/Panel/MarginContainer/VBoxContainer/HBoxContainer/ProfileBtn")
+_settingsBtn = NodePath("RootPanel/MainMargin/Panel/MarginContainer/VBoxContainer/HBoxContainer/SettingsBtn")
 _exitBtn = NodePath("RootPanel/MainMargin/Panel/MarginContainer/VBoxContainer/ExitBtn")
 
 [node name="RootPanel" type="Panel" parent="." unique_id=107203621]
@@ -53,32 +53,42 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 55
-theme_override_constants/margin_top = 55
-theme_override_constants/margin_right = 55
-theme_override_constants/margin_bottom = 55
+theme_override_constants/margin_left = 48
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 48
+theme_override_constants/margin_bottom = 32
 
 [node name="VBoxContainer" type="VBoxContainer" parent="RootPanel/MainMargin/Panel/MarginContainer" unique_id=1924741998]
 layout_mode = 2
 
 [node name="TextureRect" type="TextureRect" parent="RootPanel/MainMargin/Panel/MarginContainer/VBoxContainer" unique_id=1699526046]
+custom_minimum_size = Vector2(0, 160)
+custom_maximum_size = Vector2(800, -1)
 layout_mode = 2
+size_flags_horizontal = 4
 size_flags_vertical = 3
 texture = ExtResource("1_m3wq5")
-expand_mode = 5
+expand_mode = 3
+stretch_mode = 4
 
 [node name="PlayBtn" type="Button" parent="RootPanel/MainMargin/Panel/MarginContainer/VBoxContainer" unique_id=1437062652]
 layout_mode = 2
 size_flags_vertical = 3
 text = "Play"
 
-[node name="ProfileBtn" type="Button" parent="RootPanel/MainMargin/Panel/MarginContainer/VBoxContainer" unique_id=256094980]
+[node name="HBoxContainer" type="HBoxContainer" parent="RootPanel/MainMargin/Panel/MarginContainer/VBoxContainer" unique_id=640654044]
 layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ProfileBtn" type="Button" parent="RootPanel/MainMargin/Panel/MarginContainer/VBoxContainer/HBoxContainer" unique_id=256094980]
+layout_mode = 2
+size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "Profile"
 
-[node name="SettingsBtn" type="Button" parent="RootPanel/MainMargin/Panel/MarginContainer/VBoxContainer" unique_id=2116046903]
+[node name="SettingsBtn" type="Button" parent="RootPanel/MainMargin/Panel/MarginContainer/VBoxContainer/HBoxContainer" unique_id=2116046903]
 layout_mode = 2
+size_flags_horizontal = 3
 size_flags_vertical = 3
 text = "Settings
 "

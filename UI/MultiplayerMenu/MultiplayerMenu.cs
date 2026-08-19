@@ -76,4 +76,9 @@ public partial class MultiplayerMenu : Control, IUiSignalLoader
 		_joinBtn.Pressed += () => NetworkManager.Instance.JoinGame((int)_portInput.Value, _ipAddressInput.Text);
 		_mainMenuBtn.Pressed += () => SandboxnatorMain.Instance.ActivateMainMenu();
 	}
+
+    public void DisconnectUISignals()
+    {
+        throw new NotImplementedException();
+    }
 }

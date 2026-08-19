@@ -21,16 +21,23 @@ public partial class MainMenu : Control, IUiSignalLoader
 
 	public void ConnectUISignals()
 	{
-		_playBtn.Pressed += () => SandboxnatorMain.Instance?.ActivateWorldMenu();
-		_settingsBtn.Pressed += () => SandboxnatorMain.Instance?.ActivateSettingsMenu();
-		_profileEditBtn.Pressed += () => SandboxnatorMain.Instance?.ActivateProfileEditMenu();
+		_playBtn.Pressed += SandboxnatorMain.Instance.ActivateWorldMenu;
+		_settingsBtn.Pressed += SandboxnatorMain.Instance.ActivateSettingsMenu;
+		_profileEditBtn.Pressed += SandboxnatorMain.Instance.ActivateProfileEditMenu;
 
-		_exitBtn.Pressed += () =>
-		{
-			_exitDialog.Popup();
-			UiSoundManager.Instance.PlaySfxSound(UiSoundType.PopUp);
-		};
+		_exitBtn.Pressed += ExitDialogPrompt;
 		_exitDialog.Confirmed += ExitDialogConfirmed;
+	}
+
+
+	public void DisconnectUISignals()
+	{
+		_playBtn.Pressed -= SandboxnatorMain.Instance.ActivateWorldMenu;
+		_settingsBtn.Pressed -= SandboxnatorMain.Instance.ActivateSettingsMenu;
+		_profileEditBtn.Pressed -= SandboxnatorMain.Instance.ActivateProfileEditMenu;
+
+		_exitBtn.Pressed -= ExitDialogPrompt;
+		_exitDialog.Confirmed -= ExitDialogConfirmed;
 	}
 
 	public void ExitDialogConfirmed()
@@ -38,4 +45,9 @@ public partial class MainMenu : Control, IUiSignalLoader
 		ApplicationManager.Instance.HandleCloseRequest();
 	}
 
+	private void ExitDialogPrompt()
+	{
+		_exitDialog.Popup();
+		UiSoundManager.Instance.PlaySfxSound(UiSoundType.PopUp);
+	}
 }

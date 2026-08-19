@@ -1,91 +1,175 @@
+using System;
+using System.Collections.Generic;
+using System.Reflection;
 using Godot;
-using Godot.Collections;
-using NullGarel.Sandboxnator.Registry;
-using NullGarel.Util.IO;
-using NathanHoad;
-using NullGarel.Util.Log;
-using NullGarel.Sandboxnator.UI;
-using NullGarel.Sandboxnator.Settings;
 using NullGarel.Sandboxnator;
+using NullGarel.Sandboxnator.Registry;
+using NullGarel.Sandboxnator.Settings;
+using NullGarel.Sandboxnator.UI;
+
 namespace NullGarel.UI;
 
 public partial class SettingsMenu : Control, IUiSignalLoader
 {
-	private GameSettingsData _currentGameSettings = new();
-	[ExportCategory("Main buttons")]
+	[ExportCategory("Tabs")]
+	[Export] private VBoxContainer _controlsSettingsContainer;
+	[Export] private VBoxContainer _graphicsSettingsContainer;
+	[Export] private VBoxContainer _audioSettingsContainer;
+
+	[ExportCategory("Buttons")]
 	[Export] private Button _acceptBtn;
 	[Export] private Button _resetToDefaultsBtn;
-
-	[ExportCategory("Controls settings")]
-	[Export] private Slider _fovSlider;
-	[Export] private Slider _lookSensitivitySlider;
 	[Export] private GameSettingsData _defaultSettings;
 
-	public override void _EnterTree()
+	private readonly Dictionary<PropertyInfo, Slider> _boundSliders = [];
+	private GameSettingsData _currentGameSettings = new();
+
+	public override void _Ready()
 	{
-		UIFromSettings();
-		//InputActionsDebug();
+		GenerateDynamicSettings();
 		ConnectUISignals();
+		UIFromSettings();
+	}
+
+	public override void _ExitTree()
+	{
+		DisconnectUISignals();
+	}
+
+	private void GenerateDynamicSettings()
+	{
+		PropertyInfo[] properties = typeof(GameSettingsData).GetProperties(
+			BindingFlags.Public | BindingFlags.Instance
+		);
+
+		GenerateSliders(properties);
+	}
+
+	private void GenerateSliders(PropertyInfo[] properties)
+	{
+		foreach (PropertyInfo prop in properties)
+		{
+			SettingsSliderAttribute attr = prop.GetCustomAttribute<SettingsSliderAttribute>();
+			if (attr == null) continue;
+
+			HBoxContainer row = new();
+
+			Label titleLabel = new()
+			{
+				Text = attr.DisplayName,
+				SizeFlagsHorizontal = SizeFlags.ExpandFill,
+				HorizontalAlignment = HorizontalAlignment.Center,
+				SizeFlagsStretchRatio = 0.5f
+			};
+
+			HSlider slider = new()
+			{
+				MinValue = attr.Min,
+				MaxValue = attr.Max,
+				Step = attr.Step,
+				CustomMinimumSize = new Vector2(200, 0),
+				SizeFlagsHorizontal = SizeFlags.ExpandFill
+			};
+
+			Label valueLabel = new()
+			{
+				Text = slider.Value.ToString("F0"),
+				CustomMinimumSize = new Vector2(50, 0),
+				SizeFlagsHorizontal = SizeFlags.ExpandFill,
+				HorizontalAlignment = HorizontalAlignment.Center,
+				SizeFlagsStretchRatio = 0.25f
+
+			};
+
+			slider.ValueChanged += value =>
+			{
+				valueLabel.Text = value.ToString("F0");
+			};
+
+			row.AddChild(titleLabel);
+			row.AddChild(slider);
+			row.AddChild(valueLabel);
+
+			VBoxContainer target = attr.Category switch
+			{
+				SettingsCategory.Audio => _audioSettingsContainer,
+				SettingsCategory.Controls => _controlsSettingsContainer,
+				SettingsCategory.Graphics => _graphicsSettingsContainer,
+				_ => throw new ArgumentOutOfRangeException(
+					nameof(attr.Category),
+					attr.Category,
+					$"Unhandled category target: {attr.Category}"
+				)
+			};
+
+			target.AddChild(row);
+			_boundSliders[prop] = slider;
+		}
 	}
 
 	public void ConnectUISignals()
 	{
 		var greg = GameRegistries.Instance;
-
 		greg.OnSettingsChanged += UIFromSettings;
-		VisibilityChanged += UIFromSettings;
-		_acceptBtn.Pressed += () =>
-		{
-			SettingsFromUI();
-			SandboxnatorMain.Instance.ActivateMainMenu();
-		};
-		_resetToDefaultsBtn.Pressed += () =>
-		{
-			greg.SettingsData = _defaultSettings;
-		};
+
+		_acceptBtn.Pressed += OnAcceptPressed;
+		_resetToDefaultsBtn.Pressed += OnResetPressed;
 	}
 
-	/// <summary>
-	/// Writes the user selected settings into the filesystem.
-	/// </summary>
+	public void DisconnectUISignals()
+	{
+		var greg = GameRegistries.Instance;
+		if (greg != null)
+		{
+			greg.OnSettingsChanged -= UIFromSettings;
+		}
+
+		_acceptBtn.Pressed -= OnAcceptPressed;
+		_resetToDefaultsBtn.Pressed -= OnResetPressed;
+	}
+
+	private void OnAcceptPressed()
+	{
+		SettingsFromUI();
+		SandboxnatorMain.Instance.ActivateMainMenu();
+	}
+
+	private void OnResetPressed()
+	{
+		GD.Print(_defaultSettings);
+		GameRegistries.Instance.SettingsData = (GameSettingsData)_defaultSettings.Duplicate();
+	}
+
+	#region Settings I/O
 	public void SettingsFromUI()
 	{
 		var greg = GameRegistries.Instance;
 
-		_currentGameSettings.FieldOfView = _fovSlider.Value;
-		_currentGameSettings.LookSensitivity = _lookSensitivitySlider.Value;
+		foreach (var (prop, slider) in _boundSliders)
+		{
+			object convertedValue = Convert.ChangeType(slider.Value, prop.PropertyType);
+			prop.SetValue(_currentGameSettings, convertedValue);
+		}
 
 		greg.SettingsData = _currentGameSettings;
 	}
 
-	/// <summary>
-	/// Reads the registry and updates the UI to display settings info.
-	/// </summary>
 	public void UIFromSettings()
 	{
 		var greg = GameRegistries.Instance;
-		_fovSlider.Value = greg.SettingsData.FieldOfView;
-		_lookSensitivitySlider.Value = greg.SettingsData.LookSensitivity;
+		if (greg.SettingsData == null) return;
 
-	}
+		_currentGameSettings = greg.SettingsData;
 
-	//TODO: Keybind remapping system.
-	private void InputActionsDebug()
-	{
-		Array<StringName> actions = InputMap.GetActions();
-		foreach (StringName action in actions)
+		foreach (var (prop, slider) in _boundSliders)
 		{
-			string actionName = action.ToString();
-			if (actionName.StartsWith("ui_"))
+			object value = prop.GetValue(_currentGameSettings);
+			if (value != null)
 			{
-				continue;
-			}
-			Array<InputEvent> eventsForAction = InputHelper.GetKeyboardInputsForAction(action);
-			foreach (var e in eventsForAction)
-			{
-				GD.PrintRich($"{action} :: {e.AsText()}");
+				slider.Value = Convert.ToDouble(value);
 			}
 		}
 	}
 
+	#endregion
 }
