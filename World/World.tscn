@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://dqcj2eps8s47d" path="res://World/World.cs" id="1_53ob6"]
 [ext_resource type="Material" uid="uid://dni3mk5x6hn4f" path="res://Assets/Materials/GreenTile.tres" id="2_2i86a"]
 [ext_resource type="Environment" uid="uid://bxlncy7pe2yl8" path="res://Assets/WorldEnv.tres" id="2_cf1t6"]
+[ext_resource type="Script" uid="uid://bmlr65r5qvubu" path="res://World/WorldGraphics.cs" id="3_04mge"]
 [ext_resource type="Script" uid="uid://jw73htruigdm" path="res://Source/Chat/ChatManager.cs" id="6_sbbat"]
 [ext_resource type="Script" uid="uid://nbia3v54iixi" path="res://Source/Audio/WorldAudioManager.cs" id="9_4sj48"]
 
@@ -25,6 +26,11 @@ multiplayerSpawner = NodePath("MultiplayerSpawner")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=742065893]
 environment = ExtResource("2_cf1t6")
+
+[node name="WorldGraphics" type="Node" parent="WorldEnvironment" unique_id=1570504234 node_paths=PackedStringArray("_worldEnvironment")]
+script = ExtResource("3_04mge")
+_worldEnvironment = NodePath("..")
+metadata/_custom_type_script = "uid://bmlr65r5qvubu"
 
 [node name="Sun" type="DirectionalLight3D" parent="." unique_id=1487001894]
 transform = Transform3D(-4.37114e-08, 0.866025, -0.5, 0, 0.5, 0.866025, 1, 3.78552e-08, -2.18557e-08, 0, 500, 0)

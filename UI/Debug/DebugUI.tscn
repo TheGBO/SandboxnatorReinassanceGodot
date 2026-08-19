@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://tmhqos1delyu"]
+
+[ext_resource type="Script" uid="uid://srcmqx0e48b3" path="res://UI/Debug/DebugUi.cs" id="1_yvwk2"]
+
+[node name="DebugUI" type="Control" unique_id=1099024718 node_paths=PackedStringArray("_fpsLabel")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_yvwk2")
+_fpsLabel = NodePath("FPS_Label")
+metadata/_edit_use_anchors_ = true
+
+[node name="FPS_Label" type="Label" parent="." unique_id=1155197596]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 30.0
+text = "60 FPS"

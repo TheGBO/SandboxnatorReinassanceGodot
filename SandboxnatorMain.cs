@@ -1,18 +1,22 @@
 using System;
 using Godot;
 using NullGarel.Sandboxnator.Network;
+using NullGarel.Sandboxnator.Registry;
+using NullGarel.Sandboxnator.Settings;
 using NullGarel.Sandboxnator.UI;
 using NullGarel.Sandboxnator.WorldAndScenes;
 using NullGarel.Util.GodotHelpers;
 namespace NullGarel.Sandboxnator;
 
-public partial class SandboxnatorMain : Singleton<SandboxnatorMain>
+public partial class SandboxnatorMain : Singleton<SandboxnatorMain>, ISettingsLoader
 {
 	[ExportCategory("Screens")]
 	[Export] private CanvasLayer _mainMenu;
 	[Export] private CanvasLayer _profileEditMenu;
 	[Export] private CanvasLayer _settingsMenu;
 	[Export] private CanvasLayer _worldMenu;
+	[ExportCategory("Debug UI")]
+	[Export] private CanvasLayer _debugLayer;
 	[ExportCategory("World")]
 	[Export] private Node3D _worldContainer;
 	[Export] private PackedScene _worldScene;
@@ -31,6 +35,8 @@ public partial class SandboxnatorMain : Singleton<SandboxnatorMain>
 
 	public override void _Ready()
 	{
+		UpdateSettingsData();
+		GameRegistries.Instance.OnSettingsChanged += UpdateSettingsData;
 		//make the main menu the defualty mwhen the game boots up
 		ActivateMainMenu();
 		UiSoundManager.Instance.TryInstallSounds();
@@ -94,4 +100,18 @@ public partial class SandboxnatorMain : Singleton<SandboxnatorMain>
 	public void ActivateProfileEditMenu() => Activate(_profileEditMenu);
 	public void ActivateSettingsMenu() => Activate(_settingsMenu);
 	public void ActivateWorldMenu() => Activate(_worldMenu);
+
+	//Apply game-wide settings data.
+	public void UpdateSettingsData()
+	{
+		GameSettingsData d = GameRegistries.Instance.SettingsData;
+		GD.Print($"SETTINGs CHANGEDC {d.FullScreen}");
+
+		//full screen
+		DisplayServer.WindowMode windowMode = d.FullScreen ? DisplayServer.WindowMode.Fullscreen : DisplayServer.WindowMode.Windowed;
+		DisplayServer.WindowSetMode(windowMode);
+
+		//debug UI
+		_debugLayer.Visible = d.DebugUiEnabled;
+	}
 }

@@ -20,5 +20,4 @@ ssao_radius = 1.25
 ssao_intensity = 3.0
 ssil_enabled = true
 glow_enabled = true
-fog_density = 0.0
 volumetric_fog_density = 0.0155

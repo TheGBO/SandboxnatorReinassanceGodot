@@ -8,8 +8,5 @@ public interface ISettingsLoader
     /// Should be called on initialization as well.
     /// </summary>
     public void UpdateSettingsData();
-    public void SubscribeToSettingsEventBus()
-    {
-        GameRegistries.Instance.OnSettingsChanged += this.UpdateSettingsData;
-    }
+
 }

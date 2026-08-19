@@ -7,14 +7,16 @@
 [ext_resource type="PackedScene" uid="uid://cu2vloh7mq55n" path="res://UI/Profile/ProfileEditingMenu.tscn" id="3_t4vx8"]
 [ext_resource type="PackedScene" uid="uid://ddpxqpot2m7a2" path="res://UI/MainMenu/MainMenu.tscn" id="4_jqiv7"]
 [ext_resource type="PackedScene" uid="uid://t1rkfpsrocdb" path="res://Source/Network/NetworkManager/NetworkManager.tscn" id="7_jqiv7"]
+[ext_resource type="PackedScene" uid="uid://tmhqos1delyu" path="res://UI/Debug/DebugUI.tscn" id="7_ofn2n"]
 [ext_resource type="PackedScene" uid="uid://b0c2nro7iuj0q" path="res://World/PlayerManager.tscn" id="8_64n4f"]
 
-[node name="SandboxnatorMain" type="Node" unique_id=1612877668 node_paths=PackedStringArray("_mainMenu", "_profileEditMenu", "_settingsMenu", "_worldMenu", "_worldContainer")]
+[node name="SandboxnatorMain" type="Node" unique_id=1612877668 node_paths=PackedStringArray("_mainMenu", "_profileEditMenu", "_settingsMenu", "_worldMenu", "_debugLayer", "_worldContainer")]
 script = ExtResource("1_lww7h")
 _mainMenu = NodePath("MainMenuLayer")
 _profileEditMenu = NodePath("ProfileEditingMenuLayer")
 _settingsMenu = NodePath("SettingsMenuLayer")
 _worldMenu = NodePath("WorldMenu")
+_debugLayer = NodePath("DebugLayer")
 _worldContainer = NodePath("WorldContainer")
 _worldScene = ExtResource("1_xuvt7")
 
@@ -46,6 +48,12 @@ visible = false
 
 [node name="SettingsMenu" parent="SettingsMenuLayer" unique_id=1881731858 instance=ExtResource("2_lww7h")]
 mouse_filter = 2
+
+[node name="DebugLayer" type="CanvasLayer" parent="." unique_id=917730588]
+layer = 256
+visible = false
+
+[node name="DebugUI" parent="DebugLayer" unique_id=1099024718 instance=ExtResource("7_ofn2n")]
 
 [node name="NetworkManager" parent="." unique_id=47955100 instance=ExtResource("7_jqiv7")]
 

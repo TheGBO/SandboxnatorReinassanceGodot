@@ -76,11 +76,11 @@ public partial class SettingsMenu : Control, IUiSignalLoader
 				Text = attr.DisplayName,
 				SizeFlagsHorizontal = SizeFlags.ExpandFill,
 				HorizontalAlignment = HorizontalAlignment.Center,
-				SizeFlagsStretchRatio = 0.5f
 			};
 			CheckBox toggler = new()
 			{
-				SizeFlagsStretchRatio = 0.75f
+				Text = attr.DisplayName,
+				CustomMinimumSize = new Vector2(128, 0),
 			};
 			row.AddChild(titleLabel);
 			row.AddChild(toggler);

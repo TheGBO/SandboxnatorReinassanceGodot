@@ -6,8 +6,10 @@
 [ext_resource type="StyleBox" uid="uid://3mt1fuarieub" path="res://UI/Theme/edit_normal.tres" id="5_0tdkt"]
 [ext_resource type="StyleBox" uid="uid://dic0lheokcs5d" path="res://UI/Theme/edit_focus.tres" id="5_e7yyn"]
 [ext_resource type="Texture2D" uid="uid://rxh0sh04tng7" path="res://UI/Theme/UI_Textures/knob16_capsule.png" id="5_i8br2"]
+[ext_resource type="Texture2D" uid="uid://c26a3d2ttm7wj" path="res://_ThirdParty/KenneyUIPack/Vector/Blue/check_square_grey_square.svg" id="5_t0rby"]
 [ext_resource type="StyleBox" uid="uid://do6ucx4ebapms" path="res://UI/Theme/hslider_grabber_area.tres" id="6_i8br2"]
 [ext_resource type="FontFile" uid="uid://byx34uye6i18w" path="res://Assets/Font/Inter-VariableFont_opsz,wght.ttf" id="6_pwydw"]
+[ext_resource type="Texture2D" uid="uid://cd2avnahot1kf" path="res://_ThirdParty/KenneyUIPack/Vector/Red/check_square_grey.svg" id="6_vjn6p"]
 [ext_resource type="StyleBox" uid="uid://bddxegatkbsqu" path="res://UI/Theme/edit_disabled.tres" id="7_3fjlm"]
 [ext_resource type="StyleBox" uid="uid://61ng1nesw7aq" path="res://UI/Theme/hslider_grabber_bg.tres" id="7_vb6e3"]
 [ext_resource type="StyleBox" uid="uid://bpesnfn4u44dq" path="res://UI/Theme/style_box.tres" id="8_7alr0"]
@@ -18,6 +20,23 @@
 [ext_resource type="StyleBox" uid="uid://bgvq4302rusiv" path="res://UI/Theme/tab_stylebox_unselected.tres" id="13_i8br2"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_5bdha"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_al0up"]
+bg_color = Color(0, 0.435294, 1, 1)
+skew = Vector2(0.01, 0.01)
+border_width_bottom = 12
+border_color = Color(0, 0.321569, 0.921569, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+expand_margin_left = 2.0
+expand_margin_top = 2.0
+expand_margin_right = 2.0
+expand_margin_bottom = 2.0
+shadow_color = Color(0, 0, 0, 0.25098)
+shadow_size = 5
+shadow_offset = Vector2(10, 10)
 
 [sub_resource type="Image" id="Image_c7twm"]
 data = {
@@ -2776,6 +2795,10 @@ Button/styles/focus = SubResource("StyleBoxEmpty_5bdha")
 Button/styles/hover = ExtResource("1_8e4vc")
 Button/styles/normal = ExtResource("1_ld20s")
 Button/styles/pressed = ExtResource("3_65krj")
+CheckBox/icons/checked = ExtResource("5_t0rby")
+CheckBox/icons/unchecked = ExtResource("6_vjn6p")
+CheckBox/styles/hover_pressed = SubResource("StyleBoxFlat_al0up")
+CheckButton/fonts/font = ExtResource("6_pwydw")
 HScrollBar/styles/grabber = ExtResource("8_7alr0")
 HScrollBar/styles/grabber_highlight = ExtResource("8_7alr0")
 HScrollBar/styles/grabber_pressed = ExtResource("8_7alr0")
