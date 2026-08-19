@@ -1,0 +1,15 @@
+	
+
+	# Sizes in pixel
+
+	Normal crosshair:		 64 ×  64
+	Double crosshair:		128 × 128
+
+	Outline/glow crosshair:		 74 ×  74
+	Retina outline crosshair:	148 × 148
+
+	Tilesheet:			 64 ×  64 (10 margin)
+	Double tilesheet:		128 × 128 (20 margin)
+
+	Tilesheet tiles X:		20
+	Tilesheet tiles Y:		10

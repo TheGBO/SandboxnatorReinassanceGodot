@@ -1,0 +1,14 @@
+<svg width="64" height="64" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs/>
+  <g>
+    <path stroke="none" fill="#FFFFFF" d="M44.7 19.25 Q50 24.55 50 32 50 39.4 44.7 44.7 39.4 50 32 50 24.55 50 19.25 44.7 14 39.45 14 32 14 24.55 19.25 19.3 L19.3 19.25 Q24.55 14 32 14 39.45 14 44.7 19.25 M22.1 22.1 Q18 26.2 18 32 18 37.8 22.1 41.9 26.2 46 32 46 37.75 46 41.85 41.9 L41.9 41.85 Q46 37.75 46 32 46 26.2 41.9 22.1 37.8 18 32 18 26.2 18 22.1 22.1"/>
+    <path stroke="none" fill="#FFFFFF" d="M0 30 L64 30 64 34 0 34 0 30"/>
+    <path stroke="none" fill="#FFFFFF" d="M34 0 L34 64 30 64 30 0 34 0"/>
+    <path stroke="none" fill="#FFFFFF" d="M0 26 L4 26 4 38 0 38 0 26"/>
+    <path stroke="none" fill="#FFFFFF" d="M60 26 L64 26 64 38 60 38 60 26"/>
+    <path stroke="none" fill="#FFFFFF" d="M38 0 L38 4 26 4 26 0 38 0"/>
+    <path stroke="none" fill="#FFFFFF" d="M38 60 L38 64 26 64 26 60 38 60"/>
+    <path stroke="none" fill="#FFFFFF" d="M52 22 L56 22 56 42 52 42 52 22"/>
+    <path stroke="none" fill="#FFFFFF" d="M8 22 L12 22 12 42 8 42 8 22"/>
+  </g>
+</svg>
