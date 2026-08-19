@@ -19,6 +19,7 @@ public partial class GameSettingsData : Resource
 
 
     [ExportCategory("Graphics")]
-    [Export] public bool AmbientOcclusion = false;
+    [SettingsToggle(SettingsCategory.Graphics, "Ambient Occlusion")]
+    [Export] public bool AmbientOcclusion { get; set; } = true;
 
 }

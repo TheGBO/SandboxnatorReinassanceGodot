@@ -22,6 +22,7 @@ public partial class SettingsMenu : Control, IUiSignalLoader
 	[Export] private GameSettingsData _defaultSettings;
 
 	private readonly Dictionary<PropertyInfo, Slider> _boundSliders = [];
+	private readonly Dictionary<PropertyInfo, CheckBox> _boundTogglers = [];
 	private GameSettingsData _currentGameSettings = new();
 
 	public override void _Ready()
@@ -38,11 +39,54 @@ public partial class SettingsMenu : Control, IUiSignalLoader
 
 	private void GenerateDynamicSettings()
 	{
-		PropertyInfo[] properties = typeof(GameSettingsData).GetProperties(
+		PropertyInfo[] props = typeof(GameSettingsData).GetProperties(
 			BindingFlags.Public | BindingFlags.Instance
 		);
 
-		GenerateSliders(properties);
+		GenerateSliders(props);
+		GenerateTogglers(props);
+	}
+
+	private VBoxContainer AcquireTarget(SettingsControlAttribute attr)
+	{
+		VBoxContainer target = attr.Category switch
+		{
+			SettingsCategory.Audio => _audioSettingsContainer,
+			SettingsCategory.Controls => _controlsSettingsContainer,
+			SettingsCategory.Graphics => _graphicsSettingsContainer,
+			_ => throw new ArgumentOutOfRangeException(
+				nameof(attr.Category),
+				attr.Category,
+				$"Unhandled category target: {attr.Category}"
+			)
+		};
+		return target;
+	}
+
+	private void GenerateTogglers(PropertyInfo[] properties)
+	{
+		foreach (PropertyInfo prop in properties)
+		{
+			SettingsToggleAttribute attr = prop.GetCustomAttribute<SettingsToggleAttribute>();
+			if (attr == null) continue;
+
+			HBoxContainer row = new();
+			Label titleLabel = new()
+			{
+				Text = attr.DisplayName,
+				SizeFlagsHorizontal = SizeFlags.ExpandFill,
+				HorizontalAlignment = HorizontalAlignment.Center,
+				SizeFlagsStretchRatio = 0.5f
+			};
+			CheckBox toggler = new()
+			{
+				SizeFlagsStretchRatio = 0.75f
+			};
+			row.AddChild(titleLabel);
+			row.AddChild(toggler);
+			AcquireTarget(attr).AddChild(row);
+			_boundTogglers[prop] = toggler;
+		}
 	}
 
 	private void GenerateSliders(PropertyInfo[] properties)
@@ -90,19 +134,7 @@ public partial class SettingsMenu : Control, IUiSignalLoader
 			row.AddChild(slider);
 			row.AddChild(valueLabel);
 
-			VBoxContainer target = attr.Category switch
-			{
-				SettingsCategory.Audio => _audioSettingsContainer,
-				SettingsCategory.Controls => _controlsSettingsContainer,
-				SettingsCategory.Graphics => _graphicsSettingsContainer,
-				_ => throw new ArgumentOutOfRangeException(
-					nameof(attr.Category),
-					attr.Category,
-					$"Unhandled category target: {attr.Category}"
-				)
-			};
-
-			target.AddChild(row);
+			AcquireTarget(attr).AddChild(row);
 			_boundSliders[prop] = slider;
 		}
 	}
@@ -151,6 +183,12 @@ public partial class SettingsMenu : Control, IUiSignalLoader
 			prop.SetValue(_currentGameSettings, convertedValue);
 		}
 
+		foreach (var (prop, toggler) in _boundTogglers)
+		{
+			object convertedValue = Convert.ChangeType(toggler.ButtonPressed, prop.PropertyType);
+			prop.SetValue(_currentGameSettings, convertedValue);
+		}
+
 		greg.SettingsData = _currentGameSettings;
 	}
 
@@ -167,6 +205,15 @@ public partial class SettingsMenu : Control, IUiSignalLoader
 			if (value != null)
 			{
 				slider.Value = Convert.ToDouble(value);
+			}
+		}
+
+		foreach (var (prop, slider) in _boundTogglers)
+		{
+			object value = prop.GetValue(_currentGameSettings);
+			if (value != null)
+			{
+				slider.ButtonPressed = Convert.ToBoolean(value);
 			}
 		}
 	}
