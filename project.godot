@@ -28,7 +28,6 @@ config/icon="res://Assets/Textures/sandboxnator_icon.png"
 ApplicationManager="*uid://dsjkf1g1yhl67"
 GameRegistriesScene="*uid://dx4fogi4qptr5"
 PlayerProfileManager="*res://Source/Entities/Player/PlayerProfileManager.cs"
-InputHelper="*uid://cholww48njaeh"
 UiSoundManager="*res://UI/UiSoundManager.tscn"
 ServerDiscovery="*res://Source/Network/ServerDiscovery/ServerDiscovery.tscn"
 
