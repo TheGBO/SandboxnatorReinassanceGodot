@@ -36,11 +36,17 @@ public partial class PlayerChatHud : AbstractComponent<Player>
         }
     }
 
+    private PlayerInput _playerInput;
+    private PlayerHUD _playerHud;
+
     public override void _Ready()
     {
         if (!IsMultiplayerAuthority()) return;
-        ComponentParent.playerInput.OnShowChat += ShowChat;
-        ComponentParent.playerInput.OnUiEscape += HideChat;
+        _playerInput = ComponentParent.componentHolder.GetComponent<PlayerInput>();
+        _playerHud = ComponentParent.componentHolder.GetComponent<PlayerHUD>();
+
+        _playerInput.OnShowChat += ShowChat;
+        _playerInput.OnUiEscape += HideChat;
         ChatManager.Instance.OnMessageReceived += ReceiveMessage;
         _messageFadeOutTimer.Timeout += () =>
         {
@@ -51,7 +57,7 @@ public partial class PlayerChatHud : AbstractComponent<Player>
     public override void _Process(double delta)
     {
         if (!IsMultiplayerAuthority()) return;
-        ComponentParent.playerHud.IsChatOpen = ComponentParent.playerHud.chatRoot.Visible;
+        _playerHud.IsChatOpen = _playerHud.chatRoot.Visible;
     }
 
     public override void _Input(InputEvent inputEvent)
@@ -69,14 +75,14 @@ public partial class PlayerChatHud : AbstractComponent<Player>
 
     private void ShowChat()
     {
-        ComponentParent.playerHud.chatRoot.Visible = true;
+        _playerHud.chatRoot.Visible = true;
         _messageEdit.FocusMode = Control.FocusModeEnum.All;
         _messageEdit.CallDeferred(Control.MethodName.GrabFocus);
     }
 
     private void HideChat()
     {
-        ComponentParent.playerHud.chatRoot.Visible = false;
+        _playerHud.chatRoot.Visible = false;
     }
 
     private void ReceiveMessage(ChatMessage message, PlayerProfileData senderData)
@@ -102,7 +108,7 @@ public partial class PlayerChatHud : AbstractComponent<Player>
     private void SendMessage()
     {
         string msg = _messageEdit.Text;
-        if (!string.IsNullOrEmpty(msg) && !string.IsNullOrWhiteSpace(_messageEdit.Text) && ComponentParent.playerHud.chatRoot.Visible)
+        if (!string.IsNullOrEmpty(msg) && !string.IsNullOrWhiteSpace(_messageEdit.Text) && _playerHud.chatRoot.Visible)
         {
             ChatManager.Instance.RequestSendMessageToServer(msg);
             _messageEdit.Text = "";

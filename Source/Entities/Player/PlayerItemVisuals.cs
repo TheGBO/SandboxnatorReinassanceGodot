@@ -15,14 +15,19 @@ public partial class PlayerItemVisuals : AbstractComponent<Player>
 	[Export] private AnimationPlayer _handAnimator;
 
 	private BaseItem _activeItemNode;
+	private PlayerItemSync _playerItemSync;
+	private PlayerItemUse _playerItemUse;
 
 	public override void _Ready()
 	{
 		base._Ready();
-		ComponentParent.playerItemSync.OnItemEquipped += UpdateItemModel;
-		if (!string.IsNullOrEmpty(ComponentParent.playerItemSync.CurrentItemId))
+		_playerItemSync = ComponentParent.componentHolder.GetComponent<PlayerItemSync>();
+		_playerItemUse = ComponentParent.componentHolder.GetComponent<PlayerItemUse>();
+
+		_playerItemSync.OnItemEquipped += UpdateItemModel;
+		if (!string.IsNullOrEmpty(_playerItemSync.CurrentItemId))
 		{
-			UpdateItemModel(ComponentParent.playerItemSync.CurrentItemId);
+			UpdateItemModel(_playerItemSync.CurrentItemId);
 		}
 	}
 
@@ -40,8 +45,8 @@ public partial class PlayerItemVisuals : AbstractComponent<Player>
 		_activeItemNode = itemResource.ItemScene.Instantiate<BaseItem>();
 		_activeItemNode.itemData = itemResource;
 		_activeItemNode.Name = "EquippedItem";
-		_activeItemNode.ItemUser = ComponentParent.playerItemUse;
-		ComponentParent.playerItemUse.SetActiveItem(_activeItemNode);
+		_activeItemNode.ItemUser = _playerItemUse;
+		_playerItemUse.SetActiveItem(_activeItemNode);
 		_hand.AddChild(_activeItemNode);
 	}
 

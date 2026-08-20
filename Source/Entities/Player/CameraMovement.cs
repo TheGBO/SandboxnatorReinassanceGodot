@@ -13,23 +13,27 @@ public partial class CameraMovement : AbstractComponent<Player>, ISettingsLoader
 	[Export] public Node3D body;
 
 	private float _sensitivity;
+	private PlayerInput _playerInput;
 
 	public override void _Ready()
 	{
+
 		if (!ComponentParent.IsMultiplayerAuthority())
 			return;
-		GameRegistries.Instance.OnSettingsChanged += UpdateSettingsData;
 
+		GameRegistries.Instance.OnSettingsChanged += UpdateSettingsData;
 		UpdateSettingsData();
+
+		_playerInput = ComponentParent.componentHolder.GetComponent<PlayerInput>();
 		Input.MouseMode = Input.MouseModeEnum.Captured;
-		ComponentParent.playerInput.OnToggleCursorCapture += ToggleCursorCapture;
-		ComponentParent.playerInput.OnMouseMovement += LookAction;
+		_playerInput.OnToggleCursorCapture += ToggleCursorCapture;
+		_playerInput.OnMouseMovement += LookAction;
 	}
 
 	private void LookAction()
 	{
-		body.RotateY(-ComponentParent.playerInput.LookVector.X * _sensitivity);
-		neck.RotateX(-ComponentParent.playerInput.LookVector.Y * _sensitivity);
+		body.RotateY(-_playerInput.LookVector.X * _sensitivity);
+		neck.RotateX(-_playerInput.LookVector.Y * _sensitivity);
 		neck.Rotation = new(Mathf.Clamp(neck.Rotation.X, -90 * (Mathf.Pi / 180), 90 * (Mathf.Pi / 180)), neck.Rotation.Y, neck.Rotation.Z);
 
 	}

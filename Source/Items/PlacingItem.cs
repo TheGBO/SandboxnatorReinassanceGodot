@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using NullGarel.Sandboxnator.Audio;
+using NullGarel.Sandboxnator.Entity;
 namespace NullGarel.Sandboxnator.Item;
 
 [GlobalClass]
@@ -29,13 +30,15 @@ public partial class PlacingItem : BaseItem
 	//Client Side
 	private void GeneratePreviewMesh()
 	{
+		PlayerInput playerInput = ItemUser.ComponentParent.componentHolder.GetComponent<PlayerInput>();
+
 		ItemUser.isUseValid = !_previewCollider.IsColliding;
 
 		_previewMesh.Visible = ItemUser.rayCast.IsColliding() && ItemUser.isUseValid;
 		_previewMesh.GlobalPosition = GetSnappedPosition(
 			ItemUser.rayCast.GetCollisionPoint(),
 			ItemUser.rayCast.GetCollisionNormal(),
-			ItemUser.ComponentParent.playerInput.IsGridSnapMode
+			playerInput.IsGridSnapMode
 			) + _previewMeshOffset;
 		_previewMesh.GlobalRotation = ItemUser.DesiredRotation;
 		_previewCollider.GlobalPosition = _previewMesh.GlobalPosition;
@@ -46,13 +49,15 @@ public partial class PlacingItem : BaseItem
 	//Server side
 	public override void UseItem(ItemUsageArgs args)
 	{
+		PlayerInput playerInput = ItemUser.ComponentParent.componentHolder.GetComponent<PlayerInput>();
+
 		if (!ItemUser.isUseValid) return;
 		Node3D building = (Node3D)_itemData.BuildingScene.Instantiate();
 		building.Name = Guid.NewGuid().GetHashCode().ToString();
 		building.Position = GetSnappedPosition(
 			args.Position,
 			args.Normal,
-			ItemUser.ComponentParent.playerInput.IsGridSnapMode
+			playerInput.IsGridSnapMode
 			);
 
 		building.Rotation = args.DesiredRotation;

@@ -27,6 +27,9 @@ public partial class PlayerVisualSync : AbstractComponent<Player>
 	//Serialization
 	private PlayerProfileData _profileData = new();
 	private Dictionary _profileDataDict;
+	
+	//components
+	private PlayerMovement _playerMovement;
 
 	/// <summary>
 	/// This dictionary is directly synced by <see cref="MultiplayerSynchronizer"/>
@@ -46,8 +49,6 @@ public partial class PlayerVisualSync : AbstractComponent<Player>
 		}
 	}
 
-
-
 	public override void _EnterTree()
 	{
 		if (IsMultiplayerAuthority())
@@ -59,13 +60,19 @@ public partial class PlayerVisualSync : AbstractComponent<Player>
 		}
 	}
 
+    public override void _Ready()
+    {
+        if(!IsMultiplayerAuthority()) return;
+		_playerMovement = ComponentParent.componentHolder.GetComponent<PlayerMovement>();
+    }
+
 	public override void _Process(double delta)
 	{
 		foreach (Node3D target in _rotateAlongNeck)
 		{
 			target.GlobalRotation = _neck.GlobalRotation;
 		}
-		switch (ComponentParent.playerMovement.MovementType)
+		switch (_playerMovement.MovementType)
 		{
 			case MovementState.Idle:
 				_movementStateAnimation.CurrentAnimation = IdleAnimation;

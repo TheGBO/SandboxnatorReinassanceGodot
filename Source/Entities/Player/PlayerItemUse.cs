@@ -55,14 +55,17 @@ public partial class PlayerItemUse : AbstractComponent<Player>
 
 	private void SetupInput()
 	{
-		ComponentParent.playerInput.RotateCCW += () => _desiredRotation.Y -= Mathf.DegToRad(_rotationIncrement);
-		ComponentParent.playerInput.RotateCW += () => _desiredRotation.Y += Mathf.DegToRad(_rotationIncrement);
+		PlayerInput playerInput = ComponentParent.componentHolder.GetComponent<PlayerInput>();
+		PlayerItemSync playerItemSync = ComponentParent.componentHolder.GetComponent<PlayerItemSync>();
+		
+		playerInput.RotateCCW += () => _desiredRotation.Y -= Mathf.DegToRad(_rotationIncrement);
+		playerInput.RotateCW += () => _desiredRotation.Y += Mathf.DegToRad(_rotationIncrement);
 
-		ComponentParent.playerInput.UsePrimary += () => ClientUse(true);
-		ComponentParent.playerInput.UseSecondary += () => ClientUse(false);
+		playerInput.UsePrimary += () => ClientUse(true);
+		playerInput.UseSecondary += () => ClientUse(false);
 
-		ComponentParent.playerInput.UseIncrement += () => ComponentParent.playerItemSync.RequestCycleItem(1);
-		ComponentParent.playerInput.UseDecrement += () => ComponentParent.playerItemSync.RequestCycleItem(-1);
+		playerInput.UseIncrement += () => playerItemSync.RequestCycleItem(1);
+		playerInput.UseDecrement += () => playerItemSync.RequestCycleItem(-1);
 	}
 
 	public void ClientUse(bool primaryUsage)

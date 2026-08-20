@@ -178,6 +178,6 @@ public partial class PlayerItemSync : AbstractComponent<Player>
     private void ClientBoundSyncItemState(Dictionary stateData)
     {
         ActiveItemState = stateData;
-        ComponentParent.playerItemUse.Item?.ReceiveItemState(ActiveItemState);
+        ComponentParent.componentHolder.GetComponent<PlayerItemUse>().Item?.ReceiveItemState(ActiveItemState);
     }
 }

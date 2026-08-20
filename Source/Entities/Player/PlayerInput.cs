@@ -66,13 +66,21 @@ public partial class PlayerInput : AbstractComponent<Player>
     private const string LookDownAction = "look_down";
     #endregion
 
+    private PlayerHUD _playerHud;
+
+    public override void _Ready()
+    {
+        if (!IsMultiplayerAuthority()) return;
+        _playerHud = ComponentParent.componentHolder.GetComponent<PlayerHUD>();
+    }
+
     #region Overrides
     // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(double delta)
     {
         if (!IsMultiplayerAuthority()) return;
 
-        if (!ComponentParent.playerHud.IsHudBeingUsed)
+        if (!_playerHud.IsHudBeingUsed)
         {
             HandleMovementInput();
             HandleBuildingInput();

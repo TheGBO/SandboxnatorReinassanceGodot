@@ -42,16 +42,20 @@ public partial class PlayerMovement : AbstractComponent<Player>, ISettingsLoader
 	[Export(PropertyHint.Enum, "Do not alter it in the editor. This is used for animations.")]
 	public MovementState MovementType { get; private set; }
 
+	private PlayerInput _playerInput;
 	public override void _Ready()
 	{
 		if (!ComponentParent.IsMultiplayerAuthority())
 			return;
 
+		_playerInput = ComponentParent.componentHolder.GetComponent<PlayerInput>();
+
+
 		GameRegistries.Instance.OnSettingsChanged += UpdateSettingsData;
 		UpdateSettingsData();
 
 		_currentSpeed = walkSpeed;
-		ComponentParent.playerInput.OnStopSprint += StopSprint;
+		_playerInput.OnStopSprint += StopSprint;
 	}
 
 
@@ -62,7 +66,7 @@ public partial class PlayerMovement : AbstractComponent<Player>, ISettingsLoader
 		if (!ComponentParent.IsMultiplayerAuthority()) return;
 
 		camera.Fov = (float)GameRegistries.Instance.SettingsData.FieldOfView;
-		SoundEffectProcess();
+		//SoundEffectProcess();
 		MovementProcess(delta);
 	}
 
@@ -76,7 +80,7 @@ public partial class PlayerMovement : AbstractComponent<Player>, ISettingsLoader
 			_velocity += _characterBody.GetGravity() * (float)delta;
 		}
 
-		if (_characterBody.IsOnFloor() && ComponentParent.playerInput.IsJumping)
+		if (_characterBody.IsOnFloor() && _playerInput.IsJumping)
 		{
 			_velocity.Y = jumpVelocity;
 		}
@@ -84,12 +88,12 @@ public partial class PlayerMovement : AbstractComponent<Player>, ISettingsLoader
 		Vector3 forward = _characterBody.GlobalTransform.Basis.Z;
 		Vector3 right = _characterBody.GlobalTransform.Basis.X;
 
-		Vector2 inputDir = ComponentParent.playerInput.MovementVector;
+		Vector2 inputDir = _playerInput.MovementVector;
 		Vector3 direction = (forward * inputDir.Y + right * inputDir.X).Normalized();
 		_isMoving = inputDir != Vector2.Zero;
 
 		//check for sprint
-		_isSprinting = ComponentParent.playerInput.IsSprinting;
+		_isSprinting = _playerInput.IsSprinting;
 		if (_isSprinting)
 		{
 			MovementType = MovementState.Sprint;
@@ -119,15 +123,15 @@ public partial class PlayerMovement : AbstractComponent<Player>, ISettingsLoader
 		_characterBody.MoveAndSlide();
 	}
 
-	private void SoundEffectProcess()
-	{
-		if (_isMoving && _characterBody.IsOnFloor())
-		{
-			float footstepDelay = _isSprinting ? 0.1f : 0.25f;
-			ComponentParent.playerSounds.PlayGenericFootstep(footstepDelay);
-		}
-	}
-	
+	// private void SoundEffectProcess()
+	// {
+	// 	if (_isMoving && _characterBody.IsOnFloor())
+	// 	{
+	// 		float footstepDelay = _isSprinting ? 0.1f : 0.25f;
+	// 		ComponentParent.playerSounds.PlayGenericFootstep(footstepDelay);
+	// 	}
+	// }
+
 	//input related.
 	private void StopSprint()
 	{

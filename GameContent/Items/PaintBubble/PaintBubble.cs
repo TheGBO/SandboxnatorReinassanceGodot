@@ -6,6 +6,7 @@ using NullGarel.Util.Log;
 using System;
 using Godot.Collections;
 using System.Linq;
+using NullGarel.Sandboxnator.Entity;
 
 namespace NullGarel.Sandboxnator.Item;
 
@@ -70,7 +71,8 @@ public partial class PaintBubble : BaseItem
     private void CycleColor()
     {
         _colorIndex = (_colorIndex + 1) % _colors.Length;
-        ItemUser.ComponentParent.playerItemSync.BroadcastItemState(GetItemState());
+        PlayerItemSync playerItemSync = ItemUser.ComponentParent.componentHolder.GetComponent<PlayerItemSync>();
+        playerItemSync.BroadcastItemState(GetItemState());
     }
 
     // this used to be a whole RPC thing but now it's an overriden method from BaseItem

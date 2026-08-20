@@ -14,16 +14,19 @@ public partial class PlayerInteract : AbstractComponent<Player>
     //used on UI to give visual feedback.
     public bool IsFacingInteractable => _isFacingInteractable;
 
+    private PlayerInput _playerInput;
+
     public override void _Ready()
     {
         // this component should be authority of the server.
         SetMultiplayerAuthority(1);
+        _playerInput = ComponentParent.componentHolder.GetComponent<PlayerInput>();
         SetupInput();
     }
 
     private void SetupInput()
     {
-        ComponentParent.playerInput.Interact += ClientInteract;
+        _playerInput.Interact += ClientInteract;
     }
 
     private void ClientInteract()

@@ -32,6 +32,9 @@ public partial class PlayerHUD : AbstractComponent<Player>, IUiSignalLoader
     public bool IsChatOpen { get; set; }
     public bool IsHudBeingUsed { get; private set; }
 
+    private PlayerInput _playerInput;
+    private PlayerInteract _playerInteract;
+
     public override void _Ready()
     {
         if (!IsMultiplayerAuthority())
@@ -39,9 +42,10 @@ public partial class PlayerHUD : AbstractComponent<Player>, IUiSignalLoader
 
         ConnectUISignals();
 
-        var playerInput = ComponentParent.playerInput;
+        _playerInput = ComponentParent.componentHolder.GetComponent<PlayerInput>();
+        _playerInteract = ComponentParent.componentHolder.GetComponent<PlayerInteract>();
 
-        playerInput.OnUiEscape += () =>
+        _playerInput.OnUiEscape += () =>
         {
             if (IsChatOpen) return;
             //force mouse cursor to show up if it's not there
@@ -51,7 +55,7 @@ public partial class PlayerHUD : AbstractComponent<Player>, IUiSignalLoader
             _escMenu.Visible = !_escMenu.Visible;
         };
 
-        playerInput.OnChangeSnapMode += isGrid =>
+        _playerInput.OnChangeSnapMode += isGrid =>
         {
             _alignmentInformationIcon.Texture = isGrid ? _gridIcon : _snapperIcon;
         };
@@ -62,7 +66,7 @@ public partial class PlayerHUD : AbstractComponent<Player>, IUiSignalLoader
         if (!IsMultiplayerAuthority()) return;
 
         IsHudBeingUsed = IsChatOpen || _escMenu.Visible;
-        _crossHair.Texture = ComponentParent.playerInteract.IsFacingInteractable ? _interactionCrosshair : _defaultCrosshair;
+        _crossHair.Texture = _playerInteract.IsFacingInteractable ? _interactionCrosshair : _defaultCrosshair;
     }
 
     public override void _ExitTree()

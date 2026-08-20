@@ -8,6 +8,7 @@ public abstract partial class AbstractComponent<T> : Node3D, IComponent where T 
 {
     public T ComponentParent { get; private set; }
 
+    //TODO: Make ComponentHolder a directly accessible property of AbstractComponent
     public void Initialize(ComponentHolder holder)
     {
         // Try to cast holder's parent to the expected type

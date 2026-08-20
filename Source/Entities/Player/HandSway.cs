@@ -11,9 +11,12 @@ public partial class HandSway : AbstractComponent<Player>
     [Export] private Vector3 _leftSway = new(0, -0.56f, 0);
     [Export] private float _swayThreshold = 5.0f;
 
+    private PlayerInput _playerInput;
+
     public override void _Ready()
     {
         if (!IsMultiplayerAuthority()) return;
+        _playerInput = ComponentParent.componentHolder.GetComponent<PlayerInput>();
     }
 
 
@@ -22,11 +25,11 @@ public partial class HandSway : AbstractComponent<Player>
     {
         if (!IsMultiplayerAuthority()) return;
 
-        if (ComponentParent.playerInput.LookVector.X > _swayThreshold)
+        if (_playerInput.LookVector.X > _swayThreshold)
         {
             _hand.Rotation = _hand.Rotation.Lerp(_rightSway, _swaySpeed * (float)delta);
         }
-        else if (ComponentParent.playerInput.LookVector.X < -_swayThreshold)
+        else if (_playerInput.LookVector.X < -_swayThreshold)
         {
             _hand.Rotation = _hand.Rotation.Lerp(_leftSway, _swaySpeed * (float)delta);
         }

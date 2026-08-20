@@ -13,18 +13,7 @@ public partial class Player : CharacterBody3D
 	//Components
 	//TODO: make a component holder have a GetComponent method instead of holding tons of references
 	[Export] public ComponentHolder componentHolder;
-	[Export] public CharacterBody3D characterBody;
-	[Export] public PlayerMovement playerMovement;
-	[Export] public CameraMovement cameraMovement;
-	[Export] public PlayerItemUse playerItemUse;
-	[Export] public PlayerItemSync playerItemSync;
 
-	[Export] public PlayerInput playerInput;
-	[Export] public PlayerChatHud chatHud;
-	[Export] public PlayerVisualSync visuals;
-	[Export] public PlayerHUD playerHud;
-	[Export] public PlayerItemVisuals playerItemVisuals;
-	[Export] public PlayerInteract playerInteract;
 	public PlayerProfileData ProfileData { get; set; }
 
 
