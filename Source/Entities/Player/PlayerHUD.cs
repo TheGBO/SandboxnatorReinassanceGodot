@@ -65,18 +65,21 @@ public partial class PlayerHUD : AbstractComponent<Player>, IUiSignalLoader
         _crossHair.Texture = ComponentParent.playerInteract.IsFacingInteractable ? _interactionCrosshair : _defaultCrosshair;
     }
 
+    public override void _ExitTree()
+    {
+        if (!IsInstanceValid(this)) return;
+        DisconnectUISignals();
+    }
+
     public void ConnectUISignals()
     {
-        //TODO: inject information onto the settings menu on whether return to world or to main menu
-        _settingsBtn.Pressed += () => { NcLogger.Log("NOT IMPLEMENTED XD"); };
-        _leaveGameBtn.Pressed += () =>
-        {
-            SandboxnatorMain.Instance.LeaveWorld();
-        };
+        _settingsBtn.Pressed += SandboxnatorMain.Instance.ToggleSettingsMenu;
+        _leaveGameBtn.Pressed += SandboxnatorMain.Instance.LeaveWorld;
     }
 
     public void DisconnectUISignals()
     {
-        throw new NotImplementedException();
+        _settingsBtn.Pressed -= SandboxnatorMain.Instance.ToggleSettingsMenu;
+        _leaveGameBtn.Pressed -= SandboxnatorMain.Instance.LeaveWorld;
     }
 }

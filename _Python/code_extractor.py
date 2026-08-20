@@ -32,4 +32,4 @@ if __name__ == "__main__":
     override_outfile()
     output_by_extension("cs")
     output_by_extension("tscn")
-    #output_by_extension("tres")
+    output_by_extension("md")

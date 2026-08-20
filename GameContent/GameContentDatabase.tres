@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="GameContentDatabase" format=3 uid="uid://cll5td8127cuj"]
 
+[ext_resource type="Texture2D" uid="uid://6ue40yoaeqcr" path="res://Assets/24pallete.png" id="1_dfwm2"]
 [ext_resource type="Script" uid="uid://b8gc7u5tdfw7l" path="res://GameContent/Registry/GameContentDatabase.cs" id="1_i7gde"]
-[ext_resource type="Texture2D" uid="uid://twff1yisi15v" path="res://Assets/msPallet.png" id="1_qs834"]
 [ext_resource type="Resource" uid="uid://dh73faomdiebo" path="res://GameContent/Items/Cube/Cube.tres" id="2_ok7yr"]
 [ext_resource type="Resource" uid="uid://fk8aqjl4qdhd" path="res://GameContent/Items/Cone/Cone.tres" id="3_5qsg6"]
 [ext_resource type="Resource" uid="uid://m8hs8m2w4g77" path="res://GameContent/Items/Compass/Compass.tres" id="4_ic885"]
@@ -30,5 +30,5 @@
 script = ExtResource("1_i7gde")
 Items = Array[Object]([ExtResource("2_ok7yr"), ExtResource("3_5qsg6"), ExtResource("4_ic885"), ExtResource("5_c2x75"), ExtResource("6_pnv4a"), ExtResource("7_qs834"), ExtResource("8_dfwm2")])
 PlayerFaces = Array[Object]([ExtResource("7_bp3aw"), ExtResource("8_qs834"), ExtResource("9_dfwm2"), ExtResource("10_onrk6"), ExtResource("11_83xwl"), ExtResource("12_8yqrn"), ExtResource("13_fcjrp"), ExtResource("14_f4tcm"), ExtResource("15_lkfmy"), ExtResource("16_r1l6l"), ExtResource("17_8gas4"), ExtResource("18_1apib"), ExtResource("19_m23jq"), ExtResource("20_w3dxi"), ExtResource("21_70y55"), ExtResource("22_6kju4")])
-BuildingPallete = ExtResource("1_qs834")
+BuildingPallete = ExtResource("1_dfwm2")
 metadata/_custom_type_script = "uid://b8gc7u5tdfw7l"

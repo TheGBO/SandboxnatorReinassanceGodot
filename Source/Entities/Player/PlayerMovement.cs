@@ -47,6 +47,7 @@ public partial class PlayerMovement : AbstractComponent<Player>, ISettingsLoader
 		if (!ComponentParent.IsMultiplayerAuthority())
 			return;
 
+		GameRegistries.Instance.OnSettingsChanged += UpdateSettingsData;
 		UpdateSettingsData();
 
 		_currentSpeed = walkSpeed;

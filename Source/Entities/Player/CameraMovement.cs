@@ -18,6 +18,7 @@ public partial class CameraMovement : AbstractComponent<Player>, ISettingsLoader
 	{
 		if (!ComponentParent.IsMultiplayerAuthority())
 			return;
+		GameRegistries.Instance.OnSettingsChanged += UpdateSettingsData;
 
 		UpdateSettingsData();
 		Input.MouseMode = Input.MouseModeEnum.Captured;

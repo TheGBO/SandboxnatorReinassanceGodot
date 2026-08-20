@@ -14,6 +14,7 @@ public partial class WorldGraphics : Node, ISettingsLoader
 	public override void _Ready()
 	{
 		UpdateSettingsData();
+		GameRegistries.Instance.OnSettingsChanged += UpdateSettingsData;
 	}
 
 	public void UpdateSettingsData()

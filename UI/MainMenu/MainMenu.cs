@@ -22,7 +22,7 @@ public partial class MainMenu : Control, IUiSignalLoader
 	public void ConnectUISignals()
 	{
 		_playBtn.Pressed += SandboxnatorMain.Instance.ActivateWorldMenu;
-		_settingsBtn.Pressed += SandboxnatorMain.Instance.ActivateSettingsMenu;
+		_settingsBtn.Pressed += SandboxnatorMain.Instance.ToggleSettingsMenu;
 		_profileEditBtn.Pressed += SandboxnatorMain.Instance.ActivateProfileEditMenu;
 
 		_exitBtn.Pressed += ExitDialogPrompt;
@@ -33,7 +33,7 @@ public partial class MainMenu : Control, IUiSignalLoader
 	public void DisconnectUISignals()
 	{
 		_playBtn.Pressed -= SandboxnatorMain.Instance.ActivateWorldMenu;
-		_settingsBtn.Pressed -= SandboxnatorMain.Instance.ActivateSettingsMenu;
+		_settingsBtn.Pressed -= SandboxnatorMain.Instance.ToggleSettingsMenu;
 		_profileEditBtn.Pressed -= SandboxnatorMain.Instance.ActivateProfileEditMenu;
 
 		_exitBtn.Pressed -= ExitDialogPrompt;

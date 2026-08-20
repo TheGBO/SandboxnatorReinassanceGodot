@@ -24,20 +24,22 @@ public partial class SandboxnatorMain : Singleton<SandboxnatorMain>, ISettingsLo
 	private World _world;
 
 	public static World World => Instance?._world;
+	public bool HasWorld { get => _worldContainer.GetChildCount() != 0; }
 
 	private Node[] Screens => [
 		_mainMenu,
 		_profileEditMenu,
-		_settingsMenu,
 		_world,
 		_worldMenu
 	];
+
+	private bool _settingsOpen;
 
 	public override void _Ready()
 	{
 		UpdateSettingsData();
 		GameRegistries.Instance.OnSettingsChanged += UpdateSettingsData;
-		//make the main menu the defualty mwhen the game boots up
+		// Make the main menu the defualt when the game boots up.
 		ActivateMainMenu();
 		UiSoundManager.Instance.TryInstallSounds();
 	}
@@ -63,6 +65,12 @@ public partial class SandboxnatorMain : Singleton<SandboxnatorMain>, ISettingsLo
 		}
 	}
 
+	public void ToggleSettingsMenu()
+	{
+		_settingsOpen = !_settingsOpen;
+		_settingsMenu.Visible = _settingsOpen;
+	}
+
 	public void LoadWorld()
 	{
 		if (_world != null && IsInstanceValid(_world))
@@ -83,22 +91,18 @@ public partial class SandboxnatorMain : Singleton<SandboxnatorMain>, ISettingsLo
 		// i wont call activate world here because it's responsibilyit opf the handshake
 	}
 
-	public void LeaveWorld(bool returnToMainMenu = true)
+	public void LeaveWorld()
 	{
 		NetworkManager.Instance.QuitConnection();
 
 		UnloadWorld();
+		ActivateMainMenu();
 
-		if (returnToMainMenu)
-			ActivateMainMenu();
-		else
-			ActivateWorldMenu();
 	}
 
 	public void ActivateWorld() => Activate(_world);
 	public void ActivateMainMenu() => Activate(_mainMenu);
 	public void ActivateProfileEditMenu() => Activate(_profileEditMenu);
-	public void ActivateSettingsMenu() => Activate(_settingsMenu);
 	public void ActivateWorldMenu() => Activate(_worldMenu);
 
 	//Apply game-wide settings data.

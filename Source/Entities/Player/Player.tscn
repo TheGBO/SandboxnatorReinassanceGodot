@@ -473,7 +473,6 @@ text = "LEAVE GAME"
 [node name="SettingsBtn" type="Button" parent="HUD/EscMenu/MarginContainer/VBoxContainer" unique_id=1235187851]
 layout_mode = 2
 size_flags_vertical = 3
-disabled = true
 text = "Settings"
 
 [node name="SaveWorldBtn" type="Button" parent="HUD/EscMenu/MarginContainer/VBoxContainer" unique_id=2125453413]

@@ -163,7 +163,7 @@ public partial class SettingsMenu : Control, IUiSignalLoader
 	private void OnAcceptPressed()
 	{
 		SettingsFromUI();
-		SandboxnatorMain.Instance.ActivateMainMenu();
+		SandboxnatorMain.Instance.ToggleSettingsMenu();
 	}
 
 	private void OnResetPressed()
