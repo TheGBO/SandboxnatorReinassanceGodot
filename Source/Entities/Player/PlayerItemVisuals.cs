@@ -21,8 +21,8 @@ public partial class PlayerItemVisuals : AbstractComponent<Player>
 	public override void _Ready()
 	{
 		base._Ready();
-		_playerItemSync = ComponentParent.componentHolder.GetComponent<PlayerItemSync>();
-		_playerItemUse = ComponentParent.componentHolder.GetComponent<PlayerItemUse>();
+		_playerItemSync = GetComponent<PlayerItemSync>();
+		_playerItemUse = GetComponent<PlayerItemUse>();
 
 		_playerItemSync.OnItemEquipped += UpdateItemModel;
 		if (!string.IsNullOrEmpty(_playerItemSync.CurrentItemId))

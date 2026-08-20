@@ -27,7 +27,7 @@ public partial class PlayerVisualSync : AbstractComponent<Player>
 	//Serialization
 	private PlayerProfileData _profileData = new();
 	private Dictionary _profileDataDict;
-	
+
 	//components
 	private PlayerMovement _playerMovement;
 
@@ -60,11 +60,11 @@ public partial class PlayerVisualSync : AbstractComponent<Player>
 		}
 	}
 
-    public override void _Ready()
-    {
-        if(!IsMultiplayerAuthority()) return;
-		_playerMovement = ComponentParent.componentHolder.GetComponent<PlayerMovement>();
-    }
+	public override void _Ready()
+	{
+		if (!IsMultiplayerAuthority()) return;
+		_playerMovement = GetComponent<PlayerMovement>();
+	}
 
 	public override void _Process(double delta)
 	{

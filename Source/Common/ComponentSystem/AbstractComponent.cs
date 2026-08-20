@@ -8,6 +8,9 @@ public abstract partial class AbstractComponent<T> : Node3D, IComponent where T 
 {
     public T ComponentParent { get; private set; }
 
+    private ComponentHolder _holder;
+    public ComponentHolder Holder => _holder;
+
     //TODO: Make ComponentHolder a directly accessible property of AbstractComponent
     public void Initialize(ComponentHolder holder)
     {
@@ -19,7 +22,14 @@ public abstract partial class AbstractComponent<T> : Node3D, IComponent where T 
             NcLogger.Log($"{GetType().Name} expected a parent of type {typeof(T).Name}, but got {holder.GetParent().GetType().Name}.");
         }
 
+        _holder = holder;
+
         OnInitialized();
+    }
+
+    public TC GetComponent<TC>() where TC : class, IComponent
+    {
+        return _holder.GetComponent<TC>();
     }
 
     // Optional: override this instead of Initialize() directly

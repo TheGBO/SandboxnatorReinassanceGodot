@@ -55,9 +55,9 @@ public partial class PlayerItemUse : AbstractComponent<Player>
 
 	private void SetupInput()
 	{
-		PlayerInput playerInput = ComponentParent.componentHolder.GetComponent<PlayerInput>();
-		PlayerItemSync playerItemSync = ComponentParent.componentHolder.GetComponent<PlayerItemSync>();
-		
+		PlayerInput playerInput = GetComponent<PlayerInput>();
+		PlayerItemSync playerItemSync = GetComponent<PlayerItemSync>();
+
 		playerInput.RotateCCW += () => _desiredRotation.Y -= Mathf.DegToRad(_rotationIncrement);
 		playerInput.RotateCW += () => _desiredRotation.Y += Mathf.DegToRad(_rotationIncrement);
 

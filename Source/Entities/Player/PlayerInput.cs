@@ -71,7 +71,7 @@ public partial class PlayerInput : AbstractComponent<Player>
     public override void _Ready()
     {
         if (!IsMultiplayerAuthority()) return;
-        _playerHud = ComponentParent.componentHolder.GetComponent<PlayerHUD>();
+        _playerHud = GetComponent<PlayerHUD>();
     }
 
     #region Overrides

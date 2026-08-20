@@ -24,7 +24,7 @@ public partial class CameraMovement : AbstractComponent<Player>, ISettingsLoader
 		GameRegistries.Instance.OnSettingsChanged += UpdateSettingsData;
 		UpdateSettingsData();
 
-		_playerInput = ComponentParent.componentHolder.GetComponent<PlayerInput>();
+		_playerInput = GetComponent<PlayerInput>();
 		Input.MouseMode = Input.MouseModeEnum.Captured;
 		_playerInput.OnToggleCursorCapture += ToggleCursorCapture;
 		_playerInput.OnMouseMovement += LookAction;

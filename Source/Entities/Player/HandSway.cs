@@ -16,7 +16,7 @@ public partial class HandSway : AbstractComponent<Player>
     public override void _Ready()
     {
         if (!IsMultiplayerAuthority()) return;
-        _playerInput = ComponentParent.componentHolder.GetComponent<PlayerInput>();
+        _playerInput = GetComponent<PlayerInput>();
     }
 
 

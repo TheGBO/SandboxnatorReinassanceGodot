@@ -71,7 +71,7 @@ public partial class PaintBubble : BaseItem
     private void CycleColor()
     {
         _colorIndex = (_colorIndex + 1) % _colors.Length;
-        PlayerItemSync playerItemSync = ItemUser.ComponentParent.componentHolder.GetComponent<PlayerItemSync>();
+        PlayerItemSync playerItemSync = ItemUser.GetComponent<PlayerItemSync>();
         playerItemSync.BroadcastItemState(GetItemState());
     }
 

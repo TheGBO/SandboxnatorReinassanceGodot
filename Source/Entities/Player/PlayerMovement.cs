@@ -48,7 +48,7 @@ public partial class PlayerMovement : AbstractComponent<Player>, ISettingsLoader
 		if (!ComponentParent.IsMultiplayerAuthority())
 			return;
 
-		_playerInput = ComponentParent.componentHolder.GetComponent<PlayerInput>();
+		_playerInput = GetComponent<PlayerInput>();
 
 
 		GameRegistries.Instance.OnSettingsChanged += UpdateSettingsData;

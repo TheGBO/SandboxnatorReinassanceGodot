@@ -20,7 +20,7 @@ public partial class PlayerInteract : AbstractComponent<Player>
     {
         // this component should be authority of the server.
         SetMultiplayerAuthority(1);
-        _playerInput = ComponentParent.componentHolder.GetComponent<PlayerInput>();
+        _playerInput = GetComponent<PlayerInput>();
         SetupInput();
     }
 

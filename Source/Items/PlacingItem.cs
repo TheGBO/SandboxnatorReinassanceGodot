@@ -30,7 +30,7 @@ public partial class PlacingItem : BaseItem
 	//Client Side
 	private void GeneratePreviewMesh()
 	{
-		PlayerInput playerInput = ItemUser.ComponentParent.componentHolder.GetComponent<PlayerInput>();
+		PlayerInput playerInput = ItemUser.GetComponent<PlayerInput>();
 
 		ItemUser.isUseValid = !_previewCollider.IsColliding;
 
@@ -49,7 +49,7 @@ public partial class PlacingItem : BaseItem
 	//Server side
 	public override void UseItem(ItemUsageArgs args)
 	{
-		PlayerInput playerInput = ItemUser.ComponentParent.componentHolder.GetComponent<PlayerInput>();
+		PlayerInput playerInput = ItemUser.GetComponent<PlayerInput>();
 
 		if (!ItemUser.isUseValid) return;
 		Node3D building = (Node3D)_itemData.BuildingScene.Instantiate();

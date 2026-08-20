@@ -42,8 +42,8 @@ public partial class PlayerHUD : AbstractComponent<Player>, IUiSignalLoader
 
         ConnectUISignals();
 
-        _playerInput = ComponentParent.componentHolder.GetComponent<PlayerInput>();
-        _playerInteract = ComponentParent.componentHolder.GetComponent<PlayerInteract>();
+        _playerInput = GetComponent<PlayerInput>();
+        _playerInteract = GetComponent<PlayerInteract>();
 
         _playerInput.OnUiEscape += () =>
         {
