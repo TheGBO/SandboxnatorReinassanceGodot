@@ -61,7 +61,6 @@ public partial class PlayerManager : Singleton<PlayerManager>
 
 		if (Multiplayer.IsServer())
 		{
-			GD.Seed((ulong)Time.GetUnixTimeFromSystem());
 			Vector2 randPos = new(GD.Randi() % _rangeOfRandomPos.X, GD.Randi() % _rangeOfRandomPos.Y);
 			Vector3 desiredPosition = new(randPos.X, 20, randPos.Y);
 			if (Multiplayer.GetUniqueId() == id)
