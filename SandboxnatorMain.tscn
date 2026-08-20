@@ -22,6 +22,10 @@ _worldScene = ExtResource("1_xuvt7")
 
 [node name="WorldContainer" type="Node3D" parent="." unique_id=1995320633]
 
+[node name="NetworkManager" parent="." unique_id=47955100 instance=ExtResource("7_jqiv7")]
+
+[node name="PlayerManager" parent="." unique_id=1796557689 instance=ExtResource("8_64n4f")]
+
 [node name="WorldMenu" type="CanvasLayer" parent="." unique_id=2052833575]
 layer = 16
 visible = false
@@ -54,7 +58,3 @@ layer = 256
 visible = false
 
 [node name="DebugUI" parent="DebugLayer" unique_id=1099024718 instance=ExtResource("7_ofn2n")]
-
-[node name="NetworkManager" parent="." unique_id=47955100 instance=ExtResource("7_jqiv7")]
-
-[node name="PlayerManager" parent="." unique_id=1796557689 instance=ExtResource("8_64n4f")]

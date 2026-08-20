@@ -1,5 +1,6 @@
 [gd_resource type="Resource" script_class="PlaceableItemData" format=3 uid="uid://cr0dlcnmpixfw"]
 
+[ext_resource type="PackedScene" uid="uid://bmfjseurvq22n" path="res://GameContent/Buildings/Door/PlacedDoor.tscn" id="1_2idpp"]
 [ext_resource type="Script" uid="uid://cnb6qwfwd4ofm" path="res://Source/Items/PlaceableItemData.cs" id="1_g8ca8"]
 [ext_resource type="Texture2D" uid="uid://cfg1xme50aioj" path="res://GameContent/Items/Door/DoorIcon.png" id="1_h0etk"]
 [ext_resource type="PackedScene" uid="uid://dqy5tanhto0wp" path="res://GameContent/Items/Door/ItemDoor.tscn" id="2_h0etk"]
@@ -7,10 +8,10 @@
 
 [resource]
 script = ExtResource("1_g8ca8")
-placementSound = ExtResource("3_h0etk")
-itemScene = ExtResource("2_h0etk")
-itemID = "Door"
-itemIcon = ExtResource("1_h0etk")
-itemName = "Door"
-maxStackSize = 96
+BuildingScene = ExtResource("1_2idpp")
+PlacementSound = ExtResource("3_h0etk")
+ItemScene = ExtResource("2_h0etk")
+ItemId = "Door"
+ItemIcon = ExtResource("1_h0etk")
+ItemName = "Door"
 metadata/_custom_type_script = "uid://cnb6qwfwd4ofm"

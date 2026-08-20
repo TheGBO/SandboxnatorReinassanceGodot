@@ -128,7 +128,7 @@ size = 6.135
 environment = SubResource("Environment_8rpsp")
 
 [node name="PlayerModel" parent="RootPanel/Panel/ContainerContainer/MarginContainer/SubViewportContainer/SubViewport/PlayerModelPreviewingScene" unique_id=343281965 instance=ExtResource("4_4fqg0")]
-transform = Transform3D(-1.9999999, 0, -1.7484554e-07, 0, 2, 0, 1.7484554e-07, 0, -1.9999999, 0, 0, -1.685)
+transform = Transform3D(-1.9999999, 0, -1.7484554e-07, 0, 2, 0, 1.7484554e-07, 0, -1.9999999, 0, 0, -3.142)
 
 [node name="ProfileIO" type="MarginContainer" parent="RootPanel/Panel/ContainerContainer" unique_id=711344821]
 visible = false

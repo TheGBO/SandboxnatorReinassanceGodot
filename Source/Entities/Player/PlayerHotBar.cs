@@ -18,6 +18,6 @@ public partial class PlayerHotBar : Control
 
     private void UpdateActiveItemIcon(string itemID)
     {
-        _activeItemIcon.Texture = GameRegistries.Instance.ItemRegistry.Get(itemID).itemIcon;
+        _activeItemIcon.Texture = GameRegistries.Instance.ItemRegistry.Get(itemID).ItemIcon;
     }
 }

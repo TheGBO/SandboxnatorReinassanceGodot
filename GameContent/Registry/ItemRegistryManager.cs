@@ -12,34 +12,29 @@ public partial class ItemRegistryManager : IRegistryManager
 {
 	public void Register()
 	{
-		foreach (ItemData item in GameRegistries.Instance.ContentDatabase.Items)
+		foreach (ItemData itemData in GameRegistries.Instance.ContentDatabase.Items)
 		{
 			NcLogger.Log(
-				$"Valid item resource is {item.itemID}, registering...",
+				$"Valid item resource is {itemData.ItemId}, registering...",
 				NcLogger.LogType.Register
 			);
 
-			BaseItem itemScene = item.itemScene.Instantiate<BaseItem>();
-
-			// Inject item data into the item scene.
-			itemScene.itemData = item;
-
-			if (itemScene is PlacingItem placingItem)
+			if (itemData is PlaceableItemData placingItemData)
 			{
 				NcLogger.Log(
-					$"({item.itemID}) is a placeable building, adding to building registry as well.",
+					$"({itemData.ItemId}) is a placeable building, adding to building registry as well.",
 					NcLogger.LogType.Register
 				);
 
 				GameRegistries.Instance.BuildingRegistry.Register(
-					item.itemID,
-					placingItem.buildingScene
+					itemData.ItemId,
+					placingItemData.BuildingScene
 				);
 			}
 
 			GameRegistries.Instance.ItemRegistry.Register(
-				item.itemID,
-				item
+				itemData.ItemId,
+				itemData
 			);
 		}
 	}

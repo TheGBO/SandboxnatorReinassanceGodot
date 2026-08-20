@@ -104,7 +104,7 @@ public partial class PlayerItemUse : AbstractComponent<Player>
 		_canUseItem = false;
 
 		SceneTreeTimer coolDownTimer =
-			GetTree().CreateTimer(_item.usageCooldown);
+			GetTree().CreateTimer(_item.itemData.UsageCooldown);
 
 		coolDownTimer.Timeout += () => _canUseItem = true;
 	}
@@ -123,7 +123,7 @@ public partial class PlayerItemUse : AbstractComponent<Player>
 		_item = item;
 		if (_item != null)
 		{
-			rayCast.TargetPosition = Vector3.Forward * _item.RaycastRangeOverride;
+			rayCast.TargetPosition = Vector3.Forward * _item.itemData.RaycastReach;
 		}
 	}
 

@@ -1,8 +1,5 @@
 using Godot;
 using System;
-using NullGarel.Util;
-using NullGarel.Sandboxnator.WorldAndScenes;
-using NullGarel.Sandboxnator.Building;
 using NullGarel.Sandboxnator.Audio;
 namespace NullGarel.Sandboxnator.Item;
 
@@ -10,25 +7,17 @@ namespace NullGarel.Sandboxnator.Item;
 [GodotClassName("PlacingItem")]
 public partial class PlacingItem : BaseItem
 {
-	[Export] public PackedScene buildingScene;
+
+	[ExportCategory("Preview")]
 	[Export] private MeshInstance3D _previewMesh;
 	[Export] private PreviewCollider _previewCollider;
 	[Export] private Vector3 _previewMeshOffset = Vector3.Zero;
-	[Export] private float _snapRange = 0.5f;
-	[Export] private float _normalOffset = 1;
-	[Export] private Vector3 _gridSize = new(0.5f, 0.5f, 0.5f);
-	/// <summary>
-	/// _isGrid defines if the building mode will be grid-based or snap-based
-	/// true=grid
-	/// false=snapper
-	/// 
-	/// if I ever need more flexibility, I'll make an enum.
-	/// </summary>
+
+	private PlaceableItemData _itemData;
 
 	public override void _Ready()
 	{
-		if (!IsMultiplayerAuthority()) return;
-
+		_itemData = (PlaceableItemData)itemData;
 	}
 
 	public override void _PhysicsProcess(double delta)
@@ -58,7 +47,7 @@ public partial class PlacingItem : BaseItem
 	public override void UseItem(ItemUsageArgs args)
 	{
 		if (!ItemUser.isUseValid) return;
-		Node3D building = (Node3D)buildingScene.Instantiate();
+		Node3D building = (Node3D)_itemData.BuildingScene.Instantiate();
 		building.Name = Guid.NewGuid().GetHashCode().ToString();
 		building.Position = GetSnappedPosition(
 			args.Position,
@@ -74,21 +63,21 @@ public partial class PlacingItem : BaseItem
 	private void PlayPlacingSound(Vector3 placementPosition)
 	{
 		// When building logic places an object:
-		WorldAudioManager.Instance.PlaySoundAt(((PlaceableItemData)itemData).placementSound, placementPosition);
+		WorldAudioManager.Instance.PlaySoundAt(((PlaceableItemData)itemData).PlacementSound, placementPosition);
 	}
 
 	private Vector3 GetSnappedPosition(Vector3 collisionPoint, Vector3 collisionNormal, bool hasGrid)
 	{
 		Vector3 offsetPos = collisionPoint + (collisionNormal * 0.5f);
 		if (!hasGrid)
-			return SandboxnatorMain.World.GetNearestSnapper(offsetPos, _snapRange);
+			return SandboxnatorMain.World.GetNearestSnapper(offsetPos, _itemData.SnapRange);
 
 		//else if has a grid
 		Vector3 snapped = new
 		(
-			Mathf.Floor(offsetPos.X + _gridSize.X),
-			Mathf.Floor(offsetPos.Y + _gridSize.Y),
-			Mathf.Floor(offsetPos.Z + _gridSize.Z)
+			Mathf.Floor(offsetPos.X + _itemData.GridSize.X),
+			Mathf.Floor(offsetPos.Y + _itemData.GridSize.Y),
+			Mathf.Floor(offsetPos.Z + _itemData.GridSize.Z)
 		);
 		return snapped;
 	}

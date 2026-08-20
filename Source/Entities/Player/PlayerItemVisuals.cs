@@ -37,7 +37,7 @@ public partial class PlayerItemVisuals : AbstractComponent<Player>
 		if (string.IsNullOrEmpty(itemId)) return;
 
 		ItemData itemResource = GameRegistries.Instance.ItemRegistry.Get(itemId);
-		_activeItemNode = itemResource.itemScene.Instantiate<BaseItem>();
+		_activeItemNode = itemResource.ItemScene.Instantiate<BaseItem>();
 		_activeItemNode.itemData = itemResource;
 		_activeItemNode.Name = "EquippedItem";
 		_activeItemNode.ItemUser = ComponentParent.playerItemUse;
@@ -47,7 +47,7 @@ public partial class PlayerItemVisuals : AbstractComponent<Player>
 
 	public void PlayUseAnimation()
 	{
-		if (_activeItemNode != null && _activeItemNode.animateHand)
+		if (_activeItemNode != null && _activeItemNode.itemData.AnimateHand)
 		{
 			_handAnimator.Stop();
 			_handAnimator.Play("HandUse");

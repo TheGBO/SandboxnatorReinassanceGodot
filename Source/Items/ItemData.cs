@@ -8,17 +8,21 @@ namespace NullGarel.Sandboxnator.Item;
 [GlobalClass]
 public partial class ItemData : Resource
 {
-    //Contains the model and the logic
     [ExportCategory("Basic properties")]
-    //The item scene that contains its model and functionality.
-    [Export] public PackedScene itemScene;
-    //The language-agnostic item id, PascalCaseIsRecommended
-    [Export] public string itemID;
+    [Export] public PackedScene ItemScene { get; private set; }
+    [Export] public string ItemId { get; private set; }
+
     [ExportCategory("Visual information")]
-    [Export] public Texture2D itemIcon;
-    //The item name, in the future I'll make it so it can be changed according to Locales.
-    [Export] public string itemName;
+    [Export] public Texture2D ItemIcon { get; private set; }
+    [Export] public bool AnimateHand { get; private set; } = true;
+    [Export] public string ItemName { get; private set; }
+
     [ExportCategory("Inventory properties")]
-    [Export] public int maxStackSize = 1;
-    public bool IsStackable { get => maxStackSize > 1; }
+    [Export] public int MaxStackSize { get; private set; } = 96;
+    public bool IsStackable { get => MaxStackSize > 1; }
+
+    [ExportCategory("Usage parameters")]
+    [Export] public float RaycastReach { get; private set; } = 4.125f;
+    [Export] public float UsageCooldown { get; private set; } = 0.125f;
 }
+

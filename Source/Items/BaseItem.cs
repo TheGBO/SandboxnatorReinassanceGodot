@@ -14,10 +14,6 @@ public partial class BaseItem : Node3D
 	/// The reference to the PlayerItemUse component
 	/// </summary>
 	public PlayerItemUse ItemUser { get; set; }
-	[Export] public float RaycastRangeOverride { get; private set; } = 8;
-
-	[Export] public bool animateHand;
-	[Export] public float usageCooldown;
 	[Export] public ItemData itemData;
 
 	/// <summary>

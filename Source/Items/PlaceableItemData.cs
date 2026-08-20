@@ -1,5 +1,4 @@
 using Godot;
-using System;
 namespace NullGarel.Sandboxnator.Item;
 
 /// <summary>
@@ -8,5 +7,11 @@ namespace NullGarel.Sandboxnator.Item;
 [GlobalClass]
 public partial class PlaceableItemData : ItemData
 {
-    [Export] public AudioStream placementSound;
+    [ExportCategory("Placement")]
+    [Export] public PackedScene BuildingScene { get; private set; }
+    [Export] public float SnapRange { get; private set; } = 0.5f;
+    [Export] public float NormalOffset { get; private set; } = 1;
+    [Export] public Vector3 GridSize { get; private set; } = new(0.5f, 0.5f, 0.5f);
+    [ExportCategory("Audio")]
+    [Export] public AudioStream PlacementSound { get; private set; }
 }

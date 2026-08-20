@@ -2,15 +2,16 @@
 
 [ext_resource type="Script" uid="uid://cnb6qwfwd4ofm" path="res://Source/Items/PlaceableItemData.cs" id="1_7hrfk"]
 [ext_resource type="Texture2D" uid="uid://s80o32nfq4uo" path="res://GameContent/Items/WindowFrame/WindowFrameIcon.png" id="1_bvvvu"]
+[ext_resource type="PackedScene" uid="uid://bmil7csddno5j" path="res://GameContent/Buildings/WindowFrame/PlacedWindowFrame.tscn" id="1_cbjdx"]
 [ext_resource type="PackedScene" uid="uid://c0as3lrlocjul" path="res://GameContent/Items/WindowFrame/ItemWindowFrame.tscn" id="2_cbjdx"]
-[ext_resource type="AudioStream" uid="uid://d27na5ituo6rs" path="res://_ThirdParty/KenneyImpactSounds/Audio/impactTin_medium_002.ogg" id="3_3kq8k"]
+[ext_resource type="AudioStream" uid="uid://c7127dn63xsm7" path="res://_ThirdParty/KenneyImpactSounds/Audio/footstep_wood_002.ogg" id="4_cbjdx"]
 
 [resource]
 script = ExtResource("1_7hrfk")
-placementSound = ExtResource("3_3kq8k")
-itemScene = ExtResource("2_cbjdx")
-itemID = "WindowFrame"
-itemIcon = ExtResource("1_bvvvu")
-itemName = "ItemFrame"
-maxStackSize = 96
+BuildingScene = ExtResource("1_cbjdx")
+PlacementSound = ExtResource("4_cbjdx")
+ItemScene = ExtResource("2_cbjdx")
+ItemId = "WindowFrame"
+ItemIcon = ExtResource("1_bvvvu")
+ItemName = "Window Frame"
 metadata/_custom_type_script = "uid://cnb6qwfwd4ofm"

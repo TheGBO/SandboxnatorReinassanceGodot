@@ -1,5 +1,6 @@
 [gd_resource type="Resource" script_class="PlaceableItemData" format=3 uid="uid://dh73faomdiebo"]
 
+[ext_resource type="PackedScene" uid="uid://dyjq7d6grfpuu" path="res://GameContent/Buildings/Cube/PlacedCube.tscn" id="1_3xcjv"]
 [ext_resource type="Script" uid="uid://cnb6qwfwd4ofm" path="res://Source/Items/PlaceableItemData.cs" id="1_erext"]
 [ext_resource type="Texture2D" uid="uid://jm1mq53ol7ei" path="res://GameContent/Items/Cube/CubeIcon.png" id="1_fd4ks"]
 [ext_resource type="PackedScene" uid="uid://djqekcjdmn1te" path="res://GameContent/Items/Cube/ItemCube.tscn" id="2_3xcjv"]
@@ -7,10 +8,10 @@
 
 [resource]
 script = ExtResource("1_erext")
-placementSound = ExtResource("3_a1pq7")
-itemScene = ExtResource("2_3xcjv")
-itemID = "Cube"
-itemIcon = ExtResource("1_fd4ks")
-itemName = "Cube"
-maxStackSize = 96
+BuildingScene = ExtResource("1_3xcjv")
+PlacementSound = ExtResource("3_a1pq7")
+ItemScene = ExtResource("2_3xcjv")
+ItemId = "Cube"
+ItemIcon = ExtResource("1_fd4ks")
+ItemName = "Cube"
 metadata/_custom_type_script = "uid://cnb6qwfwd4ofm"
