@@ -26,7 +26,6 @@ public partial class PlayerItemUse : AbstractComponent<Player>
 		get => _desiredRotation;
 		set
 		{
-			NcLogger.Log("rotation set");
 			_desiredRotation = value;
 		}
 	}
