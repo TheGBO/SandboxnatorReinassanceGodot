@@ -45,10 +45,12 @@ public partial class PlayerManager : Singleton<PlayerManager>
 		if (SandboxnatorMain.World == null)
 		{
 			NcLogger.Log("SandboxnatorMain.World is null!", NcLogger.LogType.Error);
+			return;
 		}
 		else if (SandboxnatorMain.World.networkedEntities == null)
 		{
 			NcLogger.Log("SandboxnatorMain.World.networkedEntities is null!", NcLogger.LogType.Error);
+			return;
 		}
 		else
 		{
