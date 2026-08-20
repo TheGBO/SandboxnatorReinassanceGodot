@@ -68,7 +68,6 @@ public partial class GameRegistries : Singleton<GameRegistries>
         {
             SettingsData = settings;
         }
-        OnSettingsChanged?.Invoke();
     }
 
     private void LoadUserSettings()
@@ -81,7 +80,6 @@ public partial class GameRegistries : Singleton<GameRegistries>
         }
         NcLogger.Info("User settings do in fact exist.");
         SettingsData = settings;
-        OnSettingsChanged?.Invoke();
     }
 
     private void InitializeRegistries()
