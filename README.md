@@ -9,15 +9,15 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/TheGBO/SandboxnatorReinassanceGodot/stargazers">
-    <img src="https://img.shields.io/github/stars/TheGBO/SandboxnatorReinassanceGodot?style=for-the-badge&color=yellow" alt="Stars">
+  <a href="https://github.com/NullGarel/SandboxnatorReinassanceGodot/stargazers">
+    <img src="https://img.shields.io/github/stars/NullGarel/SandboxnatorReinassanceGodot?style=for-the-badge&color=yellow" alt="Stars">
   </a>
-  <a href="https://github.com/TheGBO/SandboxnatorReinassanceGodot/issues">
-    <img src="https://img.shields.io/github/issues/TheGBO/SandboxnatorReinassanceGodot?style=for-the-badge" alt="Issues">
+  <a href="https://github.com/NullGarel/SandboxnatorReinassanceGodot/issues">
+    <img src="https://img.shields.io/github/issues/NullGarel/SandboxnatorReinassanceGodot?style=for-the-badge" alt="Issues">
   </a>
-  <a href="https://github.com/TheGBO/SandboxnatorReinassanceGodot/blob/main/LICENSE.md">
-    <img src="https://img.shields.io/badge/license-Custom-important?style=for-the-badge" alt="License">
-  </a>
+<a href="https://polyformproject.org/licenses/noncommercial/1.0.0">
+  <img src="https://img.shields.io/badge/license-PolyForm%20Noncommercial-important?style=for-the-badge" alt="License">
+</a>
   <a href="https://godotengine.org/">
     <img src="https://img.shields.io/badge/Godot-4.7%20Mono-blue?style=for-the-badge" alt="Godot 4.7 Mono">
   </a>
@@ -27,24 +27,27 @@
   
 </p>
 
-
 ## Screenshots
+
 <p align="center">
   <img src="Assets/Screenshots/screenshot_multiplayer_test_8_players.png" width="600" alt="Gameplay">
   <img src="Assets/Screenshots/screenshot_multiplayer_test_faces.png" width="600" alt="Gameplay">
   <img src="Assets/Screenshots/screenshot_hyem.png" width="600" alt="Gameplay">
 </p>
 
-
-
 ## Getting Started
+
 Clone the repository:
+
 ```bash
-git clone https://github.com/TheGBO/SandboxnatorReinassanceGodot.git
+git clone https://github.com/NullGarel/SandboxnatorReinassanceGodot.git
 ```
+
 - License TLDR; do anything you want as long as you credit me and it's not commercial.
 
 ## Legacy Version (R.I.P) [2022-2022]
+
 - First ever multiplayer sandboxnator game whose source code was lost ~~but~~ even to God. (absolute lost media, I f---ed up so bad before learning git to backup my stuff :C )
 The tech stack was: Unity, C# and Mirror
+
 <img src="Assets/Screenshots/screenshot_sandboxnator_legacy_unity.png">
