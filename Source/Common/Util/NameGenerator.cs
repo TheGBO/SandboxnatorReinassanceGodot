@@ -3,6 +3,7 @@ using Godot;
 using Godot.Collections;
 namespace NullGarel.Util;
 
+//Warning that this class was AI generated, I need not to state the reason why.
 public class NameGenerator
 {
     private Array<string> _nameBeginnings;

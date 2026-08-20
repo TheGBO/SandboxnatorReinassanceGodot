@@ -4,14 +4,13 @@ namespace NullGarel.Util.ComponentSystem;
 
 [GodotClassName(nameof(AbstractComponent<T>))]
 [Icon("res://Assets/Textures/Components/component.png")]
-public abstract partial class AbstractComponent<T> : Node3D, IComponent where T : Node
+public abstract partial class AbstractComponent<T> : Node, IComponent where T : Node
 {
     public T ComponentParent { get; private set; }
 
     private ComponentHolder _holder;
     public ComponentHolder Holder => _holder;
 
-    //TODO: Make ComponentHolder a directly accessible property of AbstractComponent
     public void Initialize(ComponentHolder holder)
     {
         // Try to cast holder's parent to the expected type
@@ -27,6 +26,11 @@ public abstract partial class AbstractComponent<T> : Node3D, IComponent where T 
         OnInitialized();
     }
 
+    /// <summary>
+    /// An alias to avoid the littering of ComponentParent.componentHolder.GetComponent\<T\>();
+    /// </summary>
+    /// <typeparam name="TC"></typeparam>
+    /// <returns></returns>
     public TC GetComponent<TC>() where TC : class, IComponent
     {
         return _holder.GetComponent<TC>();
