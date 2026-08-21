@@ -9,7 +9,9 @@ public enum MovementState
 {
 	Idle,
 	Walk,
-	Sprint
+	Sprint,
+	Jump,
+	Fall
 }
 
 [GodotClassName("PlayerMovement")]
@@ -25,9 +27,8 @@ public partial class PlayerMovement : AbstractComponent<Player>, ISettingsLoader
 	[Export] public float jumpVelocity;
 	//state trackers
 	private Vector3 _velocity;
-	private bool _isMoving;
-	private bool _isSprinting;
 	private float _currentSpeed;
+
 	public float HorizontalSpeed
 	{
 		get
@@ -39,10 +40,12 @@ public partial class PlayerMovement : AbstractComponent<Player>, ISettingsLoader
 	[ExportCategory("Visual effects")]
 	[Export] public float sprintEffectTime = 0.75f;
 	private float _fov = 75;
-	[Export(PropertyHint.Enum, "Do not alter it in the editor. This is used for animations.")]
+	[Export(PropertyHint.Enum, "Do not alter it in the editor. This is used for animations and for the internal FSM.")]
 	public MovementState MovementType { get; private set; }
 
+	private Tween _sprintTween;
 	private PlayerInput _playerInput;
+
 	public override void _Ready()
 	{
 		if (!ComponentParent.IsMultiplayerAuthority())
@@ -50,14 +53,13 @@ public partial class PlayerMovement : AbstractComponent<Player>, ISettingsLoader
 
 		_playerInput = GetComponent<PlayerInput>();
 
-
 		GameRegistries.Instance.OnSettingsChanged += UpdateSettingsData;
 		UpdateSettingsData();
 
 		_currentSpeed = walkSpeed;
+		MovementType = MovementState.Idle;
 		_playerInput.OnStopSprint += StopSprint;
 	}
-
 
 	public override void _PhysicsProcess(double delta)
 	{
@@ -74,53 +76,91 @@ public partial class PlayerMovement : AbstractComponent<Player>, ISettingsLoader
 	{
 		_velocity = _characterBody.Velocity;
 
-		// Add the gravity.
-		if (!_characterBody.IsOnFloor())
-		{
-			_velocity += _characterBody.GetGravity() * (float)delta;
-		}
-
-		if (_characterBody.IsOnFloor() && _playerInput.IsJumping)
-		{
-			_velocity.Y = jumpVelocity;
-		}
-
 		Vector3 forward = _characterBody.GlobalTransform.Basis.Z;
 		Vector3 right = _characterBody.GlobalTransform.Basis.X;
 
 		Vector2 inputDir = _playerInput.MovementVector;
 		Vector3 direction = (forward * inputDir.Y + right * inputDir.X).Normalized();
-		_isMoving = inputDir != Vector2.Zero;
 
-		//check for sprint
-		_isSprinting = _playerInput.IsSprinting;
-		if (_isSprinting)
+		DecideNextState(inputDir);
+		RunStateBehavior(direction, delta);
+
+		_characterBody.Velocity = _velocity;
+		_characterBody.MoveAndSlide();
+	}
+
+	/// <summary>
+	/// Just so I dn't forget the priority:
+	/// 1 air 
+	/// 2 grounded input
+	/// 3 jump-press 
+	/// 4 walking 
+	/// 5 input 
+	/// 6 idle.
+	/// </summary>
+	private void DecideNextState(Vector2 inputDir)
+	{
+		bool onFloor = _characterBody.IsOnFloor();
+
+		if (!onFloor)
 		{
-			MovementType = MovementState.Sprint;
-			Sprint(true);
-		}
-		if (_isMoving && !_isSprinting)
-		{
-			MovementType = MovementState.Walk;
-		}
-		if (!_isMoving && !_isSprinting)
-		{
-			MovementType = MovementState.Idle;
+			// Airborne states
+			if (MovementType != MovementState.Jump && MovementType != MovementState.Fall)
+				SwitchToState(MovementState.Fall);
+			return;
 		}
 
-		if (direction != Vector3.Zero)
+		if (_playerInput.IsJumping)
+		{
+			SwitchToState(MovementState.Jump);
+			return;
+		}
+
+		if (inputDir != Vector2.Zero)
+		{
+			SwitchToState(_playerInput.IsSprinting ? MovementState.Sprint : MovementState.Walk);
+			return;
+		}
+
+		SwitchToState(MovementState.Idle);
+	}
+
+	private void RunStateBehavior(Vector3 direction, double delta)
+	{
+		//call this on states that account for horizontal movement.
+		void InternalHorizontalInput()
 		{
 			_velocity.X = direction.X * _currentSpeed;
 			_velocity.Z = direction.Z * _currentSpeed;
 		}
-		else
-		{
-			_velocity.X = Mathf.MoveToward(_characterBody.Velocity.X, 0, _currentSpeed);
-			_velocity.Z = Mathf.MoveToward(_characterBody.Velocity.Z, 0, _currentSpeed);
-		}
 
-		_characterBody.Velocity = _velocity;
-		_characterBody.MoveAndSlide();
+		switch (MovementType)
+		{
+			case MovementState.Fall:
+				_velocity += _characterBody.GetGravity() * (float)delta;
+				InternalHorizontalInput();
+				break;
+
+			case MovementState.Jump:
+				//impulse, then fall.
+				_velocity.Y = jumpVelocity;
+				InternalHorizontalInput();
+				SwitchToState(MovementState.Fall);
+				break;
+
+			case MovementState.Sprint:
+				InternalHorizontalInput();
+				break;
+
+			case MovementState.Walk:
+				InternalHorizontalInput();
+				break;
+
+			case MovementState.Idle:
+				_velocity.X = Mathf.MoveToward(_velocity.X, 0, _currentSpeed);
+				_velocity.Z = Mathf.MoveToward(_velocity.Z, 0, _currentSpeed);
+				break;
+		}
 	}
 
 	// private void SoundEffectProcess()
@@ -132,25 +172,46 @@ public partial class PlayerMovement : AbstractComponent<Player>, ISettingsLoader
 	// 	}
 	// }
 
-	//input related.
-	private void StopSprint()
+	private void SwitchToState(MovementState newState)
 	{
-		Sprint(false);
+		if (newState == MovementType) return;
+
+		OnExitState(MovementType);
+		MovementType = newState;
+		OnEnterState(newState);
 	}
 
-	private void Sprint(bool beginSprint)
+	private void OnEnterState(MovementState state)
 	{
-		MovementType = MovementState.Sprint;
-		Tween sprintTween = GetTree().CreateTween();
+		if (state == MovementState.Sprint)
+			BeginSprintTween(true);
+	}
+
+	private void OnExitState(MovementState state)
+	{
+		if (state == MovementState.Sprint)
+			BeginSprintTween(false);
+	}
+
+	private void StopSprint()
+	{
+		if (MovementType == MovementState.Sprint)
+			SwitchToState(MovementState.Walk);
+	}
+
+	private void BeginSprintTween(bool beginSprint)
+	{
+		_sprintTween = GetTree().CreateTween();
+
 		if (beginSprint)
 		{
-			sprintTween.TweenProperty(camera, "fov", _fov * 1.25, sprintEffectTime);
-			sprintTween.TweenProperty(this, nameof(_currentSpeed), sprintSpeed, sprintEffectTime);
+			_sprintTween.TweenProperty(camera, "fov", _fov * 1.25, sprintEffectTime);
+			_sprintTween.TweenProperty(this, nameof(_currentSpeed), sprintSpeed, sprintEffectTime);
 		}
 		else
 		{
-			sprintTween.TweenProperty(camera, "fov", _fov, sprintEffectTime);
-			sprintTween.TweenProperty(this, nameof(_currentSpeed), walkSpeed, sprintEffectTime);
+			_sprintTween.TweenProperty(camera, "fov", _fov, sprintEffectTime);
+			_sprintTween.TweenProperty(this, nameof(_currentSpeed), walkSpeed, sprintEffectTime);
 		}
 	}
 
