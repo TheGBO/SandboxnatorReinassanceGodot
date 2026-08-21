@@ -5,6 +5,6 @@
 
 [resource]
 script = ExtResource("1_1iulw")
-playerFaceId = "Falky"
-faceTexture = ExtResource("1_qebbe")
+PlayerFaceId = "Falky"
+FaceTexture = ExtResource("1_qebbe")
 metadata/_custom_type_script = "uid://bjd33ah1roj1c"

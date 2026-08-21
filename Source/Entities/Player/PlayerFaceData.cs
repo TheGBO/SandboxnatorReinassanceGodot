@@ -7,7 +7,7 @@ namespace NullGarel.Sandboxnator.Entity.PlayerCosmetics;
 public partial class PlayerFaceData : Resource
 {
     [ExportGroup("Basic properties")]
-    [Export] public string playerFaceId;
-    [Export] public Texture2D faceTexture;
+    [Export] public string PlayerFaceId { get; private set; }
+    [Export] public Texture2D FaceTexture { get; private set; }
 
 }

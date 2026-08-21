@@ -119,7 +119,7 @@ public partial class ProfileEditingMenu : Control, IUiSignalLoader
 		_playerFaceList.Clear();
 		foreach (PlayerFaceData face in GameRegistries.Instance.PlayerFaceRegistry.GetAllValues())
 		{
-			_playerFaceList.AddItem(face.playerFaceId, face.faceTexture);
+			_playerFaceList.AddItem(face.PlayerFaceId, face.FaceTexture);
 		}
 	}
 

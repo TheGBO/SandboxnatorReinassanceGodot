@@ -47,7 +47,7 @@ public partial class PlayerProfileData : Resource
         GD.Randomize();
         PlayerName = FillNameField();
         PlayerColor = new Color(GD.Randf(), GD.Randf(), GD.Randf());
-        PlayerFaceId = GameRegistries.Instance.PlayerFaceRegistry.GetRandomEntry().Value.playerFaceId;
+        PlayerFaceId = GameRegistries.Instance.PlayerFaceRegistry.GetRandomEntry().Value.PlayerFaceId;
     }
 
     private string FillNameField()

@@ -18,11 +18,11 @@ public class PlayerFaceRegistryManager : IRegistryManager
         {
             GameRegistries.Instance.PlayerFaceRegistry.Register
             (
-                face.playerFaceId,
+                face.PlayerFaceId,
                 face
             );
         }
     }
 
-    public static Texture2D GetTextureByFaceId(string id) => GameRegistries.Instance.PlayerFaceRegistry.Get(id).faceTexture;
+    public static Texture2D GetTextureByFaceId(string id) => GameRegistries.Instance.PlayerFaceRegistry.Get(id).FaceTexture;
 }
