@@ -44,10 +44,6 @@ public static class SaveLoader
 
         string fullPath = $"{SavePath}/{subDir}";
 
-        GD.Print($"SavePath = '{SavePath}'");
-        GD.Print($"subDir   = '{subDir}'");
-        GD.Print($"fullPath = '{fullPath}'");
-
         CreateDirectoryIfNotExists(fullPath);
 
         return fullPath;
