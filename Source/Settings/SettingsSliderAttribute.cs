@@ -18,10 +18,12 @@ public partial class SettingsSliderAttribute
     string displayName,
     double min,
     double max,
-    double step
+    double step,
+    string formatting = "F0"
 ) : SettingsControlAttribute(category, displayName)
 {
     public double Min { get; } = min;
     public double Max { get; } = max;
     public double Step { get; } = step;
+    public string Formatting { get; } = formatting;
 }

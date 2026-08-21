@@ -28,8 +28,17 @@ public partial class GameSettingsData : Resource
     [SettingsToggle(SettingsCategory.Graphics, "Full screen")]
     [Export] public bool FullScreen { get; set; } = false;
 
+    [SettingsToggle(SettingsCategory.Graphics, "Anti-aliasing")]
+    [Export] public bool AntiAliasing { get; set; } = true;
+
+    [SettingsToggle(SettingsCategory.Graphics, "VSync")]
+    [Export] public bool VSync { get; set; } = true;
+
     [SettingsToggle(SettingsCategory.Graphics, "Show debug UI")]
     [Export] public bool DebugUiEnabled { get; set; } = false;
+
+    [SettingsSlider(SettingsCategory.Graphics, "Rendering quality", 0.1f, 1.0f, 0.05f, "P0")]
+    [Export] public float RenderScale { get; set; } = 1.0f;
 
     [SettingsToggle(SettingsCategory.Graphics, "Ambient Occlusion")]
     [Export] public bool AmbientOcclusion { get; set; } = true;
@@ -43,7 +52,8 @@ public partial class GameSettingsData : Resource
     [SettingsToggle(SettingsCategory.Graphics, "Fog (the fog is coming)")]
     [Export] public bool Fog { get; set; } = false;
 
-    [SettingsSlider(SettingsCategory.Graphics, "Glow bloom", 0, 1, 0.01)]
+    [SettingsSlider(SettingsCategory.Graphics, "Glow bloom", 0, 1, 0.01, "P0")]
     [Export] public float Bloom { get; set; } = 0.0f;
+
     #endregion
 }

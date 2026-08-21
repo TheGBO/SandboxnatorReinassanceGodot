@@ -18,9 +18,9 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_fc8s3")
 script = ExtResource("2_glqfu")
-_controlsSettingsContainer = NodePath("RootPanel/MarginContainer/VBoxContainer/Panel/TabContainer/Controls/ControlsContainer")
-_graphicsSettingsContainer = NodePath("RootPanel/MarginContainer/VBoxContainer/Panel/TabContainer/Graphics/GraphicsContainer")
-_audioSettingsContainer = NodePath("RootPanel/MarginContainer/VBoxContainer/Panel/TabContainer/Audio/AudioContainer")
+_controlsSettingsContainer = NodePath("RootPanel/MarginContainer/VBoxContainer/Panel/TabContainer/Controls/ScrollContainer/ControlsContainer")
+_graphicsSettingsContainer = NodePath("RootPanel/MarginContainer/VBoxContainer/Panel/TabContainer/Graphics/ScrollContainer/GraphicsContainer")
+_audioSettingsContainer = NodePath("RootPanel/MarginContainer/VBoxContainer/Panel/TabContainer/Audio/ScrollContainer/AudioContainer")
 _acceptBtn = NodePath("RootPanel/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer/AcceptBtn")
 _resetToDefaultsBtn = NodePath("RootPanel/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer/ResetDefaultsBtn")
 _defaultSettings = SubResource("Resource_glqfu")
@@ -72,13 +72,16 @@ layout_mode = 2
 theme = ExtResource("1_fc8s3")
 metadata/_tab_index = 0
 
-[node name="ControlsContainer" type="VBoxContainer" parent="RootPanel/MarginContainer/VBoxContainer/Panel/TabContainer/Controls" unique_id=297803790]
+[node name="ScrollContainer" type="ScrollContainer" parent="RootPanel/MarginContainer/VBoxContainer/Panel/TabContainer/Controls" unique_id=1349417871]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="ControlsContainer" type="VBoxContainer" parent="RootPanel/MarginContainer/VBoxContainer/Panel/TabContainer/Controls/ScrollContainer" unique_id=297803790]
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme = ExtResource("1_fc8s3")
@@ -89,13 +92,16 @@ layout_mode = 2
 theme = ExtResource("1_fc8s3")
 metadata/_tab_index = 1
 
-[node name="GraphicsContainer" type="VBoxContainer" parent="RootPanel/MarginContainer/VBoxContainer/Panel/TabContainer/Graphics" unique_id=1645379934]
+[node name="ScrollContainer" type="ScrollContainer" parent="RootPanel/MarginContainer/VBoxContainer/Panel/TabContainer/Graphics" unique_id=744947885]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="GraphicsContainer" type="VBoxContainer" parent="RootPanel/MarginContainer/VBoxContainer/Panel/TabContainer/Graphics/ScrollContainer" unique_id=1645379934]
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme = ExtResource("1_fc8s3")
@@ -106,13 +112,16 @@ layout_mode = 2
 theme = ExtResource("1_fc8s3")
 metadata/_tab_index = 2
 
-[node name="AudioContainer" type="VBoxContainer" parent="RootPanel/MarginContainer/VBoxContainer/Panel/TabContainer/Audio" unique_id=1979202559]
+[node name="ScrollContainer" type="ScrollContainer" parent="RootPanel/MarginContainer/VBoxContainer/Panel/TabContainer/Audio" unique_id=1690250860]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="AudioContainer" type="VBoxContainer" parent="RootPanel/MarginContainer/VBoxContainer/Panel/TabContainer/Audio/ScrollContainer" unique_id=1979202559]
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme = ExtResource("1_fc8s3")

@@ -117,7 +117,7 @@ public partial class SettingsMenu : Control, IUiSignalLoader
 
 			Label valueLabel = new()
 			{
-				Text = slider.Value.ToString("F0"),
+				Text = slider.Value.ToString(attr.Formatting),
 				CustomMinimumSize = new Vector2(50, 0),
 				SizeFlagsHorizontal = SizeFlags.ExpandFill,
 				HorizontalAlignment = HorizontalAlignment.Center,
@@ -127,7 +127,7 @@ public partial class SettingsMenu : Control, IUiSignalLoader
 
 			slider.ValueChanged += value =>
 			{
-				valueLabel.Text = value.ToString("F0");
+				valueLabel.Text = value.ToString(attr.Formatting);
 			};
 
 			row.AddChild(titleLabel);

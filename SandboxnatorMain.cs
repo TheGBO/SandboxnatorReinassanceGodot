@@ -117,5 +117,14 @@ public partial class SandboxnatorMain : Singleton<SandboxnatorMain>, ISettingsLo
 
 		//debug UI
 		_debugLayer.Visible = d.DebugUiEnabled;
+
+		//render scale
+		GetViewport().Scaling3DScale = d.RenderScale;
+
+		//vsync
+		DisplayServer.VSyncMode vSyncMode = d.VSync ? DisplayServer.VSyncMode.Enabled : DisplayServer.VSyncMode.Disabled;
+		DisplayServer.WindowSetVsyncMode(vSyncMode);
+
+
 	}
 }
