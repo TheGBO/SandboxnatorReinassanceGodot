@@ -1,5 +1,4 @@
 using Godot;
-using NullGarel.Sandboxnator.Registry;
 using NullGarel.Util.GodotHelpers;
 using NullGarel.Util.Log;
 using System;
@@ -11,22 +10,27 @@ namespace NullGarel.Util.IO;
 /// </summary>
 public static class SaveLoader
 {
-    public static string SavePath => SetupGameSavePath();
+    public static string SavePath => _savePath;
+    private static string _savePath;
 
 
     #region Path helpers
 
     /// <summary>
     /// Gets the path where the game data will be saved.
+    /// MANDATORY. (if you don't want to meet my lad System.NullReferenceException)
     /// </summary>
-    private static string SetupGameSavePath()
+    public static string SetupGameSavePath(string gameName, string gameVersion = null)
     {
         string pathRoot =
             (PlatformCheck.IsDesktop() && PlatformCheck.IsExport())
                 ? OS.GetExecutablePath().GetBaseDir()
                 : OS.GetUserDataDir();
-
-        return $"{pathRoot}/sandboxnator_{GameRegistries.GetGameVersion.Replace(".", "_")}";
+        string suffix = string.IsNullOrEmpty(gameVersion) ? "" : $"_{gameVersion.Replace(".", "_")}";
+        string finalPath = $"{pathRoot}/{gameName}{suffix}";
+        _savePath = finalPath;
+        GD.Print($"Save path: {_savePath}");
+        return finalPath;
     }
 
 
@@ -36,18 +40,13 @@ public static class SaveLoader
     /// </summary>
     public static string GetFolderPath(SaveFolder folder)
     {
-        string subDir = folder switch
-        {
-            SaveFolder.Logs => "logs",
-            SaveFolder.PlayerProfiles => "profiles",
-            SaveFolder.Worlds => "worlds",
-            SaveFolder.Config => "config",
-            SaveFolder.Temp => "temp",
-            SaveFolder.Misc => "misc",
-            _ => "misc"
-        };
+        string subDir = folder.ToString().ToLowerInvariant();
 
         string fullPath = $"{SavePath}/{subDir}";
+
+        GD.Print($"SavePath = '{SavePath}'");
+        GD.Print($"subDir   = '{subDir}'");
+        GD.Print($"fullPath = '{fullPath}'");
 
         CreateDirectoryIfNotExists(fullPath);
 

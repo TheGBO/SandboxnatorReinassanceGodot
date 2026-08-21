@@ -168,7 +168,6 @@ public partial class SettingsMenu : Control, IUiSignalLoader
 
 	private void OnResetPressed()
 	{
-		GD.Print(_defaultSettings);
 		GameRegistries.Instance.SettingsData = (GameSettingsData)_defaultSettings.Duplicate();
 	}
 

@@ -39,10 +39,11 @@ public partial class GameRegistries : Singleton<GameRegistries>
     public const string UserSettingsFileName = "UserSettings.tres";
     public Action OnSettingsChanged { get; set; }
 
-    public static string GetGameVersion => ProjectSettings.GetSetting("application/config/version").ToString();
+    public static string GameVersion => ProjectSettings.GetSetting("application/config/version").ToString();
 
     public override void _Ready()
     {
+        SaveLoader.SetupGameSavePath("Sandboxnator", GameVersion);
         NcLogger.Log("GAME REGISTRIES INITIALIZED", NcLogger.LogType.Register);
         try
         {

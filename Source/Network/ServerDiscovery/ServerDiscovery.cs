@@ -115,7 +115,7 @@ public partial class ServerDiscovery : Singleton<ServerDiscovery>
         ServerInfoData serverInfo = new()
         {
             Name = PlayerProfileManager.Instance.CurrentProfile.PlayerName,
-            GameVersion = GameRegistries.GetGameVersion
+            GameVersion = GameRegistries.GameVersion
         };
 
         _broadcaster.PutPacket(BinPack.Pack(serverInfo));

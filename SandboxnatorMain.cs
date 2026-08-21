@@ -6,6 +6,7 @@ using NullGarel.Sandboxnator.Settings;
 using NullGarel.Sandboxnator.UI;
 using NullGarel.Sandboxnator.WorldAndScenes;
 using NullGarel.Util.GodotHelpers;
+using NullGarel.Util.IO;
 namespace NullGarel.Sandboxnator;
 
 public partial class SandboxnatorMain : Singleton<SandboxnatorMain>, ISettingsLoader
@@ -37,6 +38,8 @@ public partial class SandboxnatorMain : Singleton<SandboxnatorMain>, ISettingsLo
 
 	public override void _Ready()
 	{
+
+
 		UpdateSettingsData();
 		GameRegistries.Instance.OnSettingsChanged += UpdateSettingsData;
 		// Make the main menu the defualt when the game boots up.
@@ -109,7 +112,6 @@ public partial class SandboxnatorMain : Singleton<SandboxnatorMain>, ISettingsLo
 	public void UpdateSettingsData()
 	{
 		GameSettingsData d = GameRegistries.Instance.SettingsData;
-		GD.Print($"SETTINGs CHANGEDC {d.FullScreen}");
 
 		//full screen
 		DisplayServer.WindowMode windowMode = d.FullScreen ? DisplayServer.WindowMode.Fullscreen : DisplayServer.WindowMode.Windowed;
