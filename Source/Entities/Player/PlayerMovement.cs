@@ -15,12 +15,11 @@ public enum MovementState
 }
 
 [GodotClassName("PlayerMovement")]
-public partial class PlayerMovement : AbstractComponent<Player>, ISettingsLoader
+public partial class PlayerMovement : AbstractComponent<Player>
 {
 	//movement
 	[ExportCategory("Nodes")]
 	[Export] private CharacterBody3D _characterBody;
-	[Export] public Camera3D camera;
 	[ExportCategory("Movement parameters")]
 	[Export] public float walkSpeed;
 	[Export] public float sprintSpeed;
@@ -37,13 +36,9 @@ public partial class PlayerMovement : AbstractComponent<Player>, ISettingsLoader
 		}
 	}
 
-	[ExportCategory("Visual effects")]
-	[Export] public float sprintEffectTime = 0.75f;
-	private float _fov = 75;
 	[Export(PropertyHint.Enum, "Do not alter it in the editor. This is used for animations and for the internal FSM.")]
 	public MovementState MovementType { get; private set; }
 
-	private Tween _sprintTween;
 	private PlayerInput _playerInput;
 
 	public override void _Ready()
@@ -52,9 +47,6 @@ public partial class PlayerMovement : AbstractComponent<Player>, ISettingsLoader
 			return;
 
 		_playerInput = GetComponent<PlayerInput>();
-
-		GameRegistries.Instance.OnSettingsChanged += UpdateSettingsData;
-		UpdateSettingsData();
 
 		_currentSpeed = walkSpeed;
 		MovementType = MovementState.Idle;
@@ -67,8 +59,6 @@ public partial class PlayerMovement : AbstractComponent<Player>, ISettingsLoader
 		if (_characterBody == null) return;
 		if (!ComponentParent.IsMultiplayerAuthority()) return;
 
-		camera.Fov = (float)GameRegistries.Instance.SettingsData.FieldOfView;
-		//SoundEffectProcess();
 		MovementProcess(delta);
 	}
 
@@ -163,15 +153,6 @@ public partial class PlayerMovement : AbstractComponent<Player>, ISettingsLoader
 		}
 	}
 
-	// private void SoundEffectProcess()
-	// {
-	// 	if (_isMoving && _characterBody.IsOnFloor())
-	// 	{
-	// 		float footstepDelay = _isSprinting ? 0.1f : 0.25f;
-	// 		ComponentParent.playerSounds.PlayGenericFootstep(footstepDelay);
-	// 	}
-	// }
-
 	private void SwitchToState(MovementState newState)
 	{
 		if (newState == MovementType) return;
@@ -184,13 +165,19 @@ public partial class PlayerMovement : AbstractComponent<Player>, ISettingsLoader
 	private void OnEnterState(MovementState state)
 	{
 		if (state == MovementState.Sprint)
-			BeginSprintTween(true);
+		{
+			//TODO: Invoke event to alert interested components for animation purposes
+		}
+
 	}
 
 	private void OnExitState(MovementState state)
 	{
 		if (state == MovementState.Sprint)
-			BeginSprintTween(false);
+		{
+			//TODO: Invoke event to alert interested components for animation purposes
+
+		}
 	}
 
 	private void StopSprint()
@@ -199,27 +186,4 @@ public partial class PlayerMovement : AbstractComponent<Player>, ISettingsLoader
 			SwitchToState(MovementState.Walk);
 	}
 
-	private void BeginSprintTween(bool beginSprint)
-	{
-		_sprintTween = GetTree().CreateTween();
-
-		if (beginSprint)
-		{
-			_sprintTween.TweenProperty(camera, "fov", _fov * 1.25, sprintEffectTime);
-			_sprintTween.TweenProperty(this, nameof(_currentSpeed), sprintSpeed, sprintEffectTime);
-		}
-		else
-		{
-			_sprintTween.TweenProperty(camera, "fov", _fov, sprintEffectTime);
-			_sprintTween.TweenProperty(this, nameof(_currentSpeed), walkSpeed, sprintEffectTime);
-		}
-	}
-
-	/// <summary>
-	/// Load the FieldOfView property from the game settings.
-	/// </summary>
-	public void UpdateSettingsData()
-	{
-		_fov = (float)GameRegistries.Instance.SettingsData.FieldOfView;
-	}
 }
