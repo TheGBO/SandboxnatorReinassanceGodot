@@ -200,6 +200,12 @@ ItemId = "Cube"
 Amount = 1
 metadata/_custom_type_script = "uid://cqlacl6xihu8w"
 
+[sub_resource type="Resource" id="Resource_ih3xf"]
+script = ExtResource("20_hnsoe")
+ItemId = "SmoothCube"
+Amount = 1
+metadata/_custom_type_script = "uid://cqlacl6xihu8w"
+
 [sub_resource type="Resource" id="Resource_kf3vh"]
 script = ExtResource("20_hnsoe")
 ItemId = "Door"
@@ -262,22 +268,11 @@ properties/0/path = NodePath("../ComponentHolder/PlayerInput:IsGridSnapMode")
 properties/0/spawn = true
 properties/0/replication_mode = 2
 
-[node name="Player" type="CharacterBody3D" unique_id=277325947 node_paths=PackedStringArray("componentHolder", "characterBody", "playerMovement", "cameraMovement", "playerItemUse", "playerItemSync", "playerInput", "chatHud", "visuals", "playerHud", "playerItemVisuals", "playerInteract", "camera", "hud", "playerSounds")]
+[node name="Player" type="CharacterBody3D" unique_id=277325947 node_paths=PackedStringArray("componentHolder", "camera", "hud", "playerSounds")]
 floor_stop_on_slope = false
 platform_on_leave = 2
 script = ExtResource("1_kjmmx")
 componentHolder = NodePath("ComponentHolder")
-characterBody = NodePath(".")
-playerMovement = NodePath("ComponentHolder/PlayerMovement")
-cameraMovement = NodePath("ComponentHolder/CameraMovement")
-playerItemUse = NodePath("ComponentHolder/PlayerItemUse")
-playerItemSync = NodePath("ComponentHolder/PlayerItemSync")
-playerInput = NodePath("ComponentHolder/PlayerInput")
-chatHud = NodePath("ComponentHolder/PlayerChatHUD")
-visuals = NodePath("ComponentHolder/PlayerVisualSync")
-playerHud = NodePath("ComponentHolder/PlayerHUD")
-playerItemVisuals = NodePath("ComponentHolder/PlayerItemVisuals")
-playerInteract = NodePath("ComponentHolder/PlayerInteract")
 camera = NodePath("Neck/Camera3D")
 hud = NodePath("HUD")
 playerSounds = NodePath("ComponentHolder/PlayerSounds")
@@ -528,14 +523,12 @@ shape = SubResource("CapsuleShape3D_7hef5")
 [node name="ComponentHolder" type="Node" parent="." unique_id=1298016837]
 script = ExtResource("7_kauam")
 
-[node name="PlayerMovement" type="Node3D" parent="ComponentHolder" unique_id=88819430 node_paths=PackedStringArray("_characterBody", "camera")]
+[node name="PlayerMovement" type="Node3D" parent="ComponentHolder" unique_id=88819430 node_paths=PackedStringArray("_characterBody")]
 script = ExtResource("1_fmfn4")
 _characterBody = NodePath("../..")
-camera = NodePath("../../Neck/Camera3D")
 walkSpeed = 2.8
 sprintSpeed = 7.23
 jumpVelocity = 8.0
-sprintEffectTime = 0.125
 
 [node name="CameraMovement" type="Node3D" parent="ComponentHolder" unique_id=20787505 node_paths=PackedStringArray("neck", "body")]
 script = ExtResource("3_bvtsg")
@@ -599,7 +592,7 @@ CurrentItemId = "Hammer"
 
 [node name="Inventory" type="Node" parent="ComponentHolder/PlayerItemSync" unique_id=2028738247]
 script = ExtResource("19_2gtko")
-_slots = [SubResource("Resource_muqql"), SubResource("Resource_2gtko"), SubResource("Resource_hnsoe"), SubResource("Resource_kf3vh"), SubResource("Resource_7jdf5"), SubResource("Resource_ioi8w"), SubResource("Resource_dgm7t"), null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null]
+_slots = [SubResource("Resource_muqql"), SubResource("Resource_2gtko"), SubResource("Resource_hnsoe"), SubResource("Resource_ih3xf"), SubResource("Resource_kf3vh"), SubResource("Resource_7jdf5"), SubResource("Resource_ioi8w"), SubResource("Resource_dgm7t"), null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null]
 metadata/_custom_type_script = "uid://dqfl0pifo5c3e"
 
 [node name="PlayerSounds" type="Node3D" parent="ComponentHolder" unique_id=1285901011 node_paths=PackedStringArray("_streamPlayer")]
@@ -630,17 +623,14 @@ autowrap_mode = 1
 
 [node name="PlayerModel" parent="." unique_id=1713642264 instance=ExtResource("15_7hef5")]
 
-[node name="HeadHolder" parent="PlayerModel/Node" index="0"]
+[node name="HeadHolder" parent="PlayerModel/Node" parent_id_path=PackedInt32Array(1713642264, 1099337142) index="0" unique_id=1079786309]
 transform = Transform3D(1.0042562, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.687234, 0)
 
-[node name="right_H" parent="PlayerModel/Node/Hands" index="1"]
+[node name="right_H" parent="PlayerModel/Node/Hands" parent_id_path=PackedInt32Array(1713642264, 2020562525) index="1" unique_id=1091730745]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.30626476, -0.03124994, 0)
 
-[node name="Feet" parent="PlayerModel/Node" index="2"]
+[node name="Feet" parent="PlayerModel/Node" parent_id_path=PackedInt32Array(1713642264, 1099337142) index="2" unique_id=473667507]
 transform = Transform3D(1.0004255, 0, 0, 0, 1, 0, 0, 0, 1, 0.125, 0.03125, 0)
-
-[node name="ModelAnimator" parent="PlayerModel" index="1"]
-autoplay = &"IdleAndHold"
 
 [node name="Synchronizers" type="Node" parent="." unique_id=705612137]
 

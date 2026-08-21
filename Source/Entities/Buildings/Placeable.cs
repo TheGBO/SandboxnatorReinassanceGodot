@@ -1,23 +1,43 @@
+using Godot.Collections;
 using Godot;
+using NullGarel.Sandboxnator.Item;
 using NullGarel.Util.ComponentSystem;
-using System;
 using System.Linq;
+using NullGarel.Util.GodotHelpers;
 namespace NullGarel.Sandboxnator.Building;
 
 public partial class Placeable : RigidBody3D
 {
-    //TODO: destroy animation
+    //TODO: destroy animation + health system
     [Export] public ComponentHolder componentHolder;
-    private bool _hasInteractable;
-    public bool HasInteractable => _hasInteractable;
+    public bool HasInteractable { get; private set; }
+    public PlaceableItemData ItemData { get; set; }
+    [Export] private Array<MeshInstance3D> _materialOverrideMeshes;
 
     public override void _Ready()
     {
+        QueryForInteractables();
+        ComputeMaterialOverride();
+    }
+
+    private void ComputeMaterialOverride()
+    {
+        if (ItemData.MaterialOverride == null || _materialOverrideMeshes.Count == 0)
+            return;
+
+        foreach (var mesh in _materialOverrideMeshes)
+        {
+            mesh.ChangeMeshMaterial(ItemData.MaterialOverride);
+        }
+    }
+
+    private void QueryForInteractables()
+    {
         var interactable = componentHolder
-            .GetChildren()
-            .OfType<IInteractable>()
-            .FirstOrDefault();
-        _hasInteractable = interactable != null;
+        .GetChildren()
+        .OfType<IInteractable>()
+        .FirstOrDefault();
+        HasInteractable = interactable != null;
     }
 
     public void Destroy()

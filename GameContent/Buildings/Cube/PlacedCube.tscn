@@ -10,7 +10,7 @@ properties/0/path = NodePath(".:CurrentColor")
 properties/0/spawn = true
 properties/0/replication_mode = 2
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_twed4"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3hgig"]
 albedo_texture = ExtResource("4_3hgig")
 uv1_offset = Vector3(0.5, 0.5, 0.5)
 uv1_triplanar = true
@@ -18,18 +18,19 @@ texture_filter = 0
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_yl2mn"]
 
-[node name="PlacedCube" unique_id=1333239392 instance=ExtResource("1_1uskk")]
+[node name="PlacedCube" unique_id=1333239392 node_paths=PackedStringArray("_materialOverrideMeshes") instance=ExtResource("1_1uskk")]
+_materialOverrideMeshes = [NodePath("Model")]
 
 [node name="Paintable" type="Node3D" parent="ComponentHolder" parent_id_path=PackedInt32Array(1442099316) index="0" unique_id=1874341437 node_paths=PackedStringArray("_targetMeshes")]
 script = ExtResource("2_o6dq1")
-_targetMeshes = [NodePath("../../MeshInstance3D")]
+_targetMeshes = [NodePath("../../Model")]
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="ComponentHolder/Paintable" index="0" unique_id=314169759]
 replication_config = SubResource("SceneReplicationConfig_o6dq1")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="." index="3" unique_id=439898019]
+[node name="Model" type="MeshInstance3D" parent="." index="3" unique_id=439898019]
 mesh = ExtResource("3_o6dq1")
-surface_material_override/0 = SubResource("StandardMaterial3D_twed4")
+surface_material_override/0 = SubResource("StandardMaterial3D_3hgig")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." index="4" unique_id=235461355]
 shape = SubResource("BoxShape3D_yl2mn")

@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="PlaceableItemData" format=3 uid="uid://cd5k2no1yhde0"]
+
+[ext_resource type="PackedScene" uid="uid://dyjq7d6grfpuu" path="res://GameContent/Buildings/Cube/PlacedCube.tscn" id="1_83ahu"]
+[ext_resource type="Texture2D" uid="uid://d24h8figc031k" path="res://GameContent/Items/Cube/SmoothCube/SmoothCubeIcon.png" id="2_77hqi"]
+[ext_resource type="PackedScene" uid="uid://djqekcjdmn1te" path="res://GameContent/Items/Cube/ItemCube.tscn" id="3_qmwnb"]
+[ext_resource type="Material" uid="uid://cltlkw8l5a2hn" path="res://Assets/Materials/smoothTileMaterial.tres" id="4_1dun2"]
+[ext_resource type="AudioStream" uid="uid://drcyqysa48vv4" path="res://_ThirdParty/KenneyImpactSounds/Audio/footstep_concrete_000.ogg" id="5_ohnie"]
+[ext_resource type="Script" uid="uid://cnb6qwfwd4ofm" path="res://Source/Items/PlaceableItemData.cs" id="6_gkjj2"]
+
+[resource]
+script = ExtResource("6_gkjj2")
+BuildingScene = ExtResource("1_83ahu")
+PlacementSound = ExtResource("5_ohnie")
+MaterialOverride = ExtResource("4_1dun2")
+ItemScene = ExtResource("3_qmwnb")
+ItemId = "SmoothCube"
+ItemIcon = ExtResource("2_77hqi")
+ItemName = "Smooth Cube"
+metadata/_custom_type_script = "uid://cnb6qwfwd4ofm"

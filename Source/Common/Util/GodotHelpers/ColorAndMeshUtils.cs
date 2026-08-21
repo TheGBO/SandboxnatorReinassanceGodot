@@ -44,15 +44,30 @@ public static class ColorAndMeshUtils
 
 			if (currentMaterial is StandardMaterial3D stdMat)
 			{
-
 				var newMat = (StandardMaterial3D)stdMat.Duplicate();
 				newMat.AlbedoColor = color;
-
-
 				model.SetSurfaceOverrideMaterial(i, newMat);
 			}
 		}
 	}
+
+	public static void ChangeMeshMaterial(this MeshInstance3D model, StandardMaterial3D mat)
+	{
+		if (model.Mesh == null) return;
+
+		int surfaceCount = model.Mesh.GetSurfaceCount();
+
+		for (int i = 0; i < surfaceCount; i++)
+		{
+			var currentMaterial = model.GetActiveMaterial(i);
+
+			if (currentMaterial is StandardMaterial3D)
+			{
+				model.SetSurfaceOverrideMaterial(i, mat);
+			}
+		}
+	}
+
 	public static void ChangeMeshTexture(this MeshInstance3D model, Texture2D texture)
 	{
 		//Change the active model 0

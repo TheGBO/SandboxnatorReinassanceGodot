@@ -1,7 +1,10 @@
 using Godot;
+using Godot.Collections;
 using System;
 using NullGarel.Sandboxnator.Audio;
 using NullGarel.Sandboxnator.Entity;
+using NullGarel.Sandboxnator.Building;
+using NullGarel.Util.GodotHelpers;
 namespace NullGarel.Sandboxnator.Item;
 
 [GlobalClass]
@@ -9,6 +12,8 @@ namespace NullGarel.Sandboxnator.Item;
 public partial class PlacingItem : BaseItem
 {
 
+	[ExportCategory("Overrides")]
+	[Export] private Array<MeshInstance3D> _materialOverrideMeshes;
 	[ExportCategory("Preview")]
 	[Export] private MeshInstance3D _previewMesh;
 	[Export] private PreviewCollider _previewCollider;
@@ -19,11 +24,27 @@ public partial class PlacingItem : BaseItem
 	public override void _Ready()
 	{
 		_itemData = (PlaceableItemData)itemData;
+		ComputeMaterialOverride();
+	}
+
+	private void ComputeMaterialOverride()
+	{
+		if (_itemData.MaterialOverride == null || _materialOverrideMeshes.Count == 0)
+			return;
+
+		foreach (var mesh in _materialOverrideMeshes)
+		{
+			mesh.ChangeMeshMaterial(_itemData.MaterialOverride);
+		}
 	}
 
 	public override void _PhysicsProcess(double delta)
 	{
-		if (!ItemUser.ComponentParent.IsMultiplayerAuthority()) return;
+		if (!ItemUser.ComponentParent.IsMultiplayerAuthority())
+		{
+			_previewMesh.Visible = false;
+			return;
+		}
 		GeneratePreviewMesh();
 	}
 
@@ -52,7 +73,8 @@ public partial class PlacingItem : BaseItem
 		PlayerInput playerInput = ItemUser.GetComponent<PlayerInput>();
 
 		if (!ItemUser.isUseValid) return;
-		Node3D building = (Node3D)_itemData.BuildingScene.Instantiate();
+		Placeable building = (Placeable)_itemData.BuildingScene.Instantiate();
+		building.ItemData = _itemData;
 		building.Name = Guid.NewGuid().GetHashCode().ToString();
 		building.Position = GetSnappedPosition(
 			args.Position,

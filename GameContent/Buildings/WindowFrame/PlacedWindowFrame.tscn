@@ -279,50 +279,51 @@ size = Vector3(1, 1, 0.2)
 [node name="PlacedCube" unique_id=1333239392 instance=ExtResource("1_co6us")]
 
 [node name="Paintable" parent="ComponentHolder" parent_id_path=PackedInt32Array(1442099316) index="0" unique_id=1874341437 node_paths=PackedStringArray("_targetMeshes")]
-_targetMeshes = [NodePath("../../MeshInstance3D/blockbench_export/WindowFrame/FrameBottom"), NodePath("../../MeshInstance3D/blockbench_export/WindowFrame/FrameEast"), NodePath("../../MeshInstance3D/blockbench_export/WindowFrame/FrameTop"), NodePath("../../MeshInstance3D/blockbench_export/WindowFrame/FrameWest"), NodePath("../../MeshInstance3D/blockbench_export/WindowFrame/LatticeHorizontal"), NodePath("../../MeshInstance3D/blockbench_export/WindowFrame/LatticeVertical")]
+_targetMeshes = [null, null, null, null, null, null]
 
-[node name="MeshInstance3D" parent="." index="3" unique_id=439898019]
+[node name="Model" parent="." index="3" unique_id=439898019]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
 mesh = null
 
-[node name="blockbench_export" type="Node3D" parent="MeshInstance3D" index="0" unique_id=1416364920]
-
-[node name="WindowFrame" type="Node3D" parent="MeshInstance3D/blockbench_export" index="0" unique_id=832733516]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
-
-[node name="FrameBottom" type="MeshInstance3D" parent="MeshInstance3D/blockbench_export/WindowFrame" index="0" unique_id=645024256]
+[node name="MeshInstance3D_blockbench_export_WindowFrame#FrameBottom" type="MeshInstance3D" parent="Model" index="0" unique_id=645024256]
 mesh = SubResource("ArrayMesh_gcqhe")
 skeleton = NodePath("")
 surface_material_override/0 = SubResource("StandardMaterial3D_co6us")
 
-[node name="FrameEast" type="MeshInstance3D" parent="MeshInstance3D/blockbench_export/WindowFrame" index="1" unique_id=1189051516]
+[node name="MeshInstance3D_blockbench_export_WindowFrame#FrameEast" type="MeshInstance3D" parent="Model" index="1" unique_id=1189051516]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.125, 0)
 mesh = SubResource("ArrayMesh_dax0c")
 skeleton = NodePath("")
 surface_material_override/0 = SubResource("StandardMaterial3D_1aq5c")
 
-[node name="FrameTop" type="MeshInstance3D" parent="MeshInstance3D/blockbench_export/WindowFrame" index="2" unique_id=1757817066]
+[node name="MeshInstance3D_blockbench_export_WindowFrame#FrameTop" type="MeshInstance3D" parent="Model" index="2" unique_id=1757817066]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.125, 0.875, 0)
 mesh = SubResource("ArrayMesh_rv71h")
 skeleton = NodePath("")
 surface_material_override/0 = SubResource("StandardMaterial3D_js07i")
 
-[node name="FrameWest" type="MeshInstance3D" parent="MeshInstance3D/blockbench_export/WindowFrame" index="3" unique_id=1329597183]
+[node name="MeshInstance3D_blockbench_export_WindowFrame#FrameWest" type="MeshInstance3D" parent="Model" index="3" unique_id=1329597183]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.875, 0, 0)
 mesh = SubResource("ArrayMesh_kujln")
 skeleton = NodePath("")
 surface_material_override/0 = SubResource("StandardMaterial3D_6qbs2")
 
-[node name="LatticeHorizontal" type="MeshInstance3D" parent="MeshInstance3D/blockbench_export/WindowFrame" index="4" unique_id=1549425679]
+[node name="MeshInstance3D_blockbench_export_WindowFrame#LatticeHorizontal" type="MeshInstance3D" parent="Model" index="4" unique_id=1549425679]
 transform = Transform3D(0, 1, 0, -1, 0, 0, 0, 0, 1, 0, 0.5, 0)
 mesh = SubResource("ArrayMesh_svsqw")
 skeleton = NodePath("")
 surface_material_override/0 = SubResource("StandardMaterial3D_f53h1")
 
-[node name="LatticeVertical" type="MeshInstance3D" parent="MeshInstance3D/blockbench_export/WindowFrame" index="5" unique_id=26793378]
+[node name="MeshInstance3D_blockbench_export_WindowFrame#LatticeVertical" type="MeshInstance3D" parent="Model" index="5" unique_id=26793378]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.4375, 0, 0)
 mesh = SubResource("ArrayMesh_22lbm")
 skeleton = NodePath("")
 surface_material_override/0 = SubResource("StandardMaterial3D_wpole")
+
+[node name="MeshInstance3D_blockbench_export#WindowFrame" type="Node3D" parent="Model" index="6" unique_id=832733516]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+
+[node name="MeshInstance3D#blockbench_export" type="Node3D" parent="Model" index="7" unique_id=1416364920]
 
 [node name="CollisionShape3D" parent="." index="4" unique_id=235461355]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.9802322e-08)

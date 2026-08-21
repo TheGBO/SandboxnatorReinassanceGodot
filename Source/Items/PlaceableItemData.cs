@@ -1,4 +1,5 @@
 using Godot;
+using Godot.Collections;
 namespace NullGarel.Sandboxnator.Item;
 
 /// <summary>
@@ -14,4 +15,6 @@ public partial class PlaceableItemData : ItemData
     [Export] public Vector3 GridSize { get; private set; } = new(0.5f, 0.5f, 0.5f);
     [ExportCategory("Audio")]
     [Export] public AudioStream PlacementSound { get; private set; }
+    [ExportCategory("Overrides")]
+    [Export] public StandardMaterial3D MaterialOverride { get; private set; } = null;
 }

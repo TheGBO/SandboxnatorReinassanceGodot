@@ -1,11 +1,10 @@
 [gd_scene format=3 uid="uid://wgea4e2y5142"]
 
 [ext_resource type="PackedScene" uid="uid://brra32kqxyt3m" path="res://Source/Items/BasePlacingItem.tscn" id="1_13c64"]
-[ext_resource type="PackedScene" uid="uid://kicqsbwx5srw" path="res://GameContent/Buildings/Cone/PlacedCone.tscn" id="2_x31gy"]
 [ext_resource type="ArrayMesh" uid="uid://ytmryq6ofimr" path="res://GameContent/Buildings/Cone/ConeMesh.tres" id="3_76muv"]
 
-[node name="ItemCone" unique_id=1583310942 instance=ExtResource("1_13c64")]
-buildingScene = ExtResource("2_x31gy")
+[node name="ItemCone" unique_id=1583310942 node_paths=PackedStringArray("_materialOverrideMeshes") instance=ExtResource("1_13c64")]
+_materialOverrideMeshes = [NodePath("HandItem")]
 
 [node name="HandItem" parent="." index="0" unique_id=348518840]
 transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0.2, 0)
