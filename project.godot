@@ -16,7 +16,7 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 
 config/name="Sandboxnator"
 config/description="A LAN multiplayer sandbox game, have fun with your friends, hang out, build and destroy :3"
-config/version="0.5.0"
+config/version="0.6.0"
 run/main_scene="uid://cghy1wt2we3bu"
 config/features=PackedStringArray("4.7", "C#", "Forward Plus")
 boot_splash/use_filter=false
