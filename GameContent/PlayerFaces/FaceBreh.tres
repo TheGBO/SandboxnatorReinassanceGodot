@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="PlayerFaceData" format=3 uid="uid://b1qj6tntt5t55"]
 
-[ext_resource type="Script" uid="uid://bjd33ah1roj1c" path="res://Source/Entities/Player/PlayerFaceData.cs" id="1_fkw66"]
+[ext_resource type="Script" uid="uid://bjd33ah1roj1c" path="res://Source/Entities/Player/Profile/PlayerFaceData.cs" id="1_fkw66"]
 [ext_resource type="Texture2D" uid="uid://csnnifbrq66hk" path="res://GameContent/PlayerFaces/_Textures/face_breh.png" id="1_jvj6m"]
 
 [resource]

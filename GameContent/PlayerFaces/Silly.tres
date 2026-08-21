@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="PlayerFaceData" format=3 uid="uid://clswvg7oreavv"]
 
 [ext_resource type="Texture2D" uid="uid://4jnky7s8wbfs" path="res://GameContent/PlayerFaces/_Textures/silly.png" id="1_yq2xw"]
-[ext_resource type="Script" uid="uid://bjd33ah1roj1c" path="res://Source/Entities/Player/PlayerFaceData.cs" id="2_m7dpc"]
+[ext_resource type="Script" uid="uid://bjd33ah1roj1c" path="res://Source/Entities/Player/Profile/PlayerFaceData.cs" id="2_m7dpc"]
 
 [resource]
 script = ExtResource("2_m7dpc")

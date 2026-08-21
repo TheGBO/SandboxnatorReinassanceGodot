@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="PlayerFaceData" format=3 uid="uid://wpbf1biyu6o2"]
 
-[ext_resource type="Script" uid="uid://bjd33ah1roj1c" path="res://Source/Entities/Player/PlayerFaceData.cs" id="1_vbkpk"]
+[ext_resource type="Script" uid="uid://bjd33ah1roj1c" path="res://Source/Entities/Player/Profile/PlayerFaceData.cs" id="1_vbkpk"]
 [ext_resource type="Texture2D" uid="uid://be4kif0ny573i" path="res://GameContent/PlayerFaces/_Textures/troll.png" id="1_wfvrp"]
 
 [resource]

@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dfcphkg5bitd8" path="res://UI/Profile/ProfileEditingMenu.cs" id="1_4fqg0"]
 [ext_resource type="Texture2D" uid="uid://c02jivmdni2ip" path="res://Assets/Textures/Components/component.png" id="3_xmniq"]
-[ext_resource type="PackedScene" uid="uid://bvk2qsd5vogiv" path="res://Source/Entities/Player/PlayerModel.tscn" id="4_4fqg0"]
+[ext_resource type="PackedScene" uid="uid://bvk2qsd5vogiv" path="res://Source/Entities/Player/Profile/PlayerModel.tscn" id="4_4fqg0"]
 
 [sub_resource type="Environment" id="Environment_8rpsp"]
 background_mode = 1

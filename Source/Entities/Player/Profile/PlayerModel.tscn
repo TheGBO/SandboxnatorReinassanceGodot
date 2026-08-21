@@ -1,7 +1,7 @@
 [gd_scene format=4 uid="uid://bvk2qsd5vogiv"]
 
 [ext_resource type="Texture2D" uid="uid://6aop4rk3parb" path="res://Source/Entities/Player/Assets/NewPlayerModel/player_texture_0.png" id="1_lhs73"]
-[ext_resource type="Script" uid="uid://beqcvnx7lff85" path="res://Source/Entities/Player/PlayerModel.cs" id="1_m762l"]
+[ext_resource type="Script" uid="uid://beqcvnx7lff85" path="res://Source/Entities/Player/Profile/PlayerModel.cs" id="1_m762l"]
 [ext_resource type="Texture2D" uid="uid://bwynw0jew518v" path="res://GameContent/PlayerFaces/_Textures/uwu.png" id="2_m762l"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6ch65"]
@@ -344,75 +344,73 @@ _data = {
 &"WalkAndHold": SubResource("Animation_8kkfx")
 }
 
-[node name="PlayerModel" type="Node3D" node_paths=PackedStringArray("modelsToColor", "handMesh", "faceMesh")]
+[node name="PlayerModel" type="Node3D" unique_id=1266389728 node_paths=PackedStringArray("modelsToColor", "handMesh", "faceMesh")]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
 script = ExtResource("1_m762l")
 modelsToColor = [NodePath("Node/HeadHolder/Head"), NodePath("Node/Hands/left_H/Hand_L"), NodePath("Node/Hands/right_H/Hand_R"), NodePath("Node/Feet/left_F/Foot_L"), NodePath("Node/Feet/right_F/Foot_R")]
 handMesh = NodePath("Node/Hands/right_H/Hand_R")
 faceMesh = NodePath("Node/HeadHolder/Face")
 
-[node name="Node" type="Node3D" parent="."]
+[node name="Node" type="Node3D" parent="." unique_id=1099337142]
 
-[node name="HeadHolder" type="Node3D" parent="Node"]
+[node name="HeadHolder" type="Node3D" parent="Node" unique_id=1079786309]
 transform = Transform3D(1.0813, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.682419, 0)
 
-[node name="Head" type="MeshInstance3D" parent="Node/HeadHolder"]
+[node name="Head" type="MeshInstance3D" parent="Node/HeadHolder" unique_id=1973350172]
 mesh = SubResource("ArrayMesh_r2ih7")
 skeleton = NodePath("")
 
-[node name="Face" type="MeshInstance3D" parent="Node/HeadHolder"]
+[node name="Face" type="MeshInstance3D" parent="Node/HeadHolder" unique_id=1086405384]
 transform = Transform3D(-1, 1.22465e-16, 0, 0, 0, -1, -1.22465e-16, -1, 0, 0, 0, -0.00625)
 mesh = SubResource("ArrayMesh_7hef5")
 skeleton = NodePath("")
 
-[node name="headAccessory" type="Node3D" parent="Node/HeadHolder"]
+[node name="headAccessory" type="Node3D" parent="Node/HeadHolder" unique_id=1423726919]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.6875, 0)
 
-[node name="Hands" type="Node3D" parent="Node"]
+[node name="Hands" type="Node3D" parent="Node" unique_id=2020562525]
 transform = Transform3D(1, 0, 0, 0, 0.999451, 0.0331288, 0, -0.0331288, 0.999451, 0, 0.640038, 0)
 
-[node name="left_H" type="Node3D" parent="Node/Hands"]
+[node name="left_H" type="Node3D" parent="Node/Hands" unique_id=1246960259]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.25, -0.0625, 0)
 
-[node name="Hand_L" type="MeshInstance3D" parent="Node/Hands/left_H"]
+[node name="Hand_L" type="MeshInstance3D" parent="Node/Hands/left_H" unique_id=1928297304]
 mesh = SubResource("ArrayMesh_147tt")
 skeleton = NodePath("")
 
-[node name="right_H" type="Node3D" parent="Node/Hands"]
+[node name="right_H" type="Node3D" parent="Node/Hands" unique_id=1091730745]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, -0.03125, 0)
 
-[node name="Hand_R" type="MeshInstance3D" parent="Node/Hands/right_H"]
+[node name="Hand_R" type="MeshInstance3D" parent="Node/Hands/right_H" unique_id=2137696630]
 transform = Transform3D(1, 0, 0, 0, -3.6199901e-06, -1, 0, 1, -3.6199901e-06, 0, -0.03125, 0)
 mesh = SubResource("ArrayMesh_bogrj")
 skeleton = NodePath("")
 
-[node name="HoldingPoint" type="Node3D" parent="Node/Hands/right_H/Hand_R"]
+[node name="HoldingPoint" type="Node3D" parent="Node/Hands/right_H/Hand_R" unique_id=1382095917]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, -0.365139, 0.029369)
 
-[node name="Hand" type="Node3D" parent="Node/Hands/right_H/Hand_R/HoldingPoint"]
+[node name="Hand" type="Node3D" parent="Node/Hands/right_H/Hand_R/HoldingPoint" unique_id=1413192699]
 transform = Transform3D(0.499936, -0.00689046, -0.00407397, 0.00680567, 0.499849, -0.0102567, 0.00421408, 0.0101999, 0.499878, 0, 0, 0)
 
-[node name="Feet" type="Node3D" parent="Node"]
+[node name="Feet" type="Node3D" parent="Node" unique_id=473667507]
 transform = Transform3D(1.00813, 0, 0, 0, 1, 0, 0, 0, 1, 0.125, 0.03125, 0)
 
-[node name="left_F" type="Node3D" parent="Node/Feet"]
+[node name="left_F" type="Node3D" parent="Node/Feet" unique_id=631366176]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.25, 0.40625, 0)
 
-[node name="Foot_L" type="MeshInstance3D" parent="Node/Feet/left_F"]
+[node name="Foot_L" type="MeshInstance3D" parent="Node/Feet/left_F" unique_id=763105698]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.15625, 0)
 mesh = SubResource("ArrayMesh_djg5b")
 skeleton = NodePath("")
 
-[node name="right_F" type="Node3D" parent="Node/Feet"]
+[node name="right_F" type="Node3D" parent="Node/Feet" unique_id=1612728249]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4375, 0)
 
-[node name="Foot_R" type="MeshInstance3D" parent="Node/Feet/right_F"]
+[node name="Foot_R" type="MeshInstance3D" parent="Node/Feet/right_F" unique_id=804914326]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1875, 0)
 mesh = SubResource("ArrayMesh_m5rdg")
 skeleton = NodePath("")
 
-[node name="ModelAnimator" type="AnimationPlayer" parent="."]
-libraries = {
-&"": SubResource("AnimationLibrary_2gltp")
-}
-autoplay = "IdleAndHold"
+[node name="ModelAnimator" type="AnimationPlayer" parent="." unique_id=1827808922]
+libraries/ = SubResource("AnimationLibrary_2gltp")
+autoplay = &"IdleAndHold"
