@@ -11,7 +11,8 @@ namespace NullGarel.Sandboxnator.Entity;
 public partial class Player : CharacterBody3D
 {
 	//Components
-	//TODO: make a component holder have a GetComponent method instead of holding tons of references
+	//Since characterbody3d doesn't inherit AbstractComponent, this reference is necessary to set the
+	//entity ID.
 	[Export] public ComponentHolder componentHolder;
 
 	public PlayerProfileData ProfileData { get; set; }
