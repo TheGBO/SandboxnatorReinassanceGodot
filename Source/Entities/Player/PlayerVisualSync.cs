@@ -62,7 +62,6 @@ public partial class PlayerVisualSync : AbstractComponent<Player>
 
 	public override void _Ready()
 	{
-		if (!IsMultiplayerAuthority()) return;
 		_playerMovement = GetComponent<PlayerMovement>();
 	}
 

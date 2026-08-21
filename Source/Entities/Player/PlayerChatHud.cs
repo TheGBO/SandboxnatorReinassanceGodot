@@ -41,9 +41,9 @@ public partial class PlayerChatHud : AbstractComponent<Player>
 
     public override void _Ready()
     {
-        if (!IsMultiplayerAuthority()) return;
         _playerInput = GetComponent<PlayerInput>();
         _playerHud = GetComponent<PlayerHUD>();
+        if (!IsMultiplayerAuthority()) return;
 
         _playerInput.OnShowChat += ShowChat;
         _playerInput.OnUiEscape += HideChat;

@@ -37,7 +37,7 @@ public partial class GameSettingsData : Resource
     [SettingsToggle(SettingsCategory.Graphics, "Show debug UI")]
     [Export] public bool DebugUiEnabled { get; set; } = false;
 
-    [SettingsSlider(SettingsCategory.Graphics, "Rendering quality", 0.1f, 1.0f, 0.05f, "P0")]
+    [SettingsSlider(SettingsCategory.Graphics, "Rendering quality", 0.01f, 1.0f, 0.01f, "P0")]
     [Export] public float RenderScale { get; set; } = 1.0f;
 
     [SettingsToggle(SettingsCategory.Graphics, "Ambient Occlusion")]

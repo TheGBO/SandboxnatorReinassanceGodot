@@ -37,13 +37,13 @@ public partial class PlayerHUD : AbstractComponent<Player>, IUiSignalLoader
 
     public override void _Ready()
     {
+        _playerInput = GetComponent<PlayerInput>();
+        _playerInteract = GetComponent<PlayerInteract>();
+
         if (!IsMultiplayerAuthority())
             return;
 
         ConnectUISignals();
-
-        _playerInput = GetComponent<PlayerInput>();
-        _playerInteract = GetComponent<PlayerInteract>();
 
         _playerInput.OnUiEscape += () =>
         {

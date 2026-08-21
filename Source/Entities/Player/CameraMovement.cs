@@ -18,13 +18,13 @@ public partial class CameraMovement : AbstractComponent<Player>, ISettingsLoader
 	public override void _Ready()
 	{
 
+		_playerInput = GetComponent<PlayerInput>();
 		if (!ComponentParent.IsMultiplayerAuthority())
 			return;
 
 		GameRegistries.Instance.OnSettingsChanged += UpdateSettingsData;
 		UpdateSettingsData();
 
-		_playerInput = GetComponent<PlayerInput>();
 		Input.MouseMode = Input.MouseModeEnum.Captured;
 		_playerInput.OnToggleCursorCapture += ToggleCursorCapture;
 		_playerInput.OnMouseMovement += LookAction;
