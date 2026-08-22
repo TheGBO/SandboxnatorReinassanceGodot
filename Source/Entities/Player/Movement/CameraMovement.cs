@@ -1,5 +1,4 @@
 using Godot;
-using System;
 using NullGarel.Util.ComponentSystem;
 using NullGarel.Sandboxnator.Registry;
 using NullGarel.Sandboxnator.Settings;

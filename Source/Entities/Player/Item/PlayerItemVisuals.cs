@@ -2,7 +2,6 @@ using Godot;
 using NullGarel.Sandboxnator.Item;
 using NullGarel.Sandboxnator.Registry;
 using NullGarel.Util.ComponentSystem;
-using NullGarel.Util.Log;
 
 namespace NullGarel.Sandboxnator.Entity;
 

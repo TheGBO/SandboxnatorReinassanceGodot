@@ -1,5 +1,3 @@
-
-using System;
 namespace NullGarel.Sandboxnator.Settings;
 
 public enum SettingsCategory

@@ -1,7 +1,6 @@
 using Godot;
 using NullGarel.Sandboxnator.Network;
 using NullGarel.Util.Log;
-using System;
 
 namespace NullGarel.Sandboxnator.UI;
 

@@ -1,7 +1,5 @@
 using Godot;
-using NullGarel.Sandboxnator.Entity;
 using NullGarel.Sandboxnator.Registry;
-using System;
 namespace NullGarel.Sandboxnator.Entity;
 
 public partial class PlayerHotBar : Control

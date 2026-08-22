@@ -3,7 +3,6 @@ using NullGarel.Sandboxnator.Building;
 using NullGarel.Sandboxnator.Registry;
 using NullGarel.Util.GodotHelpers;
 using NullGarel.Util.Log;
-using System;
 using Godot.Collections;
 using System.Linq;
 using NullGarel.Sandboxnator.Entity;

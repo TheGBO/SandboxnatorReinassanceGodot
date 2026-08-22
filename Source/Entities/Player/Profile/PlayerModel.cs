@@ -2,7 +2,6 @@ using Godot;
 using Godot.Collections;
 using NullGarel.Sandboxnator.Entity.PlayerCosmetics;
 using NullGarel.Util.GodotHelpers;
-using System;
 namespace NullGarel.Sandboxnator.Entity;
 
 /// <summary>

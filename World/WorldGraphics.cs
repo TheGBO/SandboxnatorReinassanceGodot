@@ -1,7 +1,6 @@
 using Godot;
 using NullGarel.Sandboxnator.Registry;
 using NullGarel.Sandboxnator.Settings;
-using System;
 
 namespace NullGarel.Sandboxnator.WorldAndScenes;
 //class responsiple for getting the graphics settings and applying it to world envinrornementnent

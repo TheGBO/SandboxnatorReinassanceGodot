@@ -1,5 +1,3 @@
-using NullGarel.Sandboxnator.Registry;
-
 namespace NullGarel.Sandboxnator.Settings;
 
 public interface ISettingsLoader

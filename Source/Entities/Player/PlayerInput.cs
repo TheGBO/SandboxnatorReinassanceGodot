@@ -2,8 +2,6 @@ using Godot;
 using System;
 using NullGarel.Util.ComponentSystem;
 using NullGarel.Sandboxnator.Registry;
-using NullGarel.Util.Log;
-using NullGarel.Sandboxnator.Network;
 namespace NullGarel.Sandboxnator.Entity;
 
 public partial class PlayerInput : AbstractComponent<Player>

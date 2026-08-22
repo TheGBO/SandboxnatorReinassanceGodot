@@ -6,7 +6,6 @@ using NullGarel.Sandboxnator.Settings;
 using NullGarel.Sandboxnator.UI;
 using NullGarel.Sandboxnator.WorldAndScenes;
 using NullGarel.Util.GodotHelpers;
-using NullGarel.Util.IO;
 namespace NullGarel.Sandboxnator;
 
 public partial class SandboxnatorMain : Singleton<SandboxnatorMain>, ISettingsLoader

@@ -1,6 +1,5 @@
 using Godot;
 using NullGarel.Sandboxnator.Item;
-using System;
 
 public partial class Compass : BaseItem
 {

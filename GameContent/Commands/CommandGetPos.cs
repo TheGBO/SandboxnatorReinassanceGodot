@@ -1,6 +1,4 @@
 using NullGarel.Sandboxnator.Entity;
-using NullGarel.Sandboxnator.Registry;
-using NullGarel.Sandboxnator.WorldAndScenes;
 
 namespace NullGarel.Sandboxnator.Commands;
 

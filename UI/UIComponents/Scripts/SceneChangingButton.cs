@@ -1,6 +1,5 @@
 using Godot;
 using NullGarel.Util.Log;
-using System;
 namespace NullGarel.Sandboxnator.UI;
 
 /// <summary>

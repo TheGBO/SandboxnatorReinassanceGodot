@@ -2,7 +2,6 @@ using Godot;
 using Godot.Collections;
 using NullGarel.Util.ComponentSystem;
 using NullGarel.Util.GodotHelpers;
-using System;
 
 namespace NullGarel.Sandboxnator.Building;
 

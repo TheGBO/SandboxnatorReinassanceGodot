@@ -1,11 +1,7 @@
 using Godot;
-using Godot.Collections;
-using NullGarel.Util;
 using System;
 using NullGarel.Sandboxnator.Entity;
-using NullGarel.Util.Log;
 using NullGarel.Util.GodotHelpers;
-using NullGarel.Sandboxnator.Item;
 using NullGarel.Sandboxnator.Entity.PlayerCosmetics;
 using NullGarel.Sandboxnator.Registry;
 namespace NullGarel.Sandboxnator.UI;

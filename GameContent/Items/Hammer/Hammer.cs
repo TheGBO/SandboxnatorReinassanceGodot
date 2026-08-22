@@ -1,6 +1,4 @@
-using Godot;
 using NullGarel.Sandboxnator.Building;
-using System;
 namespace NullGarel.Sandboxnator.Item;
 
 //the best item for looking up when if forget stuff

@@ -1,5 +1,4 @@
 using Godot;
-using System;
 namespace NullGarel.Sandboxnator.Item;
 
 public partial class PreviewCollider : Area3D

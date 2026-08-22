@@ -1,5 +1,4 @@
 using Godot;
-using System;
 namespace NullGarel.Sandboxnator.Entity.PlayerCosmetics;
 
 [GlobalClass]

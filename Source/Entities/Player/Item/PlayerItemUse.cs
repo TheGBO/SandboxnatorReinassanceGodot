@@ -1,14 +1,8 @@
 // PlayerItemUse.cs
 using Godot;
-using Godot.Collections;
 using NullGarel.Sandboxnator.Item;
-using NullGarel.Sandboxnator.Registry;
-using NullGarel.Sandboxnator.WorldAndScenes;
 using NullGarel.Util.ComponentSystem;
-using NullGarel.Util.GodotHelpers;
-using NullGarel.Util.IO;
 using NullGarel.Util.Log;
-using System;
 
 namespace NullGarel.Sandboxnator.Entity;
 

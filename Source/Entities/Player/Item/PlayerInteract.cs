@@ -1,9 +1,7 @@
-using System;
 using System.Linq;
 using Godot;
 using NullGarel.Sandboxnator.Building;
 using NullGarel.Util.ComponentSystem;
-using NullGarel.Util.Log;
 
 namespace NullGarel.Sandboxnator.Entity;
 

@@ -1,7 +1,6 @@
 using Godot;
 using Godot.Collections;
 using NullGarel.Sandboxnator.Entity;
-using System;
 namespace NullGarel.Sandboxnator.Item;
 
 /// <summary>
