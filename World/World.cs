@@ -87,9 +87,9 @@ public partial class World : Node3D
 		Array<Player> players = [];
 		foreach (Node e in NetworkedEntities.GetChildren())
 		{
-			if (e is Player)
+			if (e is Player player)
 			{
-				players.Add((Player)e);
+				players.Add(player);
 			}
 		}
 		return players;
