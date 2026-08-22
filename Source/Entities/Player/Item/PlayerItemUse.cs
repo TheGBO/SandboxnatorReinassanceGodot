@@ -72,7 +72,7 @@ public partial class PlayerItemUse : AbstractComponent<Player>
 	[Rpc(MultiplayerApi.RpcMode.AnyPeer, CallLocal = true)]
 	private void ServerBoundUse(bool primaryUsage)
 	{
-		if (!_canUseItem || _item == null)
+		if (!_canUseItem || _item == null || !Multiplayer.IsServer())
 			return;
 
 		int senderId = Multiplayer.GetRemoteSenderId();
