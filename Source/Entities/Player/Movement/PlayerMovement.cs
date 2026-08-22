@@ -18,9 +18,17 @@ public partial class PlayerMovement : AbstractComponent<Player>
 	[ExportCategory("Nodes")]
 	[Export] private CharacterBody3D _characterBody;
 	[ExportCategory("Movement parameters")]
-	[Export] public float walkSpeed;
-	[Export] public float sprintSpeed;
-	[Export] public float jumpVelocity;
+	[Export]
+	public PlayerMovementStats Stats
+	{
+		get => _stats;
+		set
+		{
+			_stats = value;
+			SetupContextToStats();
+		}
+	}
+	private PlayerMovementStats _stats;
 
 	private PlayerMovementContext _context;
 	private StateMachine<PlayerMovementContext> _stateMachine;
@@ -45,15 +53,7 @@ public partial class PlayerMovement : AbstractComponent<Player>
 
 		_playerInput = GetComponent<PlayerInput>();
 
-		_context = new PlayerMovementContext
-		{
-			CharacterBody = _characterBody,
-			Input = _playerInput,
-			WalkSpeed = walkSpeed,
-			SprintSpeed = sprintSpeed,
-			JumpVelocity = jumpVelocity,
-			CurrentSpeed = walkSpeed
-		};
+		SetupContextToStats();
 
 		_stateMachine = new StateMachine<PlayerMovementContext>(_context, new StateIdle());
 		MovementType = MovementState.Idle;
@@ -68,6 +68,19 @@ public partial class PlayerMovement : AbstractComponent<Player>
 		if (!ComponentParent.IsMultiplayerAuthority()) return;
 
 		MovementProcess(delta);
+	}
+
+	private void SetupContextToStats()
+	{
+		_context = new PlayerMovementContext
+		{
+			CharacterBody = _characterBody,
+			Input = _playerInput,
+			WalkSpeed = _stats.WalkSpeed,
+			SprintSpeed = _stats.SprintSpeed,
+			JumpVelocity = _stats.JumpVelocity,
+			CurrentSpeed = _stats.WalkSpeed
+		};
 	}
 
 	private void MovementProcess(double delta)

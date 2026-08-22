@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://bvrby5xk2pk1j" path="res://GameContent/Items/Hammer/HammerIcon.png" id="4_lmeus"]
 [ext_resource type="Texture2D" uid="uid://1iu221gkwyp" path="res://Assets/Textures/Icons/icon_alignment_grid.png" id="6_f17go"]
 [ext_resource type="Script" uid="uid://e34gkmm62lfj" path="res://Source/Common/Util/ComponentSystem/ComponentHolder.cs" id="7_kauam"]
+[ext_resource type="Resource" uid="uid://cl45y4bd2wu6b" path="res://Source/Entities/Player/Movement/DefaultPlayerMovementStats.tres" id="9_hnsoe"]
 [ext_resource type="Script" uid="uid://b48urjcts4ei0" path="res://Source/Entities/Player/Item/PlayerItemUse.cs" id="9_rtpsh"]
 [ext_resource type="Script" uid="uid://g2wgr24sb1q6" path="res://Source/Entities/Player/UI/PlayerChatHud.cs" id="10_np6ov"]
 [ext_resource type="Script" uid="uid://blwddxb23k2it" path="res://Source/Entities/Player/PlayerInput.cs" id="10_xk60u"]
@@ -526,9 +527,7 @@ script = ExtResource("7_kauam")
 [node name="PlayerMovement" type="Node3D" parent="ComponentHolder" unique_id=88819430 node_paths=PackedStringArray("_characterBody")]
 script = ExtResource("1_fmfn4")
 _characterBody = NodePath("../..")
-walkSpeed = 2.8
-sprintSpeed = 7.23
-jumpVelocity = 8.0
+Stats = ExtResource("9_hnsoe")
 
 [node name="CameraMovement" type="Node3D" parent="ComponentHolder" unique_id=20787505 node_paths=PackedStringArray("neck", "body")]
 script = ExtResource("3_bvtsg")
