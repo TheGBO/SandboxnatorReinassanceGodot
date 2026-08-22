@@ -45,14 +45,14 @@ public partial class PlayerManager : Singleton<PlayerManager>
 			NcLogger.Log("SandboxnatorMain.World is null!", NcLogger.LogType.Error);
 			return;
 		}
-		else if (SandboxnatorMain.World.networkedEntities == null)
+		else if (SandboxnatorMain.World.NetworkedEntities == null)
 		{
 			NcLogger.Log("SandboxnatorMain.World.networkedEntities is null!", NcLogger.LogType.Error);
 			return;
 		}
 		else
 		{
-			SandboxnatorMain.World.networkedEntities.AddChild(player);
+			SandboxnatorMain.World.NetworkedEntities.AddChild(player);
 		}
 
 		SandboxnatorMain.World.OnPlayerJoin?.Invoke(id);
@@ -90,7 +90,7 @@ public partial class PlayerManager : Singleton<PlayerManager>
 			return;
 		}
 
-		Node networkedEntities = world.networkedEntities;
+		Node networkedEntities = world.NetworkedEntities;
 
 		if (networkedEntities == null ||
 			!IsInstanceValid(networkedEntities))
@@ -150,7 +150,7 @@ public partial class PlayerManager : Singleton<PlayerManager>
 	/// </summary>
 	public void PrepareForDisconnect()
 	{
-		Node networkedEntities = SandboxnatorMain.World?.networkedEntities;
+		Node networkedEntities = SandboxnatorMain.World?.NetworkedEntities;
 
 		if (networkedEntities == null || !IsInstanceValid(networkedEntities))
 		{
@@ -221,7 +221,7 @@ public partial class PlayerManager : Singleton<PlayerManager>
 	{
 		if (!Multiplayer.IsServer())
 		{
-			Node3D playerInstance = SandboxnatorMain.World.networkedEntities.GetNodeOrNull<Node3D>(playerId);
+			Node3D playerInstance = SandboxnatorMain.World.NetworkedEntities.GetNodeOrNull<Node3D>(playerId);
 			if (playerInstance == null)
 			{
 				NcLogger.Log("Player instance is lagging behind, delaying position change", NcLogger.LogType.Warn);

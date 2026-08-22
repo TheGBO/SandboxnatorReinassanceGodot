@@ -18,32 +18,18 @@ public partial class World : Node3D
 	public Action<long> OnPlayerJoin;
 	public List<Snapper> snappers = [];
 
-	[Export] public Node3D networkedEntities;
-	[Export] public MultiplayerSpawner multiplayerSpawner;
+	[Export] private Node3D _networkedEntities;
+	public Node3D NetworkedEntities => _networkedEntities;
+
+	[Export] public MultiplayerSpawner BuildingSpawner { get; private set; }
+	[Export] public MultiplayerSpawner PlayerSpawner { get; private set; }
+
 	private readonly HashSet<string> addedBuildingScenes = [];
 
 	public override void _EnterTree()
 	{
-		if (GameRegistries.Instance == null)
-		{
-			NcLogger.Log("GameRegistries.Instance is null!");
-			return;
-		}
-
-		if (GameRegistries.Instance.BuildingRegistry == null)
-		{
-			NcLogger.Log("BuildingRegistry is null!");
-			return;
-		}
-
-		if (multiplayerSpawner == null)
-		{
-			NcLogger.Log("multiplayerSpawner is null!");
-			return;
-		}
-
 		AddBuildingScenesToSpawnList();
-		multiplayerSpawner.SpawnFunction = new Callable(this, nameof(SpawnBuilding));
+		BuildingSpawner.SpawnFunction = new Callable(this, nameof(SpawnBuilding));
 	}
 
 	private void AddBuildingScenesToSpawnList()
@@ -59,7 +45,7 @@ public partial class World : Node3D
 			string resPath = buildingScene.ResourcePath;
 			if (addedBuildingScenes.Add(resPath))
 			{
-				multiplayerSpawner.AddSpawnableScene(resPath);
+				BuildingSpawner.AddSpawnableScene(resPath);
 			}
 		}
 	}
@@ -99,7 +85,7 @@ public partial class World : Node3D
 	public Array<Player> GetPlayers()
 	{
 		Array<Player> players = [];
-		foreach (Node e in networkedEntities.GetChildren())
+		foreach (Node e in NetworkedEntities.GetChildren())
 		{
 			if (e is Player)
 			{
