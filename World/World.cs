@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using NullGarel.Sandboxnator.Entity;
 using NullGarel.Sandboxnator.Registry;
 using NullGarel.Util.Log;
+using NullGarel.Sandboxnator.Item;
+using NullGarel.Util.GodotHelpers;
 namespace NullGarel.Sandboxnator.WorldAndScenes;
 
 /// <summary>
@@ -41,6 +43,7 @@ public partial class World : Node3D
 		}
 
 		AddBuildingScenesToSpawnList();
+		multiplayerSpawner.SpawnFunction = new Callable(this, nameof(SpawnBuilding));
 	}
 
 	private void AddBuildingScenesToSpawnList()
@@ -59,6 +62,21 @@ public partial class World : Node3D
 				multiplayerSpawner.AddSpawnableScene(resPath);
 			}
 		}
+	}
+
+	private Node SpawnBuilding(Variant data)
+	{
+		var spawnData = DictPack.Deserialize<BuildingSpawnData>((Dictionary)data);
+
+		PackedScene scene = GameRegistries.Instance.BuildingRegistry.Get(spawnData.ItemId);
+		Placeable building = (Placeable)scene.Instantiate();
+
+		building.ItemData = (PlaceableItemData)GameRegistries.Instance.ItemRegistry.Get(spawnData.ItemId);
+		building.Position = spawnData.Position;
+		building.Rotation = spawnData.Rotation;
+		building.Name = Guid.NewGuid().GetHashCode().ToString();
+
+		return building;
 	}
 
 

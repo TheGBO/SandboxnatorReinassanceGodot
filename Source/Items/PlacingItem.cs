@@ -71,20 +71,17 @@ public partial class PlacingItem : BaseItem
 	public override void UseItem(ItemUsageArgs args)
 	{
 		PlayerInput playerInput = ItemUser.GetComponent<PlayerInput>();
-
 		if (!ItemUser.isUseValid) return;
-		Placeable building = (Placeable)_itemData.BuildingScene.Instantiate();
-		building.ItemData = _itemData;
-		building.Name = Guid.NewGuid().GetHashCode().ToString();
-		building.Position = GetSnappedPosition(
-			args.Position,
-			args.Normal,
-			playerInput.IsGridSnapMode
-			);
 
-		building.Rotation = args.DesiredRotation;
-		SandboxnatorMain.World.networkedEntities.CallDeferred("add_child", building);
-		PlayPlacingSound(building.Position);
+		var spawnData = new BuildingSpawnData
+		{
+			ItemId = _itemData.ItemId,
+			Position = GetSnappedPosition(args.Position, args.Normal, playerInput.IsGridSnapMode),
+			Rotation = args.DesiredRotation
+		};
+
+		Node spawned = SandboxnatorMain.World.multiplayerSpawner.Spawn(DictPack.Serialize(spawnData));
+		PlayPlacingSound(spawnData.Position);
 	}
 
 	private void PlayPlacingSound(Vector3 placementPosition)
